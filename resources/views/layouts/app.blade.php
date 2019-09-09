@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Toggle') }}</title>
     <link rel="icon" href="https://quickevict.nyc3.digitaloceanspaces.com/lexathonenergy.jpg"/>
 
 
