@@ -32,10 +32,6 @@ class DashboardController extends Controller
     {
         $client = new Client();
 
-        $headers = [
-            'X-API-KEY' => $this->apiKey,
-            'Accept' => 'application/x-www-form-urlencoded',
-            'Authorization' => $this->apiToken];
         try {
             $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
                 'headers' => [
@@ -45,7 +41,6 @@ class DashboardController extends Controller
                 'auth' => ['Token' => $this->apiToken]
             ]);
 
-            print_r($response->getBody());
         } catch ( ClientException $e ) {
 
             print_r($e->getMessage());
