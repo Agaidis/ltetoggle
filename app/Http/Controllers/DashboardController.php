@@ -39,7 +39,7 @@ class DashboardController extends Controller
         try {
             $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', $headers);
 
-            $data = $response->getBody();
+            echo $response;
         } catch ( ClientException $e ) {
             mail('andrew.gaidis@gmail.com', 'Drilling API Error', $e->getMessage());
         }
