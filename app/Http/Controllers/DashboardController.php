@@ -31,6 +31,7 @@ class DashboardController extends Controller
     public function index()
     {
         $client = new Client();
+        echo $this->apiToken;
 
         try {
             $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
