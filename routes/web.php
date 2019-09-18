@@ -28,3 +28,4 @@ Route::get('/about-us', 'AboutUsController@index');
 Route::get('/new-permits', 'NewPermitsController@index');
 
 Route::get('/welbore', 'WelboreController@index');
+

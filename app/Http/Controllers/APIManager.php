@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Middleware;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class APIManager
 {
+
     private $apiKey;
     private $apiToken;
-
     /**
      * Create a new controller instance.
      *
@@ -18,18 +17,16 @@ class DashboardController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->apiKey = env('DRILLING_API_KEY');
         $this->apiToken = env('DRILLING_ACCESS_TOKEN');
     }
 
     /**
-     * Show the application dashboard.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return string
      */
-    public function index()
-    {
+    public function getLandtracLeases () {
+
         $client = new Client();
 
         $headers = [
@@ -39,10 +36,11 @@ class DashboardController extends Controller
         try {
             $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', $headers);
 
-            $data = $response->getBody();
+            return $response->getBody();
         } catch ( ClientException $e ) {
             mail('andrew.gaidis@gmail.com', 'Drilling API Error', $e->getMessage());
         }
-        return view('dashboard', compact('data'));
+
+
     }
 }
