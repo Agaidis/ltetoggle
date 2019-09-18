@@ -33,6 +33,7 @@ class DashboardController extends Controller
         $client = new Client();
 
         $headers = [
+            'X-API-KEY' => $this->apiKey,
             'Authorization' => 'Bearer ' . $this->apiToken,
             'Accept'        => 'application/x-www-form-urlencoded',
         ];
