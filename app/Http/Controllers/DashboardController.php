@@ -37,7 +37,13 @@ class DashboardController extends Controller
             'Accept' => 'application/x-www-form-urlencoded',
             'Authorization' => $this->apiToken];
         try {
-            $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', $headers);
+            $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
+                'headers' => [
+                    'X-API-KEY' => $this->apiKey,
+                    'Accept' => 'application/x-www-form-urlencoded'
+                ],
+                'auth' => ['Token' => $this->apiToken]
+            ]);
 
             print_r($response->getBody());
         } catch ( ClientException $e ) {
