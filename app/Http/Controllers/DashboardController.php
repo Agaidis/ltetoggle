@@ -31,16 +31,15 @@ class DashboardController extends Controller
     public function index()
     {
         $client = new Client();
-        print_r($this->apiToken);
 
         try {
-//            $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
-//                'headers' => [
-//                    'X-API-KEY' => $this->apiKey,
-//                    'Accept' => 'application/x-www-form-urlencoded'
-//                ],
-//                'auth' => ['Token' => $this->apiToken]
-//            ]);
+            $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
+                'headers' => [
+                    'X-API-KEY' => $this->apiKey,
+                    'Accept' => 'application/x-www-form-urlencoded'
+                ],
+                'auth' => ['Token' => $this->apiToken]
+            ]);
 
         } catch ( ClientException $e ) {
 
