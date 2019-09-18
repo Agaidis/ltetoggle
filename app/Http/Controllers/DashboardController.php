@@ -41,6 +41,8 @@ class DashboardController extends Controller
 
             print_r($response->getBody());
         } catch ( ClientException $e ) {
+
+            print_r($e->getMessage());
             mail('andrew.gaidis@gmail.com', 'Drilling API Error', $e->getMessage());
         }
         return view('dashboard');
