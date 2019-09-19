@@ -41,7 +41,7 @@ class DashboardController extends Controller
                     ],
                 ]
             );
-        $data = $response->getBody();
+        $data = $response->getBody()->getContents();
         } catch ( ClientException $e ) {
 
             print_r($e->getMessage());
