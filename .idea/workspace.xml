@@ -67,6 +67,8 @@
       <find>-cloud-download-alt</find>
       <find>modal_edit_magistrate</find>
       <find>Laravel</find>
+      <find>{{--</find>
+      <find>--}}</find>
     </findStrings>
     <replaceStrings>
       <replace />

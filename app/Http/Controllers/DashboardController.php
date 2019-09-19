@@ -40,6 +40,10 @@ class DashboardController extends Controller
                     'Authorization' => $this->apiToken,
                     'Content-Type' => 'application/json'
                     ],
+                    'body' => [
+                        'pagesize' => 100,
+                        'state' => 'TX'
+                    ]
                 ]
             );
         $data = $response->getBody()->getContents();
