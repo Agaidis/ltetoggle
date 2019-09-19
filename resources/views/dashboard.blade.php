@@ -39,7 +39,7 @@
                                 @foreach ($leases as $lease)
                                 <tr>
                                     <td class="text-center">{{$lease->LeaseId}}</td>
-                                    <td class="text-center">{{$lease->AcreaAcres}}</td>
+                                    <td class="text-center">{{$lease->AreaAcres}}</td>
                                     <td class="text-center">{{$lease->State}}</td>
                                         <button type="button" data-target="#modal_edit_magistrate" data-toggle="modal" class="pdf_download_btn_dashboard btn-sm btn-primary fas fa-edit"></button>
                                         <button type="button" class="fa fa-trash btn-sm btn-danger"></button>
