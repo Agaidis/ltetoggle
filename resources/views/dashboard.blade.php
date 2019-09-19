@@ -24,7 +24,7 @@
                         <div class="row justify-content-center">
                             <div class="col-md-10">
 
-                              print_r({{$data[0]}})
+                              print_r({{$data[1]}})
                             <table class="table table-hover table-responsive-md table-bordered" id="table_one">
                                 <thead>
                                 <tr>
