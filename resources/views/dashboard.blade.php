@@ -23,7 +23,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-10">
-                                @foreach ($data as $key => $value)
+                                @foreach ($Leases as $key => $value)
                                     <span>{{$value}}</span>
                                 @endforeach
                             <table class="table table-hover table-responsive-md table-bordered" id="table_one">
@@ -39,17 +39,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-{{--                                @foreach ($data as $lease)--}}
-{{--                                <tr>--}}
-{{--                                    <td class="text-center">{{$lease->LeaseId}}</td>--}}
-{{--                                    <td class="text-center">{{$lease->AcreaAcres}}</td>--}}
-{{--                                    <td class="text-center">{{$lease->State}}</td>--}}
-{{--                                        <button type="button" data-target="#modal_edit_magistrate" data-toggle="modal" class="pdf_download_btn_dashboard btn-sm btn-primary fas fa-edit"></button>--}}
-{{--                                        <button type="button" class="fa fa-trash btn-sm btn-danger"></button>--}}
-{{--                                    </td>--}}
-{{--                                </tr>--}}
+                                @foreach ($leases as $lease)
+                                <tr>
+                                    <td class="text-center">{{$lease->LeaseId}}</td>
+                                    <td class="text-center">{{$lease->AcreaAcres}}</td>
+                                    <td class="text-center">{{$lease->State}}</td>
+                                        <button type="button" data-target="#modal_edit_magistrate" data-toggle="modal" class="pdf_download_btn_dashboard btn-sm btn-primary fas fa-edit"></button>
+                                        <button type="button" class="fa fa-trash btn-sm btn-danger"></button>
+                                    </td>
+                                </tr>
 
-{{--                                @endforeach--}}
+                                @endforeach
                                 </tbody>
                                 <tfoot>
                                 <caption id="lease_table_caption">Leases: Non-Producing & Producing</caption>
