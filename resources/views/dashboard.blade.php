@@ -23,6 +23,7 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-10">
+                                print_r($data)
 
 
                                 @foreach ($data as $da)
