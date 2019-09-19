@@ -42,6 +42,7 @@ class DashboardController extends Controller
                 ]
             );
         $data = $response->getBody()->getContents();
+        json_encode($data);
         } catch ( ClientException $e ) {
 
             print_r($e->getMessage());
