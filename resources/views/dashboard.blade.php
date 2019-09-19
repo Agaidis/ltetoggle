@@ -24,7 +24,7 @@
                         <div class="row justify-content-center">
                             <div class="col-md-10">
 
-                                {{$data}}
+                                {{$data[0]->AreaAcres}}
 
                             <table class="table table-hover table-responsive-md table-bordered" id="table_one">
                                 <thead>
