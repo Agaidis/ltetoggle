@@ -37,7 +37,8 @@ class DashboardController extends Controller
 
                 'headers' => [
                     'X-API-KEY' => $this->apiKey,
-                    'Authorization' => $this->apiToken
+                    'Authorization' => $this->apiToken,
+                    'Content-Type' => 'application/json'
                     ],
                 ]
             );
