@@ -42,7 +42,7 @@ class DashboardController extends Controller
             $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
                 'headers' => $headers
                 ]
-            );
+            )->getBody()->getContents();
 
         } catch ( ClientException $e ) {
 
