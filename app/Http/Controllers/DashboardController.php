@@ -35,12 +35,14 @@ class DashboardController extends Controller
         try {
             $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
 
+
                 'headers' => [
                     'X-API-KEY' => $this->apiKey,
                     'Authorization' => $this->apiToken,
                     'Content-Type' => 'application/json'
                     ],
-                    'body' => [
+
+                    'form_params' => [
                         'pagesize' => 100,
                         'state' => 'TX'
                     ]
