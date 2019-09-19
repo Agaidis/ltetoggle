@@ -30,7 +30,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $client = new Client();
+        $client = new Client(['auth' => ['Token' => $this->apiToken]]);
 
         $headers = [
             'X-API-KEY' => $this->apiKey,
