@@ -23,8 +23,8 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-10">
-                                @foreach ($data as $da)
-                                    <span>{{$da}}</span>
+                                @foreach ($data as $key => $value)
+                                    <span>{{$value}}</span>
                                 @endforeach
                             <table class="table table-hover table-responsive-md table-bordered" id="table_one">
                                 <thead>
