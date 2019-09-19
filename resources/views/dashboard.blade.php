@@ -26,7 +26,7 @@
 
 
                                 @foreach ($data as $da => $de)
-
+                                        {{$da}}
 
                                 @endforeach
                             <table class="table table-hover table-responsive-md table-bordered" id="table_one">
