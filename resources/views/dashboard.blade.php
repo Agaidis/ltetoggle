@@ -38,17 +38,17 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($data as $lease)
-                                <tr>
+{{--                                @foreach ($data as $lease)--}}
+{{--                                <tr>--}}
 {{--                                    <td class="text-center">{{$lease->LeaseId}}</td>--}}
 {{--                                    <td class="text-center">{{$lease->AcreaAcres}}</td>--}}
 {{--                                    <td class="text-center">{{$lease->State}}</td>--}}
-                                        <button type="button" data-target="#modal_edit_magistrate" data-toggle="modal" class="pdf_download_btn_dashboard btn-sm btn-primary fas fa-edit"></button>
-                                        <button type="button" class="fa fa-trash btn-sm btn-danger"></button>
-                                    </td>
-                                </tr>
+{{--                                        <button type="button" data-target="#modal_edit_magistrate" data-toggle="modal" class="pdf_download_btn_dashboard btn-sm btn-primary fas fa-edit"></button>--}}
+{{--                                        <button type="button" class="fa fa-trash btn-sm btn-danger"></button>--}}
+{{--                                    </td>--}}
+{{--                                </tr>--}}
 
-                                @endforeach
+{{--                                @endforeach--}}
                                 </tbody>
                                 <tfoot>
                                 <caption id="lease_table_caption">Leases: Non-Producing & Producing</caption>
