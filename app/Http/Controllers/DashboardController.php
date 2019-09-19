@@ -36,6 +36,7 @@ class DashboardController extends Controller
             $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases', [
 
                 'Authorization' => ['Bearer Token' => $this->apiToken],
+                'auth' => ['Bearer Token' => $this->apiToken],
                 'headers' => [
                     'X-API-KEY' => $this->apiKey,
                     'Authorization' => 'Bearer '.$this->apiToken,
