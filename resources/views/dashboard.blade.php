@@ -26,10 +26,10 @@
                                 print_r($data)
 
 
-                                @foreach ($data as $da)
-                                    <span>{{$da}}</span>
+{{--                                @foreach ($data as $da)--}}
+{{--                                    <span>{{$da}}</span>--}}
 
-                                @endforeach
+{{--                                @endforeach--}}
                             <table class="table table-hover table-responsive-md table-bordered" id="table_one">
                                 <thead>
                                 <tr>
