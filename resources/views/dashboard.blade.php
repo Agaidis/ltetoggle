@@ -23,13 +23,9 @@
                         </div>
                         <div class="row justify-content-center">
                             <div class="col-md-10">
-                                print_r($data)
-
-
-{{--                                @foreach ($data as $da)--}}
-{{--                                    <span>{{$da}}</span>--}}
-
-{{--                                @endforeach--}}
+                                @foreach ($data as $da)
+                                    <span>{{$da}}</span>
+                                @endforeach
                             <table class="table table-hover table-responsive-md table-bordered" id="table_one">
                                 <thead>
                                 <tr>
