@@ -27,16 +27,18 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">Lease Id</th>
+                                    <th class="text-center">Grantor</th>
+                                    <th class="text-center">Grantor Address</th>
                                     <th class="text-center">Acreage</th>
                                     <th class="text-center">State</th>
-
-
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($leases as $lease)
                                 <tr>
                                     <td class="text-center">{{$lease->LeaseId}}</td>
+                                    <td class="text-center">{{$lease->grantor}}</td>
+                                    <td class="text-center">{{$lease->grantorAddress}}</td>
                                     <td class="text-center">{{$lease->AreaAcres}}</td>
                                     <td class="text-center">{{$lease->State}}</td>
                                 </tr>
