@@ -37,8 +37,8 @@
                                 @foreach ($leases as $lease)
                                 <tr>
                                     <td class="text-center">{{$lease->LeaseId}}</td>
-                                    <td class="text-center">{{$lease->grantor}}</td>
-                                    <td class="text-center">{{$lease->grantorAddress}}</td>
+                                    <td class="text-center">{{$lease->Grantor}}</td>
+                                    <td class="text-center">{{$lease->GrantorAddress}}</td>
                                     <td class="text-center">{{$lease->AreaAcres}}</td>
                                     <td class="text-center">{{$lease->State}}</td>
                                 </tr>
