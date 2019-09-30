@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 class NewPermitsController extends Controller
 {
+
+    private $apiManager;
     /**
      * Create a new controller instance.
      *
@@ -14,6 +16,7 @@ class NewPermitsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->apiManager = new APIManager();
     }
 
     /**
@@ -23,6 +26,13 @@ class NewPermitsController extends Controller
      */
     public function index()
     {
-        return view('newPermits');
+        $token = $this->apiManager->getToken();
+
+        $permits = $this->apiManager->getPermits($token->access_token);
+
+        $permits = json_decode($permits);
+
+
+        return view('newPermits', compact('permits'));
     }
 }

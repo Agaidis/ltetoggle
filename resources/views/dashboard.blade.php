@@ -11,12 +11,12 @@
                             <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
                                     <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
-                                    <a href="{{ url('new-permits') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Abstract</button></a>
+                                    <a href="{{ url('new-permits') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Permits</button></a>
                                 </div>
                             </div>
                             <div id="dashboard_gas_price_container">
                                 <div class="gas_panel">
-                                    <span class="gas_text">O:14 Gas</span><br>
+                                    <span class="gas_text">Oil & Gas</span><br>
                                     <span class="gas_text">Daily Price</span>
                                 </div>
                             </div>
@@ -27,22 +27,24 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">Lease Id</th>
-                                    <th class="text-center">Grantor</th>
-                                    <th class="text-center">Grantor Address</th>
-                                    <th class="text-center">Acreage</th>
                                     <th class="text-center">State</th>
+                                    <th class="text-center">County Parish</th>
+                                    <th class="text-center">Area Acres</th>
+                                    <th class="text-center">Created Date</th>
+                                    <th class="text-center">DI Link</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($leases as $lease)
+                                    <?php $createdDate = explode('T', $lease->CreatedDate)?>
                                 <tr>
                                     <td class="text-center">{{$lease->LeaseId}}</td>
-                                    <td class="text-center">{{$lease->Grantor}}</td>
-                                    <td class="text-center">{{$lease->GrantorAddress}}</td>
-                                    <td class="text-center">{{$lease->AreaAcres}}</td>
                                     <td class="text-center">{{$lease->State}}</td>
+                                    <td class="text-center">{{$lease->CountyParish}}</td>
+                                    <td class="text-center">{{$lease->AreaAcres}}</td>
+                                    <td class="text-center">{{$createdDate[0]}}</td>
+                                    <td class="text-center"><a href="{{$lease->DILink}}">DI Ref</a></td>
                                 </tr>
-
                                 @endforeach
                                 </tbody>
                                 <tfoot>

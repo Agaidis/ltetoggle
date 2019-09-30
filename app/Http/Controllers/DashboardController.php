@@ -2,14 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Illuminate\Http\Request;
-
 class DashboardController extends Controller
 {
-    private $apiKey;
-    private $apiToken;
+    private $apiManager;
 
     /**
      * Create a new controller instance.
@@ -19,8 +14,7 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->apiKey = env('DRILLING_API_KEY');
-        $this->apiToken = env('DRILLING_ACCESS_TOKEN');
+        $this->apiManager = new APIManager();
     }
 
     /**
@@ -30,25 +24,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $client = new Client();
+        $token = $this->apiManager->getToken();
 
-        try {
-            $response = $client->request('GET', 'https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?pagesize=1000&state=TX', [
-                'headers' => [
-                    'X-API-KEY' => $this->apiKey,
-                    'Authorization' => $this->apiToken,
-                    'Content-Type' => 'application/x-www-form-urlencoded'
-                    ],
-                ]);
-        $data = $response->getBody()->getContents();
-        $leases = json_decode($data);
+        $leases = $this->apiManager->getLandtracLeases($token->access_token);
 
 
-        } catch ( ClientException $e ) {
+        $leases = json_decode($leases);
 
-            print_r($e->getMessage());
-            mail('andrew.gaidis@gmail.com', 'Drilling API Error', $e->getMessage());
-        }
+
         return view('dashboard', compact('leases'));
     }
 }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 class WelboreController extends Controller
 {
+
+    private $apiManager;
     /**
      * Create a new controller instance.
      *
@@ -14,6 +16,7 @@ class WelboreController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->apiManager = new APIManager();
     }
 
     /**
@@ -23,6 +26,11 @@ class WelboreController extends Controller
      */
     public function index()
     {
-        return view('welbore');
+        $token = $this->apiManager->getToken();
+
+        $wellBores = $this->apiManager->getWellBores($token->access_token);
+        $wellBores = json_decode($wellBores);
+
+        return view('welbore', compact('wellBores'));
     }
 }
