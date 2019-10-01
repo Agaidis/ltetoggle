@@ -32,7 +32,7 @@
                                     <th class="text-center">Area Acres</th>
                                     <th class="text-center">Created Date</th>
                                     <th class="text-center">DI Link</th>
-                                    <Th class="text-center">More Data</Th>
+                                    <th class="text-center">More Data</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -252,27 +252,11 @@
                                                 <td class="text-center">VolPage</td>
                                                 <td class="text-center" id="VolPage"></td>
                                             </tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                             </tbody>
                                         </table>
-
                                     </div>
                                 </div>
                             </div>
-
                             <div class="modal-footer">
                                 <button type="button" id="submit_date" class="approve-btn btn btn-success" data-dismiss="modal">Update Notes</button>
                                 <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>

@@ -35,4 +35,10 @@ class NewPermitsController extends Controller
 
         return view('newPermits', compact('permits'));
     }
+
+    public function getPermitDetails(Request $request) {
+        $token = $this->apiManager->getToken();
+
+        return $this->apiManager->getPermit($token->access_token, $request->permitId);
+    }
 }

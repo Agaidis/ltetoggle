@@ -74,11 +74,6 @@ $(document).ready(function () {
         });
     });
 
-    $('#permit_table').DataTable({
-        "pagingType": "simple",
-        "aaSorting": []
-    });
-
     $('#wellbore_table').DataTable( {
         "pagingType": "simple",
         "aaSorting": []

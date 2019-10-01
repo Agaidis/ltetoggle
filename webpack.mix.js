@@ -14,6 +14,7 @@ let mix = require('laravel-mix');
 mix.js([
     'resources/assets/js/bootstrap.js',
     'resources/assets/js/dashboard.js',
+    'resources/assets/js/permits.js',
     'resources/assets/js/datatables.min.js',
 
 
