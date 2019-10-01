@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-body body_container">
                         <h2 class="titles">Welbore Page</h2>
-                            <table class="table table-hover table-responsive-md table-bordered" id="table_one">
+                            <table class="table table-hover table-responsive-md table-bordered" id="wellbore_table">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Well Id</th>

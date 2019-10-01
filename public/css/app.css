@@ -10797,6 +10797,10 @@ body {
 .text-center {
     text-align: center !important;
 }
+
+.view_permit {
+    cursor:pointer;
+}
 /*
  * This combined file was created by the DataTables downloader builder:
  *   https://datatables.net/download

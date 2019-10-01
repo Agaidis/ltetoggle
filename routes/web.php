@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/dashboard', 'DashboardController@index');
 
+Route::get('/dashboard/getPermitDetails', 'DashboardController@getPermitDetails');
+
 Route::get('/FAQ', 'FAQController@index');
 
 Route::get('/about-us', 'AboutUsController@index');

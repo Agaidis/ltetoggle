@@ -9,7 +9,7 @@
                         <h2 class="titles">Permits</h2>
                         <div class="row justify-content-center">
                             <div class="col-md-10">
-                                <table class="table table-hover table-responsive-md table-bordered" id="table_one">
+                                <table class="table table-hover table-responsive-md table-bordered" id="permit_table">
                                     <thead>
                                     <tr>
                                         <th class="text-center">Approved Date</th>

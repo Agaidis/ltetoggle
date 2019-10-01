@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 class DashboardController extends Controller
 {
     private $apiManager;
@@ -33,5 +36,11 @@ class DashboardController extends Controller
 
 
         return view('dashboard', compact('leases'));
+    }
+
+    public function getPermitDetails(Request $request) {
+        $token = $this->apiManager->getToken();
+
+        return $this->apiManager->getLandtracLease($token->access_token, $request->leaseId);
     }
 }

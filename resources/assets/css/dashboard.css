@@ -150,3 +150,7 @@ body {
 .text-center {
     text-align: center !important;
 }
+
+.view_permit {
+    cursor:pointer;
+}
