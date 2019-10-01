@@ -22,21 +22,24 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($permits as $permit)
-                                        <?php $approvedDate = explode('T', $permit->ApprovedDate)?>
-                                        @if (($permit->DrillType == 'H' || $permit->DrillType == 'V') && ($permit->WellType == 'GAS' || $permit->WellType == 'OIL'))
+                                    @foreach ($decodedPermits as $permit => $data)
+                                        <?php $count = count($data); ?>
+                                        @for ($i = 0; $i < $count; $i++)
+                                        <?php $approvedDate = explode('T', $data[$i]->ApprovedDate)?>
+                                        @if (($data[$i]->DrillType == 'H' || $data[$i]->DrillType == 'V') && ($data[$i]->WellType == 'GAS' || $data[$i]->WellType == 'OIL'))
                                             <tr>
                                                 <td class="text-center">{{$approvedDate[0]}}</td>
-                                                <td class="text-center">{{$permit->ContactName}}</td>
-                                                <td class="text-center">{{$permit->ContactPhone}}</td>
-                                                <td class="text-center">{{$permit->CountyParish}}</td>
-                                                <td class="text-center">{{$permit->DrillType}}</td>
-                                                <td class="text-center">{{$permit->WellType}}</td>
+                                                <td class="text-center">{{$data[$i]->ContactName}}</td>
+                                                <td class="text-center">{{$data[$i]->ContactPhone}}</td>
+                                                <td class="text-center">{{$data[$i]->CountyParish}}</td>
+                                                <td class="text-center">{{$data[$i]->DrillType}}</td>
+                                                <td class="text-center">{{$data[$i]->WellType}}</td>
                                                 <td class="text-center">
-                                                    <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->PermitID}}" class="fa fa-edit btn-sm view_permit"></button>
+                                                    <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$data[$i]->PermitID}}" class="fa fa-edit btn-sm view_permit"></button>
                                                 </td>
                                             </tr>
                                         @endif
+                                        @endfor
                                     @endforeach
                                     </tbody>
                                     <tfoot>

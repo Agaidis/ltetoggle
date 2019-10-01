@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Log;
+
 class APIManager
 {
 
@@ -129,34 +131,41 @@ class APIManager
     //?stateprovince=NM&countyparish=ROOSEVELT
 
     public function getPermits ($token) {
-        $curl = curl_init();
+        $countyResponse = [];
+        $counties = array('CHAVES', 'EDDY', 'LEA', 'ROOSEVELT');
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?stateprovince=NM&countyparish=CHAVES&pagesize=300",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                "Content-Type: application/x-www-form-urlencoded",
-                "Authorization:  Bearer " . $token
-            ),
-        ));
+        foreach ($counties as $county) {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?stateprovince=NM&countyparish=".$county,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                    "Content-Type: application/x-www-form-urlencoded",
+                    "Authorization:  Bearer " . $token
+                ),
+            ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
 
-        curl_close($curl);
+            curl_close($curl);
 
-        if ($err) {
-            return "cURL Error #:" . $err;
-        } else {
-            return $response;
+            if ($err) {
+                return "cURL Error #:" . $err;
+            } else {
+                $countyResponse[$county] = $response;
+            }
         }
+        Log::info($countyResponse);
+        return $countyResponse;
+
     }
 
     public function getPermit ($token, $permitId) {
