@@ -3,6 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row justify-content-center">
+            <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Dashboard</div>
@@ -14,23 +15,15 @@
                                     <a href="{{ url('new-permits') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Permits</button></a>
                                 </div>
                             </div>
-                            <div id="dashboard_gas_price_container">
-                                <div class="gas_panel">
-                                    <span class="gas_text">Oil & Gas</span><br>
-                                    <span class="gas_text">Daily Price</span>
-                                </div>
-                            </div>
                         </div>
-                        <div class="row justify-content-center">
-                            <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-7">
                             <table class="table table-hover table-responsive-md table-bordered" id="lease_table">
                                 <thead>
                                 <tr>
                                     <th class="text-center">Lease Id</th>
-                                    <th class="text-center">State</th>
                                     <th class="text-center">County Parish</th>
                                     <th class="text-center">Area Acres</th>
-                                    <th class="text-center">Created Date</th>
                                     <th class="text-center">DI Link</th>
                                     <th class="text-center">More Data</th>
                                 </tr>
@@ -38,15 +31,13 @@
                                 <tbody>
                                 @foreach ($leases as $lease)
                                     <?php $createdDate = explode('T', $lease->CreatedDate)?>
-                                <tr>
+                                <tr class="lease_row" id="lease_row_{{$lease->LeaseId}}">
                                     <td class="text-center">{{$lease->LeaseId}}</td>
-                                    <td class="text-center">{{$lease->State}}</td>
                                     <td class="text-center">{{$lease->CountyParish}}</td>
                                     <td class="text-center">{{$lease->AreaAcres}}</td>
-                                    <td class="text-center">{{$createdDate[0]}}</td>
-                                    <td class="text-center"><a href="{{$lease->DILink}}">DI Ref</a></td>
+                                    <td class="text-center"><a href="{{$lease->DILink}}" target="_blank">DI Ref</a></td>
                                     <td class="text-center">
-                                        <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->LeaseId}}" class="fa fa-edit btn-sm view_lease"></button>
+                                        <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->LeaseId}}" class="fa fa-edit btn-sm btn-success view_lease"></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -55,6 +46,15 @@
                                 <caption id="lease_table_caption">Leases: Non-Producing & Producing</caption>
                                 </tfoot>
                             </table>
+                            </div>
+                            <div style="margin-top:1.5%;" class="col-md-4">
+                                <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
+                                <textarea rows="6" class="notes" name="notes" style="width:inherit;" placeholder="Enter Notes: "></textarea>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-primary update_lease_notes_btn">Update Notes</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -258,7 +258,6 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" id="submit_date" class="approve-btn btn btn-success" data-dismiss="modal">Update Notes</button>
                                 <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>
                             </div>
                         </div>

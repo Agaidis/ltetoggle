@@ -1,12 +1,14 @@
 $(document).ready(function () {
 
+    let globalLeaseId = '';
+
     $('#lease_table').DataTable({
         "pagingType": "simple",
         "aaSorting": []
     }).on('click', '.view_lease', function () {
-        var id = $(this)[0].id;
-        var splitId = id.split('_');
-        var leaseId = splitId[1];
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let leaseId = splitId[1];
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -72,10 +74,71 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    }).on('click', '.lease_row', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let leaseId = splitId[2];
+        globalLeaseId = leaseId;
+
+        $('.lease_row').css('background-color', 'white');
+        $('#' + id).css('background-color', '#e3e3d1');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "GET",
+            url: '/dashboard/getNotes',
+            dataType: 'json',
+            data: {
+                leaseId: leaseId
+            },
+            success: function success(data) {
+                $('.notes').val(data.responseText);
+                $('.notes').text(data.responseText)
+
+            },
+            error: function error(data) {
+                $('.notes').val(data.responseText);
+                $('.notes').text(data.responseText)
+                console.log(data);
+            }
+        });
+    });
+
+    $('.update_lease_notes_btn').on('click', function() {
+        console.log(globalLeaseId);
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "PUT",
+            url: '/dashboard/updateNotes',
+            data: {
+                leaseId: globalLeaseId,
+                notes: $('.notes').val()
+            },
+            success: function success(data) {
+                console.log(data);
+            },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
     });
 
     $('#wellbore_table').DataTable( {
         "pagingType": "simple",
         "aaSorting": []
-    })
+    });
 });

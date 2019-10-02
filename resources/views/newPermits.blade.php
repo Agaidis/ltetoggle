@@ -7,8 +7,8 @@
                 <div class="card">
                     <div class="card-body body_container">
                         <h2 class="titles">Permits</h2>
-                        <div class="row justify-content-center">
-                            <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-6">
                                 <table class="table table-hover table-responsive-md table-bordered" id="permit_table">
                                     <thead>
                                     <tr>
@@ -16,8 +16,6 @@
                                         <th class="text-center">Contact Name</th>
                                         <th class="text-center">Contact Phone</th>
                                         <th class="text-center">Contact Parish</th>
-                                        <th class="text-center">Drill Type</th>
-                                        <th class="text-center">Well Type</th>
                                         <th class="text-center">More Data</th>
                                     </tr>
                                     </thead>
@@ -27,12 +25,10 @@
                                         @for ($i = 0; $i < $count; $i++)
                                         <?php $approvedDate = explode('T', $data[$i]->ApprovedDate)?>
                                         @if (($data[$i]->DrillType == 'H' || $data[$i]->DrillType == 'V') && ($data[$i]->WellType == 'GAS' || $data[$i]->WellType == 'OIL'))
-                                            <tr>
+                                            <tr class="permit_row" id="permit_row_{{$data[$i]->PermitID}}">
                                                 <td class="text-center">{{$approvedDate[0]}}</td>
                                                 <td class="text-center">{{$data[$i]->ContactName}}</td>
                                                 <td class="text-center">{{$data[$i]->ContactPhone}}</td>
-                                                <td class="text-center">{{$data[$i]->CountyParish}}</td>
-                                                <td class="text-center">{{$data[$i]->DrillType}}</td>
                                                 <td class="text-center">{{$data[$i]->WellType}}</td>
                                                 <td class="text-center">
                                                     <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$data[$i]->PermitID}}" class="fa fa-edit btn-sm view_permit"></button>
@@ -46,6 +42,16 @@
                                     <caption id="lease_table_caption">Permits</caption>
                                     </tfoot>
                                 </table>
+                            </div>
+                            <div style="margin-top:1.5%;" class="col-md-4">
+                                    <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
+                                    <textarea rows="6" class="notes" name="notes" style="width:inherit;" placeholder="Enter Notes: "></textarea>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary update_permit_notes_btn">Update Notes</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="modal fade" id="modal_show_permit">

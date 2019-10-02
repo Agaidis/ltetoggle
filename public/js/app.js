@@ -36966,6 +36966,7 @@ if (token) {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
+  var globalLeaseId = '';
   $('#lease_table').DataTable({
     "pagingType": "simple",
     "aaSorting": []
@@ -37033,6 +37034,63 @@ $(document).ready(function () {
         $('#TermMonths').text(data[0]['TermMonths']);
         $('#UpdatedDate').text(data[0]['UpdatedDate']);
         $('#VolPage').text(data[0]['VolPage']);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', '.lease_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    globalLeaseId = leaseId;
+    $('.lease_row').css('background-color', 'white');
+    $('#' + id).css('background-color', '#e3e3d1');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/dashboard/getNotes',
+      dataType: 'json',
+      data: {
+        leaseId: leaseId
+      },
+      success: function success(data) {
+        $('.notes').val(data.responseText);
+        $('.notes').text(data.responseText);
+      },
+      error: function error(data) {
+        $('.notes').val(data.responseText);
+        $('.notes').text(data.responseText);
+        console.log(data);
+      }
+    });
+  });
+  $('.update_lease_notes_btn').on('click', function () {
+    console.log(globalLeaseId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/dashboard/updateNotes',
+      data: {
+        leaseId: globalLeaseId,
+        notes: $('.notes').val()
+      },
+      success: function success(data) {
+        console.log(data);
       },
       error: function error(data) {
         console.log(data);
@@ -41462,6 +41520,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
+  var globalPermitId = '';
   $('#permit_table').DataTable({
     "pagingType": "simple",
     "aaSorting": []
@@ -41538,6 +41597,62 @@ $(document).ready(function () {
         $('#WellNumber').text(data[0]['WellNumber']);
         $('#WellStatus').text(data[0]['WellStatus']);
         $('#WellType').text(data[0]['WellType']);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    globalPermitId = permitId;
+    $('.permit_row').css('background-color', 'white');
+    $('#' + id).css('background-color', '#e3e3d1');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/new-permits/getNotes',
+      dataType: 'json',
+      data: {
+        permitId: permitId
+      },
+      success: function success(data) {
+        $('.notes').val(data.responseText);
+        $('.notes').text(data.responseText);
+      },
+      error: function error(data) {
+        $('.notes').val(data.responseText);
+        $('.notes').text(data.responseText);
+        console.log(data);
+      }
+    });
+  });
+  $('.update_permit_notes_btn').on('click', function () {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/updateNotes',
+      data: {
+        permitId: globalPermitId,
+        notes: $('.notes').val()
+      },
+      success: function success(data) {
+        console.log(data);
       },
       error: function error(data) {
         console.log(data);

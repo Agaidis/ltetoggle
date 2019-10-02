@@ -23,11 +23,19 @@ Route::get('/dashboard', 'DashboardController@index');
 
 Route::get('/dashboard/getPermitDetails', 'DashboardController@getPermitDetails');
 
+Route::get('/dashboard/getNotes', 'DashboardController@getNotes');
+
+Route::put('/dashboard/updateNotes', 'DashboardController@updateNotes');
+
 Route::get('/FAQ', 'FAQController@index');
 
 Route::get('/about-us', 'AboutUsController@index');
 
 Route::get('/new-permits', 'NewPermitsController@index');
+
+Route::get('/new-permits/getNotes', 'NewPermitsController@getNotes');
+
+Route::put('/new-permits/updateNotes', 'NewPermitsController@updateNotes');
 
 Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetails');
 
