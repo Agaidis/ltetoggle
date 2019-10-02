@@ -286,7 +286,6 @@
                                             </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" id="submit_date" class="approve-btn btn btn-success" data-dismiss="modal">Update Notes</button>
                                         <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>
                                     </div>
                                 </div>
