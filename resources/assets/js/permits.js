@@ -121,10 +121,7 @@ $(document).ready(function () {
     }).on('change', '.assignee', function() {
         let id = $(this)[0].id;
         let assignee = $(this)[0].value;
-        console.log('dfg');
-        console.log(assignee);
-        let splitId = id.split('_');
-        let permitId = splitId[1];
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

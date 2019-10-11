@@ -41637,10 +41637,6 @@ $(document).ready(function () {
   }).on('change', '.assignee', function () {
     var id = $(this)[0].id;
     var assignee = $(this)[0].value;
-    console.log('dfg');
-    console.log(assignee);
-    var splitId = id.split('_');
-    var permitId = splitId[1];
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
