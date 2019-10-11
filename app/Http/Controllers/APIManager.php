@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
-
 class APIManager
 {
 
@@ -61,7 +59,7 @@ class APIManager
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?state=NM&pagesize=1000",
+            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?state=NM&pagesize=50",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -137,7 +135,7 @@ class APIManager
         foreach ($counties as $county) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?stateprovince=NM&countyparish=".$county,
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=".$county."&pagesize=10",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -163,7 +161,6 @@ class APIManager
                 $countyResponse[$county] = $response;
             }
         }
-        Log::info($countyResponse);
         return $countyResponse;
 
     }

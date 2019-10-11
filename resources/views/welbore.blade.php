@@ -6,6 +6,12 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body body_container">
+                        <div id="dashboard_btn_container" class="col-md-4">
+                            <div class="button_panel">
+                                <a href="{{ url('new-permits') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Permits</button></a>
+                                <a href="{{ url('dashboard') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Landtrac Leases</button></a>
+                            </div>
+                        </div>
                         <h2 class="titles">Welbore Page</h2>
                             <table class="table table-hover table-responsive-md table-bordered" id="wellbore_table">
                                 <thead>

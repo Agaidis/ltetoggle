@@ -37,7 +37,7 @@
                                     <td class="text-center">{{$lease->AreaAcres}}</td>
                                     <td class="text-center"><a href="{{$lease->DILink}}" target="_blank">DI Ref</a></td>
                                     <td class="text-center">
-                                        <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->LeaseId}}" class="fa fa-edit btn-sm btn-success view_lease"></button>
+                                        <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->LeaseId}}" class="fa fa-edit btn-sm btn-primary view_lease"></button>
                                     </td>
                                 </tr>
                                 @endforeach

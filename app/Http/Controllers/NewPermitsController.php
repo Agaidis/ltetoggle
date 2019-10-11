@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Permit;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -28,20 +29,11 @@ class NewPermitsController extends Controller
      */
     public function index()
     {
-        $decodedPermits = [];
-        $token = $this->apiManager->getToken();
-
-        $permits = $this->apiManager->getPermits($token->access_token);
-
-        foreach ($permits as $permit => $stuff) {
-            Log::info($stuff);
-            Log::info(json_decode($stuff));
-           $decodedPermits[$permit] = json_decode($stuff);
-        }
-       // $permits = json_decode($permits);
+        $permits = Permit::all();
+        $users = User::all();
 
 
-        return view('newPermits', compact('decodedPermits'));
+        return view('newPermits', compact('permits', 'users'));
     }
 
     public function getPermitDetails(Request $request) {
@@ -75,6 +67,35 @@ class NewPermitsController extends Controller
             } else {
                 Permit::where('permit_id', $request->permitId)
                     ->update(['notes' => $request->notes]);
+
+                return 'success';
+            }
+        } catch( Exception $e ) {
+            Log::info($e->getMessage());
+            Log::info($e->getCode());
+            Log::info($e->getLine());
+            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            return 'error';
+        }
+    }
+
+    public function updateAssignee(Request $request) {
+        try {
+            $doesLeaseExist = Permit::where('permit_id', $request->permitId)->get();
+
+            if ($doesLeaseExist->isEmpty()) {
+                $newLease = new Permit();
+
+                $newLease->permit_id = $request->permitId;
+                $newLease->assignee = $request->assigneeId;
+                $newLease->notes = '';
+
+                $newLease->save();
+
+                return 'success';
+            } else {
+                Permit::where('permit_id', $request->permitId)
+                    ->update(['assignee' => $request->assigneeId]);
 
                 return 'success';
             }

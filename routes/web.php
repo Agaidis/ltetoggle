@@ -37,6 +37,8 @@ Route::get('/new-permits/getNotes', 'NewPermitsController@getNotes');
 
 Route::put('/new-permits/updateNotes', 'NewPermitsController@updateNotes');
 
+Route::put('/new-permits/updateAssignee', 'NewPermitsController@updateAssignee');
+
 Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetails');
 
 Route::get('/welbore', 'WelboreController@index');

@@ -6,36 +6,48 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body body_container">
+                        <div id="dashboard_btn_container" class="col-md-4">
+                            <div class="button_panel">
+                                <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
+                                <a href="{{ url('dashboard') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Landtrac Leases</button></a>
+                            </div>
+                        </div>
                         <h2 class="titles">Permits</h2>
                         <div class="row">
                             <div class="col-md-6">
                                 <table class="table table-hover table-responsive-md table-bordered" id="permit_table">
                                     <thead>
                                     <tr>
+                                        <th class="text-center">Assignee</th>
                                         <th class="text-center">Approved Date</th>
-                                        <th class="text-center">Contact Name</th>
-                                        <th class="text-center">Contact Phone</th>
-                                        <th class="text-center">Contact Parish</th>
+                                        <th class="text-center">Drill Type</th>
                                         <th class="text-center">More Data</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach ($decodedPermits as $permit => $data)
-                                        <?php $count = count($data); ?>
-                                        @for ($i = 0; $i < $count; $i++)
-                                        <?php $approvedDate = explode('T', $data[$i]->ApprovedDate)?>
-                                        @if (($data[$i]->DrillType == 'H' || $data[$i]->DrillType == 'V') && ($data[$i]->WellType == 'GAS' || $data[$i]->WellType == 'OIL'))
-                                            <tr class="permit_row" id="permit_row_{{$data[$i]->PermitID}}">
-                                                <td class="text-center">{{$approvedDate[0]}}</td>
-                                                <td class="text-center">{{$data[$i]->ContactName}}</td>
-                                                <td class="text-center">{{$data[$i]->ContactPhone}}</td>
-                                                <td class="text-center">{{$data[$i]->WellType}}</td>
+                                    @foreach ($permits as $permit)
+                                        <?php $approvedDate = explode('T', $permit->ApprovedDate)?>
+                                        @if (($permit->drill_type == 'H' || $permit->drill_type == 'V') && ($permit->well_type == 'GAS' || $permit->well_type == 'OIL'))
+                                            <tr class="permit_row" id="permit_row_{{$permit->permit_id}}">
                                                 <td class="text-center">
-                                                    <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$data[$i]->PermitID}}" class="fa fa-edit btn-sm view_permit"></button>
+                                                    <select class="form-control assignee" id="assignee_{{$permit->permit_id}}">
+                                                        <option selected disabled>Select a User</option>
+                                                        @foreach ($users as $user)
+                                                            @if ($permit->assignee != '')
+                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                            @else
+                                                            <option value="{{$user->id}}">{{$user->name}}</option>
+                                                            @endif
+                                                        @endforeach
+                                                    </select>
+                                                </td>
+                                                <td class="text-center">{{$approvedDate[0]}}</td>
+                                                <td class="text-center">{{$permit->drill_type}}</td>
+                                                <td class="text-center">
+                                                    <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
                                                 </td>
                                             </tr>
                                         @endif
-                                        @endfor
                                     @endforeach
                                     </tbody>
                                     <tfoot>
@@ -74,20 +86,8 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr>
-                                                        <td class="text-center">API10</td>
-                                                        <td class="text-center" id="API10"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">API12</td>
-                                                        <td class="text-center" id="API12"></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td class="text-center">Abstract</td>
                                                         <td class="text-center" id="Abstract"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">AmendmentFiledDate</td>
-                                                        <td class="text-center" id="AmendmentFiledDate"></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-center">ApprovedDate</td>
@@ -98,120 +98,20 @@
                                                         <td class="text-center" id="Block"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-center">BottomHoleLatitudeWGS84</td>
-                                                        <td class="text-center" id="BottomHoleLatitudeWGS84"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">BottomHoleLongitudeWGS84</td>
-                                                        <td class="text-center" id="BottomHoleLongitudeWGS84"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">ContactName</td>
-                                                        <td class="text-center" id="ContactName"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">ContactPhone</td>
-                                                        <td class="text-center" id="ContactPhone"></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td class="text-center">CountyParish</td>
                                                         <td class="text-center" id="CountyParish"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">CreatedDate</td>
-                                                        <td class="text-center" id="CreatedDate"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">DeletedDate</td>
-                                                        <td class="text-center" id="DeletedDate"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">District</td>
-                                                        <td class="text-center" id="District"></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-center">DrillType</td>
                                                         <td class="text-center" id="DrillType"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-center">ExpiredDate</td>
-                                                        <td class="text-center" id="ExpiredDate"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">Field</td>
-                                                        <td class="text-center" id="Field"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">Formation</td>
-                                                        <td class="text-center" id="Formation"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">H2SArea</td>
-                                                        <td class="text-center" id="H2SArea"></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td class="text-center">LeaseName</td>
                                                         <td class="text-center" id="LeaseName"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-center">LeaseNumber</td>
-                                                        <td class="text-center" id="LeaseNumber"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OFSRegion</td>
-                                                        <td class="text-center" id="OFSRegion"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OperatorAddress</td>
-                                                        <td class="text-center" id="OperatorAddress"></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td class="text-center">OperatorAlias</td>
                                                         <td class="text-center" id="OperatorAlias"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OperatorCity</td>
-                                                        <td class="text-center" id="OperatorCity"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OperatorCity30mi</td>
-                                                        <td class="text-center" id="OperatorCity30mi"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OperatorCity50mi</td>
-                                                        <td class="text-center" id="OperatorCity50mi"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OperatorState</td>
-                                                        <td class="text-center" id="OperatorState"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OperatorZip</td>
-                                                        <td class="text-center" id="OperatorZip"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OrigApprovedDate</td>
-                                                        <td class="text-center" id="OrigApprovedDate"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">PermitDepth</td>
-                                                        <td class="text-center" id="PermitDepth"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">PermitDepthUOM</td>
-                                                        <td class="text-center" id="PermitDepthUOM"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">PermitID</td>
-                                                        <td class="text-center" id="PermitID"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">PermitNumber</td>
-                                                        <td class="text-center" id="PermitNumber"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">PermitStatus</td>
-                                                        <td class="text-center" id="PermitStatus"></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-center">PermitType</td>
@@ -222,10 +122,6 @@
                                                         <td class="text-center" id="Range"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-center">ReportedOperator</td>
-                                                        <td class="text-center" id="ReportedOperator"></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td class="text-center">Section</td>
                                                         <td class="text-center" id="Section"></td>
                                                     </tr>
@@ -234,48 +130,12 @@
                                                         <td class="text-center" id="StateProvince"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="text-center">SubmittedDate</td>
-                                                        <td class="text-center" id="SubmittedDate"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">SurfaceLatitudeWGS84</td>
-                                                        <td class="text-center" id="SurfaceLatitudeWGS84"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">SurfaceLongitudeWGS84</td>
-                                                        <td class="text-center" id="SurfaceLongitudeWGS84"></td>
-                                                    </tr>
-                                                    <tr>
                                                         <td class="text-center">Survey</td>
                                                         <td class="text-center" id="Survey"></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-center">Township</td>
                                                         <td class="text-center" id="Township"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">TrueVerticalDepth</td>
-                                                        <td class="text-center" id="TrueVerticalDepth"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">TrueVerticalDepthUOM</td>
-                                                        <td class="text-center" id="TrueVerticalDepthUOM"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">UpdatedDate</td>
-                                                        <td class="text-center" id="UpdatedDate"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">WGID</td>
-                                                        <td class="text-center" id="WGID"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">WellNumber</td>
-                                                        <td class="text-center" id="WellNumber"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">WellStatus</td>
-                                                        <td class="text-center" id="WellStatus"></td>
                                                     </tr>
                                                     <tr>
                                                         <td class="text-center">WellType</td>

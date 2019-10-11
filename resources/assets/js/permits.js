@@ -118,6 +118,35 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    }).on('change', '.assignee', function() {
+        let id = $(this)[0].id;
+        let assignee = $(this)[0].value;
+        console.log('dfg');
+        console.log(assignee);
+        let splitId = id.split('_');
+        let permitId = splitId[1];
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "PUT",
+            url: '/new-permits/updateAssignee',
+            data: {
+                permitId: globalPermitId,
+                assigneeId: assignee
+            },
+            success: function success(data) {
+                console.log(data);
+            },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
     });
 
     $('.update_permit_notes_btn').on('click', function() {
