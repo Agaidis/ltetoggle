@@ -33,7 +33,7 @@
                                                     <select class="form-control assignee" id="assignee_{{$permit->permit_id}}">
                                                         <option selected disabled>Select a User</option>
                                                         @foreach ($users as $user)
-                                                            @if ($permit->assignee != '')
+                                                            @if ($permit->assignee == $user->id)
                                                                 <option selected value="{{$user->id}}">{{$user->name}}</option>
                                                             @else
                                                             <option value="{{$user->id}}">{{$user->name}}</option>
