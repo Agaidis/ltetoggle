@@ -52,13 +52,20 @@ class GetPermits extends Command
 
         try {
            foreach ($decodedPermits as $permit => $data) {
-                $count = count($data);
-                Log::info($count);
-                for ($i = 0; $i < $count; $i++) {
-                    $doesPermitExist = Permit::where('permit_id', $data[$i]->PermitID)->get();
 
-                    if ($doesPermitExist->isEmpty()) {
-                        $newPermit = new Permit();
+               Log::info($data);
+               if (is_array($data)) {
+                $count = count($data);
+                    for ($i = 0; $i < $count; $i++) {
+
+                        $btmLatLng = '{"lng": '. $data[$i]->BottomHoleLongitudeWGS84.', "lat": '. $data[$i]->BottomHoleLatitudeWGS84;
+
+                        $doesPermitExist = Permit::where('permit_id', $data[$i]->PermitID)->get();
+
+
+                        if ($doesPermitExist->isEmpty()) {
+
+                            $newPermit = new Permit();
 
                         $newPermit->permit_id = $data[$i]->PermitID;
                         $newPermit->notes = '';
@@ -76,6 +83,7 @@ class GetPermits extends Command
                         $newPermit->survey = $data[$i]->Survey;
                         $newPermit->township = $data[$i]->Township;
                         $newPermit->well_type = $data[$i]->WellType;
+                        $newPermit->btm_geometry = $btmLatLng;
 
 
                         $newPermit->save();
@@ -96,8 +104,10 @@ class GetPermits extends Command
                                 'state' => $data[$i]->StateProvince,
                                 'survey' => $data[$i]->Survey,
                                 'township' => $data[$i]->Township,
-                                'well_type' => $data[$i]->WellType]);
+                                'well_type' => $data[$i]->WellType,
+                                'btm_geometry' => $btmLatLng]);
                     }
+                }
                 }
            }
         } catch( Exception $e ) {

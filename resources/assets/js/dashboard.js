@@ -5,76 +5,7 @@ $(document).ready(function () {
     $('#lease_table').DataTable({
         "pagingType": "simple",
         "aaSorting": []
-    }).on('click', '.view_lease', function () {
-        let id = $(this)[0].id;
-        let splitId = id.split('_');
-        let leaseId = splitId[1];
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            beforeSend: function beforeSend(xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-            },
-            type: "GET",
-            url: '/dashboard/getPermitDetails',
-            dataType: 'json',
-            data: {
-                leaseId: leaseId
-            },
-            success: function success(data) {
-                console.log(data);
-                $('#areaAcres').text(data[0]['AreaAcres']);
-                $('#BLM').text(data[0]['BLM']);
-                $('#Bonus').text(data[0]['Bonus']);
-                $('#CentroidLatitude').text(data[0]['CentroidLatitude']);
-                $('#CentroidLongitude').text(data[0]['CentroidLongitude']);
-                $('#CountyParish').text(data[0]['CountyParish']);
-                $('#CreatedDate').text(data[0]['CreatedDate']);
-                $('#DIBasin').text(data[0]['DIBasin']);
-                $('#DILink').text(data[0]['DILink']);
-                $('#DIPlay').text(data[0]['DIPlay']);
-                $('#DISubPlay').text(data[0]['DISubPlay']);
-                $('#DeletedDate').text(data[0]['DeletedDate']);
-                $('#DepthClauseAvailable').text(data[0]['DepthClauseAvailable']);
-                $('#DepthClauseTypes').text(data[0]['DepthClauseTypes']);
-                $('#EffectiveDate').text(data[0]['EffectiveDate']);
-                $('#ExpirationofPrimaryTerm').text(data[0]['ExpirationofPrimaryTerm']);
-                $('#ExtBonus').text(data[0]['ExtBonus']);
-                $('#ExtTermMonths').text(data[0]['ExtTermMonths']);
-                $('#Geometry').text(data[0]['Geometry']);
-                $('#Grantee').text(data[0]['Grantee']);
-                $('#GranteeAddress').text(data[0]['GranteeAddress']);
-                $('#GranteeAlias').text(data[0]['GranteeAlias']);
-                $('#InstrumentDate').text(data[0]['InstrumentDate']);
-                $('#InstrumentType').text(data[0]['InstrumentType']);
-                $('#LeaseId').text(data[0]['LeaseId']);
-                $('#MajorityAssignmentEffectiveDate').text(data[0]['MajorityAssignmentEffectiveDate']);
-                $('#MajorityAssignmentVolPage').text(data[0]['MajorityAssignmentVolPage']);
-                $('#MajorityLegalAssignee').text(data[0]['MajorityLegalAssignee']);
-                $('#MajorityLegalAssigneeInterest').text(data[0]['MajorityLegalAssigneeInterest']);
-                $('#MaxDepth').text(data[0]['MaxDepth']);
-                $('#MinDepth').text(data[0]['MinDepth']);
-                $('#Nomination').text(data[0]['Nomination']);
-                $('#OptionsExtensions').text(data[0]['OptionsExtensions']);
-                $('#RecordDate').text(data[0]['RecordDate']);
-                $('#RecordNo').text(data[0]['RecordNo']);
-                $('#Remarks').text(data[0]['Remarks']);
-                $('#Royalty').text(data[0]['Royalty']);
-                $('#SpatialAssignee').text(data[0]['SpatialAssignee']);
-                $('#State').text(data[0]['State']);
-                $('#StateLease').text(data[0]['StateLease']);
-                $('#TermMonths').text(data[0]['TermMonths']);
-                $('#UpdatedDate').text(data[0]['UpdatedDate']);
-                $('#VolPage').text(data[0]['VolPage']);
-            },
-            error: function error(data) {
-                console.log(data);
-            }
-        });
-    }).on('click', '.lease_row', function() {
+    }).on('click', '.lease_row', function () {
         let id = $(this)[0].id;
         let splitId = id.split('_');
         let leaseId = splitId[2];
@@ -109,9 +40,93 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    }).on('click', '.view_lease', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let leaseId = splitId[1];
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "GET",
+                url: '/dashboard/getLeaseDetails',
+                dataType: 'json',
+                data: {
+                    leaseId: leaseId
+                },
+                success: function success(data) {
+                    $('#grantor_address').text(data[0].grantor_address);
+                    $('#grantor').text(data[0].grantor);
+                    $('#grantee').text(data[0].grantee);
+                    $('#grantee_alias').text(data[0].grantee_alias);
+                    $('#exp_primary_term').text(data[0].expiration_primary_term);
+                    $('#county').text(data[0].county_parish);
+                    $('#area_acres').text(data[0].area_acres);
+
+
+                    let geoPoints = data[0].geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+                    let obj = [];
+
+                    let map;
+                    let bounds;
+
+
+                    for (let j in geoPoints) {
+                        if (j == 0) {
+                            console.log('made itr');
+                            map = new google.maps.Map(document.getElementById('map'), {
+                                center: JSON.parse(geoPoints[j]),
+                                zoom: 12
+                            });
+                        }
+                        obj.push(JSON.parse(geoPoints[j]));
+                    }
+
+                    function ResizeMap() {
+                        google.maps.event.trigger(map, "resize");
+                    }
+
+                    $("#VehicleMovementModal").on('shown', function () {
+                        ResizeMap();
+                    });
+
+                    bounds = new google.maps.LatLngBounds();
+                    google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
+
+                        bounds = map.getBounds();
+                    });
+
+                    let input = /** @type {!HTMLInputElement} */(
+                        document.getElementById('pac-input'));
+                    let types = document.getElementById('type-selector');
+                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+                    map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+
+
+                    let polygon = new google.maps.Polygon({
+                        path: obj,
+                        geodesic: true,
+                        strokeColor: '#091096',
+                        strokeOpacity: 1.0,
+                        strokeWeight: 2,
+                        fillColor: '#B1AAA9',
+                        fillOpacity: 0.35,
+                    });
+
+                    polygon.setMap(map);
+
+                },
+            });
     });
 
-    $('.update_lease_notes_btn').on('click', function() {
+    $('.update_lease_notes_btn').on('click', function () {
         console.log(globalLeaseId);
         $.ajaxSetup({
             headers: {
@@ -137,7 +152,7 @@ $(document).ready(function () {
         });
     });
 
-    $('#wellbore_table').DataTable( {
+    $('#wellbore_table').DataTable({
         "pagingType": "simple",
         "aaSorting": []
     });

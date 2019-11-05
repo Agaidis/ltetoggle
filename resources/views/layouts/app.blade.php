@@ -14,9 +14,6 @@
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 
-
-
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -93,5 +90,6 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8Wbxv0pzs6vtLQB7Mp9_BrWHmRvSUNgg"></script>
 </body>
 </html>

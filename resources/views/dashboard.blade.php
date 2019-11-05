@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
+    <?php
+
+    ?>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
@@ -21,23 +24,19 @@
                             <table class="table table-hover table-responsive-md table-bordered" id="lease_table">
                                 <thead>
                                 <tr>
-                                    <th class="text-center">Lease Id</th>
                                     <th class="text-center">County Parish</th>
                                     <th class="text-center">Area Acres</th>
-                                    <th class="text-center">DI Link</th>
                                     <th class="text-center">More Data</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($leases as $lease)
-                                    <?php $createdDate = explode('T', $lease->CreatedDate)?>
-                                <tr class="lease_row" id="lease_row_{{$lease->LeaseId}}">
-                                    <td class="text-center">{{$lease->LeaseId}}</td>
-                                    <td class="text-center">{{$lease->CountyParish}}</td>
-                                    <td class="text-center">{{$lease->AreaAcres}}</td>
-                                    <td class="text-center"><a href="{{$lease->DILink}}" target="_blank">DI Ref</a></td>
+
+                                <tr class="lease_row" id="lease_row_{{$lease->lease_id}}">
+                                    <td class="text-center">{{$lease->county_parish}}</td>
+                                    <td class="text-center">{{$lease->area_acres}}</td>
                                     <td class="text-center">
-                                        <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->LeaseId}}" class="fa fa-edit btn-sm btn-primary view_lease"></button>
+                                        <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->lease_id}}" class="fa fa-edit btn-sm btn-primary view_lease"></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -60,6 +59,7 @@
 
                     </div>
                 </div>
+
                 <div class="modal fade" id="modal_show_lease">
                     <div class="modal-dialog" role="document">
                         <div style="width:150%; margin-left:-116px;" class="set_court_date_modal modal-content">
@@ -71,191 +71,37 @@
                             </div>
                             <div class="modal-body">
                                 <div class="row">
-                                    <div class="col-md-offset-3 col-sm-8">
-                                        <table class="table table-bordered table-hover table-dark">
-                                            <thead>
-                                            <tr>
-                                                <th class="text-center">Name</th>
-                                                <th class="text-center">Value</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr>
-                                                <td class="text-center">Area Acres</td>
-                                                <td class="text-center" id="areaAcres"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">BLM</td>
-                                                <td class="text-center" id="BLM"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">Bonus</td>
-                                                <td class="text-center" id="Bonus"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">CentroidLatitude</td>
-                                                <td class="text-center" id="CentroidLatitude"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">CentroidLongitude</td>
-                                                <td class="text-center" id="CentroidLongitude"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">CountyParish</td>
-                                                <td class="text-center" id="CountyParish"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">CreatedDate</td>
-                                                <td class="text-center" id="CreatedDate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">DIBasin</td>
-                                                <td class="text-center" id="DIBasin"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">DILink</td>
-                                                <td class="text-center" id="DILink"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">DIPlay</td>
-                                                <td class="text-center" id="DIPlay"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">DISubPlay</td>
-                                                <td class="text-center" id="DISubPlay"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">DeletedDate</td>
-                                                <td class="text-center" id="DeletedDate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">DepthClauseAvailable</td>
-                                                <td class="text-center" id="DepthClauseAvailable"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">DepthClauseTypes</td>
-                                                <td class="text-center" id="DepthClauseTypes"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">EffectiveDate</td>
-                                                <td class="text-center" id="EffectiveDate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">ExpirationofPrimaryTerm</td>
-                                                <td class="text-center" id="ExpirationofPrimaryTerm"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">ExtBonus</td>
-                                                <td class="text-center" id="ExtBonus"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">ExtTermMonths</td>
-                                                <td class="text-center" id="ExtTermMonths"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">Geometry</td>
-                                                <td class="text-center" id="Geometry"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">Grantee</td>
-                                                <td class="text-center" id="Grantee"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">GranteeAddress</td>
-                                                <td class="text-center" id="GranteeAddress"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">GranteeAlias</td>
-                                                <td class="text-center" id="GranteeAlias"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">InstrumentDate</td>
-                                                <td class="text-center" id="InstrumentDate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">InstrumentType</td>
-                                                <td class="text-center" id="InstrumentType"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">LeaseId</td>
-                                                <td class="text-center" id="LeaseId"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">MajorityAssignmentEffectiveDate</td>
-                                                <td class="text-center" id="MajorityAssignmentEffectiveDate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">MajorityAssignmentVolPage</td>
-                                                <td class="text-center" id="MajorityAssignmentVolPage"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">MajorityLegalAssignee</td>
-                                                <td class="text-center" id="MajorityLegalAssignee"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">MajorityLegalAssigneeInterest</td>
-                                                <td class="text-center" id="MajorityLegalAssigneeInterest"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">MaxDepth</td>
-                                                <td class="text-center" id="MaxDepth"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">MinDepth</td>
-                                                <td class="text-center" id="MinDepth"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">Nomination</td>
-                                                <td class="text-center" id="Nomination"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">OptionsExtensions</td>
-                                                <td class="text-center" id="OptionsExtensions"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">RecordDate</td>
-                                                <td class="text-center" id="RecordDate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">RecordNo</td>
-                                                <td class="text-center" id="RecordNo"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">Remarks</td>
-                                                <td class="text-center" id="Remarks"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">Royalty</td>
-                                                <td class="text-center" id="Royalty"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">SpatialAssignee</td>
-                                                <td class="text-center" id="SpatialAssignee"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">State</td>
-                                                <td class="text-center" id="State"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">StateLease</td>
-                                                <td class="text-center" id="StateLease"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">TermMonths</td>
-                                                <td class="text-center" id="TermMonths"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">UpdatedDate</td>
-                                                <td class="text-center" id="UpdatedDate"></td>
-                                            </tr>
-                                            <tr>
-                                                <td class="text-center">VolPage</td>
-                                                <td class="text-center" id="VolPage"></td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                <div class="col-md-4">
+                                    <h3>Land Info.</h3>
+                                    <div class="containers">
+                                        <label for="area_acres">Area Acres: </label>
+                                        <span id="area_acres"></span><br>
+
+                                        <label for="county">County: </label>
+                                        <span id="county"></span><br>
+
+                                        <label for="exp_primary_term">Expiration Primary Term: </label>
+                                        <span id="exp_primary_term"></span><br>
                                     </div>
                                 </div>
+                                    <div class="col-md-8">
+                                        <h3>Personnel Info.</h3>
+                                        <div class="containers">
+                                        <label for="grantee">Grantee: </label>
+                                        <span id="grantee"></span><br>
+
+                                        <label for="grantee_alias">Grantee Alias: </label>
+                                        <span id="grantee_alias"></span><br>
+
+                                        <label for="grantor">Grantor: </label>
+                                        <span id="grantor"></span><br>
+
+                                        <label for="grantor_address">Grantor Address: </label>
+                                        <span id="grantor_address"></span><br>
+                                        </div>
+                                    </div>
+                                </div><br><br>
+                                <div id="map"></div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>

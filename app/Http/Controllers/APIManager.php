@@ -54,39 +54,42 @@ class APIManager
         }
     }
 
-    public function getLandtracLeases ($token) {
+    public function getLandtracLeases ($token)
+    {
 
-        $curl = curl_init();
+        $countyResponse = [];
+        $counties = array('CHAVES\(NM\)', 'EDDY\(NM\)', 'LEA\(NM\)', 'ROOSEVELT\(NM\)');
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?state=NM&pagesize=50",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "X-API-KEY: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                "Content-Type: application/x-www-form-urlencoded",
-                "Authorization: Bearer " . $token
-            ),
-        ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+        foreach ($counties as $county) {
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=" . $county ."&pagesize=30",
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 0,
+                    CURLOPT_FOLLOWLOCATION => false,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => "GET",
+                    CURLOPT_HTTPHEADER => array(
+                        "X-API-KEY: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                        "Content-Type: application/x-www-form-urlencoded",
+                        "Authorization: Bearer " . $token
+                    ),
+                ));
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+                curl_close($curl);
 
-        curl_close($curl);
-
-        if ($err) {
-            return "cURL Error #:" . $err;
-        } else {
-            return $response;
+                if ($err) {
+                    return "cURL Error #:" . $err;
+                } else {
+                    $countyResponse[$county] = $response;
+                }
+            }
+            return $countyResponse;
         }
-
-
-    }
 
     public function getLandtracLease ($token, $leaseId) {
 
@@ -122,20 +125,14 @@ class APIManager
 
     }
 
-
-    //?stateprovince=NM&countyparish=CHAVES
-    //?stateprovince=NM&countyparish=EDDY
-    //?stateprovince=NM&countyparish=LEA
-    //?stateprovince=NM&countyparish=ROOSEVELT
-
     public function getPermits ($token) {
         $countyResponse = [];
-        $counties = array('CHAVES', 'EDDY', 'LEA', 'ROOSEVELT');
+        $counties = array('CHAVES\(NM\)', 'EDDY\(NM\)', 'LEA\(NM\)', 'ROOSEVELT\(NM\)');
 
         foreach ($counties as $county) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=".$county."&pagesize=10",
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=".$county."&drilltype=H",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -171,6 +168,37 @@ class APIManager
 
         curl_setopt_array($curl, array(
             CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?permitid=" . $permitId,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "X-API-KEY: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                "Content-Type: application/x-www-form-urlencoded",
+                "Authorization: Bearer " . $token
+            ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+            return "cURL Error #:" . $err;
+        } else {
+            return $response;
+        }
+    }
+
+    public function getProducingEntities ($token) {
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/producing-entities",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

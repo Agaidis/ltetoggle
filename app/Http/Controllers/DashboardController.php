@@ -28,21 +28,15 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $token = $this->apiManager->getToken();
-
-        $leases = $this->apiManager->getLandtracLeases($token->access_token);
-
-
-        $leases = json_decode($leases);
-
+        $leases = Lease::all();
 
         return view('dashboard', compact('leases'));
     }
 
-    public function getPermitDetails(Request $request) {
-        $token = $this->apiManager->getToken();
+    public function getLeaseDetails(Request $request) {
+        $lease =  Lease::where('lease_id', $request->leaseId)->get();
 
-        return $this->apiManager->getLandtracLease($token->access_token, $request->leaseId);
+        return $lease;
     }
 
     public function getNotes(Request $request) {

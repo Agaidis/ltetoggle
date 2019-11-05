@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Permit;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class NewPermitsController extends Controller
@@ -32,14 +33,23 @@ class NewPermitsController extends Controller
         $permits = Permit::all();
         $users = User::all();
 
-
         return view('newPermits', compact('permits', 'users'));
     }
 
     public function getPermitDetails(Request $request) {
-        $token = $this->apiManager->getToken();
 
-        return $this->apiManager->getPermit($token->access_token, $request->permitId);
+        try {
+            $query = DB::select('SELECT permits.permit_id, leases.lease_id, permits.lease_name, permits.permit_type, permits.operator_alias, permits.approved_date, permits.drill_type, permits.block, permits.range, permits.section, permits.state, permits.survey, permits.township, permits.well_type, permits.abstract, leases.county_parish, leases.area_acres, leases.grantee_alias, leases.grantor, leases.expiration_primary_term
+FROM permits
+LEFT JOIN leases ON permits.operator_alias = leases.grantee_alias WHERE permit_id = '. $request->permitId);
+
+        } catch ( \Exception $e)  {
+            Log::info($e->getMessage());
+        }
+
+
+
+        return $query;
     }
 
     public function getNotes(Request $request) {

@@ -70,81 +70,73 @@
                             <div class="modal-dialog" role="document">
                                 <div style="width:150%; margin-left:-116px;" class="set_court_date_modal modal-content">
                                     <div class="modal-header">
-                                        <h4>Permit Data: </h4>
+                                        <h4>Lease Name: <span id="LeaseName"></span></h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
-                                                <table class="table table-bordered table-hover table-dark">
-                                                    <thead>
-                                                    <tr>
-                                                        <th class="text-center">Name</th>
-                                                        <th class="text-center">Value</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr>
-                                                        <td class="text-center">Abstract</td>
-                                                        <td class="text-center" id="Abstract"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">ApprovedDate</td>
-                                                        <td class="text-center" id="ApprovedDate"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">Block</td>
-                                                        <td class="text-center" id="Block"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">CountyParish</td>
-                                                        <td class="text-center" id="CountyParish"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">DrillType</td>
-                                                        <td class="text-center" id="DrillType"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">LeaseName</td>
-                                                        <td class="text-center" id="LeaseName"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">OperatorAlias</td>
-                                                        <td class="text-center" id="OperatorAlias"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">PermitType</td>
-                                                        <td class="text-center" id="PermitType"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">Range</td>
-                                                        <td class="text-center" id="Range"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">Section</td>
-                                                        <td class="text-center" id="Section"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">StateProvince</td>
-                                                        <td class="text-center" id="StateProvince"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">Survey</td>
-                                                        <td class="text-center" id="Survey"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">Township</td>
-                                                        <td class="text-center" id="Township"></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="text-center">WellType</td>
-                                                        <td class="text-center" id="WellType"></td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
+                                            <div class="col-md-6">
+                                                <h3>Location & Contact</h3>
+                                                <div class="containers">
+
+                                                    <label for="County/Parish">County State: </label>
+                                                    <span id="CountyParish"></span><br>
+
+                                                    <label for="Township">Township</label>
+                                                    <span id="Township"></span><br>
+
+                                                    <label for="OperatorAlias">Operator</label>
+                                                    <span id="OperatorAlias"></span><br>
+
+                                                    <label for="area_acres">Acreage</label>
+                                                    <span id="area_acres"></span><br>
+
+                                                    <label for="Range">Range</label>
+                                                    <span id="Range"></span><br>
+
+                                                    <label for="Section">Section</label>
+                                                    <span id="Section"></span><br>
+
+                                                </div>
                                             </div>
-                                    </div>
+                                            <div class="col-md-6">
+                                                <h3>Types</h3>
+                                                <div class="containers">
+                                                    <label for="DrillType">Drill Type: </label>
+                                                    <span id="DrillType"></span><br>
+
+                                                    <label for="PermitType">Permit Type: </label>
+                                                    <span id="PermitType"></span><br>
+
+                                                    <label for="WellType">Well Type: </label>
+                                                    <span id="WellType"></span><br>
+                                                    </div>
+                                                </div>
+                                            <div class="col-md-5">
+                                                <h3>Addit. Info</h3>
+                                                <div class="containers">
+
+                                                    <label for="approved_date">Approved Date</label>
+                                                    <span id="ApprovedDate"></span><br>
+
+                                                    <label for="expiration_primary_term">Expiration Primary Term</label>
+                                                    <span id="expiration_primary_term"></span><br>
+
+                                                    <label for="Survey">Survey</label>
+                                                    <span id="Survey"></span><br>
+
+                                                    <label for="Abstract">Abstract</label>
+                                                    <span id="Abstract"></span><br>
+
+                                                    <label for="Block">Block</label>
+                                                    <span id="Block"></span>
+                                                </div>
+                                            </div>
+                                        </div><br>
+
+
                                     <div class="modal-footer">
                                         <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>
                                     </div>

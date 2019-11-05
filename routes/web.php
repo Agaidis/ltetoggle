@@ -21,7 +21,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/dashboard', 'DashboardController@index');
 
-Route::get('/dashboard/getPermitDetails', 'DashboardController@getPermitDetails');
+Route::get('/dashboard/getLeaseDetails', 'DashboardController@getLeaseDetails');
 
 Route::get('/dashboard/getNotes', 'DashboardController@getNotes');
 

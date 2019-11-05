@@ -10793,6 +10793,9 @@ body {
     margin-right: 150px;
 }
 
+label {
+    font-weight:bold;
+}
 .gas_text {
     font-size:18px;
 }
@@ -10803,6 +10806,16 @@ body {
 
 .view_permit {
     cursor:pointer;
+}
+.containers {
+    border: 1px solid darkgrey;
+    padding: 10px;
+    border-radius: 10px;
+}
+#map {
+    width:80%;
+    margin-left: 5%;
+    min-height: 500px;
 }
 /*
  * This combined file was created by the DataTables downloader builder:
