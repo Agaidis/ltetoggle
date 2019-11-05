@@ -58,13 +58,13 @@ class APIManager
     {
 
         $countyResponse = [];
-        $counties = array('CHAVES\(NM\)', 'EDDY\(NM\)', 'LEA\(NM\)', 'ROOSEVELT\(NM\)');
+        $counties = array('KARNES\(TX\)');
 
 
         foreach ($counties as $county) {
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=" . $county ."&pagesize=30",
+                    CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=" . $county ."&pagesize=2000",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => "",
                     CURLOPT_MAXREDIRS => 10,
@@ -127,12 +127,12 @@ class APIManager
 
     public function getPermits ($token) {
         $countyResponse = [];
-        $counties = array('CHAVES\(NM\)', 'EDDY\(NM\)', 'LEA\(NM\)', 'ROOSEVELT\(NM\)');
+        $counties = array('KARNES');
 
         foreach ($counties as $county) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=".$county."&drilltype=H",
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?pagesize=10000&countyparish=".$county,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,

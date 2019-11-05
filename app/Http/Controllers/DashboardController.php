@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Lease;
 use Illuminate\Support\Facades\Log;
+use App\Permit;
 
 class DashboardController extends Controller
 {
@@ -34,9 +35,15 @@ class DashboardController extends Controller
     }
 
     public function getLeaseDetails(Request $request) {
-        $lease =  Lease::where('lease_id', $request->leaseId)->get();
+        $lease = Lease::where('lease_id', $request->leaseId)->get();
 
-        return $lease;
+        $splitCounty = explode('(', $lease[0]->county_parish);
+
+        $permits = Permit::where('county_parish', $splitCounty[0])->get();
+
+        $response = [$permits, $lease];
+
+        return $response;
     }
 
     public function getNotes(Request $request) {

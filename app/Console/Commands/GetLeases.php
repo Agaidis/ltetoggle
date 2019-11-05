@@ -49,64 +49,62 @@ class GetLeases extends Command
 
         foreach ($leases as $lease => $stuff) {
             $decodedPermits[$lease] = json_decode($stuff);
-            Log::info($decodedPermits[$lease]);
         }
 
-        Log::info($decodedPermits);
-
         try {
+            $date = date('2019-07-17T00:00:00Z');
             foreach ($decodedPermits as $lease => $data) {
-                Log::info($lease);
                 $count = count($data);
-                Log::info($count);
                 for ($i = 0; $i < $count; $i++) {
-                    $doesLeaseExist = Lease::where('lease_id', $data[$i]->LeaseId)->get();
+                    if ($data[$i]->ExpirationofPrimaryTerm > $date) {
+                        $doesLeaseExist = Lease::where('lease_id', $data[$i]->LeaseId)->get();
 
-                    if (strpos($data[$i]->Geometry, 'MULTIPOLYGON(((')) {
-                        $geometry = str_replace(['MULTIPOLYGON(((', ')))' ],['', ''], $data[$i]->Geometry);
-                    } else {
-                        $geometry = str_replace(['POLYGON((', '))'],['', ''], $data[$i]->Geometry);
+                        if (strpos($data[$i]->Geometry, 'MULTIPOLYGON(((')) {
+                            $geometry = str_replace(['MULTIPOLYGON(((', ')))'], ['', ''], $data[$i]->Geometry);
+                        } else {
+                            $geometry = str_replace(['POLYGON((', '))'], ['', ''], $data[$i]->Geometry);
 
-                        $geometryArray = explode(',', $geometry);
+                            $geometryArray = explode(',', $geometry);
 
-                        for($k = 0; $k < count($geometryArray); $k++) {
-                            $geometryArray[$k] = '{"lng":' . $geometryArray[$k];
-                            $geometryArray[$k] = str_replace(' ', ', "lat": ', $geometryArray[$k]);
+                            for ($k = 0; $k < count($geometryArray); $k++) {
+                                $geometryArray[$k] = '{"lng":' . $geometryArray[$k];
+                                $geometryArray[$k] = str_replace(' ', ', "lat": ', $geometryArray[$k]);
 
-                            $geometryArray[$k] .= '}';
+                                $geometryArray[$k] .= '}';
+                            }
+                            $geometry = implode(', ', $geometryArray);
                         }
-                        $geometry = implode(', ', $geometryArray);
-                    }
 
-                    if ($doesLeaseExist->isEmpty()) {
-                        $newLease = new Lease();
+                        if ($doesLeaseExist->isEmpty()) {
+                            $newLease = new Lease();
 
-                        $newLease->lease_id = $data[$i]->LeaseId;
-                        $newLease->notes = '';
-                        $newLease->area_acres = $data[$i]->AreaAcres;
-                        $newLease->county_parish = $data[$i]->CountyParish;
-                        $newLease->expiration_primary_term = $data[$i]->ExpirationofPrimaryTerm;
-                        $newLease->grantee = $data[$i]->Grantee;
-                        $newLease->grantee_alias = $data[$i]->GranteeAlias;
-                        $newLease->grantor = $data[$i]->Grantor;
-                        $newLease->grantor_address = $data[$i]->GrantorAddress;
-                        $newLease->state = $data[$i]->State;
-                        $newLease->geometry = $geometry;
+                            $newLease->lease_id = $data[$i]->LeaseId;
+                            $newLease->notes = '';
+                            $newLease->area_acres = $data[$i]->AreaAcres;
+                            $newLease->county_parish = $data[$i]->CountyParish;
+                            $newLease->expiration_primary_term = $data[$i]->ExpirationofPrimaryTerm;
+                            $newLease->grantee = $data[$i]->Grantee;
+                            $newLease->grantee_alias = $data[$i]->GranteeAlias;
+                            $newLease->grantor = $data[$i]->Grantor;
+                            $newLease->grantor_address = $data[$i]->GrantorAddress;
+                            $newLease->state = $data[$i]->State;
+                            $newLease->geometry = $geometry;
 
-                        $newLease->save();
+                            $newLease->save();
 
-                    } else {
-                        Lease::where('lease_id', $data[$i]->LeaseId)
-                            ->update([
-                                'area_acres' => $data[$i]->AreaAcres,
-                                'county_parish' => $data[$i]->CountyParish,
-                                'expiration_primary_term' => $data[$i]->ExpirationofPrimaryTerm,
-                                'grantee' => $data[$i]->Grantee,
-                                'grantee_alias' => $data[$i]->GranteeAlias,
-                                'grantor' => $data[$i]->Grantor,
-                                'grantor_address' => $data[$i]->GrantorAddress,
-                                'state' => $data[$i]->State,
-                                'geometry' => $geometry]);
+                        } else {
+                            Lease::where('lease_id', $data[$i]->LeaseId)
+                                ->update([
+                                    'area_acres' => $data[$i]->AreaAcres,
+                                    'county_parish' => $data[$i]->CountyParish,
+                                    'expiration_primary_term' => $data[$i]->ExpirationofPrimaryTerm,
+                                    'grantee' => $data[$i]->Grantee,
+                                    'grantee_alias' => $data[$i]->GranteeAlias,
+                                    'grantor' => $data[$i]->Grantor,
+                                    'grantor_address' => $data[$i]->GrantorAddress,
+                                    'state' => $data[$i]->State,
+                                    'geometry' => $geometry]);
+                        }
                     }
                 }
             }

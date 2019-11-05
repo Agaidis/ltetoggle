@@ -25,6 +25,8 @@
                                 <thead>
                                 <tr>
                                     <th class="text-center">County Parish</th>
+                                    <th class="text-center">Grantee</th>
+                                    <th class="text-center">Grantor</th>
                                     <th class="text-center">Area Acres</th>
                                     <th class="text-center">More Data</th>
                                 </tr>
@@ -34,6 +36,8 @@
 
                                 <tr class="lease_row" id="lease_row_{{$lease->lease_id}}">
                                     <td class="text-center">{{$lease->county_parish}}</td>
+                                    <td class="text-center">{{$lease->grantee}}</td>
+                                    <td class="text-center">{{$lease->grantor}}</td>
                                     <td class="text-center">{{$lease->area_acres}}</td>
                                     <td class="text-center">
                                         <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->lease_id}}" class="fa fa-edit btn-sm btn-primary view_lease"></button>
@@ -56,10 +60,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
-
                 <div class="modal fade" id="modal_show_lease">
                     <div class="modal-dialog" role="document">
                         <div style="width:150%; margin-left:-116px;" class="set_court_date_modal modal-content">

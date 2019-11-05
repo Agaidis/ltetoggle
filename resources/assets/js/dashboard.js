@@ -1,10 +1,10 @@
 $(document).ready(function () {
-
     let globalLeaseId = '';
 
     $('#lease_table').DataTable({
         "pagingType": "simple",
-        "aaSorting": []
+        "aaSorting": [],
+        "order": [[ 3, "desc" ]]
     }).on('click', '.lease_row', function () {
         let id = $(this)[0].id;
         let splitId = id.split('_');
@@ -61,16 +61,17 @@ $(document).ready(function () {
                     leaseId: leaseId
                 },
                 success: function success(data) {
-                    $('#grantor_address').text(data[0].grantor_address);
-                    $('#grantor').text(data[0].grantor);
-                    $('#grantee').text(data[0].grantee);
-                    $('#grantee_alias').text(data[0].grantee_alias);
-                    $('#exp_primary_term').text(data[0].expiration_primary_term);
-                    $('#county').text(data[0].county_parish);
-                    $('#area_acres').text(data[0].area_acres);
+                    console.log(data);
+                    $('#grantor_address').text(data[1][0].grantor_address);
+                    $('#grantor').text(data[1][0].grantor);
+                    $('#grantee').text(data[1][0].grantee);
+                    $('#grantee_alias').text(data[1][0].grantee_alias);
+                    $('#exp_primary_term').text(data[1][0].expiration_primary_term);
+                    $('#county').text(data[1][0].county_parish);
+                    $('#area_acres').text(data[1][0].area_acres);
 
 
-                    let geoPoints = data[0].geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+                    let geoPoints = data[1][0].geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
                     let obj = [];
 
                     let map;
@@ -79,14 +80,40 @@ $(document).ready(function () {
 
                     for (let j in geoPoints) {
                         if (j == 0) {
-                            console.log('made itr');
                             map = new google.maps.Map(document.getElementById('map'), {
                                 center: JSON.parse(geoPoints[j]),
-                                zoom: 12
+                                zoom: 13,
+                                mapTypeId: google.maps.MapTypeId.HYBRID
                             });
+
                         }
                         obj.push(JSON.parse(geoPoints[j]));
                     }
+
+
+                    $.each (data[0], function(key, value) {
+                        let locationInfowindow = new google.maps.InfoWindow({
+                            content: '<label>Lease Name: </label><p>'+value.lease_name+'</p>' +
+                            '<label>Abstract: </label><p>'+value.abstract+'</p>' +
+                            '<label>Approved Date: </label><p>'+value.approved_date+'</p>'+
+                            '<label>Drill Type: </label><p>'+value.drill_type+'</p>'+
+                            '<label>Well Type: </label><p>'+value.well_type+'</p>'+
+                            '<label>Permit Type: </label><p>'+value.permit_type+'</p>'+
+                            '<label>Operator Alias: </label><p>'+value.operator_alias+'</p>',
+                        });
+
+                        let marker = new google.maps.Marker({
+                            position: JSON.parse(value.btm_geometry),
+                            map: map,
+                            infowindow: locationInfowindow
+
+                        });
+
+                        google.maps.event.addListener(marker, 'click', function() {
+                            this.infowindow.open(map, this);
+                        });
+                    });
+
 
                     function ResizeMap() {
                         google.maps.event.trigger(map, "resize");
@@ -95,6 +122,7 @@ $(document).ready(function () {
                     $("#VehicleMovementModal").on('shown', function () {
                         ResizeMap();
                     });
+
 
                     bounds = new google.maps.LatLngBounds();
                     google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
