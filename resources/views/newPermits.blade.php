@@ -27,7 +27,7 @@
                                     <tbody>
                                     @foreach ($permits as $permit)
                                         <?php $approvedDate = explode('T', $permit->approved_date)?>
-                                        @if (($permit->drill_type == 'H' || $permit->drill_type == 'V') && ($permit->well_type == 'GAS' || $permit->well_type == 'OIL'))
+
                                             <tr class="permit_row" id="permit_row_{{$permit->permit_id}}">
                                                 <td class="text-center">
                                                     <select class="form-control assignee" id="assignee_{{$permit->permit_id}}">
@@ -47,7 +47,7 @@
                                                     <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
                                                 </td>
                                             </tr>
-                                        @endif
+
                                     @endforeach
                                     </tbody>
                                     <tfoot>
