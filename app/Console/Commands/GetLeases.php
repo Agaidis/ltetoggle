@@ -52,13 +52,11 @@ class GetLeases extends Command
         }
 
         try {
-            $date = date('2019-11-01T00:00:00Z');
+          //  $date = date('2019-11-01T00:00:00Z');
             foreach ($decodedPermits as $lease => $data) {
                 $count = count($data);
                 for ($i = 0; $i < $count; $i++) {
-                    if ($data[$i]->ExpirationofPrimaryTerm > $date) {
-                        $doesLeaseExist = Lease::where('lease_id', $data[$i]->LeaseId)->get();
-
+                 //   if ($data[$i]->ExpirationofPrimaryTerm > $date) {
                         if (strpos($data[$i]->Geometry, 'MULTIPOLYGON(((')) {
                             $geometry = str_replace(['MULTIPOLYGON(((', ')))'], ['', ''], $data[$i]->Geometry);
                         } else {
@@ -75,6 +73,7 @@ class GetLeases extends Command
                             $geometry = implode(', ', $geometryArray);
                         }
 
+                        $doesLeaseExist = Lease::where('lease_id', $data[$i]->LeaseId)->get();
                         if ($doesLeaseExist->isEmpty()) {
                             $newLease = new Lease();
 
@@ -89,10 +88,10 @@ class GetLeases extends Command
                             $newLease->grantor_address = $data[$i]->GrantorAddress;
                             $newLease->state = $data[$i]->State;
                             $newLease->geometry = $geometry;
-                            $newLease->abstract = $data[$i]->Abstract;
-                            $newLease->block = $data[$i]->Block;
-                            $newLease->section = $data[$i]->Section;
-                            $newLease->survey = $data[$i]->SurveyName;
+                            $newLease->abstract = '';
+                            $newLease->block = '';
+                            $newLease->section = '';
+                            $newLease->survey = '';
 
                             $newLease->save();
 
@@ -108,13 +107,13 @@ class GetLeases extends Command
                                     'grantor_address' => $data[$i]->GrantorAddress,
                                     'state' => $data[$i]->State,
                                     'geometry' => $geometry,
-                                    'abstract' => $data[$i]->Abstract,
-                                    'block' => $data[$i]->Block,
-                                    'section' => $data[$i]->Section,
-                                    'survey' => $data[$i]->SurveyName]);
+                                    'abstract' => '',
+                                    'block' => '',
+                                    'section' => '',
+                                    'survey' => '']);
                         }
                     }
-                }
+        //        }
             }
         } catch( Exception $e ) {
             Log::info($e->getMessage());

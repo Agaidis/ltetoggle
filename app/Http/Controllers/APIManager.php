@@ -60,11 +60,10 @@ class APIManager
         $countyResponse = [];
         $counties = array('TX');
 
-
         foreach ($counties as $county) {
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/legal-leases?state=" . $county ."&pagesize=30000",
+                    CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=RUNNELS\(\TX\)&recorddate=2009-06-03",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => "",
                     CURLOPT_MAXREDIRS => 10,
@@ -127,12 +126,20 @@ class APIManager
 
     public function getPermits ($token) {
         $countyResponse = [];
-        $counties = array('KARNES');
+        // Start date
+        $date = '2019-01-07';
+        // End date
+        $end_date = '2019-01-07';
 
-        foreach ($counties as $county) {
+        while (strtotime($date) <= strtotime($end_date)) {
+            echo "$date\n";
+            $date = date ("Y-m-d", strtotime("+1 day", strtotime($date)));
+        $strippedDate = str_replace('-', '', $date);
+
+
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?pagesize=10000&countyparish=".$county,
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=RUNNELS&approveddate=2019-04-26",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -155,7 +162,7 @@ class APIManager
             if ($err) {
                 return "cURL Error #:" . $err;
             } else {
-                $countyResponse[$county] = $response;
+                $countyResponse[$strippedDate] = $response;
             }
         }
         return $countyResponse;

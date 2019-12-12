@@ -2,10 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\PolygonCheckController;
 use Illuminate\Console\Command;
 use App\Http\Controllers\APIManager;
 use App\Permit;
 use Illuminate\Support\Facades\Log;
+use App\Lease;
 
 class GetPermits extends Command
 {
@@ -46,20 +48,37 @@ class GetPermits extends Command
 
         $permits = $apiManager->getPermits($token->access_token);
 
-        foreach ($permits as $permit => $stuff) {
-            $decodedPermits[$permit] = json_decode($stuff);
+        if ($permits != '') {
+            foreach ($permits as $permit => $stuff) {
+                $decodedPermits[$permit] = json_decode($stuff);
+            }
         }
 
         try {
-            $date = date('2018-11-01T00:00:00Z');
+            $leases = Lease::all();
+            $date = date('2018-01-01T00:00:00Z');
            foreach ($decodedPermits as $permit => $data) {
                if (is_array($data)) {
                    $count = count($data);
                    for ($i = 0; $i < $count; $i++) {
-
-                       if ($data[$i]->ApprovedDate > $date) {
-
+                     //  if ($data[$i]->ExpiredDate > $date) {
                            if ($data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
+                               $pointLocation = new PolygonCheckController();
+                               $point = $data[$i]->BottomHoleLatitudeWGS84 . ' ' . $data[$i]->BottomHoleLongitudeWGS84;
+                               foreach ($leases as $lease ) {
+                                   $geoPoints = $lease->geometry;
+                                   if (strpos($geoPoints, 'MULTI') === false) {
+                                       $geoPoints = str_replace('{"lng":', '', $geoPoints);
+                                       $geoPoints = str_replace('},', ',', $geoPoints);
+                                       $geoPoints = str_replace(', "lat":', '', $geoPoints);
+                                       $geoPoints = str_replace('}', '', $geoPoints);
+                                       $polygon = explode(',', $geoPoints);
+
+                                       $searchResult = $pointLocation->pointInPolygon($point, $polygon);
+                                       Log::info($searchResult);
+                                   }
+                               }
+
                                $btmLatLng = '{"lng": ' . $data[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $data[$i]->BottomHoleLatitudeWGS84 . "}";
                            } else {
                                $btmLatLng = '';
@@ -112,7 +131,7 @@ class GetPermits extends Command
                                        'btm_geometry' => $btmLatLng]);
                            }
                        }
-                   }
+            //       }
                }
            }
         } catch( Exception $e ) {
