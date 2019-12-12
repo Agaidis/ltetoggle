@@ -58,13 +58,13 @@ class APIManager
     {
 
         $countyResponse = [];
-        $counties = array('KARNES\(TX\)');
+        $counties = array('TX');
 
 
         foreach ($counties as $county) {
                 $curl = curl_init();
                 curl_setopt_array($curl, array(
-                    CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=" . $county ."&pagesize=2000",
+                    CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/legal-leases?state=" . $county ."&pagesize=30000",
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_ENCODING => "",
                     CURLOPT_MAXREDIRS => 10,

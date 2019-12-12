@@ -27,6 +27,8 @@ Route::get('/dashboard/getNotes', 'DashboardController@getNotes');
 
 Route::put('/dashboard/updateNotes', 'DashboardController@updateNotes');
 
+Route::put('/dashboard/updateAssignee', 'DashboardController@updateAssignee');
+
 Route::get('/FAQ', 'FAQController@index');
 
 Route::get('/about-us', 'AboutUsController@index');
@@ -40,6 +42,8 @@ Route::put('/new-permits/updateNotes', 'NewPermitsController@updateNotes');
 Route::put('/new-permits/updateAssignee', 'NewPermitsController@updateAssignee');
 
 Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetails');
+
+Route::get('/admin', 'AdminController@index');
 
 Route::get('/welbore', 'WelboreController@index');
 

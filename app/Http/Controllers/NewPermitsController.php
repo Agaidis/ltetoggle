@@ -39,17 +39,12 @@ class NewPermitsController extends Controller
     public function getPermitDetails(Request $request) {
 
         try {
-            $query = DB::select('SELECT permits.permit_id, leases.lease_id, permits.lease_name, permits.permit_type, permits.operator_alias, permits.approved_date, permits.drill_type, permits.block, permits.range, permits.section, permits.state, permits.survey, permits.township, permits.well_type, permits.abstract, leases.county_parish, leases.area_acres, leases.grantee_alias, leases.grantor, leases.expiration_primary_term
-FROM permits
-LEFT JOIN leases ON permits.operator_alias = leases.grantee_alias WHERE permit_id = '. $request->permitId);
-
+            $permit = Permit::where('id', $request->permitId)->get();
         } catch ( \Exception $e)  {
             Log::info($e->getMessage());
+            $permit = false;
         }
-
-
-
-        return $query;
+        return $permit;
     }
 
     public function getNotes(Request $request) {

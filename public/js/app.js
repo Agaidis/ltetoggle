@@ -37091,6 +37091,31 @@ $(document).ready(function () {
         polygon.setMap(map);
       }
     });
+  }).on('change', '.assignee', function () {
+    var id = $(this)[0].id;
+    var assignee = $(this)[0].value;
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/dashboard/updateAssignee',
+      data: {
+        leaseId: globalLeaseId,
+        assigneeId: assignee
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
   });
   $('.update_lease_notes_btn').on('click', function () {
     console.log(globalLeaseId);

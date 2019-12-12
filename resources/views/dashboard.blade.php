@@ -24,6 +24,7 @@
                             <table class="table table-hover table-responsive-md table-bordered" id="lease_table">
                                 <thead>
                                 <tr>
+                                    <th class="text-center">Assignee</th>
                                     <th class="text-center">County Parish</th>
                                     <th class="text-center">Grantee</th>
                                     <th class="text-center">Grantor</th>
@@ -35,6 +36,18 @@
                                 @foreach ($leases as $lease)
 
                                 <tr class="lease_row" id="lease_row_{{$lease->lease_id}}">
+                                    <td class="text-center">
+                                        <select class="form-control assignee" id="assignee_{{$lease->lease_id}}">
+                                            <option selected disabled>Select a User</option>
+                                            @foreach ($users as $user)
+                                                @if ($lease->assignee == $user->id)
+                                                    <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                @else
+                                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+                                    </td>
                                     <td class="text-center">{{$lease->county_parish}}</td>
                                     <td class="text-center">{{$lease->grantee}}</td>
                                     <td class="text-center">{{$lease->grantor}}</td>

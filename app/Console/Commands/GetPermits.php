@@ -51,7 +51,7 @@ class GetPermits extends Command
         }
 
         try {
-            $date = date('2018-07-17T00:00:00Z');
+            $date = date('2018-11-01T00:00:00Z');
            foreach ($decodedPermits as $permit => $data) {
                if (is_array($data)) {
                    $count = count($data);

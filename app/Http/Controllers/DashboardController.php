@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Lease;
 use Illuminate\Support\Facades\Log;
 use App\Permit;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
@@ -30,8 +32,9 @@ class DashboardController extends Controller
     public function index()
     {
         $leases = Lease::all();
+        $users = User::all();
 
-        return view('dashboard', compact('leases'));
+        return view('dashboard', compact('leases', 'users'));
     }
 
     public function getLeaseDetails(Request $request) {
@@ -79,6 +82,35 @@ class DashboardController extends Controller
             Log::info($e->getCode());
             Log::info($e->getLine());
             mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            return 'error';
+        }
+    }
+
+    public function updateAssignee(Request $request) {
+        try {
+            $doesLeaseExist = Lease::where('lease_id', $request->leaseId)->get();
+
+            if ($doesLeaseExist->isEmpty()) {
+                $newLease = new Lease();
+
+                $newLease->lease_id = $request->leaseId;
+                $newLease->assignee = $request->assigneeId;
+                $newLease->notes = '';
+
+                $newLease->save();
+
+                return 'success';
+            } else {
+                Lease::where('lease_id', $request->leaseId)
+                    ->update(['assignee' => $request->assigneeId]);
+
+                return 'success';
+            }
+        } catch( Exception $e ) {
+            Log::info($e->getMessage());
+            Log::info($e->getCode());
+            Log::info($e->getLine());
+            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
             return 'error';
         }
     }
