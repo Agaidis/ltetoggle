@@ -41589,6 +41589,7 @@ $(document).ready(function () {
         permitId: permitId
       },
       success: function success(data) {
+        console.log(data);
         var survey = data[0]['survey'];
 
         if (data[0]['survey'] === null) {

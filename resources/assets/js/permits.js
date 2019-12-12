@@ -25,6 +25,7 @@ $(document).ready(function () {
                 permitId: permitId
             },
             success: function success(data) {
+                console.log(data);
                 let survey = data[0]['survey'];
                 if (data[0]['survey'] === null) {
                     survey = 'N/A';
