@@ -174,9 +174,6 @@
 
                                         <label for="county">County: </label>
                                         <span id="county"></span><br>
-
-                                        <label for="exp_primary_term">Expiration Primary Term: </label>
-                                        <span id="exp_primary_term"></span><br>
                                     </div>
                                 </div>
                                     <div class="col-md-8">
