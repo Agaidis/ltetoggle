@@ -1,9 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-    <?php
-
-    ?>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
@@ -28,6 +25,7 @@
                                     <th class="text-center">County Parish</th>
                                     <th class="text-center">Grantee</th>
                                     <th class="text-center">Grantor</th>
+                                    <th class="text-center">Spatial Assignee</th>
                                     <th class="text-center">Area Acres</th>
                                     <th class="text-center">More Data</th>
                                 </tr>
@@ -51,6 +49,7 @@
                                     <td class="text-center">{{$lease->county_parish}}</td>
                                     <td class="text-center">{{$lease->grantee}}</td>
                                     <td class="text-center">{{$lease->grantor}}</td>
+                                    <td class="text-center"><a href="{{url( 'mineral-owner/' . $lease->spatial_assignee)}}">{{$lease->spatial_assignee}}</a></td>
                                     <td class="text-center">{{$lease->area_acres}}</td>
                                     <td class="text-center">
                                         <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$lease->lease_id}}" class="fa fa-edit btn-sm btn-primary view_lease"></button>

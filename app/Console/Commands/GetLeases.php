@@ -92,6 +92,7 @@ class GetLeases extends Command
                             $newLease->block = '';
                             $newLease->section = '';
                             $newLease->survey = '';
+                            $newLease->spatial_assignee = $data[$i]->SpatialAssignee;
 
                             $newLease->save();
 
@@ -110,7 +111,8 @@ class GetLeases extends Command
                                     'abstract' => '',
                                     'block' => '',
                                     'section' => '',
-                                    'survey' => '']);
+                                    'survey' => '',
+                                    'spatial_assignee' => $data[$i]->SpatialAssignee]);
                         }
                     }
         //        }

@@ -55,29 +55,13 @@ class GetPermits extends Command
         }
 
         try {
-            $leases = Lease::all();
             $date = date('2018-01-01T00:00:00Z');
            foreach ($decodedPermits as $permit => $data) {
                if (is_array($data)) {
                    $count = count($data);
                    for ($i = 0; $i < $count; $i++) {
-                     //  if ($data[$i]->ExpiredDate > $date) {
+                       if ($data[$i]->ExpiredDate > $date) {
                            if ($data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
-                               $pointLocation = new PolygonCheckController();
-                               $point = $data[$i]->BottomHoleLatitudeWGS84 . ' ' . $data[$i]->BottomHoleLongitudeWGS84;
-                               foreach ($leases as $lease ) {
-                                   $geoPoints = $lease->geometry;
-                                   if (strpos($geoPoints, 'MULTI') === false) {
-                                       $geoPoints = str_replace('{"lng":', '', $geoPoints);
-                                       $geoPoints = str_replace('},', ',', $geoPoints);
-                                       $geoPoints = str_replace(', "lat":', '', $geoPoints);
-                                       $geoPoints = str_replace('}', '', $geoPoints);
-                                       $polygon = explode(',', $geoPoints);
-
-                                       $searchResult = $pointLocation->pointInPolygon($point, $polygon);
-                                       Log::info($searchResult);
-                                   }
-                               }
 
                                $btmLatLng = '{"lng": ' . $data[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $data[$i]->BottomHoleLatitudeWGS84 . "}";
                            } else {
@@ -131,7 +115,7 @@ class GetPermits extends Command
                                        'btm_geometry' => $btmLatLng]);
                            }
                        }
-            //       }
+                   }
                }
            }
         } catch( Exception $e ) {
