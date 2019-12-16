@@ -8,7 +8,6 @@
                 <div class="card">
                     <div class="card-header">Mineral Owner and associated Permits</div>
                     <div class="card-body">
-{{--                        <h2 style="text-align:center;">{{$owners[0]->operator_company_name}}</h2>--}}
                         <div class="row">
                             <div class="col-md-12">
                                     <table class="table table-hover table-responsive-md table-bordered" id="lease_table">
