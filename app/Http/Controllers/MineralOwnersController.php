@@ -10,7 +10,11 @@ class MineralOwnersController extends Controller
     public function index(Request $request) {
         $leaseNames = array();
 
-        $owners = MineralOwner::where('owner', $request->operator)->distinct()->get();
+        $owners = MineralOwner::where('operator_company_name', $request->operator)->distinct()->get();
+
+        if ($owners->isEmpty()) {
+            $owners = MineralOwner::where('owner', $request->operator)->distinct()->get();
+        }
 
        foreach ($owners as $owner) {
            array_push($leaseNames, $owner->lease_name);
