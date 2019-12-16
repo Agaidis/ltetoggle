@@ -6,7 +6,7 @@
             <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Dashboard</div>
+                    <div class="card-header">Mineral Management Platform</div>
                     <div class="card-body">
                         <div class="row">
                             <div id="dashboard_btn_container" class="col-md-4">
