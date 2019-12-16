@@ -22,6 +22,7 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center">Assignee</th>
+                                        <th class="text-center">Permit Id</th>
                                         <th class="text-center">Approved Date</th>
                                         <th class="text-center">Lease Name</th>
                                         <th class="text-center">Drill Type</th>
@@ -45,6 +46,7 @@
                                                     @endforeach
                                                 </select>
                                             </td>
+                                            <td class="text-center">{{$permit->permit_id}}</td>
                                             <td class="text-center">{{$approvedDate[0]}}</td>
                                             <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name)}}">{{$permit->lease_name}}</a></td>
                                             <td class="text-center">{{$permit->drill_type}}</td>

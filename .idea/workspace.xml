@@ -315,7 +315,7 @@
       <path value="$PROJECT_DIR$/vendor/curl/curl" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="x" value="104" />
     <option name="y" value="23" />
     <option name="width" value="1680" />
