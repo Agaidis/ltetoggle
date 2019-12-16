@@ -49,12 +49,12 @@ $(document).ready(function () {
                 }
                 let approvedDate = data[0]['approved_date'].split('T');
 
-                let expirPrimaryTerm = data[0]['expiration_primary_term'];
-                if (data[0]['expiration_primary_term'] === null) {
-                    expirPrimaryTerm = '--';
-                } else {
-                    expirPrimaryTerm = data[0]['expiration_primary_term'].split('T');
-                }
+                // let expirPrimaryTerm = data[0]['expiration_primary_term'];
+                // if (data[0]['expiration_primary_term'] === null) {
+                //     expirPrimaryTerm = '--';
+                // } else {
+                //     expirPrimaryTerm = data[0]['expiration_primary_term'].split('T');
+                // }
 
                 $('#Abstract').text(abstract);
                 $('#ApprovedDate').text(approvedDate[0]);
@@ -70,7 +70,7 @@ $(document).ready(function () {
                 $('#Survey').text(survey);
                 $('#Township').text(data[0]['township']);
                 $('#WellType').text(data[0]['well_type']);
-                $('#expiration_primary_term').text(expirPrimaryTerm[0]);
+                $('#expiration_primary_term').text('');
                 $('#area_acres').text(data[0]['area_acres']);
             },
             error: function error(data) {
