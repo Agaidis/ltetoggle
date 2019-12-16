@@ -39,7 +39,7 @@ class NewPermitsController extends Controller
     public function getPermitDetails(Request $request) {
 
         try {
-            $permit = Permit::where('id', $request->permitId)->get();
+            $permit = Permit::where('permit_id', $request->permitId)->get();
         } catch ( \Exception $e)  {
             Log::info($e->getMessage());
             $permit = false;
