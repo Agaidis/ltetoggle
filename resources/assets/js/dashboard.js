@@ -24,7 +24,7 @@ $(document).ready(function () {
                 xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
             },
             type: "GET",
-            url: '/dashboard/getNotes',
+            url: '/mm-platform/getNotes',
             dataType: 'json',
             data: {
                 leaseId: leaseId
@@ -55,7 +55,7 @@ $(document).ready(function () {
                     xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
                 },
                 type: "GET",
-                url: '/dashboard/getLeaseDetails',
+                url: '/mm-platform/getLeaseDetails',
                 dataType: 'json',
                 data: {
                     leaseId: leaseId
@@ -166,7 +166,7 @@ $(document).ready(function () {
                 xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
             },
             type: "PUT",
-            url: '/dashboard/updateAssignee',
+            url: '/mm-platform/updateAssignee',
             data: {
                 leaseId: globalLeaseId,
                 assigneeId: assignee
@@ -192,7 +192,7 @@ $(document).ready(function () {
                 xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
             },
             type: "PUT",
-            url: '/dashboard/updateNotes',
+            url: '/mm-platform/updateNotes',
             data: {
                 leaseId: globalLeaseId,
                 notes: $('.notes').val()

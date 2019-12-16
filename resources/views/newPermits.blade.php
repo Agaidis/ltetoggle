@@ -9,7 +9,7 @@
                         <div id="dashboard_btn_container" class="col-md-4">
                             <div class="button_panel">
                                 <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
-                                <a href="{{ url('dashboard') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Landtrac Leases</button></a>
+                                <a href="{{ url('mm-platform') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Landtrac Leases</button></a>
                             </div>
                         </div>
                         <h2 class="titles">Permits</h2>

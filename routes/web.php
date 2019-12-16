@@ -19,15 +19,15 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/dashboard', 'DashboardController@index');
+Route::get('/mm-platform', 'DashboardController@index');
 
-Route::get('/dashboard/getLeaseDetails', 'DashboardController@getLeaseDetails');
+Route::get('/mm-platform/getLeaseDetails', 'DashboardController@getLeaseDetails');
 
-Route::get('/dashboard/getNotes', 'DashboardController@getNotes');
+Route::get('/mm-platform/getNotes', 'DashboardController@getNotes');
 
-Route::put('/dashboard/updateNotes', 'DashboardController@updateNotes');
+Route::put('/mm-platform/updateNotes', 'DashboardController@updateNotes');
 
-Route::put('/dashboard/updateAssignee', 'DashboardController@updateAssignee');
+Route::put('/mm-platform/updateAssignee', 'DashboardController@updateAssignee');
 
 Route::get('/FAQ', 'FAQController@index');
 

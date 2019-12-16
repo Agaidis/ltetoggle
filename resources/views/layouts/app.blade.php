@@ -27,7 +27,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" id="dashboard_logo" href="{{ url('/dashboard') }}">
+                <a class="navbar-brand" id="dashboard_logo" href="{{ url('/mm-platform') }}">
                     <img height="50px" width="100px" src="https://quickevict.nyc3.digitaloceanspaces.com/lexathonenergy.jpg"/><span id="left_logo">Tog</span><span id="right_logo">gle</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -42,7 +42,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         @if (Auth::check())
 
-                            <li><a href="{{ url('dashboard') }}" id="dashboard_btn">Dashboard</a></li>
+                            <li><a href="{{ url('mm-platform') }}" id="dashboard_btn">Mineral Management Platform</a></li>
                             <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
                             <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
                         @else
