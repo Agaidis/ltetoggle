@@ -31,10 +31,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $leases = Lease::all();
+        $permits = Permit::all();
         $users = User::all();
 
-        return view('dashboard', compact('leases', 'users'));
+        return view('dashboard', compact('permits', 'users'));
     }
 
     public function getLeaseDetails(Request $request) {
