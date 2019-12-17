@@ -55,12 +55,10 @@ class GetPermits extends Command
         }
 
         try {
-            $date = date('2018-01-01T00:00:00Z');
            foreach ($decodedPermits as $permit => $data) {
                if (is_array($data)) {
                    $count = count($data);
                    for ($i = 0; $i < $count; $i++) {
-                       if ($data[$i]->ExpiredDate > $date) {
                            if ($data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
 
                                $btmLatLng = '{"lng": ' . $data[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $data[$i]->BottomHoleLatitudeWGS84 . "}";
@@ -91,6 +89,9 @@ class GetPermits extends Command
                                $newPermit->township = $data[$i]->Township;
                                $newPermit->well_type = $data[$i]->WellType;
                                $newPermit->btm_geometry = $btmLatLng;
+                               $newPermit->reported_operator = $data[$i]->ReportedOperator;
+                               $newPermit->permit_number = $data[$i]->PermitNumber;
+                               $newPermit->permit_status = $data[$i]->PermitStatus;
 
 
                                $newPermit->save();
@@ -112,9 +113,11 @@ class GetPermits extends Command
                                        'survey' => $data[$i]->Survey,
                                        'township' => $data[$i]->Township,
                                        'well_type' => $data[$i]->WellType,
-                                       'btm_geometry' => $btmLatLng]);
+                                       'btm_geometry' => $btmLatLng,
+                                       'reported_operator' => $data[$i]->ReportedOperator,
+                                       'permit_number' => $data[$i]->PermitNumber,
+                                       'permit_status' => $data[$i]->PermitStatus]);
                            }
-                       }
                    }
                }
            }

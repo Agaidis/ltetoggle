@@ -48,5 +48,5 @@ Route::get('/admin', 'AdminController@index');
 Route::get('/welbore', 'WelboreController@index');
 
 
-Route::get('/mineral-owner/{operator?}', 'MineralOwnersController@index');
+Route::get('/mineral-owner/{operator?}/{reporter?}', 'MineralOwnersController@index');
 

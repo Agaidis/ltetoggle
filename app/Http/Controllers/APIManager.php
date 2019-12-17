@@ -60,20 +60,20 @@ class APIManager
         $countyResponse = [];
         $counties = array('TX');
 
-        // Start date
-        $date = '2019-12-01';
-        // End date
-        $end_date = '2019-12-16';
-
-        while (strtotime($date) <= strtotime($end_date)) {
-            echo "$date\n";
-            $date = date ("Y-m-d", strtotime("+1 day", strtotime($date)));
-            $strippedDate = str_replace('-', '', $date);
+//        // Start date
+//        $date = '2019-12-01';
+//        // End date
+//        $end_date = '2019-12-16';
+//
+//        while (strtotime($date) <= strtotime($end_date)) {
+//            echo "$date\n";
+//            $date = date ("Y-m-d", strtotime("+1 day", strtotime($date)));
+//            $strippedDate = str_replace('-', '', $date);
 
         foreach ($counties as $county) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=KARNES\(\TX\)&recorddate=".$date,
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=KARNES\(\TX\)",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
@@ -94,10 +94,10 @@ class APIManager
             if ($err) {
                 return "cURL Error #:" . $err;
             } else {
-                $countyResponse[$strippedDate] = $response;
+                $countyResponse[$county] = $response;
             }
         }
-            }
+    //        }
             return $countyResponse;
         }
 

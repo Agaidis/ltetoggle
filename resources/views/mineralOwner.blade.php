@@ -8,19 +8,17 @@
                 <div class="card">
                     <div class="card-header">Mineral Owner and associated Permits</div>
                     <div class="card-body">
-                        <h2 style="text-align:center;">{{$owners[0]->operator_company_name}}</h2>
+                        <h2 style="text-align:center;">Lease Name: {{$owners[0]->lease_name}}</h2>
+                        <h3 style="text-align:center;">Operator Name: {{$owners[0]->operator_company_name}}</h3>
+
                         <div class="row">
                             <div class="col-md-12">
                                     <table class="table table-hover table-responsive-md table-bordered" id="lease_table">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Owner</th>
-                                            <th class="text-center">Owner Address</th>
-                                            <th class="text-center">Owner City</th>
-                                            <th class="text-center">Owner Zip</th>
                                             <th class="text-center">Owner Decimal Interest</th>
                                             <th class="text-center">Interest Type</th>
-                                            <th class="text-center">Lease Name</th>
                                             <th class="text-center">RRC Lease Number</th>
                                             <th class="text-center">First Prod Date</th>
                                             <th class="text-center">Last Prod Date</th>
@@ -31,13 +29,9 @@
                                         <tbody>
                                         @foreach ($owners as $owner)
                                             <tr class="lease_row" id="lease_row_{{$owner->id}}">
-                                                <td class="text-center">{{$owner->owner}}</td>
-                                                <td class="text-center">{{$owner->owner_address}}</td>
-                                                <td class="text-center">{{$owner->owner_city}}</td>
-                                                <td class="text-center">{{$owner->owner_zip}}</td>
+                                                <td class="text-center">{{$owner->owner}}<br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
                                                 <td class="text-center">{{$owner->owner_decimal_interest}}</td>
                                                 <td class="text-center">{{$owner->owner_interest_type}}</td>
-                                                <td class="text-center">{{$owner->lease_name}}</td>
                                                 <td class="text-center">{{$owner->rrc_lease_number}}</td>
                                                 <td class="text-center">{{$owner->first_prod_date}}</td>
                                                 <td class="text-center">{{$owner->last_prod_date}}</td>

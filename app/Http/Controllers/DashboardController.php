@@ -31,7 +31,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $permits = Permit::all();
+        $permits = DB::table('permits')->groupBy('abstract')->get();
         $users = User::all();
 
         return view('dashboard', compact('permits', 'users'));

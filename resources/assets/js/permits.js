@@ -141,6 +141,7 @@ $(document).ready(function () {
     });
 
     $('.update_permit_notes_btn').on('click', function() {
+        console.log(globalPermitId);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -10,10 +10,17 @@ class MineralOwnersController extends Controller
     public function index(Request $request) {
         $leaseNames = array();
 
-        $owners = MineralOwner::where('lease_name', $request->operator)->distinct()->get();
+
+
+        $owners = MineralOwner::where('lease_name', $request->operator)->groupBy('owner')->get();
 
         if ($owners->isEmpty()) {
-            $owners = MineralOwner::where('lease_name', $request->operator)->distinct()->get();
+            $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
+            $owners = MineralOwner::where('lease_name', $operator)->groupBy('owner')->get();
+
+        }
+        if ($owners->isEmpty()) {
+            $owners = MineralOwner::where('operator_company_name', $request->reporter)->get();
         }
 
        foreach ($owners as $owner) {

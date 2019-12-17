@@ -12,7 +12,6 @@
                             <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
                                     <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
-                                    <a href="{{ url('new-permits') }}"><button type="button" class="btn btn-primary dashboard_btns" id="abstract_btn">Permits</button></a>
                                 </div>
                             </div>
                         </div>
@@ -25,7 +24,6 @@
                                         <th class="text-center">Permit Id</th>
                                         <th class="text-center">Approved Date</th>
                                         <th class="text-center">Lease Name</th>
-                                        <th class="text-center">Drill Type</th>
                                         <th class="text-center">More Data</th>
                                     </tr>
                                     </thead>
@@ -48,8 +46,7 @@
                                             </td>
                                             <td class="text-center">{{$permit->permit_id}}</td>
                                             <td class="text-center">{{$approvedDate[0]}}</td>
-                                            <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name)}}">{{$permit->lease_name}}</a></td>
-                                            <td class="text-center">{{$permit->drill_type}}</td>
+                                            <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator)}}">{{$permit->lease_name}}</a></td>
                                             <td class="text-center">
                                                 <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
                                             </td>
@@ -63,11 +60,11 @@
                                 </table>
                             </div>
                             <div style="margin-top:1.5%;" class="col-md-4">
-                                <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
+                                <label style="font-size:20px; font-weight:bold;" for="notes">Permit Notes</label>
                                 <textarea rows="6" class="notes" name="notes" style="width:inherit;" placeholder="Enter Notes: "></textarea>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary update_lease_notes_btn">Update Notes</button>
+                                        <button type="button" class="btn btn-primary update_permit_notes_btn">Update Notes</button>
                                     </div>
                                 </div>
                             </div>

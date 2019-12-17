@@ -52,11 +52,9 @@ class GetLeases extends Command
         }
 
         try {
-          //  $date = date('2019-11-01T00:00:00Z');
             foreach ($decodedPermits as $lease => $data) {
                 $count = count($data);
                 for ($i = 0; $i < $count; $i++) {
-                 //   if ($data[$i]->ExpirationofPrimaryTerm > $date) {
                         if (strpos($data[$i]->Geometry, 'MULTIPOLYGON(((')) {
                             $geometry = str_replace(['MULTIPOLYGON(((', ')))'], ['', ''], $data[$i]->Geometry);
                         } else {
