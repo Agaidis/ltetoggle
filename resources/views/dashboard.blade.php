@@ -71,8 +71,6 @@
                         </div>
                     </div>
                 </div>
-
-
                 <div class="modal fade" id="modal_show_permit">
                     <div class="modal-dialog" role="document">
                         <div style="width:150%; margin-left:-116px;" class="set_court_date_modal modal-content">
@@ -141,61 +139,11 @@
                                             <span id="Block"></span>
                                         </div>
                                     </div>
+                                    <div id="map"></div>
                                 </div><br>
-
-
                                 <div class="modal-footer">
                                     <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-                <div class="modal fade" id="modal_show_lease">
-                    <div class="modal-dialog" role="document">
-                        <div style="width:150%; margin-left:-116px;" class="set_court_date_modal modal-content">
-                            <div class="modal-header">
-                                <h4>Lease Data: </h4>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row">
-                                <div class="col-md-4">
-                                    <h3>Land Info.</h3>
-                                    <div class="containers">
-                                        <label for="area_acres">Area Acres: </label>
-                                        <span id="area_acres"></span><br>
-
-                                        <label for="county">County: </label>
-                                        <span id="county"></span><br>
-                                    </div>
-                                </div>
-                                    <div class="col-md-8">
-                                        <h3>Personnel Info.</h3>
-                                        <div class="containers">
-                                        <label for="grantee">Grantee: </label>
-                                        <span id="grantee"></span><br>
-
-                                        <label for="grantee_alias">Grantee Alias: </label>
-                                        <span id="grantee_alias"></span><br>
-
-                                        <label for="grantor">Grantor: </label>
-                                        <span id="grantor"></span><br>
-
-                                        <label for="grantor_address">Grantor Address: </label>
-                                        <span id="grantor_address"></span><br>
-                                        </div>
-                                    </div>
-                                </div><br><br>
-                                <div id="map"></div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>
                             </div>
                         </div>
                     </div>

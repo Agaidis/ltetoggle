@@ -41573,7 +41573,6 @@ $(document).ready(function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
     var permitId = splitId[1];
-    console.log(permitId);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

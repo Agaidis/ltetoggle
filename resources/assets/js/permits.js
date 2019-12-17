@@ -6,10 +6,9 @@ $(document).ready(function () {
         "pagingType": "simple",
         "aaSorting": []
     }).on('click', '.view_permit', function () {
-        var id = $(this)[0].id;
-        var splitId = id.split('_');
-        var permitId = splitId[1];
-        console.log(permitId);
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[1];
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
