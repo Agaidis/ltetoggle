@@ -41589,7 +41589,6 @@ $(document).ready(function () {
         permitId: permitId
       },
       success: function success(data) {
-        console.log(data);
         var survey = data[0]['survey'];
 
         if (data[0]['survey'] === null) {
@@ -41614,13 +41613,7 @@ $(document).ready(function () {
           block = data[0]['block'];
         }
 
-        var approvedDate = data[0]['approved_date'].split('T'); // let expirPrimaryTerm = data[0]['expiration_primary_term'];
-        // if (data[0]['expiration_primary_term'] === null) {
-        //     expirPrimaryTerm = '--';
-        // } else {
-        //     expirPrimaryTerm = data[0]['expiration_primary_term'].split('T');
-        // }
-
+        var approvedDate = data[0]['approved_date'].split('T');
         $('#Abstract').text(_abstract);
         $('#ApprovedDate').text(approvedDate[0]);
         $('#Block').text(block);
@@ -41652,11 +41645,10 @@ $(document).ready(function () {
           }
 
           obj.push(JSON.parse(geoPoints[j]));
-        } //  $.each (data[0], function(key, value) {
-
+        }
 
         var locationInfowindow = new google.maps.InfoWindow({
-          content: ''
+          content: 'What info do we want in here.'
         });
         var marker = new google.maps.Marker({
           position: JSON.parse(geoPoints),
@@ -41665,7 +41657,7 @@ $(document).ready(function () {
         });
         google.maps.event.addListener(marker, 'click', function () {
           this.infowindow.open(map, this);
-        }); //    });
+        });
 
         function ResizeMap() {
           google.maps.event.trigger(map, "resize");
@@ -41722,17 +41714,13 @@ $(document).ready(function () {
         permitId: permitId
       },
       success: function success(data) {
-        $('.notes').val(data.responseText);
-        $('.notes').text(data.responseText);
+        $('.notes').val(data.responseText).text(data.responseText);
       },
       error: function error(data) {
-        $('.notes').val(data.responseText);
-        $('.notes').text(data.responseText);
-        console.log(data);
+        $('.notes').val(data.responseText).text(data.responseText);
       }
     });
   }).on('change', '.assignee', function () {
-    var id = $(this)[0].id;
     var assignee = $(this)[0].value;
     $.ajaxSetup({
       headers: {
@@ -41758,7 +41746,6 @@ $(document).ready(function () {
     });
   });
   $('.update_permit_notes_btn').on('click', function () {
-    console.log(globalPermitId);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
