@@ -71,6 +71,81 @@ $(document).ready(function () {
                 $('#WellType').text(data[0]['well_type']);
                 $('#expiration_primary_term').text('');
                 $('#area_acres').text(data[0]['area_acres']);
+
+                let geoPoints = data[0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+                let obj = [];
+
+                let map;
+                let bounds;
+
+
+                for (let j in geoPoints) {
+                    if (j == 0) {
+                        map = new google.maps.Map(document.getElementById('map'), {
+                            center: JSON.parse(geoPoints[j]),
+                            zoom: 13,
+                            mapTypeId: google.maps.MapTypeId.HYBRID
+                        });
+
+                    }
+                    obj.push(JSON.parse(geoPoints[j]));
+                }
+
+
+              //  $.each (data[0], function(key, value) {
+
+                    let locationInfowindow = new google.maps.InfoWindow({
+                        content: '',
+                    });
+
+                    let marker = new google.maps.Marker({
+                        position: JSON.parse(geoPoints),
+                        map: map,
+                        infowindow: locationInfowindow
+
+                    });
+
+                    google.maps.event.addListener(marker, 'click', function() {
+                        this.infowindow.open(map, this);
+                    });
+            //    });
+
+
+                function ResizeMap() {
+                    google.maps.event.trigger(map, "resize");
+                }
+
+                $("#VehicleMovementModal").on('shown', function () {
+                    ResizeMap();
+                });
+
+
+                bounds = new google.maps.LatLngBounds();
+                google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
+
+                    bounds = map.getBounds();
+                });
+
+                let input = /** @type {!HTMLInputElement} */(
+                    document.getElementById('pac-input'));
+                let types = document.getElementById('type-selector');
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+                map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+
+
+
+                let polygon = new google.maps.Polygon({
+                    path: obj,
+                    geodesic: true,
+                    strokeColor: '#091096',
+                    strokeOpacity: 1.0,
+                    strokeWeight: 2,
+                    fillColor: '#B1AAA9',
+                    fillOpacity: 0.35,
+                });
+
+                polygon.setMap(map);
+
             },
             error: function error(data) {
                 console.log(data);
