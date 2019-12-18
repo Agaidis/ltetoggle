@@ -21,8 +21,8 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center">Assignee</th>
-                                        <th class="text-center">Permit Id</th>
-                                        <th class="text-center">Approved Date</th>
+                                        <th class="text-center">State / County</th>
+                                        <th class="text-center">Reported Operator</th>
                                         <th class="text-center">Lease Name</th>
                                         <th class="text-center">More Data</th>
                                     </tr>
@@ -44,8 +44,8 @@
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td class="text-center">{{$permit->permit_id}}</td>
-                                            <td class="text-center">{{$approvedDate[0]}}</td>
+                                            <td class="text-center">{{$permit->county_parish}}</td>
+                                            <td class="text-center">{{$permit->reported_operator}}</td>
                                             <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator)}}">{{$permit->lease_name}}</a></td>
                                             <td class="text-center">
                                                 <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
@@ -55,12 +55,12 @@
                                     @endforeach
                                     </tbody>
                                     <tfoot>
-                                    <caption id="lease_table_caption">Permits</caption>
+                                    <caption id="lease_table_caption">Landtrac's Producing/Non-Producing </caption>
                                     </tfoot>
                                 </table>
                             </div>
                             <div style="margin-top:1.5%;" class="col-md-4">
-                                <label style="font-size:20px; font-weight:bold;" for="notes">Permit Notes</label>
+                                <label style="font-size:20px; font-weight:bold;" for="notes">Landtrac Notes</label>
                                 <textarea rows="6" class="notes" name="notes" style="width:inherit;" placeholder="Enter Notes: "></textarea>
                                 <div class="row">
                                     <div class="col-md-12">
