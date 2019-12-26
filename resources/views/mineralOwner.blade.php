@@ -38,7 +38,7 @@
                                                 <td class="text-center">{{$owner->cum_prod_oil}}</td>
                                                 <td class="text-center">{{$owner->active_well_count}}</td>
                                                 <td class="text-center">
-                                                    <button type="button" data-target="#modal_show_lease" data-toggle="modal" id="id_{{$permit->permit_id}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
+                                                    <button type="button" data-target="#modal_show_owner" data-toggle="modal" id="id_{{$owner->id}}" class="fa fa-edit btn-sm btn-primary view_owner"></button>
                                                 </td>
                                             </tr>
                                         @endforeach
