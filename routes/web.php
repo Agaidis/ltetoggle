@@ -47,6 +47,12 @@ Route::get('/admin', 'AdminController@index');
 
 Route::get('/welbore', 'WelboreController@index');
 
+Route::get('/owner', 'MineralOwnersController@getOwnerInfo');
+
+Route::put('/owner/updateAssignee', 'MineralOwnersController@updateAssignee');
+
+Route::put('/owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers');
+
 
 Route::get('/mineral-owner/{operator?}/{reporter?}', 'MineralOwnersController@index');
 

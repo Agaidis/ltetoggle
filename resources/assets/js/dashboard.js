@@ -1,5 +1,8 @@
 $(document).ready(function () {
     let globalLeaseId = '';
+    let globalOwnerId = '';
+
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('#lease_table').DataTable({
         "pagingType": "simple",
@@ -174,6 +177,108 @@ $(document).ready(function () {
             success: function success(data) {
                 console.log(data);
             },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    $('#owner_table').DataTable({
+        "pagingType": "simple",
+        "aaSorting": [],
+        "order": [[ 3, "desc" ]]
+    }).on('change', '.owner_assignee', function() {
+            let id = $(this)[0].id;
+            let assignee = $(this)[0].value;
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "PUT",
+                url: '/owner/updateAssignee',
+                data: {
+                    ownerId: globalOwnerId,
+                    assigneeId: assignee
+                },
+                success: function success(data) {
+                    console.log(data);
+                },
+                error: function error(data) {
+                    console.log(data);
+                }
+            });
+        }).on('click', '.owner_row', function () {
+            let id = $(this)[0].id;
+            let splitId = id.split('_');
+            let ownerId = splitId[2];
+            globalOwnerId = ownerId;
+        }).on('click', '.update_phone_numbers', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[3];
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "PUT",
+            url: '/owner/updatePhoneNumbers',
+            data: {
+                ownerId: ownerId,
+                cell: $('#cell_' + ownerId).val(),
+                work: $('#work_' + ownerId).val(),
+                home: $('#home_' + ownerId).val()
+            },
+            success: function success(data) {
+                console.log(data);
+            },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
+    })
+
+    $('.view_owner').on('click', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[1];
+
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "GET",
+            url: '/owner',
+            data: {
+                id: ownerId
+            },
+            success: function success(data) {
+                console.log(data);
+                let nameAddressString = data.owner + '<br>' + data.owner_address + '<br>' + data.owner_city + ',' + data.owner_zip;
+                $('#owner_name').text(data.owner);
+                $('#name_address').append(nameAddressString);
+                $('#lease_name').text(data.lease_name);
+                $('#lease_description').text(data.lease_description);
+                $('#rrc_lease_number').text(data.rrc_lease_number);
+                $('#decimal_interest').text(data.owner_decimal_interest);
+                $('#interest_type').text(data.owner_interest_type);
+                $('#tax_value').text(data.tax_value);
+                $('#first_prod').text(data.first_prod_date);
+                $('#last_prod').text(data.last_prod_date);
+                $('#cum_prod_oil').text(data.cum_prod_oil);
+                $('#active_well_count').text(data.active_well_count);
+                },
             error: function error(data) {
                 console.log(data);
             }
