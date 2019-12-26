@@ -24,6 +24,7 @@
                                             <th class="text-center">Last Prod Date</th>
                                             <th class="text-center">Cum Prod Oil</th>
                                             <th class="text-center">Active Well Count</th>
+                                            <th class="text-center">More Data</th>
                                         </tr>
                                         </thead>
                                         <tbody>
