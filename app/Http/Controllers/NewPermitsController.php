@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MineralOwner;
 use App\Permit;
 use App\User;
 use Illuminate\Http\Request;
@@ -40,11 +41,16 @@ class NewPermitsController extends Controller
 
         try {
             $permit = Permit::where('permit_id', $request->permitId)->get();
+            $leaseDescription = MineralOwner::where('lease_name', $request->reportedOperator)->first();
+            $objData = new \stdClass;
+
+            $objData->permit = $permit;
+            $objData->leaseDescription = $leaseDescription;
         } catch ( \Exception $e)  {
             Log::info($e->getMessage());
-            $permit = false;
+            $objData = false;
         }
-        return $permit;
+        return response()->json($objData);
     }
 
     public function getNotes(Request $request) {

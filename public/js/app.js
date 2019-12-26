@@ -41573,6 +41573,7 @@ $(document).ready(function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
     var permitId = splitId[1];
+    var reportedOperator = splitId[2];
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -41584,53 +41585,54 @@ $(document).ready(function () {
       },
       type: "GET",
       url: '/new-permits/getPermitDetails',
-      dataType: 'json',
       data: {
-        permitId: permitId
+        permitId: permitId,
+        reportedOperator: reportedOperator
       },
       success: function success(data) {
-        var survey = data[0]['survey'];
+        console.log(data);
+        var survey = data['permit'][0]['survey'];
 
-        if (data[0]['survey'] === null) {
+        if (data['permit'][0]['survey'] === null) {
           survey = 'N/A';
         } else {
-          survey = data[0]['survey'];
+          survey = data['permit'][0]['survey'];
         }
 
-        var _abstract = data[0]['abstract'];
+        var _abstract = data['permit'][0]['abstract'];
 
-        if (data[0]['abstract'] === null) {
+        if (data['permit'][0]['abstract'] === null) {
           _abstract = 'N/A';
         } else {
-          _abstract = data[0]['abstract'];
+          _abstract = data['permit'][0]['abstract'];
         }
 
-        var block = data[0]['block'];
+        var block = data['permit'][0]['block'];
 
-        if (data[0]['block'] === null) {
+        if (data['permit'][0]['block'] === null) {
           block = 'N/A';
         } else {
-          block = data[0]['block'];
+          block = data['permit'][0]['block'];
         }
 
-        var approvedDate = data[0]['approved_date'].split('T');
+        var approvedDate = data['permit'][0]['approved_date'].split('T');
         $('#Abstract').text(_abstract);
         $('#ApprovedDate').text(approvedDate[0]);
         $('#Block').text(block);
-        $('#CountyParish').text(data[0]['county_parish'] + ', ' + data[0]['state']);
-        $('#DrillType').text(data[0]['drill_type']);
-        $('#LeaseName').text(data[0]['lease_name']);
-        $('#OperatorAlias').text(data[0]['operator_alias']);
-        $('#PermitID').text(data[0]['permit_id']);
-        $('#PermitType').text(data[0]['permit_type']);
-        $('#Range').text(data[0]['range']);
-        $('#Section').text(data[0]['section']);
+        $('#CountyParish').text(data['permit'][0]['county_parish'] + ', ' + data['permit'][0]['state']);
+        $('#DrillType').text(data['permit'][0]['drill_type']);
+        $('#LeaseName').text(data['permit'][0]['lease_name']);
+        $('#OperatorAlias').text(data['permit'][0]['operator_alias']);
+        $('#PermitID').text(data['permit'][0]['permit_id']);
+        $('#PermitType').text(data['permit'][0]['permit_type']);
+        $('#Range').text(data['permit'][0]['range']);
+        $('#Section').text(data['permit'][0]['section']);
         $('#Survey').text(survey);
-        $('#Township').text(data[0]['township']);
-        $('#WellType').text(data[0]['well_type']);
+        $('#Township').text(data['permit'][0]['township']);
+        $('#WellType').text(data['permit'][0]['well_type']);
         $('#expiration_primary_term').text('');
-        $('#area_acres').text(data[0]['area_acres']);
-        var geoPoints = data[0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+        $('#area_acres').text(data['permit'][0]['area_acres']);
+        var geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
         var obj = [];
         var map;
         var bounds;

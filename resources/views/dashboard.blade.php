@@ -48,7 +48,7 @@
                                             <td class="text-center">{{$permit->reported_operator}}</td>
                                             <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator)}}">{{$permit->lease_name}}</a></td>
                                             <td class="text-center">
-                                                <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
+                                                <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}_{{$permit->reported_operator}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
                                             </td>
                                         </tr>
 

@@ -9,6 +9,7 @@ $(document).ready(function () {
         let id = $(this)[0].id;
         let splitId = id.split('_');
         let permitId = splitId[1];
+        let reportedOperator = splitId[2];
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -20,51 +21,52 @@ $(document).ready(function () {
             },
             type: "GET",
             url: '/new-permits/getPermitDetails',
-            dataType: 'json',
             data: {
-                permitId: permitId
+                permitId: permitId,
+                reportedOperator: reportedOperator
             },
             success: function success(data) {
-                let survey = data[0]['survey'];
-                if (data[0]['survey'] === null) {
+                console.log(data);
+                let survey = data['permit'][0]['survey'];
+                if (data['permit'][0]['survey'] === null) {
                     survey = 'N/A';
                 } else {
-                    survey = data[0]['survey'];
+                    survey = data['permit'][0]['survey'];
                 }
 
-                let abstract = data[0]['abstract'];
-                if (data[0]['abstract'] === null) {
+                let abstract = data['permit'][0]['abstract'];
+                if (data['permit'][0]['abstract'] === null) {
                     abstract = 'N/A';
                 } else {
-                    abstract = data[0]['abstract'];
+                    abstract = data['permit'][0]['abstract'];
                 }
 
-                let block = data[0]['block'];
-                if (data[0]['block'] === null) {
+                let block = data['permit'][0]['block'];
+                if (data['permit'][0]['block'] === null) {
                     block = 'N/A';
                 } else {
-                    block = data[0]['block'];
+                    block = data['permit'][0]['block'];
                 }
-                let approvedDate = data[0]['approved_date'].split('T');
+                let approvedDate = data['permit'][0]['approved_date'].split('T');
 
                 $('#Abstract').text(abstract);
                 $('#ApprovedDate').text(approvedDate[0]);
                 $('#Block').text(block);
-                $('#CountyParish').text(data[0]['county_parish'] + ', ' + data[0]['state']);
-                $('#DrillType').text(data[0]['drill_type']);
-                $('#LeaseName').text(data[0]['lease_name']);
-                $('#OperatorAlias').text(data[0]['operator_alias']);
-                $('#PermitID').text(data[0]['permit_id']);
-                $('#PermitType').text(data[0]['permit_type']);
-                $('#Range').text(data[0]['range']);
-                $('#Section').text(data[0]['section']);
+                $('#CountyParish').text(data['permit'][0]['county_parish'] + ', ' + data['permit'][0]['state']);
+                $('#DrillType').text(data['permit'][0]['drill_type']);
+                $('#LeaseName').text(data['permit'][0]['lease_name']);
+                $('#OperatorAlias').text(data['permit'][0]['operator_alias']);
+                $('#PermitID').text(data['permit'][0]['permit_id']);
+                $('#PermitType').text(data['permit'][0]['permit_type']);
+                $('#Range').text(data['permit'][0]['range']);
+                $('#Section').text(data['permit'][0]['section']);
                 $('#Survey').text(survey);
-                $('#Township').text(data[0]['township']);
-                $('#WellType').text(data[0]['well_type']);
+                $('#Township').text(data['permit'][0]['township']);
+                $('#WellType').text(data['permit'][0]['well_type']);
                 $('#expiration_primary_term').text('');
-                $('#area_acres').text(data[0]['area_acres']);
+                $('#area_acres').text(data['permit'][0]['area_acres']);
 
-                let geoPoints = data[0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+                let geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
                 let obj = [];
                 let map;
                 let bounds;
