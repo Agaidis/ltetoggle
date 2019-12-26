@@ -247,9 +247,7 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
-    })
-
-    $('.view_owner').on('click', function () {
+    }).on('click', '.view_owner', function () {
         let id = $(this)[0].id;
         let splitId = id.split('_');
         let ownerId = splitId[1];
