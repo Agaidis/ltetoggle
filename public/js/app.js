@@ -37181,8 +37181,7 @@ $(document).ready(function () {
         console.log(data);
       }
     });
-  });
-  $('.view_owner').on('click', function () {
+  }).on('click', '.view_owner', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
     var ownerId = splitId[1];
