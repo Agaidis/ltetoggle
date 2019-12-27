@@ -140,7 +140,7 @@ class APIManager
         // Start date
         $date = '2019-12-01';
         // End date
-        $end_date = '2019-12-16';
+        $end_date = '2019-12-27';
 
         while (strtotime($date) <= strtotime($end_date)) {
             echo "$date\n";

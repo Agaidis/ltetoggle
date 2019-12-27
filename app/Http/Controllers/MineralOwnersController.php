@@ -23,7 +23,7 @@ class MineralOwnersController extends Controller
 
         }
         if ($owners->isEmpty()) {
-            $owners = MineralOwner::where('operator_company_name', $request->reporter)->get();
+            $owners = MineralOwner::where('operator_company_name', $request->reporter)->groupBy('owner')->get();
         }
 
        foreach ($owners as $owner) {
