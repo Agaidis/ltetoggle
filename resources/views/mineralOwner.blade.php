@@ -8,8 +8,13 @@
                 <div class="card">
                     <div class="card-header">Mineral Owner and associated Permits</div>
                     <div class="card-body">
+                        @if (isset($owners[0]->lease_name))
                         <h2 style="text-align:center;">Lease Name: {{$owners[0]->lease_name}}</h2>
                         <h3 style="text-align:center;">Operator Name: {{$owners[0]->operator_company_name}}</h3>
+                        @else
+                            <h2 style="text-align:center;">Lease Name: {{$operator}}</h2>
+                            <h3 style="text-align:center;">Operator Name: {{$reporter}}</h3>
+                        @endif
 
                         <div class="row">
                             <div class="col-md-12">

@@ -13,25 +13,38 @@ class MineralOwnersController extends Controller
     public function index(Request $request) {
         $leaseNames = array();
         $users = User::all();
+        $reporter = $request->reporter;
+        $operator = $request->operator;
 
+        try {
+            $owners = MineralOwner::where('lease_name', $request->operator)->groupBy('owner')->get();
 
-        $owners = MineralOwner::where('lease_name', $request->operator)->groupBy('owner')->get();
+            if ($owners->isEmpty()) {
+                $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
+                $owners = MineralOwner::where('lease_name', $operator)->groupBy('owner')->get();
 
-        if ($owners->isEmpty()) {
-            $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
-            $owners = MineralOwner::where('lease_name', $operator)->groupBy('owner')->get();
+            }
+            if ($owners->isEmpty()) {
+                $owners = MineralOwner::where('operator_company_name', $request->reporter)->groupBy('owner')->get();
+            }
 
+            if ($owners->isEmpty()) {
+
+            } else {
+                foreach ($owners as $owner) {
+                    array_push($leaseNames, $owner->lease_name);
+                }
+                $leaseNames = array_unique($leaseNames);
+            }
+
+            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'reporter', 'operator'));
+        } catch( \Exception $e) {
+            Log::info($e->getMessage());
+            Log::info($e->getCode());
+            Log::info($e->getLine());
+            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            return 'error';
         }
-        if ($owners->isEmpty()) {
-            $owners = MineralOwner::where('operator_company_name', $request->reporter)->groupBy('owner')->get();
-        }
-
-       foreach ($owners as $owner) {
-           array_push($leaseNames, $owner->lease_name);
-       }
-       $leaseNames = array_unique($leaseNames);
-
-       return view('mineralOwner', compact('owners', 'leaseNames', 'users'));
     }
 
     public function getOwnerInfo (Request $request) {
