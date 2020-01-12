@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use App\Lease;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Permit;
 use Illuminate\Support\Facades\DB;
@@ -33,8 +34,9 @@ class DashboardController extends Controller
     {
         $permits = DB::table('permits')->groupBy('abstract')->get();
         $users = User::all();
+        $currentUser = Auth::user()->name;
 
-        return view('dashboard', compact('permits', 'users'));
+        return view('dashboard', compact('permits', 'users', 'currentUser'));
     }
 
     public function getLeaseDetails(Request $request) {

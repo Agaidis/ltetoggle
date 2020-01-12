@@ -10818,6 +10818,29 @@ label {
     margin-left: 2%;
     min-height: 550px;
 }
+.previous_notes {
+    height: 315px;
+    width: 100%;
+    /*-moz-appearance: textfield-multiline;*/
+    /*-webkit-appearance: textarea;*/
+    border: 1px solid gray;
+    overflow: auto;
+    padding: 2px;
+    resize: both;
+    background-color: aliceblue;
+}
+
+.previous_owner_notes {
+    height: 150px;
+    width: 100%;
+    /*-moz-appearance: textfield-multiline;*/
+    /*-webkit-appearance: textarea;*/
+    border: 1px solid gray;
+    overflow: auto;
+    padding: 2px;
+    resize: both;
+    background-color: aliceblue;
+}
 /*
  * This combined file was created by the DataTables downloader builder:
  *   https://datatables.net/download

@@ -19,6 +19,16 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/admin', 'AdminController@index');
+
+Route::get('/welbore', 'WelboreController@index');
+
+Route::get('/FAQ', 'FAQController@index');
+
+Route::get('/about-us', 'AboutUsController@index');
+
+
+/*                              MM-PLATFORM                 */
 Route::get('/mm-platform', 'DashboardController@index');
 
 Route::get('/mm-platform/getLeaseDetails', 'DashboardController@getLeaseDetails');
@@ -29,10 +39,8 @@ Route::put('/mm-platform/updateNotes', 'DashboardController@updateNotes');
 
 Route::put('/mm-platform/updateAssignee', 'DashboardController@updateAssignee');
 
-Route::get('/FAQ', 'FAQController@index');
 
-Route::get('/about-us', 'AboutUsController@index');
-
+/*              PERMITS/DASHBOARD                   */
 Route::get('/new-permits', 'NewPermitsController@index');
 
 Route::get('/new-permits/getNotes', 'NewPermitsController@getNotes');
@@ -43,16 +51,26 @@ Route::put('/new-permits/updateAssignee', 'NewPermitsController@updateAssignee')
 
 Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetails');
 
-Route::get('/admin', 'AdminController@index');
 
-Route::get('/welbore', 'WelboreController@index');
+/*                      MINERAL OWNER/LEASE PAGE                        */
+Route::get('/mineral-owner/{operator?}/{reporter?}/{id?}', 'MineralOwnersController@index');
 
-Route::get('/owner', 'MineralOwnersController@getOwnerInfo');
+Route::get('/mineral-owners/getNotes', 'MineralOwnersController@getNotes');
 
-Route::put('/owner/updateAssignee', 'MineralOwnersController@updateAssignee');
+Route::put('/mineral-owner/updateNotes', 'MineralOwnersController@updateNotes');
 
-Route::put('/owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers');
+Route::put('/mineral-owner/updateAssignee', 'MineralOwnersController@updateAssignee');
+
+Route::put('/mineral-owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers');
+
+Route::put('/mineral-owner/updateWellType', 'MineralOwnersController@updateWellType');
+
+Route::get('/mineral-owner', 'MineralOwnersController@getOwnerInfo');
+
+Route::post('/mineral-owner/addPhone', 'MineralOwnersController@addPhone');
+
+Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDeletePhone');
 
 
-Route::get('/mineral-owner/{operator?}/{reporter?}', 'MineralOwnersController@index');
-
+/*                      Owner Page                          */
+Route::get('/owner/{ownerName?}', 'OwnersController@index');

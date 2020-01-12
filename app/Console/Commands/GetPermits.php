@@ -92,6 +92,7 @@ class GetPermits extends Command
                                $newPermit->reported_operator = $data[$i]->ReportedOperator;
                                $newPermit->permit_number = $data[$i]->PermitNumber;
                                $newPermit->permit_status = $data[$i]->PermitStatus;
+                               $newPermit->district = $data[$i]->District;
 
 
                                $newPermit->save();
@@ -116,7 +117,8 @@ class GetPermits extends Command
                                        'btm_geometry' => $btmLatLng,
                                        'reported_operator' => $data[$i]->ReportedOperator,
                                        'permit_number' => $data[$i]->PermitNumber,
-                                       'permit_status' => $data[$i]->PermitStatus]);
+                                       'permit_status' => $data[$i]->PermitStatus,
+                                       'district' => $data[$i]->District]);
                            }
                    }
                }

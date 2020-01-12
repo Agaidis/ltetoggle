@@ -41,6 +41,13 @@ $(document).ready(function () {
                     abstract = data['permit'][0]['abstract'];
                 }
 
+                let district = data['permit'][0]['district'];
+                if (data['permit'][0]['district'] === null) {
+                    district = 'N/A';
+                } else {
+                    district = data['permit'][0]['district'];
+                }
+
                 let block = data['permit'][0]['block'];
                 if (data['permit'][0]['block'] === null) {
                     block = 'N/A';
@@ -65,6 +72,7 @@ $(document).ready(function () {
                 $('#WellType').text(data['permit'][0]['well_type']);
                 $('#expiration_primary_term').text('');
                 $('#area_acres').text(data['permit'][0]['area_acres']);
+                $('#District').text(district);
 
                 let geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
                 let obj = [];
@@ -133,37 +141,6 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
-    }).on('click', '.permit_row', function() {
-        let id = $(this)[0].id;
-        let splitId = id.split('_');
-        let permitId = splitId[2];
-        globalPermitId = permitId;
-
-        $('.permit_row').css('background-color', 'white');
-        $('#' + id).css('background-color', '#e3e3d1');
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            beforeSend: function beforeSend(xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-            },
-            type: "GET",
-            url: '/new-permits/getNotes',
-            dataType: 'json',
-            data: {
-                permitId: permitId
-            },
-            success: function success(data) {
-                $('.notes').val(data.responseText).text(data.responseText);
-            },
-            error: function error(data) {
-                $('.notes').val(data.responseText).text(data.responseText);
-            }
-        });
     }).on('change', '.assignee', function() {
         let assignee = $(this)[0].value;
 
@@ -189,6 +166,39 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    }).on('click', '.permit_row', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[2];
+        globalPermitId = permitId;
+
+        $('.permit_row').css('background-color', 'white');
+        $('#' + id).css('background-color', '#e3e3d1');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "GET",
+            url: '/new-permits/getNotes',
+            data: {
+                permitId: permitId
+            },
+            success: function success(data) {
+                let updatedNotes = $('<span>'+data+'</span>');
+
+                $('.previous_notes').empty().append(updatedNotes.html());
+            },
+            error: function error(data) {
+                console.log(data);
+                $('.notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+            }
+        });
     });
 
     $('.update_permit_notes_btn').on('click', function() {
@@ -205,13 +215,17 @@ $(document).ready(function () {
             url: '/new-permits/updateNotes',
             data: {
                 permitId: globalPermitId,
-                notes: $('.notes').val()
+                notes: $('.notes').val(),
+
             },
             success: function success(data) {
-                console.log(data);
+                let updatedNotes = $('<span>'+data+'</span>');
+
+                $('.previous_notes').empty().append(updatedNotes.html());
+                $('.notes').val('').text('');
             },
             error: function error(data) {
-                console.log(data);
+                $('.notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
             }
         });
     });

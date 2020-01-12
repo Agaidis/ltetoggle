@@ -65,22 +65,26 @@ class NewPermitsController extends Controller
     public function updateNotes(Request $request) {
         try {
             $doesLeaseExist = Permit::where('permit_id', $request->permitId)->get();
+            $userName = Auth()->user()->name;
+            $date = date('Y/m/d h:m:s');
 
             if ($doesLeaseExist->isEmpty()) {
                 $newLease = new Permit();
 
                 $newLease->permit_id = $request->permitId;
-                $newLease->notes = $request->notes;
+                $newLease->notes = $userName . ' Date: ' . $date . '<br>' . $request->notes;
 
                 $newLease->save();
 
-                return 'success';
             } else {
                 Permit::where('permit_id', $request->permitId)
-                    ->update(['notes' => $request->notes]);
-
-                return 'success';
+                    ->update(['notes' => '<b>User</b>: ' . $userName . ' <br><b>Date<b>: ' . $date . '<br>' . $request->notes . '<br><hr>' . $doesLeaseExist[0]->notes]);
             }
+
+            $updatedPermit = Permit::where('permit_id', $request->permitId)->first();
+
+            return $updatedPermit->notes;
+
         } catch( Exception $e ) {
             Log::info($e->getMessage());
             Log::info($e->getCode());

@@ -9,13 +9,6 @@
                     <div class="card-header">Mineral Management Platform</div>
                     <div class="card-body">
                         <div class="row">
-                            <div id="dashboard_btn_container" class="col-md-4">
-                                <div class="button_panel">
-                                    <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <div class="col-md-7">
                                 <table class="table table-hover table-responsive-md table-bordered" id="permit_table">
                                     <thead>
@@ -46,7 +39,7 @@
                                             </td>
                                             <td class="text-center">{{$permit->county_parish}}</td>
                                             <td class="text-center">{{$permit->reported_operator}}</td>
-                                            <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator)}}">{{$permit->lease_name}}</a></td>
+                                            <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator . '/' . $permit->id)}}">{{$permit->lease_name}}</a></td>
                                             <td class="text-center">
                                                 <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}_{{$permit->reported_operator}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
                                             </td>
@@ -60,7 +53,10 @@
                                 </table>
                             </div>
                             <div style="margin-top:1.5%;" class="col-md-4">
-                                <label style="font-size:20px; font-weight:bold;" for="notes">Landtrac Notes</label>
+                                <label style="font-size:20px; font-weight:bold;" for="notes">Previous Landtrac Notes</label>
+                                <div class="previous_notes" name="previous_notes" contenteditable="false"></div><br>
+
+                                <label style="font-size:20px; font-weight:bold;" for="notes">Submit Landtrac Notes</label>
                                 <textarea rows="6" class="notes" name="notes" style="width:inherit;" placeholder="Enter Notes: "></textarea>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -89,19 +85,19 @@
                                             <label for="County/Parish">County State: </label>
                                             <span id="CountyParish"></span><br>
 
-                                            <label for="Township">Township</label>
+                                            <label for="Township">Township: </label>
                                             <span id="Township"></span><br>
 
-                                            <label for="OperatorAlias">Operator</label>
+                                            <label for="OperatorAlias">Operator: </label>
                                             <span id="OperatorAlias"></span><br>
 
-                                            <label for="area_acres">Acreage</label>
+                                            <label for="area_acres">Acreage: </label>
                                             <span id="area_acres"></span><br>
 
-                                            <label for="Range">Range</label>
+                                            <label for="Range">Range: </label>
                                             <span id="Range"></span><br>
 
-                                            <label for="Section">Section</label>
+                                            <label for="Section">Section: </label>
                                             <span id="Section"></span><br>
 
                                         </div>
@@ -123,19 +119,22 @@
                                         <h3>Addit. Info</h3>
                                         <div class="containers">
 
-                                            <label for="approved_date">Approved Date</label>
+                                            <label for="approved_date">Approved Date: </label>
                                             <span id="ApprovedDate"></span><br>
 
-                                            <label for="expiration_primary_term">Expiration Primary Term</label>
+                                            <label for="expiration_primary_term">Expiration Primary Term: </label>
                                             <span id="expiration_primary_term"></span><br>
 
-                                            <label for="Survey">Survey</label>
+                                            <label for="Survey">Survey: </label>
                                             <span id="Survey"></span><br>
 
-                                            <label for="Abstract">Abstract</label>
+                                            <label for="Abstract">Abstract: </label>
                                             <span id="Abstract"></span><br>
 
-                                            <label for="Block">Block</label>
+                                            <label for="District">District: </label>
+                                            <span id="District"></span><br>
+
+                                            <label for="Block">Block: </label>
                                             <span id="Block"></span>
                                         </div>
                                     </div>
