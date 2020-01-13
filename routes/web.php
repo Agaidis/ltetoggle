@@ -19,13 +19,17 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/admin', 'AdminController@index');
-
 Route::get('/welbore', 'WelboreController@index');
 
 Route::get('/FAQ', 'FAQController@index');
 
 Route::get('/about-us', 'AboutUsController@index');
+
+
+/*                              ADMIN AREA                  */
+Route::get('/admin', 'AdminController@index');
+
+Route::post('/admin', 'AdminController@updatePermits');
 
 
 /*                              MM-PLATFORM                 */

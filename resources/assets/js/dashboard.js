@@ -1,6 +1,5 @@
 $(document).ready(function () {
     let globalLeaseId = '';
-
     $('[data-toggle="tooltip"]').tooltip();
 
     $('#lease_table').DataTable({

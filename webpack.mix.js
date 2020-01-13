@@ -17,6 +17,8 @@ mix.js([
     'resources/assets/js/permits.js',
     'resources/assets/js/mineralOwner.js',
     'resources/assets/js/datatables.min.js',
+    'resources/assets/js/jquery-dp-ui.min.js',
+    'resources/assets/js/admin.js',
 
 
 ], 'public/js/app.js').version()
@@ -25,5 +27,9 @@ mix.js([
         'public/css/app.css',
         'resources/assets/css/dashboard.css',
         'resources/assets/css/datatables.min.css',
+        'resources/assets/css/jquery-dp-ui.min.css',
+        'resources/assets/css/jquery-dp-ui.structure.min.css',
+        'resources/assets/css/jquery-dp-ui.theme.min.css',
+
 
     ], 'public/css/app.css').version();

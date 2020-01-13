@@ -14,6 +14,7 @@
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}" defer></script>
 
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -40,15 +41,22 @@
                     <!-- Right Side Of Navbar -->
 
                     <ul class="nav navbar-nav navbar-right">
-                        @if (Auth::check())
+                        @if (Auth::check() && (Auth::user()->name === 'Billy Moreaux' || Auth::user()->name === 'Andrew Gaidis'))
 
                             <li><a href="{{ url('mm-platform') }}" id="dashboard_btn">Mineral Management Platform</a></li>
                             <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
                             <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
-                        @else
+                            <li><a href="{{ url('admin') }}" id="admin_btn">Admin Area</a></li>
+                        @elseif (Auth::check())
+                            <li><a href="{{ url('mm-platform') }}" id="dashboard_btn">Mineral Management Platform</a></li>
                             <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
                             <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
-                    @endif<!-- Authentication Links today -->
+
+                            @else
+                            <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
+                            <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
+                        @endif<!-- Authentication Links today -->
+
 
                     </ul>
                     <ul class="navbar-nav ml-auto">
