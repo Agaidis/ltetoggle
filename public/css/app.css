@@ -10819,7 +10819,7 @@ label {
     min-height: 550px;
 }
 .previous_notes {
-    height: 315px;
+    height: 250px;
     width: 100%;
     /*-moz-appearance: textfield-multiline;*/
     /*-webkit-appearance: textarea;*/
@@ -10830,8 +10830,8 @@ label {
     background-color: aliceblue;
 }
 
-.previous_owner_notes {
-    height: 150px;
+.previous_owner_notes, .previous_permit_notes {
+    height: 100px;
     width: 100%;
     /*-moz-appearance: textfield-multiline;*/
     /*-webkit-appearance: textarea;*/

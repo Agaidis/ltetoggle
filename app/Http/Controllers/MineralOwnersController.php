@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use App\Permit;
 
 class MineralOwnersController extends Controller
 {
@@ -17,6 +18,9 @@ class MineralOwnersController extends Controller
         $users = User::all();
         $reporter = $request->reporter;
         $operator = $request->operator;
+        $permitId = $request->id;
+
+        $permitNotes = Permit::where('id', $permitId)->value('notes');
 
         try {
             $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
@@ -47,7 +51,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
                 $leaseNames = array_unique($leaseNames);
             }
 
-            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'reporter', 'operator', 'ownerPhoneNumbers'));
+            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'reporter', 'operator', 'ownerPhoneNumbers', 'permitNotes'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());
@@ -60,6 +64,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
     public function getOwnerInfo (Request $request) {
 
         try {
+            Log::info($request->id);
             $owner = MineralOwner::where('id', $request->id)->groupBy('owner')->first();
 
             return $owner;

@@ -42614,6 +42614,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 $(document).ready(function () {
   var globalOwnerId = '';
   var globalOwnerName = '';
+  $('.previous_permit_notes').html($('#hidden_permit_notes').val());
   $('#owner_table').DataTable({
     "pagingType": "simple",
     "pageLength": 5,
@@ -42705,12 +42706,17 @@ $(document).ready(function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
     var ownerId = splitId[1];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
     $.ajax({
       beforeSend: function beforeSend(xhr) {
         xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
       },
       type: "GET",
-      url: '/owner',
+      url: '/mineral-owners',
       data: {
         id: ownerId
       },
@@ -42852,7 +42858,7 @@ $(document).ready(function () {
         var random = Math.floor(Math.random() * (+max - +min)) + +min;
         console.log(data);
         var updatedPhoneNumbers = $('<div><span id="phone_' + random + '" style="padding: 2%;">' + '<input type="hidden" id="phone_owner_' + random + '" value="' + data.owner_name + '"/>' + '<input type="hidden" id="phone_number_' + random + '" value="' + data.phone_number + '" />' + '<input type="hidden" id="phone_desc_' + random + '" value="' + data.phone_desc + '"/>' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.phone_number + '">' + data.phone_number + '</a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + random + '"></span>' + '</span></div>');
-        $('.phone_container').append(updatedPhoneNumbers.html());
+        $('#phone_container_' + globalOwnerId).append(updatedPhoneNumbers.html());
       },
       error: function error(data) {
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');

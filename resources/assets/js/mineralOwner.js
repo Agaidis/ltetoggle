@@ -2,6 +2,8 @@ $(document).ready(function () {
     let globalOwnerId = '';
     let globalOwnerName = '';
 
+    $('.previous_permit_notes').html($('#hidden_permit_notes').val());
+
     $('#owner_table').DataTable({
         "pagingType": "simple",
         "pageLength" : 5,
@@ -100,12 +102,18 @@ $(document).ready(function () {
         let splitId = id.split('_');
         let ownerId = splitId[1];
 
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
         $.ajax({
             beforeSend: function beforeSend(xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
             },
             type: "GET",
-            url: '/owner',
+            url: '/mineral-owners',
             data: {
                 id: ownerId
             },
@@ -269,7 +277,7 @@ $(document).ready(function () {
                     '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_'+random+'"></span>' +
                     '</span></div>');
 
-                $('.phone_container').append(updatedPhoneNumbers.html());
+                $('#phone_container_' + globalOwnerId).append(updatedPhoneNumbers.html());
             },
             error: function error(data) {
                 $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');

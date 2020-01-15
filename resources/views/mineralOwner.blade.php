@@ -14,18 +14,25 @@
                             <h2 style="text-align:center;">Lease Name: {{$operator}}</h2>
                             <h3 style="text-align:center;">Operator Name: {{$reporter}}</h3>
                         @endif
-                            <div style="margin-top:1.5%; margin-left:35%;" class="col-md-6">
+                            <div style="margin-top:1.5%;" class="offset-3 col-md-6">
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <label style="font-size:20px; font-weight:bold;" for="notes">Previous Lease Owner Notes</label>
+                                    <div style="text-align:center; margin-left:25%;" class="col-md-6">
+                                        <label style="font-size:20px; font-weight:bold;" for="notes">Lease Permit Notes</label>
+                                        <div class="previous_permit_notes" name="previous_permit_notes" contenteditable="false"></div>
+                                        <input type="hidden" id="hidden_permit_notes" value="{{$permitNotes}}" />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div style="text-align:center;" class="col-md-6">
+                                        <label style="font-size:20px; font-weight:bold;" for="notes">Lease Owner Notes</label>
                                         <div class="previous_owner_notes" name="previous_owner_notes" contenteditable="false"></div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div style="text-align:center;" class="col-md-6">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Enter Lease Owner Notes</label>
-                                        <textarea rows="6" class="owner_notes" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>
-                                    <div class="col-md-12">
-                                        <button type="button" class="btn btn-primary update_owner_notes_btn">Update Notes</button>
+                                        <textarea rows="4" class="owner_notes" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>
                                     </div>
+                                    <div style="margin-left:41%;" class="col-md-12">
+                                    <button type="button" class="btn btn-primary update_owner_notes_btn">Update Notes</button>
                                     </div>
                                 </div>
                             </div>
@@ -68,31 +75,31 @@
                                                 <td class="text-center">
                                                     <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
                                                         @if ($owner->wellbore_type == 1)
-                                                            <option disabled>Wellbore #</option>
+                                                            <option value="0">None</option>
                                                             <option selected value="{{$owner->wellbore_type}}">1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
                                                             <option value="4">4</option>
                                                         @elseif ($owner->wellbore_type == 2)
-                                                            <option disabled>Wellbore #</option>
+                                                            <option value="0">None</option>
                                                             <option value="1">1</option>
                                                             <option selected value="{{$owner->wellbore_type}}">2</option>
                                                             <option value="3">3</option>
                                                             <option value="4">4</option>
                                                         @elseif ($owner->wellbore_type == 3)
-                                                            <option disabled>Wellbore #</option>
+                                                            <option value="0">None</option>
                                                             <option value="1">1</option>
                                                             <option value="2">2</option>
                                                             <option selected value="{{$owner->wellbore_type}}">3</option>
                                                             <option value="4">4</option>
                                                         @elseif ($owner->wellbore_type == 4)
-                                                            <option disabled>Wellbore #</option>
+                                                            <option value="0">None</option>
                                                             <option value="1">1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
                                                             <option selected value="{{$owner->wellbore_type}}">4</option>
                                                         @else
-                                                            <option selected disabled>Wellbore #</option>
+                                                            <option selected value="0">None</option>
                                                             <option value="1">1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
@@ -102,7 +109,7 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <span class="fas fa-plus add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal" style="color:green; cursor:pointer; float:left; text-align: left;"></span>
-                                                    <span class="phone_container" style="padding: 2%;">
+                                                    <span class="phone_container" id="phone_container_{{$owner->id}}" style="padding: 2%;">
                                                     @for ($i = 0; $i < count($ownerPhoneNumbers); $i++)
                                                         @if ($ownerPhoneNumbers[$i]->owner === $owner->owner && $ownerPhoneNumbers[$i]->soft_delete === 0)
 
