@@ -10832,21 +10832,40 @@ label {
 }
 
 .previous_owner_notes, .previous_permit_notes {
-    height: 100px;
+    height: 160px;
     width: 100%;
     /*-moz-appearance: textfield-multiline;*/
     /*-webkit-appearance: textarea;*/
-    border: 1px solid gray;
+    border: 1px solid lightgrey;
     overflow: auto;
     padding: 2px;
     resize: both;
-    background-color: aliceblue;
     text-align: center;
+    -webkit-border-radius: 1em;
+    -moz-border-radius: 1em;
+    border-radius: 1em;:
 }
 
 hr {
     margin-top:0!important;
     margin-bottom:0!important;
+}
+
+.lease_notes_container {
+    border: 1px solid lightgrey;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+    padding: 5px;
+    margin-top:5%;
+}
+
+#previous_premit_notes {
+    background-color: aliceblue;
+}
+
+#previous_owner_notes {
+    background-color: #f5dcb6;
 }
 /*
  * This combined file was created by the DataTables downloader builder:

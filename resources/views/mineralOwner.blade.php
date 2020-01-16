@@ -17,23 +17,24 @@
                             <div style="margin-top:1.5%;" class="offset-3 col-md-6">
                                 <div class="row">
                                     <div style="text-align:center; margin-left:25%;" class="col-md-6">
-                                        <label style="font-size:20px; font-weight:bold;" for="notes">Lease Permit Notes</label>
+                                        <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
                                         <div class="previous_permit_notes" name="previous_permit_notes" contenteditable="false"></div>
                                         <input type="hidden" id="hidden_permit_notes" value="{{$permitNotes}}" />
                                     </div>
                                 </div>
-                                <div class="row">
+                                <div class="lease_notes_container row">
                                     <div style="text-align:center;" class="col-md-6">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Lease Owner Notes</label>
-                                        <div class="previous_owner_notes" name="previous_owner_notes" contenteditable="false"></div>
+                                        <div class="previous_owner_notes" id="previous_owner_notes" name="previous_owner_notes" contenteditable="false"></div>
                                     </div>
                                     <div style="text-align:center;" class="col-md-6">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Enter Lease Owner Notes</label>
-                                        <textarea rows="4" class="owner_notes" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>
+                                        <textarea rows="4" class="owner_notes" id=owner_notes" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>
+                                        <div class="col-md-12">
+                                            <button type="button" class="btn btn-primary update_owner_notes_btn">Update Notes</button>
+                                        </div>
                                     </div>
-                                    <div style="margin-left:41%;" class="col-md-12">
-                                    <button type="button" class="btn btn-primary update_owner_notes_btn">Update Notes</button>
-                                    </div>
+
                                 </div>
                             </div>
                             @if (isset($owners[0]->lease_name))

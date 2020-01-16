@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/assets/css/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/css/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +21,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="58" column="48" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
+            <state relative-caret-position="366">
+              <caret line="27" column="98" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="98" />
               <folding>
                 <element signature="e#954#995#0#HTML" expanded="true" />
                 <element signature="e#1105#1147#0#HTML" expanded="true" />
@@ -30,7 +31,6 @@
                 <element signature="e#1757#1816#0#HTML" expanded="true" />
                 <element signature="e#2112#2138#0#HTML" expanded="true" />
                 <element signature="e#2142#2202#0#HTML" expanded="true" />
-                <element signature="e#2512#2536#0#HTML" expanded="true" />
                 <element signature="e#8958#9024#0#HTML" expanded="true" />
                 <element signature="e#8460#8480#0#HTML" expanded="true" />
               </folding>
@@ -38,11 +38,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/assets/css/dashboard.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="183" column="22" selection-start-line="183" selection-start-column="22" selection-end-line="183" selection-end-column="22" />
+            <state relative-caret-position="605">
+              <caret line="217" column="22" selection-start-line="217" selection-start-column="22" selection-end-line="217" selection-end-column="22" />
             </state>
           </provider>
         </entry>
@@ -79,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
-              <caret line="74" column="74" selection-start-line="74" selection-start-column="74" selection-end-line="74" selection-end-column="74" />
+            <state relative-caret-position="329">
+              <caret line="79" column="58" selection-start-line="79" selection-start-column="58" selection-end-line="79" selection-end-column="58" />
               <folding>
                 <element signature="e#40#61#0#PHP" expanded="true" />
                 <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
@@ -137,7 +137,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getPermitDetails</find>
       <find>MineralOwnersController</find>
       <find>mineral-owner</find>
       <find>cum_prod_oil</find>
@@ -166,6 +165,7 @@
       <find>ownerName</find>
       <find>All</find>
       <find>view_owner</find>
+      <find>Lease Permit Notes</find>
       <find>owner_notes</find>
     </findStrings>
     <replaceStrings>
@@ -228,10 +228,10 @@
         <option value="$PROJECT_DIR$/resources/assets/js/admin.js" />
         <option value="$PROJECT_DIR$/resources/views/admin.blade.php" />
         <option value="$PROJECT_DIR$/routes/web.php" />
-        <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php" />
+        <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/css/dashboard.css" />
       </list>
     </option>
@@ -489,12 +489,12 @@
       <workItem from="1578351720400" duration="635000" />
       <workItem from="1578763800934" duration="30708000" />
       <workItem from="1578941491110" duration="2362000" />
-      <workItem from="1579122109670" duration="5773000" />
+      <workItem from="1579122109670" duration="6408000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207652000" />
+    <option name="totallyTimeSpent" value="208287000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
@@ -854,29 +854,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="58" column="48" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
+        <state relative-caret-position="329">
+          <caret line="79" column="58" selection-start-line="79" selection-start-column="58" selection-end-line="79" selection-end-column="58" />
           <folding>
-            <element signature="e#954#995#0#HTML" expanded="true" />
-            <element signature="e#1105#1147#0#HTML" expanded="true" />
-            <element signature="e#1170#1230#0#HTML" expanded="true" />
-            <element signature="e#1700#1726#0#HTML" expanded="true" />
-            <element signature="e#1757#1816#0#HTML" expanded="true" />
-            <element signature="e#2112#2138#0#HTML" expanded="true" />
-            <element signature="e#2142#2202#0#HTML" expanded="true" />
-            <element signature="e#2512#2536#0#HTML" expanded="true" />
-            <element signature="e#8958#9024#0#HTML" expanded="true" />
-            <element signature="e#8460#8480#0#HTML" expanded="true" />
+            <element signature="e#40#61#0#PHP" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/css/dashboard.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="183" column="22" selection-start-line="183" selection-start-column="22" selection-end-line="183" selection-end-column="22" />
         </state>
       </provider>
     </entry>
@@ -892,15 +878,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php">
+    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
-          <caret line="74" column="74" selection-start-line="74" selection-start-column="74" selection-end-line="74" selection-end-column="74" />
+        <state relative-caret-position="366">
+          <caret line="27" column="98" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="98" />
           <folding>
-            <element signature="e#40#61#0#PHP" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
+            <element signature="e#954#995#0#HTML" expanded="true" />
+            <element signature="e#1105#1147#0#HTML" expanded="true" />
+            <element signature="e#1170#1230#0#HTML" expanded="true" />
+            <element signature="e#1700#1726#0#HTML" expanded="true" />
+            <element signature="e#1757#1816#0#HTML" expanded="true" />
+            <element signature="e#2112#2138#0#HTML" expanded="true" />
+            <element signature="e#2142#2202#0#HTML" expanded="true" />
+            <element signature="e#8958#9024#0#HTML" expanded="true" />
+            <element signature="e#8460#8480#0#HTML" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/css/dashboard.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="605">
+          <caret line="217" column="22" selection-start-line="217" selection-start-column="22" selection-end-line="217" selection-end-column="22" />
         </state>
       </provider>
     </entry>
