@@ -66,7 +66,7 @@ class NewPermitsController extends Controller
         try {
             $doesLeaseExist = Permit::where('permit_id', $request->permitId)->get();
             $userName = Auth()->user()->name;
-            $date = date('Y/m/d h:m:s');
+            $date = date('d/m/Y h:m:s');
 
             if ($doesLeaseExist->isEmpty()) {
                 $newLease = new Permit();

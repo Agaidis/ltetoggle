@@ -100,7 +100,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
             Log::info($request->leaseName);
             $doesOwnerNoteExist = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->get();
             $userName = Auth()->user()->name;
-            $date = date('Y/m/d h:m:s');
+            $date = date('d/m/Y h:m:s');
 
             if ($doesOwnerNoteExist->isEmpty()) {
                 $newOwnerLeaseNote = new OwnerNote();
