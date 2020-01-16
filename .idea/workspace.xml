@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php" afterDir="false" />
-    </list>
+    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -20,7 +17,7 @@
         <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="421">
-              <caret line="58" column="48" lean-forward="true" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
+              <caret line="58" column="48" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
               <folding>
                 <element signature="e#954#995#0#HTML" expanded="true" />
                 <element signature="e#1105#1147#0#HTML" expanded="true" />
@@ -40,8 +37,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/css/dashboard.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="183" column="1" selection-start-line="183" selection-start-column="1" selection-end-line="183" selection-end-column="1" />
+            <state relative-caret-position="530">
+              <caret line="194" column="32" selection-start-line="194" selection-start-column="32" selection-end-line="194" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -73,7 +70,7 @@
         <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1664">
-              <caret line="214" column="44" lean-forward="true" selection-start-line="214" selection-start-column="44" selection-end-line="214" selection-end-column="44" />
+              <caret line="214" column="44" selection-start-line="214" selection-start-column="44" selection-end-line="214" selection-end-column="44" />
             </state>
           </provider>
         </entry>
@@ -81,8 +78,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="80" column="156" selection-start-line="80" selection-start-column="156" selection-end-line="80" selection-end-column="156" />
+            <state relative-caret-position="299">
+              <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
               <folding>
                 <element signature="e#40#61#0#PHP" expanded="true" />
                 <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
@@ -164,8 +161,8 @@
       <find>$owner-&gt;owner</find>
       <find>ownerName</find>
       <find>All</find>
-      <find>owner_notes</find>
       <find>view_owner</find>
+      <find>owner_notes</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -226,11 +223,11 @@
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/admin.js" />
         <option value="$PROJECT_DIR$/resources/views/admin.blade.php" />
-        <option value="$PROJECT_DIR$/resources/assets/css/dashboard.css" />
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
+        <option value="$PROJECT_DIR$/resources/assets/css/dashboard.css" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php" />
       </list>
     </option>
@@ -328,7 +325,7 @@
       <path value="$PROJECT_DIR$/vendor/curl/curl" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="1027" />
@@ -488,12 +485,12 @@
       <workItem from="1578351720400" duration="635000" />
       <workItem from="1578763800934" duration="30708000" />
       <workItem from="1578941491110" duration="2362000" />
-      <workItem from="1579122109670" duration="5297000" />
+      <workItem from="1579122109670" duration="5543000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207176000" />
+    <option name="totallyTimeSpent" value="207422000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
@@ -808,13 +805,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/css/dashboard.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="183" column="1" selection-start-line="183" selection-start-column="1" selection-end-line="183" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-01-15.log">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2092499" />
@@ -856,26 +846,7 @@
     <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1664">
-          <caret line="214" column="44" lean-forward="true" selection-start-line="214" selection-start-column="44" selection-end-line="214" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="421">
-          <caret line="58" column="48" lean-forward="true" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
-          <folding>
-            <element signature="e#954#995#0#HTML" expanded="true" />
-            <element signature="e#1105#1147#0#HTML" expanded="true" />
-            <element signature="e#1170#1230#0#HTML" expanded="true" />
-            <element signature="e#1700#1726#0#HTML" expanded="true" />
-            <element signature="e#1757#1816#0#HTML" expanded="true" />
-            <element signature="e#2112#2138#0#HTML" expanded="true" />
-            <element signature="e#2142#2202#0#HTML" expanded="true" />
-            <element signature="e#2512#2536#0#HTML" expanded="true" />
-            <element signature="e#8958#9024#0#HTML" expanded="true" />
-            <element signature="e#8460#8480#0#HTML" expanded="true" />
-          </folding>
+          <caret line="214" column="44" selection-start-line="214" selection-start-column="44" selection-end-line="214" selection-end-column="44" />
         </state>
       </provider>
     </entry>
@@ -891,10 +862,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/css/dashboard.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="530">
+          <caret line="194" column="32" selection-start-line="194" selection-start-column="32" selection-end-line="194" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="58" column="48" selection-start-line="58" selection-start-column="48" selection-end-line="58" selection-end-column="48" />
+          <folding>
+            <element signature="e#954#995#0#HTML" expanded="true" />
+            <element signature="e#1105#1147#0#HTML" expanded="true" />
+            <element signature="e#1170#1230#0#HTML" expanded="true" />
+            <element signature="e#1700#1726#0#HTML" expanded="true" />
+            <element signature="e#1757#1816#0#HTML" expanded="true" />
+            <element signature="e#2112#2138#0#HTML" expanded="true" />
+            <element signature="e#2142#2202#0#HTML" expanded="true" />
+            <element signature="e#2512#2536#0#HTML" expanded="true" />
+            <element signature="e#8958#9024#0#HTML" expanded="true" />
+            <element signature="e#8460#8480#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="80" column="156" selection-start-line="80" selection-start-column="156" selection-end-line="80" selection-end-column="156" />
+        <state relative-caret-position="299">
+          <caret line="77" lean-forward="true" selection-start-line="77" selection-end-line="77" />
           <folding>
             <element signature="e#40#61#0#PHP" expanded="true" />
             <element signature="n#style#0;n#p#0;n#!!top" expanded="true" />
