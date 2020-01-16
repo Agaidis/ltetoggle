@@ -10828,6 +10828,7 @@ label {
     padding: 2px;
     resize: both;
     background-color: aliceblue;
+    text-align:center;
 }
 
 .previous_owner_notes, .previous_permit_notes {
@@ -10840,6 +10841,7 @@ label {
     padding: 2px;
     resize: both;
     background-color: aliceblue;
+    text-align: center;
 }
 
 hr {
