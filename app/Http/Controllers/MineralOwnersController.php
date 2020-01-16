@@ -107,7 +107,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
                 $newOwnerLeaseNote->lease_name = $request->leaseName;
                 $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
-                $newOwnerLeaseNote->notes = '<b>User</b>: ' . $userName . ' <br><b>Date</b>: ' . $date . '<br>' . $request->notes;
+                $newOwnerLeaseNote->notes = '<span style="color:black; font-size:18px;margin-left:20%;"> '.$userName . ' | '. $date . '</span><br>' . $request->notes;
 
                 $newOwnerLeaseNote->save();
 
