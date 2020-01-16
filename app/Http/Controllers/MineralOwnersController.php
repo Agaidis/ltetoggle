@@ -107,13 +107,13 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
                 $newOwnerLeaseNote->lease_name = $request->leaseName;
                 $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
-                $newOwnerLeaseNote->notes = '<p style="color:black; font-size:16px;"> '.$userName . ' | '. $date . '</p>' . $request->notes;
+                $newOwnerLeaseNote->notes = '<p style="color:white; font-size:16px;"> '.$userName . ' | '. $date . '</p>' . $request->notes;
 
                 $newOwnerLeaseNote->save();
 
             } else {
                 OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)
-                    ->update(['notes' => '<p style="color:black; font-size:16px;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes]);
+                    ->update(['notes' => '<p style="color:white; font-size:16px;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes]);
             }
 
             $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->first();

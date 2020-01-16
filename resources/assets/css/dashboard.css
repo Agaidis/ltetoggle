@@ -213,10 +213,11 @@ hr {
     margin-top:5%;
 }
 
-#previous_premit_notes {
-    background-color: aliceblue;
+#previous_premit_notes, .previous_notes {
+    background-color: #2A3A92;
+    color:white;
 }
 
 #previous_owner_notes {
-    background-color: #f5dcb6;
+    background-color: #38B549;
 }
