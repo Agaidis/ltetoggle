@@ -10841,6 +10841,11 @@ label {
     resize: both;
     background-color: aliceblue;
 }
+
+hr {
+    margin-top:0!important;
+    margin-bottom:0!important;
+}
 /*
  * This combined file was created by the DataTables downloader builder:
  *   https://datatables.net/download
