@@ -72,13 +72,13 @@ class NewPermitsController extends Controller
                 $newLease = new Permit();
 
                 $newLease->permit_id = $request->permitId;
-                $newLease->notes = '<p style="color:black; font-size:16px;">'.$userName . ' | '. $date . '</p>' . $request->notes;
+                $newLease->notes = '<p style="color:white; font-size:14px;">'.$userName . ' | '. $date . '</p>' . $request->notes;
 
                 $newLease->save();
 
             } else {
                 Permit::where('permit_id', $request->permitId)
-                    ->update(['notes' => '<p style="color:black; font-size:16px;"> '.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesLeaseExist[0]->notes]);
+                    ->update(['notes' => '<p style="color:white; font-size:14px;"> '.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesLeaseExist[0]->notes]);
             }
 
             $updatedPermit = Permit::where('permit_id', $request->permitId)->first();
