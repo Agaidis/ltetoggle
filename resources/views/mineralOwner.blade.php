@@ -9,10 +9,10 @@
                     <div class="card-body">
                         @if (isset($owners[0]->lease_name))
                         <h2 style="text-align:center;">Lease Name: {{$owners[0]->lease_name}}</h2>
-                        <h3 style="text-align:center;">Operator Name: {{$owners[0]->operator_company_name}}</h3>
+                        <h3 style="text-align:center;">Operator Name: {{$permitReportedOperator}}</h3>
                         @else
                             <h2 style="text-align:center;">Lease Name: {{$operator}}</h2>
-                            <h3 style="text-align:center;">Operator Name: {{$reporter}}</h3>
+                            <h3 style="text-align:center;">Operator Name: {{$permitReportedOperator}}</h3>
                         @endif
                             <div style="margin-top:1.5%;" class="offset-3 col-md-6">
                                 <div class="row">

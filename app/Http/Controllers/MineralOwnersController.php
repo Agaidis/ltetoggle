@@ -16,11 +16,12 @@ class MineralOwnersController extends Controller
     public function index(Request $request) {
         $leaseNames = array();
         $users = User::all();
-        $reporter = $request->reporter;
+
         $operator = $request->operator;
         $permitId = $request->id;
 
         $permitNotes = Permit::where('id', $permitId)->value('notes');
+        $permitReportedOperator = Permit::where('id', $permitId)->value('reported_operator');
 
         try {
             $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
@@ -51,7 +52,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
                 $leaseNames = array_unique($leaseNames);
             }
 
-            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'reporter', 'operator', 'ownerPhoneNumbers', 'permitNotes'));
+            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'operator', 'ownerPhoneNumbers', 'permitNotes', 'permitReportedOperator'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());
