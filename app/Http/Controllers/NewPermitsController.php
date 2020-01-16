@@ -78,7 +78,7 @@ class NewPermitsController extends Controller
 
             } else {
                 Permit::where('permit_id', $request->permitId)
-                    ->update(['notes' => '<b>User</b>: ' . $userName . ' <br><b>Date<b>: ' . $date . '<br>' . $request->notes . '<br><hr>' . $doesLeaseExist[0]->notes]);
+                    ->update(['notes' => '<span style="color:black; font-size:18px;margin-left:20%;"> '.$userName . ' | '. $date . '</span><br>' . $request->notes . '<br><hr>' . $doesLeaseExist[0]->notes]);
             }
 
             $updatedPermit = Permit::where('permit_id', $request->permitId)->first();
