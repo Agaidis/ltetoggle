@@ -18,7 +18,7 @@
                                 <div class="row">
                                     <div style="text-align:center; margin-left:25%;" class="col-md-6">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
-                                        <div class="previous_permit_notes" name="previous_permit_notes" contenteditable="false"></div>
+                                        <div class="previous_permit_notes" id="previous_premit_notes" name="previous_permit_notes" contenteditable="false"></div>
                                         <input type="hidden" id="hidden_permit_notes" value="{{$permitNotes}}" />
                                     </div>
                                 </div>
