@@ -138,9 +138,9 @@ class APIManager
     public function getPermits ($token) {
         $countyResponse = [];
         // Start date
-        $date = '2019-12-01';
+        $date = '2019-01-12';
         // End date
-        $end_date = '2020-01-11';
+        $end_date = '2020-01-18';
 
         while (strtotime($date) <= strtotime($end_date)) {
             echo "$date\n";

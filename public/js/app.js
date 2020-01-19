@@ -42615,7 +42615,35 @@ $(document).ready(function () {
   var globalOwnerId = '';
   var globalOwnerName = '';
   $('.previous_permit_notes').html($('#hidden_permit_notes').val());
-  $('#owner_table').DataTable({
+  $('.owner_follow_up').datepicker().on('change', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    var date = $('#owner_follow_up_' + uniqueId).val();
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateFollowUp',
+      data: {
+        id: uniqueId,
+        date: date
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  $('.owner_table').DataTable({
     "pagingType": "simple",
     "pageLength": 5,
     "aaSorting": [],
@@ -42857,7 +42885,7 @@ $(document).ready(function () {
         var max = 999999999999;
         var random = Math.floor(Math.random() * (+max - +min)) + +min;
         console.log(data);
-        var updatedPhoneNumbers = $('<div><span id="phone_' + random + '" style="padding: 2%;">' + '<input type="hidden" id="phone_owner_' + random + '" value="' + data.owner_name + '"/>' + '<input type="hidden" id="phone_number_' + random + '" value="' + data.phone_number + '" />' + '<input type="hidden" id="phone_desc_' + random + '" value="' + data.phone_desc + '"/>' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.phone_number + '">' + data.phone_number + '</a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + random + '"></span>' + '</span></div>');
+        var updatedPhoneNumbers = $('<div><div id="phone_' + random + '" style="padding: 2%;">' + '<input type="hidden" id="phone_owner_' + random + '" value="' + data.owner_name + '"/>' + '<input type="hidden" id="phone_number_' + random + '" value="' + data.phone_number + '" />' + '<input type="hidden" id="phone_desc_' + random + '" value="' + data.phone_desc + '"/>' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.phone_number + '">' + data.phone_number + '</a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + random + '"></span>' + '</div></div>');
         $('#phone_container_' + globalOwnerId).append(updatedPhoneNumbers.html());
       },
       error: function error(data) {
@@ -42945,6 +42973,7 @@ $(document).ready(function () {
         $('#OperatorAlias').text(data['permit'][0]['operator_alias']);
         $('#PermitID').text(data['permit'][0]['permit_id']);
         $('#PermitType').text(data['permit'][0]['permit_type']);
+        $('#permit_number').text(data['permit'][0]['permit_number']);
         $('#Range').text(data['permit'][0]['range']);
         $('#Section').text(data['permit'][0]['section']);
         $('#Survey').text(survey);

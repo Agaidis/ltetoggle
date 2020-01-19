@@ -9,6 +9,13 @@
                     <div class="card-header">Mineral Management Platform</div>
                     <div class="card-body">
                         <div class="row">
+                            <div id="dashboard_btn_container" class="col-md-4">
+                                <div class="button_panel">
+                                    <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-7">
                                 <table class="table table-hover table-responsive-md table-bordered" id="permit_table">
                                     <thead>
@@ -48,7 +55,7 @@
                                     @endforeach
                                     </tbody>
                                     <tfoot>
-                                    <caption id="lease_table_caption">Landtrac's Producing/Non-Producing </caption>
+                                    <caption class="lease_table_caption">Landtrac's Producing/Non-Producing </caption>
                                     </tfoot>
                                 </table>
                             </div>
@@ -81,6 +88,8 @@
                                     <div class="col-md-6">
                                         <h3>Location & Contact</h3>
                                         <div class="containers">
+                                            <label for="permit_number">Permit Number</label>
+                                            <span id="permit_number"></span><br>
 
                                             <label for="County/Parish">County State: </label>
                                             <span id="CountyParish"></span><br>

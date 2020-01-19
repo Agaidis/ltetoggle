@@ -69,6 +69,8 @@ Route::put('/mineral-owner/updatePhoneNumbers', 'MineralOwnersController@updateP
 
 Route::put('/mineral-owner/updateWellType', 'MineralOwnersController@updateWellType');
 
+Route::put('/mineral-owner/updateFollowUp', 'MineralOwnersController@updateFollowUp');
+
 Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo');
 
 Route::post('/mineral-owner/addPhone', 'MineralOwnersController@addPhone');

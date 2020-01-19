@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\MineralOwner;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class WelboreController extends Controller
 {
@@ -26,11 +31,25 @@ class WelboreController extends Controller
      */
     public function index()
     {
-        $token = $this->apiManager->getToken();
+        try {
+            $users = User::all();
 
-        $wellBores = $this->apiManager->getWellBores($token->access_token);
-        $wellBores = json_decode($wellBores);
+            $highPriorityProspects =  MineralOwner::where('wellbore_type', 4)->where('assignee', Auth::user()->id)->get();
+            $owners = MineralOwner::where('wellbore_type', '!=' , NULL)->where('wellbore_type', '!=', '0')->where('wellbore_type', '!=', 4)->get();
 
-        return view('welbore', compact('wellBores'));
+            $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
+LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');
+
+            return view('welbore', compact('owners','highPriorityProspects', 'ownerPhoneNumbers', 'users'));
+        } catch( \Exception $e) {
+            Log::info($e->getMessage());
+            Log::info($e->getCode());
+            Log::info($e->getLine());
+            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            return view('dashboard');
+        }
+
+
+
     }
 }

@@ -65,6 +65,7 @@ $(document).ready(function () {
                 $('#OperatorAlias').text(data['permit'][0]['operator_alias']);
                 $('#PermitID').text(data['permit'][0]['permit_id']);
                 $('#PermitType').text(data['permit'][0]['permit_type']);
+                $('#permit_number').text(data['permit'][0]['permit_number']);
                 $('#Range').text(data['permit'][0]['range']);
                 $('#Section').text(data['permit'][0]['section']);
                 $('#Survey').text(survey);

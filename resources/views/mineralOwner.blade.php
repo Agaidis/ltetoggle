@@ -7,13 +7,19 @@
                 <div class="card">
                     <div class="card-header">Lease Information & Mineral Owners</div>
                     <div class="card-body">
-                        @if (isset($owners[0]->lease_name))
-                        <h2 style="text-align:center;">Lease Name: {{$owners[0]->lease_name}}</h2>
-                        <h3 style="text-align:center;">Operator Name: {{$permitReportedOperator}}</h3>
-                        @else
-                            <h2 style="text-align:center;">Lease Name: {{$operator}}</h2>
-                            <h3 style="text-align:center;">Operator Name: {{$permitReportedOperator}}</h3>
-                        @endif
+                        <div class="row">
+                            <div id="dashboard_btn_container" class="col-md-4">
+                                <div class="button_panel">
+                                    <a href="{{ url('welbore') }}">
+                                        <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h2>Lease Name: {{$leaseName}}</h2>
+                                <h3>Operator Name: {{$permitReportedOperator}}</h3>
+                            </div>
+                        </div>
                             <div style="margin-top:1.5%;" class="offset-3 col-md-6">
                                 <div class="row">
                                     <div style="text-align:center; margin-left:25%;" class="col-md-6">
@@ -46,12 +52,13 @@
                                 <div class="row">
                             <div class="col-md-12">
                                 <div style="overflow-x:auto;">
-                                    <table class="table table-hover table-responsive-md table-bordered" id="owner_table" style="width:1475px;">
+                                    <table class="table table-hover table-responsive-md table-bordered owner_table" style="width:1475px;">
                                         <thead>
                                         <tr>
-                                            <th class="text-center">Assignee</th>
+                                            <th class="text-center">Assignee/Follow-Up</th>
                                             <th class="text-center">Wellbore Type</th>
                                             <th class="text-center" style="width:250px;">Contact</th>
+                                            <th class="text-center">Follow-Up</th>
                                             <th class="text-center">Owner</th>
                                             <th class="text-center">ODI</th>
                                             <th class="text-center">% Type</th>
@@ -126,6 +133,13 @@
                                                     @endfor
                                                     </span>
 
+                                                </td>
+                                                <td class="text-center">
+                                                    @if ($owner->follow_up_date != '')
+                                                            <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" value="{{date('M j, Y', strtotime($owner->follow_up_date))}}" />
+                                                    @else
+                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
+                                                    @endif
                                                 </td>
                                                 <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
                                                 <td class="text-center">{{$owner->owner_decimal_interest}}</td>

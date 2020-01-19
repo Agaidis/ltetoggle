@@ -22,6 +22,7 @@ class MineralOwnersController extends Controller
 
         $permitNotes = Permit::where('id', $permitId)->value('notes');
         $permitReportedOperator = Permit::where('id', $permitId)->value('reported_operator');
+        $leaseName = Permit::where('id', $permitId)->value('lease_name');
 
         try {
             $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
@@ -36,23 +37,21 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
             if ($owners->isEmpty()) {
                 $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
-                $owners = MineralOwner::where('lease_name', $operator)->groupBy('owner')->get();
+                $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->get();
 
             }
-            if ($owners->isEmpty()) {
-                $owners = MineralOwner::where('operator_company_name', $request->reporter)->groupBy('owner')->get();
-            }
+//            if ($owners->isEmpty()) {
+//                $owners = MineralOwner::where('operator_company_name', $request->reporter)->groupBy('owner')->get();
+//            }
 
-            if ($owners->isEmpty()) {
-
-            } else {
+            if (!$owners->isEmpty()) {
                 foreach ($owners as $owner) {
                     array_push($leaseNames, $owner->lease_name);
                 }
                 $leaseNames = array_unique($leaseNames);
             }
 
-            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'operator', 'ownerPhoneNumbers', 'permitNotes', 'permitReportedOperator'));
+            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'operator', 'ownerPhoneNumbers', 'permitNotes', 'permitReportedOperator', 'leaseName'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());
@@ -80,7 +79,6 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
     public function getNotes(Request $request) {
         try {
-            Log::info($request->ownerId);
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->first();
             return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->value('notes');
         } catch( \Exception $e ) {
@@ -93,14 +91,13 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
     public function updateNotes(Request $request) {
         try {
-            Log::info('Owner Id for updating Notes: ' . $request->ownerId);
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->get();
 
-            Log::info($ownerInfo[0]->owner);
-            Log::info($request->leaseName);
+            MineralOwner::where('id', $request->ownerId)->update(['follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
+
             $doesOwnerNoteExist = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->get();
             $userName = Auth()->user()->name;
-            $date = date('d/m/Y h:m:s');
+            $date = date('d/m/Y h:m:s', strtotime('-5 hours'));
 
             if ($doesOwnerNoteExist->isEmpty()) {
                 $newOwnerLeaseNote = new OwnerNote();
@@ -131,7 +128,22 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
     public function updateAssignee(Request $request) {
         try {
-            MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId]);
+            MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
+
+            return 'success';
+
+        } catch( Exception $e ) {
+            Log::info($e->getMessage());
+            Log::info($e->getCode());
+            Log::info($e->getLine());
+            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            return 'error';
+        }
+    }
+
+    public function updateFollowUp(Request $request) {
+        try {
+            MineralOwner::where('id', $request->id)->update(['follow_up_date' => $request->date]);
 
             return 'success';
 
@@ -194,7 +206,8 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
         try {
             MineralOwner::where('id', $request->ownerId)->update(
                 [
-                    'wellbore_type' => $request->wellType
+                    'wellbore_type' => $request->wellType,
+                    'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))
                 ]);
 
             return 'success';

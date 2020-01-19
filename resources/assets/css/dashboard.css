@@ -124,7 +124,7 @@ body {
 
 }
 
-#lease_table_caption {
+.lease_table_caption {
     text-align: center;
     caption-side:top;
     font-size:18px;
@@ -220,4 +220,5 @@ hr {
 
 #previous_owner_notes {
     background-color: #38B549;
+    color:white;
 }

@@ -81,6 +81,9 @@
                                                 <h3>Location & Contact</h3>
                                                 <div class="containers">
 
+                                                    <label for="permit_number">Permit Number</label>
+                                                    <span id="permit_number"></span><br>
+
                                                     <label for="County/Parish">County State: </label>
                                                     <span id="CountyParish"></span><br>
 
