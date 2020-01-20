@@ -42908,7 +42908,8 @@ $(document).ready(function () {
   var globalPermitId = '';
   $('#permit_table').DataTable({
     "pagingType": "simple",
-    "aaSorting": []
+    "aaSorting": [],
+    "order": [[2, "asc"]]
   }).on('click', '.view_permit', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');

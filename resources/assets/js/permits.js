@@ -4,7 +4,8 @@ $(document).ready(function () {
 
     $('#permit_table').DataTable({
         "pagingType": "simple",
-        "aaSorting": []
+        "aaSorting": [],
+        "order": [[ 2, "asc" ]]
     }).on('click', '.view_permit', function () {
         let id = $(this)[0].id;
         let splitId = id.split('_');
