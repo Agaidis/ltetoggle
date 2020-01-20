@@ -33,9 +33,10 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
                 Log::info($ownerPhoneNumbers);
             }
 
-            $owners = MineralOwner::where('lease_name', $request->operator)->groupBy('owner')->get();
+            $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->get();
 
             if ($owners->isEmpty()) {
+                $leaseName = str_replace(['UNIT ', ' UNIT'], ['', ''], $leaseName);
                 $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
                 $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->get();
 

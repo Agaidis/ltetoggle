@@ -138,9 +138,9 @@ class APIManager
     public function getPermits ($token) {
         $countyResponse = [];
         // Start date
-        $date = '2019-01-12';
+        $date = '2020-01-01';
         // End date
-        $end_date = '2020-01-18';
+        $end_date = '2020-01-20';
 
         while (strtotime($date) <= strtotime($end_date)) {
             echo "$date\n";
@@ -150,7 +150,7 @@ class APIManager
 
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=KARNES&drilltype=H&approveddate=" . $date,
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=KARNES&drilltype=H&createddate=" . $date,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,

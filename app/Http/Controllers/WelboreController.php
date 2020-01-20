@@ -35,7 +35,7 @@ class WelboreController extends Controller
             $users = User::all();
 
             $highPriorityProspects =  MineralOwner::where('wellbore_type', 4)->where('assignee', Auth::user()->id)->get();
-            $owners = MineralOwner::where('wellbore_type', '!=' , NULL)->where('wellbore_type', '!=', '0')->where('wellbore_type', '!=', 4)->get();
+            $owners = MineralOwner::where('wellbore_type', '!=' , NULL)->where('wellbore_type', '!=', '0')->where('wellbore_type', '!=', 4)->orderBy('follow_up_date')->get();
 
             $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
 LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');

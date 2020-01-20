@@ -42647,7 +42647,7 @@ $(document).ready(function () {
     "pagingType": "simple",
     "pageLength": 5,
     "aaSorting": [],
-    "order": [[4, "desc"]]
+    "order": [[5, "desc"]]
   }).on('change', '.owner_assignee', function () {
     var id = $(this)[0].id;
     var assignee = $(this)[0].value;

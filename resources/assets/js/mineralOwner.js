@@ -39,7 +39,7 @@ $(document).ready(function () {
         "pagingType": "simple",
         "pageLength" : 5,
         "aaSorting": [],
-        "order": [[ 4, "desc" ]]
+        "order": [[ 5, "desc" ]]
     }).on('change', '.owner_assignee', function() {
         let id = $(this)[0].id;
         let assignee = $(this)[0].value;

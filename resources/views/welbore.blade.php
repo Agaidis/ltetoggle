@@ -141,21 +141,25 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($owners as $owner)
-                                            <tr class="owner_row" id="owner_row_{{$owner->id}}">
+                                            @if ($owner->follow_up_date > date('Y, m, d') || $owner->follow_up_date === NULL)
+                                                <tr class="owner_row" id="owner_row_{{$owner->id}}">
+                                            @else
+                                                <tr style="background-color:red;" class="owner_row" id="owner_row_{{$owner->id}}">
+                                            @endif
+                                                    <td class="text-center">
+                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                            <option selected disabled>Select a User</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($owner->assignee == $user->id)
+                                                                    <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                @else
+                                                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
                                                 <td class="text-center">
-                                                    <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
-                                                        <option selected disabled>Select a User</option>
-                                                        @foreach ($users as $user)
-                                                            @if ($owner->assignee == $user->id)
-                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
-                                                            @else
-                                                                <option value="{{$user->id}}">{{$user->name}}</option>
-                                                            @endif
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td class="text-center">
-                                                    <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                    <select disabled class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
                                                         @if ($owner->wellbore_type == 1)
                                                             <option value="0">None</option>
                                                             <option selected value="{{$owner->wellbore_type}}">1</option>
