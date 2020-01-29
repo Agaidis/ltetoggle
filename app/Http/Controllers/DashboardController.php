@@ -40,15 +40,21 @@ class DashboardController extends Controller
     }
 
     public function getLeaseDetails(Request $request) {
-        $lease = Lease::where('lease_id', $request->leaseId)->get();
+        try {
+            $lease = Lease::where('lease_id', $request->leaseId)->get();
 
-        $splitCounty = explode('(', $lease[0]->county_parish);
+            $splitCounty = explode('(', $lease[0]->county_parish);
 
-        $permits = Permit::where('county_parish', $splitCounty[0])->get();
+            $permits = Permit::where('county_parish', $splitCounty[0])->get();
 
-        $response = [$permits, $lease];
+            $response = [$permits, $lease];
 
-        return $response;
+            return $response;
+        } catch (Exception $e) {
+            Log::info($e->getMessage());
+            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            return 'error';
+        }
     }
 
     public function getNotes(Request $request) {
@@ -57,6 +63,7 @@ class DashboardController extends Controller
         } catch( \Exception $e ) {
             Log::info($e->getMessage());
             mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            return 'error';
         }
     }
 

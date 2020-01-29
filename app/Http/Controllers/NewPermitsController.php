@@ -59,6 +59,7 @@ class NewPermitsController extends Controller
         } catch( \Exception $e ) {
             Log::info($e->getMessage());
             mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            return 'error';
         }
     }
 
