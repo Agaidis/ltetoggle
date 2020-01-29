@@ -37038,12 +37038,10 @@ $(document).ready(function () {
         leaseId: leaseId
       },
       success: function success(data) {
-        $('.notes').val(data.responseText);
-        $('.notes').text(data.responseText);
+        $('.notes').val(data.responseText).text(data.responseText);
       },
       error: function error(data) {
-        $('.notes').val(data.responseText);
-        $('.notes').text(data.responseText);
+        $('.notes').val(data.responseText).text(data.responseText);
         console.log(data);
       }
     });
@@ -42645,7 +42643,7 @@ $(document).ready(function () {
   });
   $('.owner_table').DataTable({
     "pagingType": "simple",
-    "pageLength": 5,
+    "pageLength": 25,
     "aaSorting": [],
     "order": [[5, "desc"]]
   }).on('change', '.owner_assignee', function () {

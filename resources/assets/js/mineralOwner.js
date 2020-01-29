@@ -37,7 +37,7 @@ $(document).ready(function () {
 
     $('.owner_table').DataTable({
         "pagingType": "simple",
-        "pageLength" : 5,
+        "pageLength" : 25,
         "aaSorting": [],
         "order": [[ 5, "desc" ]]
     }).on('change', '.owner_assignee', function() {

@@ -31,13 +31,11 @@ $(document).ready(function () {
                 leaseId: leaseId
             },
             success: function success(data) {
-                $('.notes').val(data.responseText);
-                $('.notes').text(data.responseText)
+                $('.notes').val(data.responseText).text(data.responseText)
 
             },
             error: function error(data) {
-                $('.notes').val(data.responseText);
-                $('.notes').text(data.responseText)
+                $('.notes').val(data.responseText).text(data.responseText);
                 console.log(data);
             }
         });
