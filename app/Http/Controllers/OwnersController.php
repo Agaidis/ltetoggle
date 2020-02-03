@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ErrorLog;
 use App\OwnerNote;
 use App\OwnerPhoneNumber;
 use Illuminate\Http\Request;
@@ -18,10 +19,10 @@ class OwnersController extends Controller
 
             return view('owner', compact('ownerName', 'ownerNotes', 'ownerPhoneNumbers' ));
         } catch( \Exception $e) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Owner Page Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }

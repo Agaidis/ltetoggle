@@ -42819,6 +42819,7 @@ $(document).ready(function () {
         $('.owner_notes').val('').text('');
       },
       error: function error(data) {
+        console.log(data);
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
       }
     });
@@ -42857,6 +42858,7 @@ $(document).ready(function () {
         $('#phone_' + data[0]).remove();
       },
       error: function error(data) {
+        console.log(data);
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
       }
     });
@@ -42882,11 +42884,13 @@ $(document).ready(function () {
         var min = 9999;
         var max = 999999999999;
         var random = Math.floor(Math.random() * (+max - +min)) + +min;
-        console.log(data);
-        var updatedPhoneNumbers = $('<div><div id="phone_' + random + '" style="padding: 2%;">' + '<input type="hidden" id="phone_owner_' + random + '" value="' + data.owner_name + '"/>' + '<input type="hidden" id="phone_number_' + random + '" value="' + data.phone_number + '" />' + '<input type="hidden" id="phone_desc_' + random + '" value="' + data.phone_desc + '"/>' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.phone_number + '">' + data.phone_number + '</a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + random + '"></span>' + '</div></div>');
+        $('#new_phone_desc').val('').text('');
+        $('#new_phone_number').val('').text('');
+        var updatedPhoneNumbers = $('<div class="phone_number_containers" style="padding:0; line-height: .5;"><div id="phone_' + random + '">' + '<input type="hidden" id="phone_owner_' + random + '" value="' + data.owner_name + '"/>' + '<input type="hidden" id="phone_number_' + random + '" value="' + data.phone_number + '" />' + '<input type="hidden" id="phone_desc_' + random + '" value="' + data.phone_desc + '"/>' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.phone_number + '">' + data.phone_number + '</a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + random + '"></span>' + '</div></div>');
         $('#phone_container_' + globalOwnerId).append(updatedPhoneNumbers.html());
       },
       error: function error(data) {
+        console.log(data);
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
       }
     });
@@ -42907,6 +42911,7 @@ $(document).ready(function () {
   $('#permit_table').DataTable({
     "pagingType": "simple",
     "aaSorting": [],
+    "stateSave": true,
     "order": [[2, "asc"]]
   }).on('click', '.view_permit', function () {
     var id = $(this)[0].id;
@@ -43098,6 +43103,7 @@ $(document).ready(function () {
     });
   });
   $('.update_permit_notes_btn').on('click', function () {
+    console.log(globalPermitId);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

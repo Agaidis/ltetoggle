@@ -10796,6 +10796,12 @@ body {
 label {
     font-weight:bold;
 }
+
+hr {
+    margin-top:0!important;
+    margin-bottom:0!important;
+}
+
 .gas_text {
     font-size:18px;
 }
@@ -10821,8 +10827,6 @@ label {
 .previous_notes {
     height: 250px;
     width: 100%;
-    /*-moz-appearance: textfield-multiline;*/
-    /*-webkit-appearance: textarea;*/
     border: 1px solid gray;
     overflow: auto;
     padding: 2px;
@@ -10834,41 +10838,35 @@ label {
 .previous_owner_notes, .previous_permit_notes {
     height: 160px;
     width: 100%;
-    /*-moz-appearance: textfield-multiline;*/
-    /*-webkit-appearance: textarea;*/
     border: 1px solid lightgrey;
     overflow: auto;
     padding: 2px;
     resize: both;
     text-align: center;
-    -webkit-border-radius: 1em;
-    -moz-border-radius: 1em;
     border-radius: 1em;:
 }
+#previous_permit_notes, .previous_notes {
+    background-color: #F2EDD7FF;
+    color:#755139FF;
+}
 
-hr {
-    margin-top:0!important;
-    margin-bottom:0!important;
+#previous_owner_notes {
+    background-color: #755139FF;
+    color: #F2EDD7FF;
 }
 
 .lease_notes_container {
     border: 1px solid lightgrey;
-    -webkit-border-radius: 2em;
-    -moz-border-radius: 2em;
     border-radius: 2em;
     padding: 5px;
     margin-top:5%;
 }
-
-#previous_premit_notes, .previous_notes {
-    background-color: #2A3A92;
-    color:white;
+.phone_number_containers {
+    padding:0;
+    line-height:.5;
 }
 
-#previous_owner_notes {
-    background-color: #38B549;
-    color:white;
-}
+
 /*
  * This combined file was created by the DataTables downloader builder:
  *   https://datatables.net/download

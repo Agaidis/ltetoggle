@@ -226,6 +226,7 @@ $(document).ready(function () {
                 $('.owner_notes').val('').text('');
             },
             error: function error(data) {
+                console.log(data);
                 $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
             }
         });
@@ -269,6 +270,7 @@ $(document).ready(function () {
 
             },
             error: function error(data) {
+                console.log(data);
                 $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
             }
         });
@@ -298,8 +300,9 @@ $(document).ready(function () {
                 let random =
                     Math.floor(Math.random() * (+max - +min)) + +min;
 
-                console.log(data);
-                let updatedPhoneNumbers = $('<div><div id="phone_'+random+'" style="padding: 2%;">' +
+                $('#new_phone_desc').val('').text('');
+                $('#new_phone_number').val('').text('');
+                let updatedPhoneNumbers = $('<div class="phone_number_containers" style="padding:0; line-height: .5;"><div id="phone_'+random+'">' +
                     '<input type="hidden" id="phone_owner_'+random+'" value="'+data.owner_name+'"/>' +
                     '<input type="hidden" id="phone_number_'+random+'" value="'+data.phone_number+'" />' +
                     '<input type="hidden" id="phone_desc_'+random+'" value="'+data.phone_desc+'"/>' +
@@ -309,8 +312,10 @@ $(document).ready(function () {
                     '</div></div>');
 
                 $('#phone_container_' + globalOwnerId).append(updatedPhoneNumbers.html());
+
             },
             error: function error(data) {
+                console.log(data);
                 $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
             }
         });

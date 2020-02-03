@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ErrorLog;
 use App\User;
 use Illuminate\Http\Request;
 use App\Lease;
@@ -36,6 +37,14 @@ class DashboardController extends Controller
         $users = User::all();
         $currentUser = Auth::user()->name;
 
+        $permitLeases = DB::table('permits')
+            ->select('id','lease_name', 'county_parish')
+            ->groupBy('lease_name')
+            ->get();
+
+        $token = $this->apiManager->getToken();
+        $this->apiManager->getWellCounts($token->access_token, $permitLeases);
+
         return view('dashboard', compact('permits', 'users', 'currentUser'));
     }
 
@@ -51,8 +60,10 @@ class DashboardController extends Controller
 
             return $response;
         } catch (Exception $e) {
-            Log::info($e->getMessage());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -61,8 +72,10 @@ class DashboardController extends Controller
         try {
             return Lease::where('lease_id', $request->leaseId)->value('notes');
         } catch( \Exception $e ) {
-            Log::info($e->getMessage());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -87,10 +100,10 @@ class DashboardController extends Controller
                 return 'success';
             }
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -116,10 +129,10 @@ class DashboardController extends Controller
                 return 'success';
             }
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }

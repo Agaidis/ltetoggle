@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ErrorLog;
 use App\MineralOwner;
 use App\Permit;
 use App\User;
@@ -47,7 +48,10 @@ class NewPermitsController extends Controller
             $objData->permit = $permit;
             $objData->leaseDescription = $leaseDescription;
         } catch ( \Exception $e)  {
-            Log::info($e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             $objData = false;
         }
         return response()->json($objData);
@@ -57,8 +61,10 @@ class NewPermitsController extends Controller
         try {
             return Permit::where('permit_id', $request->permitId)->value('notes');
         } catch( \Exception $e ) {
-            Log::info($e->getMessage());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -73,13 +79,13 @@ class NewPermitsController extends Controller
                 $newLease = new Permit();
 
                 $newLease->permit_id = $request->permitId;
-                $newLease->notes = '<p style="color:white; font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes;
+                $newLease->notes = '<p style="color:#755139FF; font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes;
 
                 $newLease->save();
 
             } else {
                 Permit::where('permit_id', $request->permitId)
-                    ->update(['notes' => '<p style="color:white; font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesLeaseExist[0]->notes]);
+                    ->update(['notes' => '<p style="color:#755139FF; font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesLeaseExist[0]->notes]);
             }
 
             $updatedPermit = Permit::where('permit_id', $request->permitId)->first();
@@ -87,10 +93,10 @@ class NewPermitsController extends Controller
             return $updatedPermit->notes;
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -116,10 +122,10 @@ class NewPermitsController extends Controller
                 return 'success';
             }
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }

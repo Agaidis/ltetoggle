@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ErrorLog;
 use App\MineralOwner;
 use App\OwnerNote;
 use App\OwnerPhoneNumber;
@@ -54,10 +55,10 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
             return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'operator', 'ownerPhoneNumbers', 'permitNotes', 'permitReportedOperator', 'leaseName'));
         } catch( \Exception $e) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -70,10 +71,10 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
             return $owner;
         } catch ( \Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return false;
         }
     }
@@ -83,15 +84,16 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->first();
             return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->value('notes');
         } catch( \Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
         }
     }
 
     public function updateNotes(Request $request) {
         try {
+            Log::info($request->ownerId);
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->get();
 
             MineralOwner::where('id', $request->ownerId)->update(['follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
@@ -105,13 +107,13 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
                 $newOwnerLeaseNote->lease_name = $request->leaseName;
                 $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
-                $newOwnerLeaseNote->notes = '<p style="color:white; font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes;
+                $newOwnerLeaseNote->notes = '<p style="color:#F2EDD7FF; font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes;
 
                 $newOwnerLeaseNote->save();
 
             } else {
                 OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)
-                    ->update(['notes' => '<p style="color:white; font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes]);
+                    ->update(['notes' => '<p style="color:#F2EDD7FF; font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes]);
             }
 
             $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->first();
@@ -119,10 +121,10 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
             return $updatedOwnerNote->notes;
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -134,10 +136,10 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
             return 'success';
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }

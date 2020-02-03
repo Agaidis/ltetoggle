@@ -24,7 +24,7 @@
                                 <div class="row">
                                     <div style="text-align:center; margin-left:25%;" class="col-md-6">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
-                                        <div class="previous_permit_notes" id="previous_premit_notes" name="previous_permit_notes" contenteditable="false"></div>
+                                        <div class="previous_permit_notes" id="previous_permit_notes" name="previous_permit_notes" contenteditable="false"></div>
                                         <input type="hidden" id="hidden_permit_notes" value="{{$permitNotes}}" />
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@
 
                     <div class="modal fade" id="modal_add_phone">
                         <div class="modal-dialog" role="document">
-                            <div style="width:150%; margin-left:-116px;" class="modal-content">
+                            <div style="margin-left:40%; margin-top:50%;" class="modal-content">
                                 <div class="modal-header">
                                     <h4>Add Phone Number</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -174,8 +174,8 @@
                                 </div>
                                 <br>
                                 <div class="modal-footer">
-                                    <button type="button" id="submit_phone" class="submit_phone_btn btn btn-primary" data-dismiss="modal" >Submit Phone #</button>
-                                    <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Cancel</button>
+                                    <button type="button" id="submit_phone" class="submit_phone_btn btn btn-primary" >Submit Phone #</button>
+                                    <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Close Modal</button>
                                 </div>
                             </div>
                         </div>
