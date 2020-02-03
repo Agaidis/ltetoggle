@@ -174,7 +174,7 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    @foreach ($wells as $well)
+
                                         <table class="table table-hover table-responsive-md table-bordered">
                                             <thead>
                                             <tr>
@@ -185,15 +185,17 @@
                                             </tr>
                                             </thead>
                                             <tbody>
+                                            @foreach ($wells as $well)
                                                 <tr class="owner_row">
                                                     <td class="text-center">{{$well->uid}}</td>
                                                     <td class="text-center">{{$well->county}}</td>
                                                     <td class="text-center">{{$well->current_operator}}</td>
                                                     <td class="text-center">{{$well->current_status}}</td>
                                                 </tr>
+                                            @endforeach
                                             </tbody>
                                         </table>
-                                    @endforeach
+
                                 </div>
                                 <br>
                                 <div class="modal-footer">
