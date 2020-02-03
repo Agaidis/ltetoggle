@@ -59,7 +59,10 @@ class GetPermits extends Command
                if (is_array($data)) {
                    $count = count($data);
                    for ($i = 0; $i < $count; $i++) {
-                           if (isset($data[$i]->PermitID) && isset($data[$i]->BottomHoleLongitudeWGS84) && $data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
+                       if (isset($data[$i]->PermitID)) {
+
+
+                           if (isset($data[$i]->BottomHoleLongitudeWGS84) && $data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
 
                                $btmLatLng = '{"lng": ' . $data[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $data[$i]->BottomHoleLatitudeWGS84 . "}";
                            } else {
@@ -120,6 +123,7 @@ class GetPermits extends Command
                                        'permit_status' => $data[$i]->PermitStatus,
                                        'district' => $data[$i]->District]);
                            }
+                       }
                    }
                }
            }
