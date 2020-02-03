@@ -37,16 +37,6 @@ class DashboardController extends Controller
         $users = User::all();
         $currentUser = Auth::user()->name;
 
-        $permitLeases = DB::table('permits')
-            ->select('id','lease_name', 'county_parish')
-            ->groupBy('lease_name')
-            ->get();
-
-
-
-        $token = $this->apiManager->getToken();
-        $this->apiManager->getWellCounts($token->access_token, $permitLeases);
-
         return view('dashboard', compact('permits', 'users', 'currentUser'));
     }
 
