@@ -59,7 +59,7 @@ class GetPermits extends Command
                if (is_array($data)) {
                    $count = count($data);
                    for ($i = 0; $i < $count; $i++) {
-                           if ($data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
+                           if (isset($data[$i]->BottomHoleLongitudeWGS84) && $data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
 
                                $btmLatLng = '{"lng": ' . $data[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $data[$i]->BottomHoleLatitudeWGS84 . "}";
                            } else {
