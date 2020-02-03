@@ -168,7 +168,7 @@
                         <div class="modal-dialog" role="document">
                             <div style="margin-left:40%; margin-top:30%;" class="modal-content">
                                 <div class="modal-header">
-                                    <h4>Wells for {{$wells[0]->current_operator}} in {{$wells[0]->county}}</h4>
+                                    <h4>Wells </h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
