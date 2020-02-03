@@ -143,7 +143,7 @@ class APIManager
     public function getPermits ($token) {
         $countyResponse = [];
         // Start date
-        $date = '2020-01-01';
+        $date = '2020-01-30';
         // End date
         $end_date = '2020-02-03';
 

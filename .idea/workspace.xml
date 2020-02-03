@@ -64,8 +64,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/APIManager.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="142" column="20" selection-start-line="142" selection-start-column="20" selection-end-line="142" selection-end-column="20" />
+            <state relative-caret-position="192">
+              <caret line="144" column="21" lean-forward="true" selection-start-line="144" selection-start-column="21" selection-end-line="144" selection-end-column="21" />
               <folding>
                 <element signature="e#40#55#0#PHP" expanded="true" />
               </folding>
@@ -202,11 +202,11 @@
         <option value="$PROJECT_DIR$/app/Console/Commands/GetWellCounts.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_02_03_205400_create_well_origins.php" />
         <option value="$PROJECT_DIR$/app/WellOrigin.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
         <option value="$PROJECT_DIR$/resources/assets/css/dashboard.css" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/DashboardController.php" />
         <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" />
       </list>
     </option>
   </component>
@@ -303,7 +303,7 @@
       <path value="$PROJECT_DIR$/vendor/curl/curl" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="19" />
     <option name="y" value="23" />
     <option name="width" value="1680" />
@@ -447,12 +447,12 @@
       <workItem from="1580265133345" duration="3020000" />
       <workItem from="1580339493327" duration="4983000" />
       <workItem from="1580756747293" duration="7936000" />
-      <workItem from="1580767447636" duration="567000" />
+      <workItem from="1580767447636" duration="840000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="241282000" />
+    <option name="totallyTimeSpent" value="241555000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="19" y="23" width="1680" height="1027" extended-state="0" />
@@ -837,8 +837,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/APIManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="142" column="20" selection-start-line="142" selection-start-column="20" selection-end-line="142" selection-end-column="20" />
+        <state relative-caret-position="192">
+          <caret line="144" column="21" lean-forward="true" selection-start-line="144" selection-start-column="21" selection-end-line="144" selection-end-column="21" />
           <folding>
             <element signature="e#40#55#0#PHP" expanded="true" />
           </folding>
