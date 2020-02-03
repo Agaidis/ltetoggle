@@ -42,6 +42,8 @@ class DashboardController extends Controller
             ->groupBy('lease_name')
             ->get();
 
+
+
         $token = $this->apiManager->getToken();
         $this->apiManager->getWellCounts($token->access_token, $permitLeases);
 

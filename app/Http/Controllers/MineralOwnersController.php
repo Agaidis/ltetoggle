@@ -7,6 +7,7 @@ use App\MineralOwner;
 use App\OwnerNote;
 use App\OwnerPhoneNumber;
 use App\User;
+use App\WellOrigin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
@@ -23,16 +24,14 @@ class MineralOwnersController extends Controller
 
         $permitNotes = Permit::where('id', $permitId)->value('notes');
         $permitReportedOperator = Permit::where('id', $permitId)->value('reported_operator');
+        $operatorAlias = Permit::where('id', $permitId)->value('operator_alias');
         $leaseName = Permit::where('id', $permitId)->value('lease_name');
 
         try {
+            $wells = WellOrigin::where('lease_name', $leaseName)->where('current_operator', $operatorAlias)->get();
+            $count = count($wells);
             $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
 LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');
-
-
-            for ($i = 0; $i < count($ownerPhoneNumbers); $i++) {
-                Log::info($ownerPhoneNumbers);
-            }
 
             $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->get();
 
@@ -42,9 +41,6 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
                 $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->get();
 
             }
-//            if ($owners->isEmpty()) {
-//                $owners = MineralOwner::where('operator_company_name', $request->reporter)->groupBy('owner')->get();
-//            }
 
             if (!$owners->isEmpty()) {
                 foreach ($owners as $owner) {
@@ -53,7 +49,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
                 $leaseNames = array_unique($leaseNames);
             }
 
-            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'operator', 'ownerPhoneNumbers', 'permitNotes', 'permitReportedOperator', 'leaseName'));
+            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'operator', 'ownerPhoneNumbers', 'permitNotes', 'permitReportedOperator', 'leaseName', 'wells', 'count'));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();

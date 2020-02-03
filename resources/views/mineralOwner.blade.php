@@ -8,11 +8,16 @@
                     <div class="card-header">Lease Information & Mineral Owners</div>
                     <div class="card-body">
                         <div class="row">
-                            <div id="dashboard_btn_container" class="col-md-4">
+                            <div id="dashboard_btn_container" class="col-md-2">
                                 <div class="button_panel">
                                     <a href="{{ url('welbore') }}">
                                         <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                     </a>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="button_panel">
+                                        <button type="button" class="btn btn-primary dashboard_btns" data-target="#modal_open_wells" data-toggle="modal" id="well_count_btn">Well Count: {{$count}}</button>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -154,6 +159,45 @@
                                         <caption id="owner_table_caption">Owners</caption>
                                         </tfoot>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal fade" id="modal_open_wells">
+                        <div class="modal-dialog" role="document">
+                            <div style="margin-left:40%; margin-top:30%;" class="modal-content">
+                                <div class="modal-header">
+                                    <h4>Wells</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    @foreach ($wells as $well)
+                                        <table class="table table-hover table-responsive-md table-bordered">
+                                            <thead>
+                                            <tr>
+                                                <th class="text-center">UID</th>
+                                                <th class="text-center">County</th>
+                                                <th class="text-center">Current Operator</th>
+                                                <th class="text-center">Current Status</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="owner_row">
+                                                    <td class="text-center">{{$well->uid}}</td>
+                                                    <td class="text-center">{{$well->county}}</td>
+                                                    <td class="text-center">{{$well->current_operator}}</td>
+                                                    <td class="text-center">{{$well->current_status}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    @endforeach
+                                </div>
+                                <br>
+                                <div class="modal-footer">
+                                    <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Close Modal</button>
                                 </div>
                             </div>
                         </div>
