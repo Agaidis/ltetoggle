@@ -168,7 +168,7 @@
                         <div class="modal-dialog" role="document">
                             <div style="margin-left:40%; margin-top:30%;" class="modal-content">
                                 <div class="modal-header">
-                                    <h4>Wells</h4>
+                                    <h4>Wells for {{$wells[0]->current_operator}} in {{$wells[0]->county}}</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -179,8 +179,6 @@
                                             <thead>
                                             <tr>
                                                 <th class="text-center">UID</th>
-                                                <th class="text-center">County</th>
-                                                <th class="text-center">Current Operator</th>
                                                 <th class="text-center">Current Status</th>
                                             </tr>
                                             </thead>
@@ -188,8 +186,6 @@
                                             @foreach ($wells as $well)
                                                 <tr class="owner_row">
                                                     <td class="text-center">{{$well->uid}}</td>
-                                                    <td class="text-center">{{$well->county}}</td>
-                                                    <td class="text-center">{{$well->current_operator}}</td>
                                                     <td class="text-center">{{$well->current_status}}</td>
                                                 </tr>
                                             @endforeach
