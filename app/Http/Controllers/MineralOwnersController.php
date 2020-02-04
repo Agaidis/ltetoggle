@@ -22,23 +22,21 @@ class MineralOwnersController extends Controller
         $operator = $request->operator;
         $permitId = $request->id;
 
-        $permitNotes = Permit::where('id', $permitId)->value('notes');
-        $permitReportedOperator = Permit::where('id', $permitId)->value('reported_operator');
-        $operatorAlias = Permit::where('id', $permitId)->value('operator_alias');
-        $leaseName = Permit::where('id', $permitId)->value('lease_name');
+        $permitValues = Permit::where('id', $permitId)->first();
+        $leaseName = $permitValues->lease_name;
 
         try {
-            $wells = WellOrigin::where('lease_name', $leaseName)->where('current_operator', $operatorAlias)->get();
+            $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('current_operator', $permitValues->operator_alias)->get();
             $count = count($wells);
             $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
 LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');
 
-            $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->get();
+            $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();
 
             if ($owners->isEmpty()) {
-                $leaseName = str_replace(['UNIT ', ' UNIT'], ['', ''], $leaseName);
+                $leaseName = str_replace(['UNIT ', ' UNIT'], ['', ''], $permitValues->lease_name);
                 $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
-                $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->get();
+                $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();
 
             }
 
@@ -49,7 +47,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
                 $leaseNames = array_unique($leaseNames);
             }
 
-            return view('mineralOwner', compact('owners', 'leaseNames', 'users', 'operator', 'ownerPhoneNumbers', 'permitNotes', 'permitReportedOperator', 'leaseName', 'wells', 'count'));
+            return view('mineralOwner', compact('owners', 'leaseNames','permitValues', 'users', 'operator', 'ownerPhoneNumbers', 'leaseName', 'wells', 'count'));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
@@ -62,7 +60,6 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
     public function getOwnerInfo (Request $request) {
 
         try {
-            Log::info($request->id);
             $owner = MineralOwner::where('id', $request->id)->groupBy('owner')->first();
 
             return $owner;
@@ -89,7 +86,6 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
     public function updateNotes(Request $request) {
         try {
-            Log::info($request->ownerId);
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->get();
 
             MineralOwner::where('id', $request->ownerId)->update(['follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);

@@ -2,12 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Http\Controllers\PolygonCheckController;
 use Illuminate\Console\Command;
 use App\Http\Controllers\APIManager;
 use App\Permit;
 use Illuminate\Support\Facades\Log;
-use App\Lease;
 
 class GetPermits extends Command
 {
@@ -43,87 +41,73 @@ class GetPermits extends Command
     public function handle()
     {
         $apiManager = new APIManager();
-        $decodedPermits = [];
         $token = $apiManager->getToken();
 
         $permits = $apiManager->getPermits($token->access_token);
 
-        if ($permits != '') {
-            foreach ($permits as $permit => $stuff) {
-                $decodedPermits[$permit] = json_decode($stuff);
-            }
-        }
-
         try {
-           foreach ($decodedPermits as $permit => $data) {
-               if (is_array($data)) {
-                   $count = count($data);
-                   for ($i = 0; $i < $count; $i++) {
-                       if (isset($data[$i]->PermitID)) {
+           foreach (json_decode($permits) as $permit => $data) {
+               if ($data->PermitStatus == 'Active') {
+                   if ($data->BottomHoleLongitudeWGS84 != '' && $data->BottomHoleLongitudeWGS84 != null) {
+                       $btmLatLng = '{"lng": ' . $data->BottomHoleLongitudeWGS84 . ', "lat": ' . $data->BottomHoleLatitudeWGS84 . "}";
+                   } else {
+                       $btmLatLng = '';
+                   }
 
+                   $doesPermitExist = Permit::where('permit_id', $data->PermitID)->get();
 
-                           if (isset($data[$i]->BottomHoleLongitudeWGS84) && $data[$i]->BottomHoleLongitudeWGS84 != '' && $data[$i]->BottomHoleLongitudeWGS84 != null) {
+                   if ($doesPermitExist->isEmpty()) {
 
-                               $btmLatLng = '{"lng": ' . $data[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $data[$i]->BottomHoleLatitudeWGS84 . "}";
-                           } else {
-                               $btmLatLng = '';
-                           }
-                           $doesPermitExist = Permit::where('permit_id', $data[$i]->PermitID)->get();
+                       $newPermit = new Permit();
 
+                       $newPermit->permit_id = $data->PermitID;
+                       $newPermit->notes = '';
+                       $newPermit->abstract = $data->Abstract;
+                       $newPermit->approved_date = $data->ApprovedDate;
+                       $newPermit->block = $data->Block;
+                       $newPermit->county_parish = $data->CountyParish;
+                       $newPermit->drill_type = $data->DrillType;
+                       $newPermit->lease_name = $data->LeaseName;
+                       $newPermit->operator_alias = $data->OperatorAlias;
+                       $newPermit->permit_type = $data->PermitType;
+                       $newPermit->range = $data->Range;
+                       $newPermit->section = $data->Section;
+                       $newPermit->state = $data->StateProvince;
+                       $newPermit->survey = $data->Survey;
+                       $newPermit->township = $data->Township;
+                       $newPermit->well_type = $data->WellType;
+                       $newPermit->btm_geometry = $btmLatLng;
+                       $newPermit->reported_operator = $data->ReportedOperator;
+                       $newPermit->permit_number = $data->PermitNumber;
+                       $newPermit->permit_status = $data->PermitStatus;
+                       $newPermit->district = $data->District;
+                       $newPermit->created_date = $data->CreatedDate;
 
-                           if ($doesPermitExist->isEmpty()) {
+                       $newPermit->save();
 
-                               $newPermit = new Permit();
-
-                               $newPermit->permit_id = $data[$i]->PermitID;
-                               $newPermit->notes = '';
-                               $newPermit->abstract = $data[$i]->Abstract;
-                               $newPermit->approved_date = $data[$i]->ApprovedDate;
-                               $newPermit->block = $data[$i]->Block;
-                               $newPermit->county_parish = $data[$i]->CountyParish;
-                               $newPermit->drill_type = $data[$i]->DrillType;
-                               $newPermit->lease_name = $data[$i]->LeaseName;
-                               $newPermit->operator_alias = $data[$i]->OperatorAlias;
-                               $newPermit->permit_type = $data[$i]->PermitType;
-                               $newPermit->range = $data[$i]->Range;
-                               $newPermit->section = $data[$i]->Section;
-                               $newPermit->state = $data[$i]->StateProvince;
-                               $newPermit->survey = $data[$i]->Survey;
-                               $newPermit->township = $data[$i]->Township;
-                               $newPermit->well_type = $data[$i]->WellType;
-                               $newPermit->btm_geometry = $btmLatLng;
-                               $newPermit->reported_operator = $data[$i]->ReportedOperator;
-                               $newPermit->permit_number = $data[$i]->PermitNumber;
-                               $newPermit->permit_status = $data[$i]->PermitStatus;
-                               $newPermit->district = $data[$i]->District;
-
-
-                               $newPermit->save();
-
-                           } else {
-                               Permit::where('permit_id', $data[$i]->PermitID)
-                                   ->update([
-                                       'abstract' => $data[$i]->Abstract,
-                                       'approved_date' => $data[$i]->ApprovedDate,
-                                       'block' => $data[$i]->Block,
-                                       'county_parish' => $data[$i]->CountyParish,
-                                       'drill_type' => $data[$i]->DrillType,
-                                       'lease_name' => $data[$i]->LeaseName,
-                                       'operator_alias' => $data[$i]->OperatorAlias,
-                                       'permit_type' => $data[$i]->PermitType,
-                                       'range' => $data[$i]->Range,
-                                       'section' => $data[$i]->Section,
-                                       'state' => $data[$i]->StateProvince,
-                                       'survey' => $data[$i]->Survey,
-                                       'township' => $data[$i]->Township,
-                                       'well_type' => $data[$i]->WellType,
-                                       'btm_geometry' => $btmLatLng,
-                                       'reported_operator' => $data[$i]->ReportedOperator,
-                                       'permit_number' => $data[$i]->PermitNumber,
-                                       'permit_status' => $data[$i]->PermitStatus,
-                                       'district' => $data[$i]->District]);
-                           }
-                       }
+                   } else {
+                       Permit::where('permit_id', $data->PermitID)
+                           ->update([
+                               'abstract' => $data->Abstract,
+                               'approved_date' => $data->ApprovedDate,
+                               'block' => $data->Block,
+                               'county_parish' => $data->CountyParish,
+                               'drill_type' => $data->DrillType,
+                               'lease_name' => $data->LeaseName,
+                               'operator_alias' => $data->OperatorAlias,
+                               'permit_type' => $data->PermitType,
+                               'range' => $data->Range,
+                               'section' => $data->Section,
+                               'state' => $data->StateProvince,
+                               'survey' => $data->Survey,
+                               'township' => $data->Township,
+                               'well_type' => $data->WellType,
+                               'btm_geometry' => $btmLatLng,
+                               'reported_operator' => $data->ReportedOperator,
+                               'permit_number' => $data->PermitNumber,
+                               'permit_status' => $data->PermitStatus,
+                               'district' => $data->District,
+                               'created_date' => $data->CreatedDate]);
                    }
                }
            }

@@ -141,50 +141,36 @@ class APIManager
     }
 
     public function getPermits ($token) {
-        $countyResponse = [];
-        // Start date
-        $date = '2020-01-30';
-        // End date
-        $end_date = '2020-02-03';
+        $curl = curl_init();
 
-        while (strtotime($date) <= strtotime($end_date)) {
-            echo "$date\n";
-            $date = date ("Y-m-d", strtotime("+1 day", strtotime($date)));
-        $strippedDate = str_replace('-', '', $date);
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=KARNES&drilltype=H&pagesize=10000",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_HTTPHEADER => array(
+                "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                "Content-Type: application/x-www-form-urlencoded",
+                "Authorization:  Bearer " . $token
+            ),
+        ));
 
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
 
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=KARNES&drilltype=H&createddate=" . $date,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => false,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(
-                    "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                    "Content-Type: application/x-www-form-urlencoded",
-                    "Authorization:  Bearer " . $token
-                ),
-            ));
+        Log::info($response);
 
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
+        curl_close($curl);
 
-            Log::info($response);
-
-            curl_close($curl);
-
-            if ($err) {
-                return "cURL Error #:" . $err;
-            } else {
-                $countyResponse[$strippedDate] = $response;
-            }
+        if ($err) {
+            return "cURL Error #:" . $err;
         }
-        return $countyResponse;
 
+        return $response;
     }
 
     public function getWellCounts ($token, $permitLeases) {

@@ -31,7 +31,11 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($highPriorityProspects as $highPriorityProspect)
-                                            <tr class="owner_row" id="owner_row_{{$highPriorityProspect->id}}">
+                                            @if ($highPriorityProspect->follow_up_date < date('Y, m, d'))
+                                                <tr id="owner_row_{{$highPriorityProspect->id}}">
+                                            @else
+                                                <tr style="background-color: #f59278;" id="owner_row_{{$highPriorityProspect->id}}">
+                                            @endif
                                                 <td class="text-center">
                                                     <select class="form-control owner_assignee" id="assignee_{{$highPriorityProspect->id}}">
                                                         <option selected disabled>Select a User</option>
@@ -141,10 +145,10 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($owners as $owner)
-                                            @if ($owner->follow_up_date > date('Y, m, d') || $owner->follow_up_date === NULL)
-                                                <tr class="owner_row" id="owner_row_{{$owner->id}}">
+                                            @if ($owner->follow_up_date < date('Y, m, d') || $owner->follow_up_date === NULL)
+                                                <tr id="owner_row_{{$owner->id}}">
                                             @else
-                                                <tr style="background-color:red;" class="owner_row" id="owner_row_{{$owner->id}}">
+                                                <tr style="background-color: #f59278;" id="owner_row_{{$owner->id}}">
                                             @endif
                                                     <td class="text-center">
                                                         <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">

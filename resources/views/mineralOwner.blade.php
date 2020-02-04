@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-md-8">
                                 <h2>Lease Name: {{$leaseName}}</h2>
-                                <h3>Operator Name: {{$permitReportedOperator}}</h3>
+                                <h3>Operator Name: {{$permitValues->reportedOperator}}</h3>
                             </div>
                         </div>
                             <div style="margin-top:1.5%;" class="offset-3 col-md-6">
@@ -30,7 +30,7 @@
                                     <div style="text-align:center; margin-left:25%;" class="col-md-6">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
                                         <div class="previous_permit_notes" id="previous_permit_notes" name="previous_permit_notes" contenteditable="false"></div>
-                                        <input type="hidden" id="hidden_permit_notes" value="{{$permitNotes}}" />
+                                        <input type="hidden" id="hidden_permit_notes" value="{{$permitValues->notes}}" />
                                     </div>
                                 </div>
                                 <div class="lease_notes_container row">
