@@ -22,7 +22,7 @@
                             </div>
                             <div class="col-md-8">
                                 <h2>Lease Name: {{$leaseName}}</h2>
-                                <h3>Operator Name: {{$permitValues->reportedOperator}}</h3>
+                                <h3>Operator Name: {{$permitValues->reported_operator}}</h3>
                             </div>
                         </div>
                             <div style="margin-top:1.5%;" class="offset-3 col-md-6">
