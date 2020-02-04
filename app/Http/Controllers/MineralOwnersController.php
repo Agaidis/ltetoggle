@@ -28,8 +28,8 @@ class MineralOwnersController extends Controller
         try {
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('current_operator', $permitValues->operator_alias)->get();
             $count = count($wells);
-            $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
-LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');
+//            $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
+//LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');
 
             $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();
 
@@ -40,7 +40,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
             }
 
-            return view('mineralOwner', compact('owners','permitValues', 'users', 'operator', 'ownerPhoneNumbers', 'leaseName', 'wells', 'count'));
+            return view('mineralOwner', compact('owners','permitValues', 'users', 'operator', 'leaseName', 'wells', 'count'));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
