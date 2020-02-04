@@ -123,19 +123,19 @@
                                                 <td class="text-center">
                                                     <span class="fas fa-plus add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal" style="color:green; cursor:pointer; float:left; text-align: left;"></span>
                                                     <span class="phone_container" id="phone_container_{{$owner->id}}" style="padding: 2%;">
-                                                    @for ($i = 0; $i < count($ownerPhoneNumbers); $i++)
-                                                        @if ($ownerPhoneNumbers[$i]->owner === $owner->owner && $ownerPhoneNumbers[$i]->soft_delete === 0)
+{{--                                                    @for ($i = 0; $i < count($ownerPhoneNumbers); $i++)--}}
+{{--                                                        @if ($ownerPhoneNumbers[$i]->owner === $owner->owner && $ownerPhoneNumbers[$i]->soft_delete === 0)--}}
 
-                                                        <div id="phone_{{$i}}" style="padding: 2%;">
-                                                            <input type="hidden" id="phone_owner_{{$i}}" value="{{$ownerPhoneNumbers[$i]->owner}}"/>
-                                                            <input type="hidden" id="phone_number_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_number}}" />
-                                                            <input type="hidden" id="phone_desc_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_desc}}"/>
-                                                            <span style="font-weight: bold;">{{$ownerPhoneNumbers[$i]->phone_desc}}: </span>
-                                                            <span><a href="tel:{{$ownerPhoneNumbers[$i]->phone_number}}">{{$ownerPhoneNumbers[$i]->phone_number}}</a></span>
-                                                            <span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_{{$i}}"></span>
-                                                        </div>
-                                                        @endif
-                                                    @endfor
+{{--                                                        <div id="phone_{{$i}}" style="padding: 2%;">--}}
+{{--                                                            <input type="hidden" id="phone_owner_{{$i}}" value="{{$ownerPhoneNumbers[$i]->owner}}"/>--}}
+{{--                                                            <input type="hidden" id="phone_number_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_number}}" />--}}
+{{--                                                            <input type="hidden" id="phone_desc_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_desc}}"/>--}}
+{{--                                                            <span style="font-weight: bold;">{{$ownerPhoneNumbers[$i]->phone_desc}}: </span>--}}
+{{--                                                            <span><a href="tel:{{$ownerPhoneNumbers[$i]->phone_number}}">{{$ownerPhoneNumbers[$i]->phone_number}}</a></span>--}}
+{{--                                                            <span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_{{$i}}"></span>--}}
+{{--                                                        </div>--}}
+{{--                                                        @endif--}}
+{{--                                                    @endfor--}}
                                                     </span>
 
                                                 </td>
