@@ -140,11 +140,11 @@ class APIManager
 
     }
 
-    public function getPermits ($token) {
+    public function getPermits ($county, $token) {
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=KARNES&drilltype=H&pagesize=10000",
+            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=".$county."&drilltype=H&pagesize=10000",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,

@@ -36938,6 +36938,50 @@ $(document).ready(function () {
       return date;
     }
   });
+  $('#update_permit_btn').on('click', function () {
+    var county = $('#county_select').val();
+    console.log(county);
+
+    if (county === null) {
+      alert('Please select a county');
+    } else {
+      $('.loader').css('display', 'inline-block');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "GET",
+        url: '/admin/updatePermits',
+        data: {
+          county: county
+        },
+        success: function success(data) {
+          $('.loader').css('display', 'none');
+          console.log(data);
+
+          if (data === 'success') {
+            var messages = $('.messages');
+            var successHtml = '<div class="alert alert-success">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + '<strong><i class="glyphicon glyphicon-ok-sign push-5-r"></</strong> Database has successfully been updated!' + '</div>';
+            $(messages).html(successHtml);
+          } else if (data === 'error') {
+            var _messages = $('.alert-danger');
+
+            var _successHtml = '<div class="alert alert-danger">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + '<strong><i class="glyphicon glyphicon-ok-sign push-5-r"></</strong> There was a problem Updating Database' + '</div>';
+
+            $(_messages).html(_successHtml);
+          }
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
+  });
 });
 
 /***/ }),

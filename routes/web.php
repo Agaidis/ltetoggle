@@ -29,7 +29,7 @@ Route::get('/about-us', 'AboutUsController@index');
 /*                              ADMIN AREA                  */
 Route::get('/admin', 'AdminController@index')->middleware('auth');
 
-Route::post('/admin', 'AdminController@updatePermits')->middleware('auth');
+Route::get('/admin/updatePermits', 'AdminController@updatePermits')->middleware('auth');
 
 
 /*                              MM-PLATFORM                 */

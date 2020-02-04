@@ -13,8 +13,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\GetPermits::class,
-        Commands\GetLeases::class
     ];
 
     /**
@@ -25,8 +23,6 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('process:getPermits')->everyThirtyMinutes()->timezone('America/New_York');
-        $schedule->command('process:getLeases')->everyThirtyMinutes()->timezone('America/New_York');
     }
 
     /**
