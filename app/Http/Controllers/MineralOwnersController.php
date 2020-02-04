@@ -40,14 +40,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
             }
 
-            if (!$owners->isEmpty()) {
-                foreach ($owners as $owner) {
-                    array_push($leaseNames, $owner->lease_name);
-                }
-                $leaseNames = array_unique($leaseNames);
-            }
-
-            return view('mineralOwner', compact('owners', 'leaseNames','permitValues', 'users', 'operator', 'ownerPhoneNumbers', 'leaseName', 'wells', 'count'));
+            return view('mineralOwner', compact('owners','permitValues', 'users', 'operator', 'ownerPhoneNumbers', 'leaseName', 'wells', 'count'));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
