@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/welbore', 'WelboreController@index')->middleware('auth');
 
+Route::get('/user-mmp', 'UserMMPController@index')->middleware('auth');
+
 Route::get('/FAQ', 'FAQController@index');
 
 Route::get('/about-us', 'AboutUsController@index');
@@ -76,6 +78,9 @@ Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo')->middlewar
 Route::post('/mineral-owner/addPhone', 'MineralOwnersController@addPhone')->middleware('auth');
 
 Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDeletePhone')->middleware('auth');
+
+Route::get('/mineral-owners/getOwnerNumbers', 'MineralOwnersController@getOwnerNumbers')->middleware('auth');
+
 
 
 /*                      Owner Page                          */

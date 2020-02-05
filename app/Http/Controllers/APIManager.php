@@ -140,37 +140,34 @@ class APIManager
 
     }
 
-    public function getPermits ($county, $token) {
-        $curl = curl_init();
+    public function getPermits ($county, $token, $date) {
+            $curl = curl_init();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?countyparish=".$county."&drilltype=H&pagesize=10000",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                "Content-Type: application/x-www-form-urlencoded",
-                "Authorization:  Bearer " . $token
-            ),
-        ));
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=".$date."&countyparish=".$county."&drilltype=H&pagesize=100",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                    "Content-Type: application/x-www-form-urlencoded",
+                    "Authorization:  Bearer " . $token
+                ),
+            ));
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
 
-        Log::info($response);
+            curl_close($curl);
 
-        curl_close($curl);
-
-        if ($err) {
-            return "cURL Error #:" . $err;
-        }
-
-        return $response;
+            if ($err) {
+                return "cURL Error #:" . $err;
+            }
+            return $response;
     }
 
     public function getWellCounts ($token, $permitLeases) {

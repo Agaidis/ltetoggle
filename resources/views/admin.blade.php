@@ -14,11 +14,14 @@
                                 <div class="col-md-6">
                                     <select class="form-control county_parish" id="county_select">
                                         <option value="none" selected disabled>Select a County/Parish</option>
-                                        <option value="KARNES">KARNES (TX)</option>
+                                        <option value="ATASCOSA">Atacosa (TX)</option>
+                                        <option value="BEE">Bee (TX)</option>
                                         <option value="DEWITT">DeWitt (TX)</option>
                                         <option value="GONZALES">Gonzales (TX)</option>
-                                        <option values="LIVE OAK">Live Oak</option>
-                                        <option value="LAVACA">Lavaca</option>
+                                        <option value="KARNES">KARNES (TX)</option>
+                                        <option values="LIVE OAK">Live Oak (TX)</option>
+                                        <option value="LAVACA">Lavaca (TX)</option>
+                                        <option value="WILSON">Wilson (TX)</option>
                                     </select>
                                 </div><br>
                                 <div class="col-md-4">

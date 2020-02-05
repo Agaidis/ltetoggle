@@ -8,16 +8,15 @@
                     <div class="card-header">Lease Information & Mineral Owners</div>
                     <div class="card-body">
                         <div class="row">
-                            <div id="dashboard_btn_container" class="col-md-2">
+                            <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
                                     <a href="{{ url('welbore') }}">
                                         <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                     </a>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="button_panel">
-                                        <button type="button" class="btn btn-primary dashboard_btns" data-target="#modal_open_wells" data-toggle="modal" id="well_count_btn">Well Count: {{$count}}</button>
+                                    <a href="{{ url('user-mmp') }}">
+                                        <button type="button" style="margin-left:5%;" class="btn btn-primary dashboard_btns" id="user_mmp_btn">{{Auth::user()->name}}</button>
+                                    </a>
+                                    <button type="button" style="margin-left:5%;" class="btn btn-primary dashboard_btns" data-target="#modal_open_wells" data-toggle="modal" id="well_count_btn">Well Count: {{$count}}</button>
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -25,20 +24,59 @@
                                 <h3>Operator Name: {{$permitValues->reported_operator}}</h3>
                             </div>
                         </div>
-                            <div style="margin-top:1.5%;" class="offset-3 col-md-6">
+                            <div style="margin-top:1.5%;" class="offset-3 col-md-9">
                                 <div class="row">
-                                    <div style="text-align:center; margin-left:25%;" class="col-md-6">
+                                    <div style="text-align:center;" class="col-md-4">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
                                         <div class="previous_permit_notes" id="previous_permit_notes" name="previous_permit_notes" contenteditable="false"></div>
                                         <input type="hidden" id="hidden_permit_notes" value="{{$permitValues->notes}}" />
                                     </div>
+                                    <div class="col-md-2">
+                                        <label for="Range">Range: </label>
+                                        <span id="Range">{{$permitValues->range}}</span><br>
+
+                                        <label for="Section">Section: </label>
+                                        <span id="Section">{{$permitValues->section}}</span><br>
+
+                                        <label for="DrillType">Drill Type: </label>
+                                        <span id="DrillType">{{$permitValues->drill_type}}</span><br>
+
+                                        <label for="PermitType">Permit Type: </label>
+                                        <span id="PermitType">{{$permitValues->permit_type}}</span><br>
+
+                                        <label for="WellType">Well Type: </label>
+                                        <span id="WellType">{{$permitValues->well_type}}</span><br>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="approved_date">Approved Date: </label>
+                                        <span id="ApprovedDate">{{$permitValues->approved_date}}</span><br>
+
+                                        <label for="submitted_date">Submitted Date: </label>
+                                        <span id="SubmittedDate">{{$permitValues->submitted_date}}</span><br>
+
+                                        <label for="expiration_primary_term">Expiration Primary Term: </label>
+                                        <span id="expiration_primary_term">{{$permitValues->expiration_primary_term}}</span><br>
+
+                                        <label for="Survey">Survey: </label>
+                                        <span id="Survey">{{$permitValues->survey}}</span><br>
+
+                                        <label for="Abstract">Abstract: </label>
+                                        <span id="Abstract">{{$permitValues->abstract}}</span><br>
+
+                                        <label for="District">District: </label>
+                                        <span id="District">{{$permitValues->district}}</span><br>
+
+                                        <label for="Block">Block: </label>
+                                        <span id="Block">{{$permitValues->block}}</span>
+                                    </div>
+                                    </div>
                                 </div>
                                 <div class="lease_notes_container row">
-                                    <div style="text-align:center;" class="col-md-6">
+                                    <div style="text-align:center;" class="offset-3 col-md-3">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>
                                         <div class="previous_owner_notes" id="previous_owner_notes" name="previous_owner_notes" contenteditable="false"></div>
                                     </div>
-                                    <div style="text-align:center;" class="col-md-6">
+                                    <div style="text-align:center;" class="col-md-3">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Enter Owner Notes</label>
                                         <textarea rows="4" class="owner_notes" id=owner_notes" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>
                                         <div class="col-md-12">
@@ -62,7 +100,7 @@
                                         <tr>
                                             <th class="text-center">Assignee/Follow-Up</th>
                                             <th class="text-center">Wellbore Type</th>
-                                            <th class="text-center" style="width:250px;">Contact</th>
+                                            <th class="text-center">Contact</th>
                                             <th class="text-center">Follow-Up</th>
                                             <th class="text-center">Owner</th>
                                             <th class="text-center">ODI</th>
@@ -121,23 +159,7 @@
                                                     </select>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="fas fa-plus add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal" style="color:green; cursor:pointer; float:left; text-align: left;"></span>
-                                                    <span class="phone_container" id="phone_container_{{$owner->id}}" style="padding: 2%;">
-                                                    @for ($i = 0; $i < count($ownerPhoneNumbers); $i++)
-                                                        @if ($ownerPhoneNumbers[$i]->owner === $owner->owner && $ownerPhoneNumbers[$i]->soft_delete === 0)
-
-                                                        <div id="phone_{{$i}}" style="padding: 2%;">
-                                                            <input type="hidden" id="phone_owner_{{$i}}" value="{{$ownerPhoneNumbers[$i]->owner}}"/>
-                                                            <input type="hidden" id="phone_number_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_number}}" />
-                                                            <input type="hidden" id="phone_desc_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_desc}}"/>
-                                                            <span style="font-weight: bold;">{{$ownerPhoneNumbers[$i]->phone_desc}}: </span>
-                                                            <span><a href="tel:{{$ownerPhoneNumbers[$i]->phone_number}}">{{$ownerPhoneNumbers[$i]->phone_number}}</a></span>
-                                                            <span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_{{$i}}"></span>
-                                                        </div>
-                                                        @endif
-                                                    @endfor
-                                                    </span>
-
+                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($owner->follow_up_date != '')
@@ -202,22 +224,26 @@
                     </div>
 
                     <div class="modal fade" id="modal_add_phone">
-                        <div class="modal-dialog" role="document">
-                            <div style="margin-left:40%; margin-top:50%;" class="modal-content">
+                        <div style="width:650px!important;" class="modal-dialog phone_modal_dialog" role="document">
+                            <div style="margin-left:-60%; margin-top:50%;" class="modal-content">
                                 <div class="modal-header">
                                     <h4>Add Phone Number</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <div class="modal-body">
-                                    <label>Phone Description</label><input type="text" class="form-control" id="new_phone_desc" name="new_phone_desc" placeholder="Home, Cell, Sister, Etc."/>
-                                    <label>Phone Number</label><input type="text" class="form-control" id="new_phone_number" name="new_phone_number" placeholder="(ext) 000 - 0000"/>
-                                </div>
-                                <br>
-                                <div class="modal-footer">
-                                    <button type="button" id="submit_phone" class="submit_phone_btn btn btn-primary" >Submit Phone #</button>
-                                    <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Close Modal</button>
+                                <div class="modal-body row">
+                                    <div class="col-md-6">
+                                        <label>Phone Description</label><input type="text" class="form-control" id="new_phone_desc" name="new_phone_desc" placeholder="Home, Cell, Sister, Etc."/>
+                                        <label>Phone Number</label><input type="text" class="form-control" id="new_phone_number" name="new_phone_number" placeholder="(ext) 000 - 0000"/>
+                                        <div class="modal-footer">
+                                            <button type="button" id="submit_phone" class="submit_phone_btn btn btn-primary" >Submit #</button>
+                                            <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Close Modal</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <span class="phone_container" id="phone_container" style="padding: 2%;"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>

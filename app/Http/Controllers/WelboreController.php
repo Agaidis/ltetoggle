@@ -34,7 +34,7 @@ class WelboreController extends Controller
         try {
             $users = User::all();
 
-            $highPriorityProspects =  MineralOwner::where('wellbore_type', '!=', NULL)->where('assignee', Auth::user()->id)->sortBy('wellbore_type')->get();
+            $highPriorityProspects =  MineralOwner::where('wellbore_type', '!=', NULL)->where('assignee', Auth::user()->id)->orderBy('wellbore_type')->get();
             $owners = DB::table('mineral_owners')
                 ->where('follow_up_date', '!=', NULL )
                 ->where('assignee', Auth::user()->id)

@@ -56,11 +56,33 @@ $(document).ready(function () {
                 } else {
                     block = data['permit'][0]['block'];
                 }
-                let approvedDate = data['permit'][0]['approved_date'].split('T');
+
+                let approvedDate = '';
+                if (data['permit'][0]['approved_date'] !== null) {
+                    approvedDate = data['permit'][0]['approved_date'].split('T');
+                } else {
+                    approvedDate[0] = 'N/A';
+                }
+
+                let permitStatus = '';
+                if (data['permit'][0]['permit_status'] !== null) {
+                    permitStatus = data['permit'][0]['permit_status'].split('T');
+                } else {
+                    permitStatus[0] = 'N/A';
+                }
+
+                let submittedDate = '';
+                if (data['permit'][0]['submitted_date'] !== null) {
+                    submittedDate = data['permit'][0]['submitted_date'].split('T');
+                } else {
+                    submittedDate[0] = 'N/A';
+                }
 
                 $('#Abstract').text(abstract);
                 $('#ApprovedDate').text(approvedDate[0]);
+                $('#SubmittedDate').text(submittedDate[0]);
                 $('#Block').text(block);
+                $('#permitStatus').text(permitStatus);
                 $('#CountyParish').text(data['permit'][0]['county_parish'] + ', ' + data['permit'][0]['state']);
                 $('#DrillType').text(data['permit'][0]['drill_type']);
                 $('#LeaseName').text(data['permit'][0]['lease_name']);

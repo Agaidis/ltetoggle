@@ -10,13 +10,11 @@ use App\User;
 use App\WellOrigin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
 use App\Permit;
 
 class MineralOwnersController extends Controller
 {
     public function index(Request $request) {
-        $leaseNames = array();
         $users = User::all();
 
         $operator = $request->operator;
@@ -28,8 +26,6 @@ class MineralOwnersController extends Controller
         try {
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('current_operator', $permitValues->operator_alias)->get();
             $count = count($wells);
-            $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
-LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');
 
             $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();
 
@@ -40,7 +36,7 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
             }
 
-            return view('mineralOwner', compact('owners','permitValues', 'users', 'operator', 'ownerPhoneNumbers', 'leaseName', 'wells', 'count'));
+            return view('mineralOwner', compact('owners','permitValues', 'users', 'operator', 'leaseName', 'wells', 'count'));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
@@ -92,13 +88,13 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
                 $newOwnerLeaseNote->lease_name = $request->leaseName;
                 $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
-                $newOwnerLeaseNote->notes = '<p style="color:#F2EDD7FF; font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes;
+                $newOwnerLeaseNote->notes = '<p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes;
 
                 $newOwnerLeaseNote->save();
 
             } else {
                 OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)
-                    ->update(['notes' => '<p style="color:#F2EDD7FF; font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes]);
+                    ->update(['notes' => '<p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes]);
             }
 
             $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->first();
@@ -144,6 +140,21 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
         }
     }
 
+    public function getOwnerNumbers(Request $request) {
+        try {
+            $phoneNumbers = OwnerPhoneNumber::where('owner_name', $request->ownerName)->where('soft_delete', 0)->get();
+
+            return $phoneNumbers;
+
+        } catch( Exception $e ) {
+            Log::info($e->getMessage());
+            Log::info($e->getCode());
+            Log::info($e->getLine());
+            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            return 'error';
+        }
+    }
+
     public function addPhone(Request $request) {
         try {
             $newOwnerPhoneNumber = new OwnerPhoneNumber();
@@ -167,19 +178,10 @@ LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number !
 
     public function softDeletePhone(Request $request) {
         try {
-            $returnArray = array();
+            OwnerPhoneNumber::where('id', $request->id)
+                ->update(['soft_delete' => 1]);
 
-            OwnerPhoneNumber::where('phone_number', $request->phoneNumber)->
-            where('phone_desc', $request->phoneDesc)->
-            where('owner_name', $request->ownerName)->
-            update(['soft_delete' => 1]);
-
-            array_push($returnArray, $request->uniqueId);
-            array_push($returnArray, $request->phoneNumber);
-            array_push($returnArray, $request->ownerName);
-            array_push($returnArray, $request->phoneDesc);
-
-            return $returnArray;
+            return $request->id;
 
         } catch( Exception $e ) {
             Log::info($e->getMessage());

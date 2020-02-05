@@ -7,8 +7,6 @@ use App\MineralOwner;
 use App\Permit;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class NewPermitsController extends Controller
 {
@@ -79,13 +77,13 @@ class NewPermitsController extends Controller
                 $newLease = new Permit();
 
                 $newLease->permit_id = $request->permitId;
-                $newLease->notes = '<p style="color:#755139FF; font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes;
+                $newLease->notes = '<p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes;
 
                 $newLease->save();
 
             } else {
                 Permit::where('permit_id', $request->permitId)
-                    ->update(['notes' => '<p style="color:#755139FF; font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesLeaseExist[0]->notes]);
+                    ->update(['notes' => '<p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesLeaseExist[0]->notes]);
             }
 
             $updatedPermit = Permit::where('permit_id', $request->permitId)->first();

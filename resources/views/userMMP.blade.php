@@ -6,15 +6,13 @@
             <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
             <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">Mineral Management Platform - All Permits</div>
+                    <div class="card-header">Mineral Management Platform - Assigned to you only</div>
                     <div class="card-body">
                         <div class="row">
                             <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
                                     <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
-                                    <a href="{{ url('user-mmp') }}">
-                                        <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="user_mmp_btn">{{Auth::user()->name}}</button>
-                                    </a>
+                                    <a href="{{ url('mm-platform') }}"><button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">MMP General</button></a>
                                 </div>
                             </div>
                         </div>
@@ -31,7 +29,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if (isset($permits) && !$permits->isEmpty())
+                                    @if (!$permits->isEmpty())
                                     @foreach ($permits as $permit)
                                         <?php $approvedDate = explode('T', $permit->approved_date)?>
 
@@ -119,9 +117,6 @@
                                     <div class="col-md-6">
                                         <h3>Types</h3>
                                         <div class="containers">
-                                            <label for="permitStatus">Permit Status: </label>
-                                            <span id="permitStatus"></span><br>
-
                                             <label for="DrillType">Drill Type: </label>
                                             <span id="DrillType"></span><br>
 
@@ -138,9 +133,6 @@
 
                                             <label for="approved_date">Approved Date: </label>
                                             <span id="ApprovedDate"></span><br>
-
-                                            <label for="submitted_date">Submitted Date: </label>
-                                            <span id="SubmittedDate"></span><br>
 
                                             <label for="expiration_primary_term">Expiration Primary Term: </label>
                                             <span id="expiration_primary_term"></span><br>

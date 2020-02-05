@@ -240,6 +240,42 @@ $(document).ready(function () {
 
         $('#new_phone_desc').val('').text('');
         $('#new_phone_number').val('').text('');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "GET",
+            url: '/mineral-owners/getOwnerNumbers',
+            data: {
+                ownerName: ownerName
+            },
+            success: function success(data) {
+                console.log(data);
+                let phoneNumbers = '<div>';
+                $.each(data, function (key, value) {
+                    console.log(value.id);
+                    phoneNumbers += '<span><div id="phone_'+value.id+'" style="padding: 2%;">'+
+                        '<span style="font-weight: bold;">'+value.phone_desc+': </span>'+
+                        '<span><a href="tel:'+value.id+'">'+value.phone_number+' </a></span>'+
+                        '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_'+value.id+'" "></span>'+
+                        '</div></span>';
+                });
+                console.log(phoneNumbers);
+                phoneNumbers += '</div>';
+
+                $('.phone_container').empty().append($(phoneNumbers).html());
+            },
+            error: function error(data) {
+                console.log(data);
+                $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+            }
+        });
     });
 
     $('.phone_container').on('click', '.soft_delete_phone', function() {
@@ -259,14 +295,11 @@ $(document).ready(function () {
             type: "POST",
             url: '/mineral-owner/softDeletePhone',
             data: {
-                uniqueId: uniqueId,
-                ownerName: $('#phone_owner_' + uniqueId).val(),
-                phoneDesc: $('#phone_desc_' + uniqueId).val(),
-                phoneNumber: $('#phone_number_' + uniqueId).val()
+                id: uniqueId
             },
             success: function success(data) {
                 console.log(data);
-                $('#phone_'+data[0]).remove();
+                $('#phone_'+uniqueId).remove();
 
             },
             error: function error(data) {
@@ -295,23 +328,17 @@ $(document).ready(function () {
                 phoneNumber: $('#new_phone_number').val()
             },
             success: function success(data) {
-                let min=9999;
-                let max=999999999999;
-                let random =
-                    Math.floor(Math.random() * (+max - +min)) + +min;
 
                 $('#new_phone_desc').val('').text('');
                 $('#new_phone_number').val('').text('');
-                let updatedPhoneNumbers = $('<div class="phone_number_containers" style="padding:0; line-height: .5;"><div id="phone_'+random+'">' +
-                    '<input type="hidden" id="phone_owner_'+random+'" value="'+data.owner_name+'"/>' +
-                    '<input type="hidden" id="phone_number_'+random+'" value="'+data.phone_number+'" />' +
-                    '<input type="hidden" id="phone_desc_'+random+'" value="'+data.phone_desc+'"/>' +
-                    '<span style="font-weight: bold;">'+data.phone_desc+': </span>' +
-                    '<span><a href="tel:'+data.phone_number+'">'+data.phone_number+'</a></span>' +
-                    '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_'+random+'"></span>' +
-                    '</div></div>');
 
-                $('#phone_container_' + globalOwnerId).append(updatedPhoneNumbers.html());
+                let phoneNumber = '<span><div id="phone_'+data.id+'" style="padding: 2%;">'+
+                    '<span style="font-weight: bold;">'+data.phone_desc+': </span>'+
+                    '<span><a href="tel:'+data.id+'">'+data.phone_number+' </a></span>'+
+                    '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_'+data.id+'" "></span>'+
+                    '</div></span>';
+
+            $('.phone_container').append($(phoneNumber).html());
 
             },
             error: function error(data) {

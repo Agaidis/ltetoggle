@@ -39,7 +39,7 @@ class AdminController extends Controller
             return 'success';
         } catch ( Exception $e ) {
             $errorMsg = new ErrorLog();
-            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
 
             $errorMsg->save();
             return 'error';
@@ -49,81 +49,96 @@ class AdminController extends Controller
     public function runUpdatePermits($county) {
         $apiManager = new APIManager();
         $token = $apiManager->getToken();
-
-        $permits = $apiManager->getPermits($county, $token->access_token);
+        // Start date
+        $date = '2020-02-01';
+        // End date
+        $end_date = date('Y-m-d');
 
         try {
-            foreach (json_decode($permits) as $permit => $data) {
-                if ($data->PermitStatus == 'Active') {
-                    if ($data->BottomHoleLongitudeWGS84 != '' && $data->BottomHoleLongitudeWGS84 != null) {
-                        $btmLatLng = '{"lng": ' . $data->BottomHoleLongitudeWGS84 . ', "lat": ' . $data->BottomHoleLatitudeWGS84 . "}";
-                    } else {
-                        $btmLatLng = '';
-                    }
+            do {
+                Log::info($date);
+                $permits = $apiManager->getPermits($county, $token->access_token, $date);
+                $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
 
-                    $doesPermitExist = Permit::where('permit_id', $data->PermitID)->get();
+                if ($permits != null && $permits != '' && isset($permits)) {
+                    $decodedPermits = json_decode($permits);
+                    Log::info(count($decodedPermits));
 
-                    if ($doesPermitExist->isEmpty()) {
+                    for ($i = 0; $i < count($decodedPermits); $i++) {
+                        Log::info($decodedPermits[$i]->PermitStatus);
+                            if ($decodedPermits[$i]->BottomHoleLongitudeWGS84 != '' && $decodedPermits[$i]->BottomHoleLongitudeWGS84 != null) {
+                                $btmLatLng = '{"lng": ' . $decodedPermits[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $decodedPermits[$i]->BottomHoleLatitudeWGS84 . "}";
+                            } else {
+                                $btmLatLng = '';
+                            }
+                            $doesPermitExist = Permit::where('permit_id', $decodedPermits[$i]->PermitID)->get();
 
-                        $newPermit = new Permit();
+                            if ($doesPermitExist->isEmpty()) {
 
-                        $newPermit->permit_id = $data->PermitID;
-                        $newPermit->notes = '';
-                        $newPermit->abstract = $data->Abstract;
-                        $newPermit->approved_date = $data->ApprovedDate;
-                        $newPermit->block = $data->Block;
-                        $newPermit->county_parish = $data->CountyParish;
-                        $newPermit->drill_type = $data->DrillType;
-                        $newPermit->lease_name = $data->LeaseName;
-                        $newPermit->operator_alias = $data->OperatorAlias;
-                        $newPermit->permit_type = $data->PermitType;
-                        $newPermit->range = $data->Range;
-                        $newPermit->section = $data->Section;
-                        $newPermit->state = $data->StateProvince;
-                        $newPermit->survey = $data->Survey;
-                        $newPermit->township = $data->Township;
-                        $newPermit->well_type = $data->WellType;
-                        $newPermit->btm_geometry = $btmLatLng;
-                        $newPermit->reported_operator = $data->ReportedOperator;
-                        $newPermit->permit_number = $data->PermitNumber;
-                        $newPermit->permit_status = $data->PermitStatus;
-                        $newPermit->district = $data->District;
-                        $newPermit->created_date = $data->CreatedDate;
+                                $newPermit = new Permit();
 
-                        $newPermit->save();
+                                $newPermit->permit_id = $decodedPermits[$i]->PermitID;
+                                $newPermit->notes = '';
+                                $newPermit->abstract = $decodedPermits[$i]->Abstract;
+                                $newPermit->approved_date = $decodedPermits[$i]->ApprovedDate;
+                                $newPermit->block = $decodedPermits[$i]->Block;
+                                $newPermit->county_parish = $decodedPermits[$i]->CountyParish;
+                                $newPermit->drill_type = $decodedPermits[$i]->DrillType;
+                                $newPermit->lease_name = $decodedPermits[$i]->LeaseName;
+                                $newPermit->operator_alias = $decodedPermits[$i]->OperatorAlias;
+                                $newPermit->permit_type = $decodedPermits[$i]->PermitType;
+                                $newPermit->range = $decodedPermits[$i]->Range;
+                                $newPermit->section = $decodedPermits[$i]->Section;
+                                $newPermit->state = $decodedPermits[$i]->StateProvince;
+                                $newPermit->survey = $decodedPermits[$i]->Survey;
+                                $newPermit->township = $decodedPermits[$i]->Township;
+                                $newPermit->well_type = $decodedPermits[$i]->WellType;
+                                $newPermit->btm_geometry = $btmLatLng;
+                                $newPermit->reported_operator = $decodedPermits[$i]->ReportedOperator;
+                                $newPermit->permit_number = $decodedPermits[$i]->PermitNumber;
+                                $newPermit->permit_status = $decodedPermits[$i]->PermitStatus;
+                                $newPermit->district = $decodedPermits[$i]->District;
+                                $newPermit->created_date = $decodedPermits[$i]->CreatedDate;
+                                $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
 
-                    } else {
-                        Permit::where('permit_id', $data->PermitID)
-                            ->update([
-                                'abstract' => $data->Abstract,
-                                'approved_date' => $data->ApprovedDate,
-                                'block' => $data->Block,
-                                'county_parish' => $data->CountyParish,
-                                'drill_type' => $data->DrillType,
-                                'lease_name' => $data->LeaseName,
-                                'operator_alias' => $data->OperatorAlias,
-                                'permit_type' => $data->PermitType,
-                                'range' => $data->Range,
-                                'section' => $data->Section,
-                                'state' => $data->StateProvince,
-                                'survey' => $data->Survey,
-                                'township' => $data->Township,
-                                'well_type' => $data->WellType,
-                                'btm_geometry' => $btmLatLng,
-                                'reported_operator' => $data->ReportedOperator,
-                                'permit_number' => $data->PermitNumber,
-                                'permit_status' => $data->PermitStatus,
-                                'district' => $data->District,
-                                'created_date' => $data->CreatedDate]);
+                                $newPermit->save();
+
+
+                            } else {
+                                Permit::where('permit_id', $decodedPermits[$i]->PermitID)
+                                    ->update([
+                                        'abstract' => $decodedPermits[$i]->Abstract,
+                                        'approved_date' => $decodedPermits[$i]->ApprovedDate,
+                                        'block' => $decodedPermits[$i]->Block,
+                                        'county_parish' => $decodedPermits[$i]->CountyParish,
+                                        'drill_type' => $decodedPermits[$i]->DrillType,
+                                        'lease_name' => $decodedPermits[$i]->LeaseName,
+                                        'operator_alias' => $decodedPermits[$i]->OperatorAlias,
+                                        'permit_type' => $decodedPermits[$i]->PermitType,
+                                        'range' => $decodedPermits[$i]->Range,
+                                        'section' => $decodedPermits[$i]->Section,
+                                        'state' => $decodedPermits[$i]->StateProvince,
+                                        'survey' => $decodedPermits[$i]->Survey,
+                                        'township' => $decodedPermits[$i]->Township,
+                                        'well_type' => $decodedPermits[$i]->WellType,
+                                        'btm_geometry' => $btmLatLng,
+                                        'reported_operator' => $decodedPermits[$i]->ReportedOperator,
+                                        'permit_number' => $decodedPermits[$i]->PermitNumber,
+                                        'permit_status' => $decodedPermits[$i]->PermitStatus,
+                                        'district' => $decodedPermits[$i]->District,
+                                        'created_date' => $decodedPermits[$i]->CreatedDate,
+                                        'submitted_date' => $decodedPermits[$i]->SubmittedDate]);
+                            }
+
                     }
                 }
-            }
+            } while (strtotime($date) <= strtotime($end_date));
             return 'success';
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Permit Toggle Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
+
+            $errorMsg->save();
             return 'error';
         }
     }
