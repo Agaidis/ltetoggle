@@ -107,7 +107,7 @@ $(document).ready(function () {
             },
             error: function error(data) {
                 console.log(data);
-                $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+                $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
             }
         });
     }).on('click', '.update_phone_numbers', function() {
@@ -241,7 +241,7 @@ $(document).ready(function () {
             },
             error: function error(data) {
                 console.log(data);
-                $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+                $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
             }
         });
     });

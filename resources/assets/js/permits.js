@@ -231,7 +231,7 @@ $(document).ready(function () {
             },
             error: function error(data) {
                 console.log(data);
-                $('.notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+                $('.notes').val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
             }
         });
     });
@@ -266,7 +266,7 @@ $(document).ready(function () {
                 $('.notes').val('').text('');
             },
             error: function error(data) {
-                $('.notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+                $('.notes').val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
             }
         });
     });
