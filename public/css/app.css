@@ -10821,7 +10821,7 @@ hr {
     min-height: 550px;
 }
 .previous_notes, .previous_owner_notes {
-    height: 250px;
+    height: 160px;
     width: 100%;
     border: 1px solid lightgrey;
     overflow: auto;
