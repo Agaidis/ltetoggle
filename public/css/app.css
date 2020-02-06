@@ -10849,6 +10849,14 @@ hr {
     line-height:.5;
 }
 
+#acreage_container {
+    background-color:antiquewhite;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
