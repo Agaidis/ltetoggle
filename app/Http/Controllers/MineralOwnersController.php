@@ -64,7 +64,7 @@ class MineralOwnersController extends Controller
     public function getNotes(Request $request) {
         try {
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->first();
-            return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->value('notes');
+            return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->first();
         } catch( \Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
@@ -88,18 +88,21 @@ class MineralOwnersController extends Controller
 
                 $newOwnerLeaseNote->lease_name = $request->leaseName;
                 $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
-                $newOwnerLeaseNote->notes = '<p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes;
+                $newOwnerLeaseNote->notes = '<div id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes .'</div>';
 
                 $newOwnerLeaseNote->save();
 
+                OwnerNote::where('id', $newOwnerLeaseNote->id)
+                         ->update(['notes' => '<div id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes .'</div>']);
+
             } else {
                 OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)
-                    ->update(['notes' => '<p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes]);
+                    ->update(['notes' => '<div id="owner_'.$doesOwnerNoteExist[0]->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes .'</div>']);
             }
 
             $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->first();
 
-            return $updatedOwnerNote->notes;
+            return $updatedOwnerNote;
 
         } catch( Exception $e ) {
             $errorMsg = new ErrorLog();
@@ -132,10 +135,10 @@ class MineralOwnersController extends Controller
             return 'success';
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -147,10 +150,10 @@ class MineralOwnersController extends Controller
             return $phoneNumbers;
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -168,10 +171,10 @@ class MineralOwnersController extends Controller
             return $newOwnerPhoneNumber;
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update phone numbers Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -184,10 +187,10 @@ class MineralOwnersController extends Controller
             return $request->id;
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update phone numbers Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }
@@ -203,10 +206,26 @@ class MineralOwnersController extends Controller
             return 'success';
 
         } catch( Exception $e ) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update well type Error', $e->getMessage());
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function updateAcreage(Request $request) {
+        try {
+            Permit::where('id', $request->id)
+                ->update(['acreage' => $request->acreage]);
+
+            return $request->id;
+
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
             return 'error';
         }
     }

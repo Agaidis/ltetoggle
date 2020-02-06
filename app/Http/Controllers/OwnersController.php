@@ -6,7 +6,6 @@ use App\ErrorLog;
 use App\OwnerNote;
 use App\OwnerPhoneNumber;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class OwnersController extends Controller
 {

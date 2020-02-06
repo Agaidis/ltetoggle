@@ -81,6 +81,8 @@ Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDelet
 
 Route::get('/mineral-owners/getOwnerNumbers', 'MineralOwnersController@getOwnerNumbers')->middleware('auth');
 
+Route::post('/mineral-owners/updateAcreage', 'MineralOwnersController@updateAcreage')->middleware('auth');
+
 
 
 /*                      Owner Page                          */

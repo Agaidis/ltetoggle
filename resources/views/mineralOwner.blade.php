@@ -20,8 +20,8 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <h2>Lease Name: {{$leaseName}}</h2>
-                                <h3>Operator Name: {{$permitValues->reported_operator}}</h3>
+                                <span style="font-size:20px;"><b>Lease Name</b>: {{$leaseName}} | <label>Acreage : </label> <input type="text" placeholder="Acreage" class="acreage" id="acreage_{{$permitValues->id}}" name="acreage" value="{{$permitValues->acreage}}"/></span>
+                                <br><span style="font-size:20px;">Operator Name: {{$permitValues->reported_operator}}</span>
                             </div>
                         </div>
                             <div style="margin-top:1.5%;" class="offset-3 col-md-9">
@@ -290,6 +290,9 @@
                                             <div class="containers">
                                                 <label for="decimal_interest">Decimal Interest: </label>
                                                 <span id="decimal_interest"></span><br>
+
+                                                <label for="net_royalty_acres">Net Royalty Acres: </label>
+                                                <span id="net_royalty_acres"></span><br>
 
                                                 <label for="interest_type">Interest Type: </label>
                                                 <span id="interest_type"></span><br>

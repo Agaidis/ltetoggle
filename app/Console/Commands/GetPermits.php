@@ -1,56 +1,52 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Console\Commands;
 
 use App\ErrorLog;
+use App\Http\Controllers\APIManager;
 use App\Permit;
-use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
-class AdminController extends Controller
+class GetPermits extends Command
 {
     /**
-     * Create a new controller instance.
+     * The name and signature of the console command.
+     *
+     * @var string
+     */
+    protected $signature = 'process:getPermits';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'This will loop through by date and grab all permits by all counties';
+
+    /**
+     * Create a new command instance.
      *
      * @return void
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        parent::__construct();
     }
 
     /**
-     * Show the application dashboard.
+     * Execute the console command.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return mixed
      */
-    public function index()
+    public function handle()
     {
-        return view('admin');
-    }
-
-
-    public function updatePermits(Request $request) {
-
-        try {
-            $this->runUpdatePermits($request->county);
-
-            return 'success';
-        } catch ( Exception $e ) {
-            $errorMsg = new ErrorLog();
-            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
-
-            $errorMsg->save();
-            return 'error';
-        }
-    }
-
-    public function runUpdatePermits() {
         $apiManager = new APIManager();
         $token = $apiManager->getToken();
         $counties = ['ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON'];
         $end_date = date('Y-m-d');
+
         try {
             foreach ($counties as $county) {
                 $date = '2020-01-27';
@@ -137,4 +133,5 @@ class AdminController extends Controller
             return 'error';
         }
     }
+
 }

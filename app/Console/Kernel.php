@@ -13,6 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\GetPermits::class,
+        Commands\GetWells::class
     ];
 
     /**
@@ -23,6 +25,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('process:getPermits')->hourly()->timezone('America/New_York');
+        $schedule->command('process:getWells')->dailyAt(23)->timezone('America/New_York');
     }
 
     /**

@@ -59,87 +59,6 @@ class APIManager
         }
     }
 
-    public function getLandtracLeases ($token)
-    {
-
-        $countyResponse = [];
-        $counties = array('TX');
-
-//        // Start date
-//        $date = '2019-12-01';
-//        // End date
-//        $end_date = '2019-12-16';
-//
-//        while (strtotime($date) <= strtotime($end_date)) {
-//            echo "$date\n";
-//            $date = date ("Y-m-d", strtotime("+1 day", strtotime($date)));
-//            $strippedDate = str_replace('-', '', $date);
-
-        foreach ($counties as $county) {
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=KARNES\(\TX\)",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => false,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(
-                    "X-API-KEY: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                    "Content-Type: application/x-www-form-urlencoded",
-                    "Authorization: Bearer " . $token
-                ),
-            ));
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-            curl_close($curl);
-
-            if ($err) {
-                return "cURL Error #:" . $err;
-            } else {
-                $countyResponse[$county] = $response;
-            }
-        }
-    //        }
-            return $countyResponse;
-        }
-
-    public function getLandtracLease ($token, $leaseId) {
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?leaseid=" . $leaseId,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "X-API-KEY: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                "Content-Type: application/x-www-form-urlencoded",
-                "Authorization: Bearer " . $token
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            return "cURL Error #:" . $err;
-        } else {
-            return $response;
-        }
-
-
-    }
-
     public function getPermits ($county, $token, $date) {
             $curl = curl_init();
 
@@ -170,79 +89,15 @@ class APIManager
             return $response;
     }
 
-    public function getWellCounts ($token, $permitLeases) {
+    public function getWellCounts ($token, $county, $permitLease) {
+        Log::info($permitLease);
 
-        foreach ( $permitLeases as $permitLease ) {
-            $leaseName = str_replace(' ', '%20', $permitLease->lease_name);
-
-            $curl = curl_init();
-
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/well-origins?county=KARNES&leasename=". $leaseName,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => false,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(
-                    "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                    "Accept: */*",
-                    "Authorization: Bearer " . $token
-                ),
-            ));
-
-            $response = curl_exec($curl);
-            $err = curl_error($curl);
-
-            curl_close($curl);
-
-            if ($err) {
-                return "cURL Error #:" . $err;
-            }
-
-            foreach (json_decode($response) as $key => $value) {
-                $county = $value->County;
-                $currentOperator = $value->CurrentOperator;
-                $currentStatus = $value->CurrentStatus;
-                $leaseName = $value->LeaseName;
-                $uid = $value->UID;
-
-                $doesWellExist = WellOrigin::where('uid', $uid)->get();
-
-                if ($doesWellExist->isEmpty()) {
-
-                    $newWellOrigin = new WellOrigin();
-
-                    $newWellOrigin->county = $county;
-                    $newWellOrigin->current_operator = $currentOperator;
-                    $newWellOrigin->current_status = $currentStatus;
-                    $newWellOrigin->lease_name = $leaseName;
-                    $newWellOrigin->uid = $uid;
-
-                    $newWellOrigin->save();
-
-                } else {
-                    WellOrigin::where('uid', $uid)
-                        ->update([
-                            'county' => $county,
-                            'current_operator' => $currentOperator,
-                            'current_status' => $currentStatus,
-                            'lease_name' => $leaseName,
-                            'uid' => $uid]);
-                }
-            }
-        }
-        return 'success';
-    }
-
-    public function getPermit ($token, $permitId) {
+        $leaseName = str_replace([' ', '(', ')'], ['%20','',''], $permitLease);
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?permitid=" . $permitId,
+            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/well-origins?county=".$county."&leasename=". $leaseName,
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -251,8 +106,8 @@ class APIManager
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => "GET",
             CURLOPT_HTTPHEADER => array(
-                "X-API-KEY: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                "Content-Type: application/x-www-form-urlencoded",
+                "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                "Accept: */*",
                 "Authorization: Bearer " . $token
             ),
         ));

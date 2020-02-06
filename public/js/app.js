@@ -42738,9 +42738,12 @@ $(document).ready(function () {
         leaseName: $('#lease_name').val()
       },
       success: function success(data) {
-        console.log(data);
-        var updatedNotes = $('<span>' + data + '</span>');
-        $('.previous_owner_notes').empty().append(updatedNotes.html());
+        if (data.notes !== undefined && data.notes !== '') {
+          var updatedNotes = $('<span>' + data.notes + '</span>');
+          $('.previous_owner_notes').empty().append(updatedNotes.html());
+        } else {
+          $('.previous_owner_notes').empty();
+        }
       },
       error: function error(data) {
         console.log(data);
@@ -42806,6 +42809,7 @@ $(document).ready(function () {
         $('#cum_prod_oil').text(data.cum_prod_oil);
         $('#cum_prod_gas').text(data.cum_prod_gas);
         $('#active_well_count').text(data.active_well_count);
+        $('#net_royalty_acres').text(data.owner_decimal_interest % .125 * $('.acreage').val());
       },
       error: function error(data) {
         console.log(data);
@@ -42858,7 +42862,7 @@ $(document).ready(function () {
         notes: $('.owner_notes').val()
       },
       success: function success(data) {
-        var updatedNotes = $('<span>' + data + '</span>');
+        var updatedNotes = $('<span>' + data.notes + '</span>');
         $('.previous_owner_notes').empty().append(updatedNotes.html());
         $('.owner_notes').val('').text('');
       },
@@ -42960,6 +42964,34 @@ $(document).ready(function () {
       error: function error(data) {
         console.log(data);
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  });
+  $('.acreage').on('focusout', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[1];
+    console.log(uniqueId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/updateAcreage',
+      data: {
+        id: uniqueId,
+        acreage: $('.acreage').val()
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
       }
     });
   });
