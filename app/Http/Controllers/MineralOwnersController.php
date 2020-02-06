@@ -6,10 +6,10 @@ use App\ErrorLog;
 use App\MineralOwner;
 use App\OwnerNote;
 use App\OwnerPhoneNumber;
+use App\PermitNote;
 use App\User;
 use App\WellOrigin;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Permit;
 
 class MineralOwnersController extends Controller
@@ -29,6 +29,8 @@ class MineralOwnersController extends Controller
 
             $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();
 
+           $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
+
             if ($owners->isEmpty()) {
                 $leaseName = str_replace(['UNIT ', ' UNIT'], ['', ''], $permitValues->lease_name);
                 $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
@@ -36,7 +38,7 @@ class MineralOwnersController extends Controller
 
             }
 
-            return view('mineralOwner', compact('owners','permitValues', 'users', 'operator', 'leaseName', 'wells', 'count'));
+            return view('mineralOwner', compact('owners','permitValues', 'permitNotes', 'users', 'operator', 'leaseName', 'wells', 'count'));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
@@ -64,7 +66,7 @@ class MineralOwnersController extends Controller
     public function getNotes(Request $request) {
         try {
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->first();
-            return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->first();
+            return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'ASC')->get();
         } catch( \Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
@@ -79,32 +81,43 @@ class MineralOwnersController extends Controller
 
             MineralOwner::where('id', $request->ownerId)->update(['follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
 
-            $doesOwnerNoteExist = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->get();
             $userName = Auth()->user()->name;
             $date = date('d/m/Y h:m:s', strtotime('-5 hours'));
 
-            if ($doesOwnerNoteExist->isEmpty()) {
-                $newOwnerLeaseNote = new OwnerNote();
+            $newOwnerLeaseNote = new OwnerNote();
 
-                $newOwnerLeaseNote->lease_name = $request->leaseName;
-                $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
-                $newOwnerLeaseNote->notes = '<div id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes .'</div>';
+            $newOwnerLeaseNote->lease_name = $request->leaseName;
+            $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
+            $newOwnerLeaseNote->notes = '<div class="owner_note" id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '<span class="fas fa-trash delete_owner_note" id="delete_owner_note_'.$newOwnerLeaseNote->id.'" style="display:none; cursor:pointer; color:red; float:right;margin-right:5%;"></span></p>' . $request->notes .'<hr></div>';
 
-                $newOwnerLeaseNote->save();
+            $newOwnerLeaseNote->save();
 
-                OwnerNote::where('id', $newOwnerLeaseNote->id)
-                         ->update(['notes' => '<div id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes .'</div>']);
+            OwnerNote::where('id', $newOwnerLeaseNote->id)
+                ->update(['notes' => '<div class="owner_note" id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '<span class="fas fa-trash delete_owner_note" id="delete_owner_note_'.$newOwnerLeaseNote->id.'" style="display: none; cursor:pointer; color:red; float:right;margin-right:3%;"></span></p>' . $request->notes .'<hr></div>']);
 
-            } else {
-                OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)
-                    ->update(['notes' => '<div id="owner_'.$doesOwnerNoteExist[0]->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesOwnerNoteExist[0]->notes .'</div>']);
-            }
-
-            $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->first();
+            $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
 
             return $updatedOwnerNote;
 
         } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function deleteNote(Request $request) {
+        try {
+            $ownerNote = OwnerNote::where('id', $request->id)->first();
+
+            OwnerNote::destroy($request->id);
+
+            $updatedOwnerNote = OwnerNote::where('owner_name', $ownerNote->owner_name)->where('lease_name', $ownerNote->lease_name)->orderBy('id', 'DESC')->get();
+
+            return $updatedOwnerNote;
+        } catch( Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 

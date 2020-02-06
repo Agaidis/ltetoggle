@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('process:getPermits')->hourly()->timezone('America/New_York');
+        $schedule->command('process:getPermits')->everyFiveMinutes()->timezone('America/New_York');
         $schedule->command('process:getWells')->dailyAt(23)->timezone('America/New_York');
     }
 

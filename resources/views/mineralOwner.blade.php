@@ -28,8 +28,13 @@
                                 <div class="row">
                                     <div style="text-align:center;" class="col-md-4">
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
-                                        <div class="previous_permit_notes" id="previous_permit_notes" name="previous_permit_notes" contenteditable="false"></div>
-                                        <input type="hidden" id="hidden_permit_notes" value="{{$permitValues->notes}}" />
+                                        <div class="previous_notes" id="previous_notes" name="previous_notes" contenteditable="false"></div>
+                                        <?php $notes = '';?>
+                                        @foreach ($permitNotes as $permitNote)
+                                            <?php $notes .= $permitNote->notes ?>
+                                        @endforeach
+
+                                        <input type="hidden" id="hidden_permit_notes" value="{{$notes}}" />
                                     </div>
                                     <div class="col-md-2">
                                         <label for="Range">Range: </label>

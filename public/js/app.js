@@ -42656,7 +42656,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 $(document).ready(function () {
   var globalOwnerId = '';
   var globalOwnerName = '';
-  $('.previous_permit_notes').html($('#hidden_permit_notes').val());
+  $('.previous_notes').html($('#hidden_permit_notes').val());
   $('.owner_follow_up').datepicker().on('change', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
@@ -42738,8 +42738,13 @@ $(document).ready(function () {
         leaseName: $('#lease_name').val()
       },
       success: function success(data) {
-        if (data.notes !== undefined && data.notes !== '') {
-          var updatedNotes = $('<span>' + data.notes + '</span>');
+        if (data !== undefined && data !== '') {
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          console.log(updatedNotes);
           $('.previous_owner_notes').empty().append(updatedNotes.html());
         } else {
           $('.previous_owner_notes').empty();
@@ -42862,7 +42867,11 @@ $(document).ready(function () {
         notes: $('.owner_notes').val()
       },
       success: function success(data) {
-        var updatedNotes = $('<span>' + data.notes + '</span>');
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
         $('.previous_owner_notes').empty().append(updatedNotes.html());
         $('.owner_notes').val('').text('');
       },
@@ -42871,6 +42880,51 @@ $(document).ready(function () {
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
       }
     });
+  });
+  $('.previous_owner_notes').on('mouseover', '.owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[1];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_owner_note_' + ownerId).css('display', 'inherit');
+  }).on('mouseleave', '.owner_note', function () {
+    $('.delete_owner_note').css('display', 'none');
+    $('.owner_note').css('background-color', '#BCE8A6');
+  }).on('click', '.delete_owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var response = confirm('Are you sure you want to delete this note?');
+
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/mineral-owners/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('.previous_owner_notes').empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
   });
   $('.add_phone_btn').on('click', function () {
     var id = $(this)[0].id;
@@ -43218,8 +43272,18 @@ $(document).ready(function () {
         permitId: permitId
       },
       success: function success(data) {
-        var updatedNotes = $('<span>' + data + '</span>');
-        $('.previous_notes').empty().append(updatedNotes.html());
+        console.log(data);
+
+        if (data !== undefined && data !== '') {
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('.previous_notes').empty().append(updatedNotes.html());
+        } else {
+          $('.previous_notes').empty();
+        }
       },
       error: function error(data) {
         console.log(data);
@@ -43245,7 +43309,11 @@ $(document).ready(function () {
         notes: $('.notes').val()
       },
       success: function success(data) {
-        var updatedNotes = $('<span>' + data + '</span>');
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
         $('.previous_notes').empty().append(updatedNotes.html());
         $('.notes').val('').text('');
       },
@@ -43253,6 +43321,52 @@ $(document).ready(function () {
         $('.notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
       }
     });
+  });
+  $('.previous_notes').on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    console.log(permitId);
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var response = confirm('Are you sure you want to delete this note?');
+
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/new-permits/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('.previous_notes').empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
   });
 });
 

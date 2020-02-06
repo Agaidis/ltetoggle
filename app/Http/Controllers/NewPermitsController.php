@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\ErrorLog;
 use App\MineralOwner;
+use App\OwnerNote;
 use App\Permit;
+use App\PermitNote;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -57,7 +59,9 @@ class NewPermitsController extends Controller
 
     public function getNotes(Request $request) {
         try {
-            return Permit::where('permit_id', $request->permitId)->value('notes');
+           $leaseName = Permit::where('permit_id', $request->permitId)->value('lease_name');
+
+            return PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
         } catch( \Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
@@ -69,28 +73,45 @@ class NewPermitsController extends Controller
 
     public function updateNotes(Request $request) {
         try {
-            $doesLeaseExist = Permit::where('permit_id', $request->permitId)->get();
+            $permitInfo = Permit::where('permit_id', $request->permitId)->first();
+
             $userName = Auth()->user()->name;
-            $date = date('d/m/Y h:m:s');
+            $date = date('d/m/Y h:m:s', strtotime('-5 hours'));
 
-            if ($doesLeaseExist->isEmpty()) {
-                $newLease = new Permit();
+            $newPermitNote = new permitNote();
 
-                $newLease->permit_id = $request->permitId;
-                $newLease->notes = '<p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '</p>' . $request->notes;
+            $newPermitNote->permit_id = $request->permitId;
+            $newPermitNote->lease_name = $permitInfo->lease_name;
+            $newPermitNote->notes = '<div class="permit_note" id="permit_'.$newPermitNote->id.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '<span class="fas fa-trash delete_permit_note" id="delete_permit_note_'.$newPermitNote->id.'" style="display:none; cursor:pointer; color:red; float:right;margin-right:5%;"></span></p>' . $request->notes .'<hr></div>';
 
-                $newLease->save();
+            $newPermitNote->save();
 
-            } else {
-                Permit::where('permit_id', $request->permitId)
-                    ->update(['notes' => '<p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '</p>' . $request->notes . '<hr>' . $doesLeaseExist[0]->notes]);
-            }
+            PermitNote::where('id', $newPermitNote->id)
+                ->update(['notes' => '<div class="permit_note" id="permit_'.$newPermitNote->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '<span class="fas fa-trash delete_permit_note" id="delete_permit_note_'.$newPermitNote->id.'" style="display: none; cursor:pointer; color:red; float:right;margin-right:3%;"></span></p>' . $request->notes .'<hr></div>']);
 
-            $updatedPermit = Permit::where('permit_id', $request->permitId)->first();
+            $updatedPermitNote = PermitNote::where('lease_name', $permitInfo->lease_name)->orderBy('id', 'DESC')->get();
 
-            return $updatedPermit->notes;
+            return $updatedPermitNote;
 
         } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function deleteNote(Request $request) {
+        try {
+            $permitNote = PermitNote::where('id', $request->id)->first();
+
+            PermitNote::destroy($request->id);
+
+            $updatedPermitNotes = PermitNote::where('permit_id', $permitNote->permit_id)->orderBy('id', 'DESC')->get();
+
+            return $updatedPermitNotes;
+        } catch( Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 

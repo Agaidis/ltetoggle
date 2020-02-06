@@ -2,7 +2,7 @@ $(document).ready(function () {
     let globalOwnerId = '';
     let globalOwnerName = '';
 
-    $('.previous_permit_notes').html($('#hidden_permit_notes').val());
+    $('.previous_notes').html($('#hidden_permit_notes').val());
 
 
     $('.owner_follow_up').datepicker().on('change', function() {
@@ -91,8 +91,15 @@ $(document).ready(function () {
                 leaseName: $('#lease_name').val()
             },
             success: function success(data) {
-                if (data.notes !== undefined && data.notes !== '') {
-                    let updatedNotes = $('<span>'+data.notes+'</span>');
+                if (data !== undefined && data !== '') {
+                    let updatedNotes = '';
+
+                    $.each(data, function (key, value) {
+                        updatedNotes += '<span>'+value.notes+'</span>';
+                    });
+                    updatedNotes = $('<span>' + updatedNotes + '</span>');
+                    console.log(updatedNotes);
+
                     $('.previous_owner_notes').empty().append(updatedNotes.html());
                 } else {
                     $('.previous_owner_notes').empty();
@@ -203,8 +210,6 @@ $(document).ready(function () {
         });
     });
 
-
-
     //UPDATE OWNER NOTES
     $('.update_owner_notes_btn').on('click', function() {
         $.ajaxSetup({
@@ -224,7 +229,12 @@ $(document).ready(function () {
                 notes: $('.owner_notes').val()
             },
             success: function success(data) {
-                let updatedNotes = $('<span>'+data.notes+'</span>');
+                let updatedNotes = '';
+
+                $.each(data, function (key, value) {
+                    updatedNotes += '<span>'+value.notes+'</span>';
+                });
+                updatedNotes = $('<span>' + updatedNotes + '</span>');
 
                 $('.previous_owner_notes').empty().append(updatedNotes.html());
                 $('.owner_notes').val('').text('');
@@ -234,6 +244,55 @@ $(document).ready(function () {
                 $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
             }
         });
+    });
+
+    $('.previous_owner_notes').on('mouseover', '.owner_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[1];
+
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_owner_note_'+ownerId).css('display', 'inherit');
+    }).on('mouseleave', '.owner_note', function() {
+        $('.delete_owner_note').css('display', 'none');
+        $('.owner_note').css('background-color', '#BCE8A6');
+    }).on('click', '.delete_owner_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[3];
+        let response = confirm('Are you sure you want to delete this note?');
+
+        if (response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "POST",
+                url: '/mineral-owners/delete/delete-note',
+                data: {
+                    id: noteId
+                },
+                success: function success(data) {
+                    console.log(data);
+                    let updatedNotes = '';
+
+                    $.each(data, function (key, value) {
+                        updatedNotes += '<span>'+value.notes+'</span>';
+                    });
+                    updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                    $('.previous_owner_notes').empty().append(updatedNotes.html());
+                },
+                error: function error(data) {
+                    console.log(data);
+                }
+            });
+        }
     });
 
     $('.add_phone_btn').on('click', function() {

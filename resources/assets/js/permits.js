@@ -215,9 +215,19 @@ $(document).ready(function () {
                 permitId: permitId
             },
             success: function success(data) {
-                let updatedNotes = $('<span>'+data+'</span>');
+                console.log(data);
+                if (data !== undefined && data !== '') {
+                    let updatedNotes = '';
 
-                $('.previous_notes').empty().append(updatedNotes.html());
+                    $.each(data, function (key, value) {
+                        updatedNotes += '<span>'+value.notes+'</span>';
+                    });
+                    updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                    $('.previous_notes').empty().append(updatedNotes.html());
+                } else {
+                    $('.previous_notes').empty();
+                }
             },
             error: function error(data) {
                 console.log(data);
@@ -245,7 +255,12 @@ $(document).ready(function () {
 
             },
             success: function success(data) {
-                let updatedNotes = $('<span>'+data+'</span>');
+                let updatedNotes = '';
+
+                $.each(data, function (key, value) {
+                    updatedNotes += '<span>'+value.notes+'</span>';
+                });
+                updatedNotes = $('<span>' + updatedNotes + '</span>');
 
                 $('.previous_notes').empty().append(updatedNotes.html());
                 $('.notes').val('').text('');
@@ -254,5 +269,55 @@ $(document).ready(function () {
                 $('.notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
             }
         });
+    });
+
+    $('.previous_notes').on('mouseover', '.permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[1];
+        console.log(permitId);
+
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_permit_note_'+permitId).css('display', 'inherit');
+    }).on('mouseleave', '.permit_note', function() {
+        $('.delete_permit_note').css('display', 'none');
+        $('.permit_note').css('background-color', '#F2EDD7FF');
+    }).on('click', '.delete_permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[3];
+        let response = confirm('Are you sure you want to delete this note?');
+
+        if (response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "POST",
+                url: '/new-permits/delete/delete-note',
+                data: {
+                    id: noteId
+                },
+                success: function success(data) {
+                    console.log(data);
+                    let updatedNotes = '';
+
+                    $.each(data, function (key, value) {
+                        updatedNotes += '<span>'+value.notes+'</span>';
+                    });
+                    updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                    $('.previous_notes').empty().append(updatedNotes.html());
+                },
+                error: function error(data) {
+                    console.log(data);
+                }
+            });
+        }
     });
 });

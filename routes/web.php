@@ -57,6 +57,8 @@ Route::put('/new-permits/updateAssignee', 'NewPermitsController@updateAssignee')
 
 Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetails')->middleware('auth');
 
+Route::post('/new-permits/delete/delete-note', 'NewPermitsController@deleteNote')->middleware('auth');
+
 
 /*                      MINERAL OWNER/LEASE PAGE                        */
 Route::get('/mineral-owner/{operator?}/{reporter?}/{id?}', 'MineralOwnersController@index')->middleware('auth');
@@ -82,6 +84,8 @@ Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDelet
 Route::get('/mineral-owners/getOwnerNumbers', 'MineralOwnersController@getOwnerNumbers')->middleware('auth');
 
 Route::post('/mineral-owners/updateAcreage', 'MineralOwnersController@updateAcreage')->middleware('auth');
+
+Route::post('mineral-owners/delete/delete-note', 'MineralOwnersController@deleteNote')->middleware('auth');
 
 
 
