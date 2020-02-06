@@ -105,7 +105,7 @@
                                         <tr>
                                             <th class="text-center">Assignee/Follow-Up</th>
                                             <th class="text-center">Wellbore Type</th>
-                                            <th class="text-center">Contact</th>
+                                            <th class="text-center" style="width:100px;">Contact</th>
                                             <th class="text-center">Follow-Up</th>
                                             <th class="text-center">Owner</th>
                                             <th class="text-center">ODI</th>
