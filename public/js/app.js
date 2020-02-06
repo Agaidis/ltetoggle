@@ -43145,6 +43145,14 @@ $(document).ready(function () {
           submittedDate[0] = 'N/A';
         }
 
+        var acreage = '';
+
+        if (data['permit'][0]['acreage'] !== null) {
+          acreage = data['permit'][0]['acreage'].split('T');
+        } else {
+          acreage[0] = 'N/A';
+        }
+
         $('#Abstract').text(_abstract);
         $('#ApprovedDate').text(approvedDate[0]);
         $('#SubmittedDate').text(submittedDate[0]);
@@ -43163,7 +43171,7 @@ $(document).ready(function () {
         $('#Township').text(data['permit'][0]['township']);
         $('#WellType').text(data['permit'][0]['well_type']);
         $('#expiration_primary_term').text('');
-        $('#area_acres').text(data['permit'][0]['area_acres']);
+        $('#area_acres').text(data['permit'][0]['acreage']);
         $('#District').text(district);
         var geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
         var obj = [];
