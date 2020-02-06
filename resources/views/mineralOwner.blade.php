@@ -20,7 +20,7 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <span style="font-size:20px;"><b>Lease Name</b>: {{$leaseName}} | <span id="acreage_container"><label>Acreage : </label> <input type="text" placeholder="Acreage" class="acreage" id="acreage_{{$permitValues->id}}" name="acreage" value="{{$permitValues->acreage}}"/></span></span>
+                                <span style="font-size:20px;"><b>Lease Name</b>: {{$leaseName}} <span id="acreage_container"><label>Acreage : </label> <input type="text" placeholder="Acreage" class="acreage" id="acreage_{{$permitValues->id}}" name="acreage" value="{{$permitValues->acreage}}"/></span></span>
                                 <br><span style="font-size:20px;">Operator Name: {{$permitValues->reported_operator}}</span>
                             </div>
                         </div>
