@@ -51,6 +51,9 @@
 
                                         <label for="WellType">Well Type: </label>
                                         <span id="WellType">{{$permitValues->well_type}}</span><br>
+
+                                        <label for="Block">Block: </label>
+                                        <span id="Block">{{$permitValues->block}}</span>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="approved_date">Approved Date: </label>
@@ -69,10 +72,7 @@
                                         <span id="Abstract">{{$permitValues->abstract}}</span><br>
 
                                         <label for="District">District: </label>
-                                        <span id="District">{{$permitValues->district}}</span><br>
-
-                                        <label for="Block">Block: </label>
-                                        <span id="Block">{{$permitValues->block}}</span>
+                                        <span id="District">{{$permitValues->district}}</span>
                                     </div>
                                     </div>
                                 </div>
