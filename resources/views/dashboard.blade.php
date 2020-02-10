@@ -25,11 +25,15 @@
                                 <table class="table table-hover table-responsive-md table-bordered" id="permit_table">
                                     <thead>
                                     <tr>
+                                        @if (Auth::user()->role === 'admin')
                                         <th class="text-center">Assignee</th>
                                         <th class="text-center">State / County</th>
                                         <th class="text-center">Reported Operator</th>
+                                        @endif
                                         <th class="text-center">Lease Name</th>
+                                            @if (Auth::user()->role === 'admin')
                                         <th class="text-center">More Data</th>
+                                                @endif
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -38,6 +42,7 @@
                                         <?php $approvedDate = explode('T', $permit->approved_date)?>
 
                                         <tr class="permit_row" id="permit_row_{{$permit->permit_id}}">
+                                            @if (Auth::user()->role === 'admin')
                                             <td class="text-center">
                                                 <select class="form-control assignee" id="assignee_{{$permit->permit_id}}">
                                                     <option selected disabled>Select a User</option>
@@ -52,10 +57,13 @@
                                             </td>
                                             <td class="text-center">{{$permit->county_parish}}</td>
                                             <td class="text-center">{{$permit->reported_operator}}</td>
+                                            @endif
                                             <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator . '/' . $permit->id)}}">{{$permit->lease_name}}</a></td>
-                                            <td class="text-center">
+                                                @if (Auth::user()->role === 'admin')
+                                                <td class="text-center">
                                                 <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}_{{$permit->reported_operator}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
                                             </td>
+                                                    @endif
                                         </tr>
 
                                     @endforeach
@@ -66,6 +74,7 @@
                                     </tfoot>
                                 </table>
                             </div>
+                            @if (Auth::user()->role === 'admin')
                             <div style="margin-top:1.5%;" class="col-md-4">
                                 <label style="font-size:20px; font-weight:bold;" for="notes">Previous Landtrac Notes</label>
                                 <div class="previous_notes" name="previous_notes" contenteditable="false"></div><br>
@@ -78,6 +87,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
