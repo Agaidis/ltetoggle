@@ -33,7 +33,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $permits = DB::table('permits')->get();
+        $permits = DB::table('permits')->groupBy('abstract', 'lease_name')->get();
         $users = User::all();
         $currentUser = Auth::user()->name;
 
