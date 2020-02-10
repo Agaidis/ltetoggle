@@ -74,6 +74,9 @@ class GetWells extends Command
                             $newWell->current_status = $decodedWells[$i]->CurrentStatus;
                             $newWell->lease_name = $decodedWells[$i]->LeaseName;
                             $newWell->uid = $decodedWells[$i]->UID;
+                            $newWell->well_name = $decodedWells[$i]->WellName;
+                            $newWell->well_number = $decodedWells[$i]->wellNumber;
+
 
                             $newWell->save();
 
@@ -84,7 +87,9 @@ class GetWells extends Command
                                     'current_operator' => $decodedWells[$i]->CurrentOperator,
                                     'current_status' => $decodedWells[$i]->CurrentStatus,
                                     'lease_name' => $decodedWells[$i]->LeaseName,
-                                    'uid' => $decodedWells[$i]->UID]);
+                                    'uid' => $decodedWells[$i]->UID,
+                                    'well_name' => $decodedWells[$i]->WellName,
+                                    'well_number' => $decodedWells[$i]->WellNumber]);
                         }
                     }
                 }
