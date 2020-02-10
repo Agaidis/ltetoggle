@@ -9,6 +9,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div id="dashboard_btn_container" class="col-md-4">
+                                @if (Auth::user()->role === 'admin')
                                 <div class="button_panel">
                                     <a href="{{ url('welbore') }}">
                                         <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
@@ -90,6 +91,7 @@
                                     </div>
 
                                 </div>
+                        @endif
                             </div>
                             @if (isset($owners[0]->lease_name))
                                 <input type="hidden" name="lease_name" id="lease_name" value="{{$owners[0]->lease_name}}"/>
