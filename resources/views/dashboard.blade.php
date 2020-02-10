@@ -11,10 +11,12 @@
                         <div class="row">
                             <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
+                                    @if (Auth::user()->role === 'admin')
                                     <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
                                     <a href="{{ url('user-mmp') }}">
                                         <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="user_mmp_btn">{{Auth::user()->name}}</button>
                                     </a>
+                                        @endif
                                 </div>
                             </div>
                         </div>
