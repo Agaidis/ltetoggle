@@ -26,14 +26,18 @@
                                     <thead>
                                     <tr>
                                         @if (Auth::user()->role === 'admin')
-                                        <th class="text-center">Assignee</th>
-                                        <th class="text-center">State / County</th>
-                                        <th class="text-center">Reported Operator</th>
+                                            <th class="text-center">Assignee</th>
+                                            <th class="text-center">State / County</th>
+                                            <th class="text-center">Reported Operator</th>
+                                            <th class="text-center">Lease Name</th>
+                                            <th class="text-center">More Data</th>
+                                        @else
+                                            <th class="text-center">Col 1</th>
+                                            <th class="text-center">Col 2</th>
+                                            <th class="text-center">Col 3</th>
+                                            <th class="text-center">Lease Name</th>
+                                            <th class="text-center">Col 5</th>
                                         @endif
-                                        <th class="text-center">Lease Name</th>
-                                            @if (Auth::user()->role === 'admin')
-                                        <th class="text-center">More Data</th>
-                                                @endif
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -55,15 +59,19 @@
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td class="text-center">{{$permit->county_parish}}</td>
-                                            <td class="text-center">{{$permit->reported_operator}}</td>
-                                            @endif
-                                            <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator . '/' . $permit->id)}}">{{$permit->lease_name}}</a></td>
-                                                @if (Auth::user()->role === 'admin')
+                                                <td class="text-center">{{$permit->county_parish}}</td>
+                                                <td class="text-center">{{$permit->reported_operator}}</td>
+                                                <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator . '/' . $permit->id)}}">{{$permit->lease_name}}</a></td>
                                                 <td class="text-center">
-                                                <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}_{{$permit->reported_operator}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
-                                            </td>
-                                                    @endif
+                                                    <button type="button" data-target="#modal_show_permit" data-toggle="modal" id="id_{{$permit->permit_id}}_{{$permit->reported_operator}}" class="fa fa-edit btn-sm btn-primary view_permit"></button>
+                                                </td>
+                                                @else
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator . '/' . $permit->id)}}">{{$permit->lease_name}}</a></td>
+                                                <td class="text-center"></td>
+                                            @endif
                                         </tr>
 
                                     @endforeach

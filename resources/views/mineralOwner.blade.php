@@ -109,20 +109,21 @@
                                             @if (Auth::user()->role === 'admin')
                                                 <th class="text-center">Assignee/Follow-Up</th>
                                                 <th class="text-center">Wellbore Type</th>
-                                            @endif
-
                                                 <th class="text-center" style="width:100px;">Contact</th>
-
-                                            @if (Auth::user()->role === 'admin')
-                                                    <th class="text-center">Follow-Up</th>
-                                            @endif
-
+                                                <th class="text-center">Follow-Up</th>
                                                 <th class="text-center">Owner</th>
-
-                                            @if (Auth::user()->role === 'admin')
-                                                    <th class="text-center">ODI</th>
-                                                    <th class="text-center">% Type</th>
-                                                    <th class="text-center">More Data</th>
+                                                <th class="text-center">ODI</th>
+                                                <th class="text-center">% Type</th>
+                                                <th class="text-center">More Data</th>
+                                            @else
+                                                <th class="text-center">Col 1</th>
+                                                <th class="text-center">Col 2</th>
+                                                <th class="text-center" style="width:100px;">Contact</th>
+                                                <th class="text-center">Col 4</th>
+                                                <th class="text-center">Owner</th>
+                                                <th class="text-center">Col 6</th>
+                                                <th class="text-center">Col 7</th>
+                                                <th class="text-center">Col 8</th>
                                             @endif
                                         </tr>
                                         </thead>
@@ -130,76 +131,81 @@
                                         @foreach ($owners as $owner)
                                             <tr class="owner_row" id="owner_row_{{$owner->id}}">
                                                 @if (Auth::user()->role === 'admin')
-                                                <td class="text-center">
-                                                    <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
-                                                        <option selected disabled>Select a User</option>
-                                                        @foreach ($users as $user)
-                                                            @if ($owner->assignee == $user->id)
-                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                    <td class="text-center">
+                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                            <option selected disabled>Select a User</option>
+                                                            @foreach ($users as $user)
+                                                                @if ($owner->assignee == $user->id)
+                                                                    <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                @else
+                                                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                            @if ($owner->wellbore_type == 1)
+                                                                <option value="0">None</option>
+                                                                <option selected value="{{$owner->wellbore_type}}">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                            @elseif ($owner->wellbore_type == 2)
+                                                                <option value="0">None</option>
+                                                                <option value="1">1</option>
+                                                                <option selected value="{{$owner->wellbore_type}}">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
+                                                            @elseif ($owner->wellbore_type == 3)
+                                                                <option value="0">None</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option selected value="{{$owner->wellbore_type}}">3</option>
+                                                                <option value="4">4</option>
+                                                            @elseif ($owner->wellbore_type == 4)
+                                                                <option value="0">None</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option selected value="{{$owner->wellbore_type}}">4</option>
                                                             @else
-                                                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                <option selected value="0">None</option>
+                                                                <option value="1">1</option>
+                                                                <option value="2">2</option>
+                                                                <option value="3">3</option>
+                                                                <option value="4">4</option>
                                                             @endif
-                                                        @endforeach
-                                                    </select>
-                                                </td>
-                                                <td class="text-center">
-                                                    <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
-                                                        @if ($owner->wellbore_type == 1)
-                                                            <option value="0">None</option>
-                                                            <option selected value="{{$owner->wellbore_type}}">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                        @elseif ($owner->wellbore_type == 2)
-                                                            <option value="0">None</option>
-                                                            <option value="1">1</option>
-                                                            <option selected value="{{$owner->wellbore_type}}">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                        @elseif ($owner->wellbore_type == 3)
-                                                            <option value="0">None</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option selected value="{{$owner->wellbore_type}}">3</option>
-                                                            <option value="4">4</option>
-                                                        @elseif ($owner->wellbore_type == 4)
-                                                            <option value="0">None</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option selected value="{{$owner->wellbore_type}}">4</option>
-                                                        @else
-                                                            <option selected value="0">None</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                        @endif
-                                                    </select>
-                                                </td>
-                                                @endif
-                                                <td class="text-center">
-                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
-                                                </td>
-                                                    @if (Auth::user()->role === 'admin')
-                                                <td class="text-center">
-                                                    @if ($owner->follow_up_date != '')
+                                                        </select>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        @if ($owner->follow_up_date != '')
                                                             <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" value="{{date('M j, Y', strtotime($owner->follow_up_date))}}" />
-                                                    @else
-                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
-                                                    @endif
-                                                </td>
-                                                    @endif
-                                                <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
-
-                                                    @if (Auth::user()->role === 'admin')
-
-                                                    <td class="text-center">{{$owner->owner_decimal_interest}}</td>
-                                                <td class="text-center">{{$owner->owner_interest_type}}</td>
-                                                <td class="text-center">
-                                                    <button type="button" data-target="#modal_show_owner" data-toggle="modal" id="id_{{$owner->id}}" class="fa fa-edit btn-sm btn-primary view_owner"></button>
-                                                </td>
+                                                        @else
+                                                            <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
                                                         @endif
+                                                    </td>
+                                                    <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
+                                                    <td class="text-center">{{$owner->owner_decimal_interest}}</td>
+                                                    <td class="text-center">{{$owner->owner_interest_type}}</td>
+                                                    <td class="text-center">
+                                                        <button type="button" data-target="#modal_show_owner" data-toggle="modal" id="id_{{$owner->id}}" class="fa fa-edit btn-sm btn-primary view_owner"></button>
+                                                    </td>
+                                                    @else
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center">
+                                                        <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
+                                                    </td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"></td>
+                                                @endif
                                             </tr>
                                         @endforeach
                                         </tbody>
