@@ -3,9 +3,9 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     $('#lease_table').DataTable({
-         "pagingType": "simple"
-        // "aaSorting": [],
-        // "order": [[ 3, "desc" ]]
+         "pagingType": "simple",
+         "aaSorting": [],
+         "order": [[ 3, "desc" ]]
     }).on('click', '.lease_row', function () {
         let id = $(this)[0].id;
         let splitId = id.split('_');

@@ -37056,9 +37056,9 @@ $(document).ready(function () {
   var globalLeaseId = '';
   $('[data-toggle="tooltip"]').tooltip();
   $('#lease_table').DataTable({
-    "pagingType": "simple" // "aaSorting": [],
-    // "order": [[ 3, "desc" ]]
-
+    "pagingType": "simple",
+    "aaSorting": [],
+    "order": [[3, "desc"]]
   }).on('click', '.lease_row', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
@@ -42686,7 +42686,10 @@ $(document).ready(function () {
     });
   });
   $('.owner_table').DataTable({
-    "pagingType": "simple"
+    "pagingType": "simple",
+    "pageLength": 25,
+    "aaSorting": [],
+    "order": [[5, "desc"]]
   }).on('change', '.owner_assignee', function () {
     var id = $(this)[0].id;
     var assignee = $(this)[0].value;
@@ -43060,10 +43063,10 @@ $(document).ready(function () {
 $(document).ready(function () {
   var globalPermitId = '';
   $('#permit_table').DataTable({
-    "pagingType": "simple" //  "aaSorting": [],
-    //  "stateSave": true,
-    //"order": [[ 2, "asc" ]]
-
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
   }).on('click', '.view_permit', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
