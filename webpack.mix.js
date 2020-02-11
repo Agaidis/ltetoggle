@@ -13,7 +13,6 @@ let mix = require('laravel-mix');
 
 mix.js([
     'resources/assets/js/bootstrap.js',
-    'resources/assets/js/dashboard.js',
     'resources/assets/js/permits.js',
     'resources/assets/js/mineralOwner.js',
     'resources/assets/js/datatables.min.js',
@@ -25,7 +24,7 @@ mix.js([
     .sass('resources/assets/sass/app.scss', 'public/css')
     .styles([
         'public/css/app.css',
-        'resources/assets/css/dashboard.css',
+        'resources/assets/css/mmp.css',
         'resources/assets/css/datatables.min.css',
         'resources/assets/css/jquery-dp-ui.min.css',
         'resources/assets/css/jquery-dp-ui.structure.min.css',

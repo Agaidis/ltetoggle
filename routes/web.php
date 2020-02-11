@@ -34,20 +34,8 @@ Route::get('/admin', 'AdminController@index')->middleware('auth');
 Route::get('/admin/updatePermits', 'AdminController@updatePermits')->middleware('auth');
 
 
-/*                              MM-PLATFORM                 */
-Route::get('/mm-platform', 'DashboardController@index')->middleware('auth');
-
-Route::get('/mm-platform/getLeaseDetails', 'DashboardController@getLeaseDetails')->middleware('auth');
-
-Route::get('/mm-platform/getNotes', 'DashboardController@getNotes')->middleware('auth');
-
-Route::put('/mm-platform/updateNotes', 'DashboardController@updateNotes')->middleware('auth');
-
-Route::put('/mm-platform/updateAssignee', 'DashboardController@updateAssignee')->middleware('auth');
-
-
-/*              PERMITS/DASHBOARD                   */
-Route::get('/new-permits', 'NewPermitsController@index')->middleware('auth');
+/*              PERMITS/MM-PLATFORM                     */
+Route::get('/mm-platform', 'NewPermitsController@index')->middleware('auth');
 
 Route::get('/new-permits/getNotes', 'NewPermitsController@getNotes')->middleware('auth');
 
@@ -61,33 +49,37 @@ Route::post('/new-permits/delete/delete-note', 'NewPermitsController@deleteNote'
 
 
 /*                      MINERAL OWNER/LEASE PAGE                        */
+//GET OWNERS INFO
 Route::get('/mineral-owner/{operator?}/{reporter?}/{id?}', 'MineralOwnersController@index')->middleware('auth');
 
+Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo')->middleware('auth');
+
+//NOTES
 Route::get('/mineral-owners/getNotes', 'MineralOwnersController@getNotes')->middleware('auth');
 
 Route::put('/mineral-owner/updateNotes', 'MineralOwnersController@updateNotes')->middleware('auth');
 
-Route::put('/mineral-owner/updateAssignee', 'MineralOwnersController@updateAssignee')->middleware('auth');
+Route::post('mineral-owners/delete/delete-note', 'MineralOwnersController@deleteNote')->middleware('auth');
 
-Route::put('/mineral-owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers')->middleware('auth');
+//ASSIGNEE WELLTYPE AND FOLLOWUP
+Route::put('/mineral-owner/updateAssignee', 'MineralOwnersController@updateAssignee')->middleware('auth');
 
 Route::put('/mineral-owner/updateWellType', 'MineralOwnersController@updateWellType')->middleware('auth');
 
 Route::put('/mineral-owner/updateFollowUp', 'MineralOwnersController@updateFollowUp')->middleware('auth');
 
-Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo')->middleware('auth');
+
+//PHONE NUMBERS
+Route::get('/mineral-owners/getOwnerNumbers', 'MineralOwnersController@getOwnerNumbers')->middleware('auth');
 
 Route::post('/mineral-owner/addPhone', 'MineralOwnersController@addPhone')->middleware('auth');
 
+Route::put('/mineral-owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers')->middleware('auth');
+
 Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDeletePhone')->middleware('auth');
 
-Route::get('/mineral-owners/getOwnerNumbers', 'MineralOwnersController@getOwnerNumbers')->middleware('auth');
-
+// ACREAGE
 Route::post('/mineral-owners/updateAcreage', 'MineralOwnersController@updateAcreage')->middleware('auth');
 
-Route::post('mineral-owners/delete/delete-note', 'MineralOwnersController@deleteNote')->middleware('auth');
-
-
-
-/*                      Owner Page                          */
+/*                      OWNER PAGE                     */
 Route::get('/owner/{ownerName?}', 'OwnersController@index')->middleware('auth');

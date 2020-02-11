@@ -45,7 +45,7 @@
                                             @if (Auth::user()->role === 'admin')
                                             <td class="text-center">
                                                 <select class="form-control assignee" id="assignee_{{$permit->permit_id}}">
-                                                    <option selected disabled>Select a User</option>
+                                                    <option selected value="">Select a User</option>
                                                     @foreach ($users as $user)
                                                         @if ($permit->assignee == $user->id)
                                                             <option selected value="{{$user->id}}">{{$user->name}}</option>

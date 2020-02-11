@@ -174,7 +174,10 @@ $(document).ready(function () {
                 $('#cum_prod_oil').text(data.cum_prod_oil);
                 $('#cum_prod_gas').text(data.cum_prod_gas);
                 $('#active_well_count').text(data.active_well_count);
-                $('#net_royalty_acres').text(data.owner_decimal_interest % .125 * $('.acreage').val())
+
+                let netRoyaltyAcres = data.owner_decimal_interest % .125 * $('.acreage').val();
+                netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
+                $('#net_royalty_acres').text(netRoyaltyAcres)
             },
             error: function error(data) {
                 console.log(data);

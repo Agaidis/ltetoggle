@@ -9,6 +9,8 @@ use App\Permit;
 use App\PermitNote;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class NewPermitsController extends Controller
 {
@@ -32,10 +34,11 @@ class NewPermitsController extends Controller
      */
     public function index()
     {
-        $permits = Permit::all();
+        $permits = DB::table('permits')->groupBy('abstract', 'lease_name', 'survey')->get();
         $users = User::all();
+        $currentUser = Auth::user()->name;
 
-        return view('newPermits', compact('permits', 'users'));
+        return view('dashboard', compact('permits', 'users', 'currentUser'));
     }
 
     public function getPermitDetails(Request $request) {
