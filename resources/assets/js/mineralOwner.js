@@ -36,10 +36,7 @@ $(document).ready(function () {
     });
 
     $('.owner_table').DataTable({
-        "pagingType": "simple",
-        "pageLength" : 25,
-        "aaSorting": [],
-        "order": [[ 5, "desc" ]]
+        "pagingType": "simple"
     }).on('change', '.owner_assignee', function() {
         let id = $(this)[0].id;
         let assignee = $(this)[0].value;
