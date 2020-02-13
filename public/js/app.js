@@ -42527,7 +42527,7 @@ $(document).ready(function () {
     "pagingType": "simple",
     "pageLength": 25,
     "aaSorting": [],
-    "order": [[6, "desc"]]
+    "order": [[5, "desc"]]
   }).on('change', '.owner_assignee', function () {
     var id = $(this)[0].id;
     var assignee = $(this)[0].value;
