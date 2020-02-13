@@ -121,7 +121,7 @@
                                                 <th class="text-center" style="width:100px;">Contact</th>
                                                 <th class="text-center">Col 4</th>
                                                 <th class="text-center">Owner</th>
-                                                <th class="text-center">Col 6</th>
+                                                <th class="text-center">ODI</th>
                                                 <th class="text-center">Col 7</th>
                                                 <th class="text-center">Col 8</th>
                                             @endif
@@ -202,7 +202,7 @@
                                                     </td>
                                                     <td class="text-center"></td>
                                                     <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
-                                                    <td class="text-center"></td>
+                                                    <td class="text-center">{{$owner->owner_decimal_interest}}</td>
                                                     <td class="text-center"></td>
                                                     <td class="text-center"></td>
                                                 @endif
