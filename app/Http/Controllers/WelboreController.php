@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\ErrorLog;
 use App\MineralOwner;
 use App\User;
 use Illuminate\Http\Request;
@@ -43,16 +44,12 @@ class WelboreController extends Controller
                         ->orWhere('wellbore_type', '=', '0');
                 })->orderBy('follow_up_date')->get();
 
-            $ownerPhoneNumbers = DB::select('SELECT DISTINCT owner, phone_number, phone_desc, soft_delete FROM mineral_owners p
-LEFT JOIN owner_phone_numbers o ON p.owner = o.owner_name WHERE o.phone_number != ""');
-
-            return view('welbore', compact('owners','highPriorityProspects', 'ownerPhoneNumbers', 'users'));
+            return view('welbore', compact('owners','highPriorityProspects', 'users'));
         } catch( \Exception $e) {
-            Log::info($e->getMessage());
-            Log::info($e->getCode());
-            Log::info($e->getLine());
-            mail('andrew.gaidis@gmail.com', 'Toggle Update Assignee Error', $e->getMessage());
-            return view('dashboard');
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
         }
 
 
