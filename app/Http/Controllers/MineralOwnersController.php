@@ -26,6 +26,7 @@ class MineralOwnersController extends Controller
 
         try {
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('current_operator', $permitValues->operator_alias)->get();
+            Log::info($wells);
             $count = count($wells);
 
             $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();

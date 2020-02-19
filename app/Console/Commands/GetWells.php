@@ -50,10 +50,10 @@ class GetWells extends Command
         try {
                $leasesCounties = DB::select('SELECT county_parish, lease_name FROM permits GROUP BY lease_name');
 
-               Log::info($leasesCounties);
                 for ($k = 0; $k < count($leasesCounties); $k++) {
 
-                    $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $leasesCounties[$k]->lease_name);
+                    $leaseName = $leasesCounties[$k]->lease_name;
+                    Log::info($leaseName);
 
                 $wells = $apiManager->getWellCounts($token->access_token, $leasesCounties[$k]->county_parish, $leaseName );
 
