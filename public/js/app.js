@@ -42531,6 +42531,7 @@ $(document).ready(function () {
   }).on('change', '.owner_assignee', function () {
     var id = $(this)[0].id;
     var assignee = $(this)[0].value;
+    var ownerId = id.split('_');
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -42543,7 +42544,7 @@ $(document).ready(function () {
       type: "PUT",
       url: '/mineral-owner/updateAssignee',
       data: {
-        ownerId: globalOwnerId,
+        ownerId: ownerId[1],
         assigneeId: assignee
       },
       success: function success(data) {
@@ -42641,7 +42642,8 @@ $(document).ready(function () {
         var nameAddressString = data.owner + '<br>' + data.owner_address + '<br>' + data.owner_city + ',' + data.owner_zip;
         $('#owner_name').text(data.owner);
         $('#name_address').append(nameAddressString);
-        $('#lease_name').text(data.lease_name);
+        $('#lease_name_display').text(data.lease_name);
+        $('#owner_price').val(data.price);
         $('#lease_description').text(data.lease_description);
         $('#rrc_lease_number').text(data.rrc_lease_number);
         $('#decimal_interest').text(data.owner_decimal_interest);
@@ -42880,6 +42882,32 @@ $(document).ready(function () {
       data: {
         id: uniqueId,
         acreage: $('.acreage').val()
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  $('#owner_price').on('focusout', function () {
+    console.log(globalOwnerId);
+    console.log($('.owner_price').val());
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/update/OwnerPrice',
+      data: {
+        id: globalOwnerId,
+        price: $('.owner_price').val()
       },
       success: function success(data) {
         console.log(data);
@@ -43220,6 +43248,350 @@ $(document).ready(function () {
 
 /***/ }),
 
+/***/ "./resources/assets/js/wellbore.js":
+/*!*****************************************!*\
+  !*** ./resources/assets/js/wellbore.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var globalOwnerId = '';
+  /* HIGH PRIORITY WELLBORE TABLE */
+
+  $('.high_priority_wellbore_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 25,
+    "aaSorting": [],
+    "order": [[1, "desc"]]
+  }).on('change', '.owner_assignee', function () {
+    var id = $(this)[0].id;
+    var assignee = $(this)[0].value;
+    var ownerId = id.split('_');
+    console.log(ownerId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateAssignee',
+      data: {
+        ownerId: ownerId[1],
+        assigneeId: assignee
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', '.owner_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    console.log(ownerId);
+    globalOwnerId = ownerId; // $('.owner_row').css('background-color', 'white');
+    //  $('#' + id).css('background-color', '#e3e3d1');
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners/getNotes',
+      data: {
+        ownerId: ownerId,
+        leaseName: $('#lease_name_' + ownerId).val()
+      },
+      success: function success(data) {
+        console.log(data);
+
+        if (data !== undefined && data !== '') {
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          console.log(updatedNotes);
+          $('.previous_owner_notes').empty().append(updatedNotes.html());
+        } else {
+          $('.previous_owner_notes').empty();
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  }).on('click', '.view_owner', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[1];
+    console.log(ownerId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners',
+      data: {
+        id: ownerId
+      },
+      success: function success(data) {
+        console.log(data);
+        var nameAddressString = data.owner + '<br>' + data.owner_address + '<br>' + data.owner_city + ',' + data.owner_zip;
+        $('#owner_name').text(data.owner);
+        $('#name_address').append(nameAddressString);
+        $('#lease_name').text(data.lease_name);
+        $('#owner_price').val(data.price);
+        $('#lease_description').text(data.lease_description);
+        $('#rrc_lease_number').text(data.rrc_lease_number);
+        $('#decimal_interest').text(data.owner_decimal_interest);
+        $('#interest_type').text(data.owner_interest_type);
+        $('#tax_value').text(data.tax_value);
+        $('#first_prod').text(data.first_prod_date);
+        $('#last_prod').text(data.last_prod_date);
+        $('#cum_prod_oil').text(data.cum_prod_oil);
+        $('#cum_prod_gas').text(data.cum_prod_gas);
+        $('#active_well_count').text(data.active_well_count);
+        var netRoyaltyAcres = data.owner_decimal_interest / .125 * $('.acreage').val();
+        netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
+        $('#net_royalty_acres').text(netRoyaltyAcres);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('change', '.wellbore_dropdown', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    var wellType = $(this)[0].value;
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateWellType',
+      data: {
+        ownerId: ownerId,
+        wellType: wellType
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  /* LOWER PRIORITY WELLBORE TABLE */
+
+  $('.low_priority_wellbore_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 25,
+    "aaSorting": [],
+    "order": [[1, "desc"]]
+  }).on('change', '.owner_assignee', function () {
+    var id = $(this)[0].id;
+    var assignee = $(this)[0].value;
+    var ownerId = id.split('_');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateAssignee',
+      data: {
+        ownerId: ownerId[1],
+        assigneeId: assignee
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', '.owner_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    globalOwnerId = ownerId;
+    console.log(ownerId);
+    console.log(globalOwnerId); //  $('.owner_row').css('background-color', 'white');
+    //$('#' + id).css('background-color', '#e3e3d1');
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners/getNotes',
+      data: {
+        ownerId: ownerId,
+        leaseName: $('#lease_name_' + ownerId).val()
+      },
+      success: function success(data) {
+        console.log(data);
+
+        if (data !== undefined && data !== '') {
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          console.log(updatedNotes);
+          $('.previous_owner_notes').empty().append(updatedNotes.html());
+        } else {
+          $('.previous_owner_notes').empty();
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  }).on('click', '.view_owner', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[1];
+    console.log(ownerId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners',
+      data: {
+        id: ownerId
+      },
+      success: function success(data) {
+        console.log(data);
+        var nameAddressString = data.owner + '<br>' + data.owner_address + '<br>' + data.owner_city + ',' + data.owner_zip;
+        $('#owner_name').text(data.owner);
+        $('#name_address').append(nameAddressString);
+        $('#lease_name').text(data.lease_name);
+        $('#owner_price').val(data.price);
+        $('#lease_description').text(data.lease_description);
+        $('#rrc_lease_number').text(data.rrc_lease_number);
+        $('#decimal_interest').text(data.owner_decimal_interest);
+        $('#interest_type').text(data.owner_interest_type);
+        $('#tax_value').text(data.tax_value);
+        $('#first_prod').text(data.first_prod_date);
+        $('#last_prod').text(data.last_prod_date);
+        $('#cum_prod_oil').text(data.cum_prod_oil);
+        $('#cum_prod_gas').text(data.cum_prod_gas);
+        $('#active_well_count').text(data.active_well_count);
+        var netRoyaltyAcres = data.owner_decimal_interest / .125 * $('.acreage').val();
+        netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
+        $('#net_royalty_acres').text(netRoyaltyAcres);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('change', '.wellbore_dropdown', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    var wellType = $(this)[0].value;
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateWellType',
+      data: {
+        ownerId: ownerId,
+        wellType: wellType
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }); //UPDATE OWNER NOTES
+
+  $('.update_owner_notes_wellbore_btn').on('click', function () {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateNotes',
+      data: {
+        ownerId: globalOwnerId,
+        leaseName: $('#lease_name_' + globalOwnerId).val(),
+        notes: $('.owner_notes').val()
+      },
+      success: function success(data) {
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
+        $('.previous_owner_notes').empty().append(updatedNotes.html());
+        $('.owner_notes').val('').text('');
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  });
+});
+
+/***/ }),
+
 /***/ "./resources/assets/sass/app.scss":
 /*!****************************************!*\
   !*** ./resources/assets/sass/app.scss ***!
@@ -43232,15 +43604,16 @@ $(document).ready(function () {
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/sass/app.scss ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/sass/app.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/bootstrap.js */"./resources/assets/js/bootstrap.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/permits.js */"./resources/assets/js/permits.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/mineralOwner.js */"./resources/assets/js/mineralOwner.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/wellbore.js */"./resources/assets/js/wellbore.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/datatables.min.js */"./resources/assets/js/datatables.min.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/jquery-dp-ui.min.js */"./resources/assets/js/jquery-dp-ui.min.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/admin.js */"./resources/assets/js/admin.js");

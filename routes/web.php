@@ -81,5 +81,8 @@ Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDelet
 // ACREAGE
 Route::post('/mineral-owners/updateAcreage', 'MineralOwnersController@updateAcreage')->middleware('auth');
 
+//PRICE
+Route::post('/mineral-owners/update/OwnerPrice', 'MineralOwnersController@updateOwnerPrice')->middleware('auth');
+
 /*                      OWNER PAGE                     */
 Route::get('/owner/{ownerName?}', 'OwnersController@index')->middleware('auth');

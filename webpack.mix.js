@@ -15,6 +15,7 @@ mix.js([
     'resources/assets/js/bootstrap.js',
     'resources/assets/js/permits.js',
     'resources/assets/js/mineralOwner.js',
+    'resources/assets/js/wellbore.js',
     'resources/assets/js/datatables.min.js',
     'resources/assets/js/jquery-dp-ui.min.js',
     'resources/assets/js/admin.js',

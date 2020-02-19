@@ -11,6 +11,7 @@ use App\User;
 use App\WellOrigin;
 use Illuminate\Http\Request;
 use App\Permit;
+use Illuminate\Support\Facades\Log;
 
 class MineralOwnersController extends Controller
 {
@@ -128,6 +129,7 @@ class MineralOwnersController extends Controller
 
     public function updateAssignee(Request $request) {
         try {
+            Log::info($request->assigneeId);
             MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
 
             return 'success';
@@ -231,6 +233,22 @@ class MineralOwnersController extends Controller
         try {
             Permit::where('id', $request->id)
                 ->update(['acreage' => $request->acreage]);
+
+            return $request->id;
+
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function updateOwnerPrice(Request $request) {
+        try {
+            MineralOwner::where('id', $request->id)
+                ->update(['price' => $request->price]);
 
             return $request->id;
 

@@ -43,6 +43,7 @@ $(document).ready(function () {
     }).on('change', '.owner_assignee', function() {
         let id = $(this)[0].id;
         let assignee = $(this)[0].value;
+        let ownerId = id.split('_');
 
         $.ajaxSetup({
             headers: {
@@ -56,7 +57,7 @@ $(document).ready(function () {
             type: "PUT",
             url: '/mineral-owner/updateAssignee',
             data: {
-                ownerId: globalOwnerId,
+                ownerId: ownerId[1],
                 assigneeId: assignee
             },
             success: function success(data) {
@@ -163,7 +164,8 @@ $(document).ready(function () {
                 let nameAddressString = data.owner + '<br>' + data.owner_address + '<br>' + data.owner_city + ',' + data.owner_zip;
                 $('#owner_name').text(data.owner);
                 $('#name_address').append(nameAddressString);
-                $('#lease_name').text(data.lease_name);
+                $('#lease_name_display').text(data.lease_name);
+                $('#owner_price').val(data.price);
                 $('#lease_description').text(data.lease_description);
                 $('#rrc_lease_number').text(data.rrc_lease_number);
                 $('#decimal_interest').text(data.owner_decimal_interest);
@@ -434,6 +436,35 @@ $(document).ready(function () {
             data: {
                 id: uniqueId,
                 acreage: $('.acreage').val()
+            },
+            success: function success(data) {
+                console.log(data);
+
+            },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
+    });
+
+    $('#owner_price').on('focusout', function() {
+        console.log(globalOwnerId);
+        console.log($('.owner_price').val());
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "POST",
+            url: '/mineral-owners/update/OwnerPrice',
+            data: {
+                id: globalOwnerId,
+                price: $('.owner_price').val()
             },
             success: function success(data) {
                 console.log(data);

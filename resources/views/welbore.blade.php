@@ -8,15 +8,13 @@
                     <div class="card-body body_container">
                         <div class="col-md-12 titles">
                             <h1>Wellbore</h1>
-                            <h5>4 - Most Important, get on this shit</h5>
-                            <h5>3 - Important but not as important as 4</h5>
-                            <h5>2 - Better not have any 3's or 4's before getting to these</h5>
-                            <h5>1 - Probably nothing but hail mary's have worked before</h5>
+
                         </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="overflow-x:auto;">
-                                    <table class="table table-hover table-responsive-md table-bordered owner_table" style="width:1475px;">
+                                    <table class="table table-hover table-responsive-md table-bordered high_priority_wellbore_table" style="width:1475px;">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Assignee</th>
@@ -31,14 +29,19 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($highPriorityProspects as $highPriorityProspect)
-                                            @if ($highPriorityProspect->follow_up_date < date('Y, m, d'))
-                                                <tr id="owner_row_{{$highPriorityProspect->id}}">
+                                            @if ($highPriorityProspect->follow_up_date == date('Y-m-d') || $highPriorityProspect->follow_up_date > date('Y-m-d') || $highPriorityProspect->follow_up_date === NULL)
+                                                <tr class="owner_row" id="owner_row_{{$highPriorityProspect->id}}">
                                             @else
-                                                <tr style="background-color: #f59278;" id="owner_row_{{$highPriorityProspect->id}}">
+                                                <tr class="owner_row" style="background-color: #f59278;" id="owner_row_{{$highPriorityProspect->id}}">
                                             @endif
+                                                    @if (isset($highPriorityProspect->lease_name))
+                                                        <input type="hidden" name="lease_name" id="lease_name_{{$highPriorityProspect->id}}" value="{{$highPriorityProspect->lease_name}}"/>
+                                                    @else
+                                                        <input type="hidden" name="lease_name" id="lease_name_{{$highPriorityProspect->id}}" value="{{$operator}}"/>
+                                                    @endif
                                                 <td class="text-center">
                                                     <select class="form-control owner_assignee" id="assignee_{{$highPriorityProspect->id}}">
-                                                        <option selected disabled>Select a User</option>
+                                                        <option value="0" selected >Select a User</option>
                                                         @foreach ($users as $user)
                                                             @if ($highPriorityProspect->assignee == $user->id)
                                                                 <option selected value="{{$user->id}}">{{$user->name}}</option>
@@ -84,23 +87,7 @@
                                                     </select>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="fas fa-plus add_phone_btn" id="add_phone_{{$highPriorityProspect->owner}}" data-target="#modal_add_phone" data-toggle="modal" style="color:green; cursor:pointer; float:left; text-align: left;"></span>
-                                                    <span class="phone_container" id="phone_container_{{$highPriorityProspect->id}}" style="padding: 2%;">
-                                                    @for ($i = 0; $i < count($ownerPhoneNumbers); $i++)
-                                                            @if ($ownerPhoneNumbers[$i]->owner === $highPriorityProspect->owner && $ownerPhoneNumbers[$i]->soft_delete === 0)
-
-                                                                <div id="phone_{{$i}}" style="padding: 2%;">
-                                                            <input type="hidden" id="phone_owner_{{$i}}" value="{{$ownerPhoneNumbers[$i]->owner}}"/>
-                                                            <input type="hidden" id="phone_number_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_number}}" />
-                                                            <input type="hidden" id="phone_desc_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_desc}}"/>
-                                                            <span style="font-weight: bold;">{{$ownerPhoneNumbers[$i]->phone_desc}}: </span>
-                                                            <span><a href="tel:{{$ownerPhoneNumbers[$i]->phone_number}}">{{$ownerPhoneNumbers[$i]->phone_number}}</a></span>
-                                                            <span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_{{$i}}"></span>
-                                                        </div>
-                                                            @endif
-                                                        @endfor
-                                                    </span>
-
+                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$highPriorityProspect->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($highPriorityProspect->follow_up_date != '')
@@ -127,10 +114,28 @@
                         </div>
 
 
+
+                        <div class="lease_notes_container row">
+                            <div style="text-align:center;" class="offset-3 col-md-3">
+                                <label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>
+                                <div class="previous_owner_notes" id="previous_owner_notes" name="previous_owner_notes" contenteditable="false"></div>
+                            </div>
+                            <div style="text-align:center;" class="col-md-3">
+                                <label style="font-size:20px; font-weight:bold;" for="notes">Enter Owner Notes</label>
+                                <textarea rows="4" class="owner_notes" id=owner_notes" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>
+                                <div class="col-md-12">
+                                    <button type="button" class="btn btn-primary update_owner_notes_wellbore_btn">Update Notes</button>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="overflow-x:auto;">
-                                    <table class="table table-hover table-responsive-md table-bordered owner_table" style="width:1475px;">
+                                    <table class="table table-hover table-responsive-md table-bordered low_priority_wellbore_table" style="width:1475px;">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Assignee/Follow-Up</th>
@@ -145,14 +150,14 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($owners as $owner)
-                                            @if ($owner->follow_up_date < date('Y, m, d') || $owner->follow_up_date === NULL)
-                                                <tr id="owner_row_{{$owner->id}}">
+                                            @if ($owner->follow_up_date == date('Y-m-d') || $owner->follow_up_date > date('Y-m-d') || $owner->follow_up_date === NULL)
+                                                <tr class="owner_row" id="owner_row_{{$owner->id}}">
                                             @else
-                                                <tr style="background-color: #f59278;" id="owner_row_{{$owner->id}}">
+                                                <tr class="owner_row" style="background-color: #f59278;" id="owner_row_{{$owner->id}}">
                                             @endif
                                                     <td class="text-center">
                                                         <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
-                                                            <option selected disabled>Select a User</option>
+                                                            <option selected value="0">Select a User</option>
                                                             @foreach ($users as $user)
                                                                 @if ($owner->assignee == $user->id)
                                                                     <option selected value="{{$user->id}}">{{$user->name}}</option>
@@ -198,23 +203,7 @@
                                                     </select>
                                                 </td>
                                                 <td class="text-center">
-                                                    <span class="fas fa-plus add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal" style="color:green; cursor:pointer; float:left; text-align: left;"></span>
-                                                    <span class="phone_container" id="phone_container_{{$owner->id}}" style="padding: 2%;">
-                                                    @for ($i = 0; $i < count($ownerPhoneNumbers); $i++)
-                                                            @if ($ownerPhoneNumbers[$i]->owner === $owner->owner && $ownerPhoneNumbers[$i]->soft_delete === 0)
-
-                                                                <div id="phone_{{$i}}" style="padding: 2%;">
-                                                            <input type="hidden" id="phone_owner_{{$i}}" value="{{$ownerPhoneNumbers[$i]->owner}}"/>
-                                                            <input type="hidden" id="phone_number_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_number}}" />
-                                                            <input type="hidden" id="phone_desc_{{$i}}" value="{{$ownerPhoneNumbers[$i]->phone_desc}}"/>
-                                                            <span style="font-weight: bold;">{{$ownerPhoneNumbers[$i]->phone_desc}}: </span>
-                                                            <span><a href="tel:{{$ownerPhoneNumbers[$i]->phone_number}}">{{$ownerPhoneNumbers[$i]->phone_number}}</a></span>
-                                                            <span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_{{$i}}"></span>
-                                                        </div>
-                                                            @endif
-                                                        @endfor
-                                                    </span>
-
+                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($owner->follow_up_date != '')
@@ -256,22 +245,26 @@
 
 
                         <div class="modal fade" id="modal_add_phone">
-                            <div class="modal-dialog" role="document">
-                                <div style="width:150%; margin-left:-116px;" class="modal-content">
+                            <div style="width:650px!important;" class="modal-dialog phone_modal_dialog" role="document">
+                                <div style="margin-left:-60%; margin-top:50%;" class="modal-content">
                                     <div class="modal-header">
                                         <h4>Add Phone Number</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <label>Phone Description</label><input type="text" class="form-control" id="new_phone_desc" name="new_phone_desc" placeholder="Home, Cell, Sister, Etc."/>
-                                        <label>Phone Number</label><input type="text" class="form-control" id="new_phone_number" name="new_phone_number" placeholder="(ext) 000 - 0000"/>
-                                    </div>
-                                    <br>
-                                    <div class="modal-footer">
-                                        <button type="button" id="submit_phone" class="submit_phone_btn btn btn-primary" data-dismiss="modal" >Submit Phone #</button>
-                                        <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Cancel</button>
+                                    <div class="modal-body row">
+                                        <div class="col-md-6">
+                                            <label>Phone Description</label><input type="text" class="form-control" id="new_phone_desc" name="new_phone_desc" placeholder="Home, Cell, Sister, Etc."/>
+                                            <label>Phone Number</label><input type="text" class="form-control" id="new_phone_number" name="new_phone_number" placeholder="(ext) 000 - 0000"/>
+                                            <div class="modal-footer">
+                                                <button type="button" id="submit_phone" class="submit_phone_btn btn btn-primary" >Submit #</button>
+                                                <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Close Modal</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span class="phone_container" id="phone_container" style="padding: 2%;"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
