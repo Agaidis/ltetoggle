@@ -52,10 +52,10 @@ class GetWells extends Command
 
                Log::info($leasesCounties);
                 for ($k = 0; $k < count($leasesCounties); $k++) {
-                    Log::info($leasesCounties[$k]->county_parish);
-                    Log::info($leasesCounties[$k]->lease_name);
 
-                $wells = $apiManager->getWellCounts($token->access_token, $leasesCounties[$k]->county_parish, $leasesCounties[$k]->lease_name );
+                    $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $leasesCounties[$k]->lease_name);
+
+                $wells = $apiManager->getWellCounts($token->access_token, $leasesCounties[$k]->county_parish, $leaseName );
 
                 Log::info($wells);
 
