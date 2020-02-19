@@ -75,8 +75,9 @@ class GetWells extends Command
                             $newWell->lease_name = $decodedWells[$i]->LeaseName;
                             $newWell->uid = $decodedWells[$i]->UID;
                             $newWell->well_name = $decodedWells[$i]->WellName;
-                            $newWell->well_number = $decodedWells[$i]->wellNumber;
-
+                            if (isset($decodedWells[$i]->wellNumber)) {
+                                $newWell->well_number = $decodedWells[$i]->wellNumber;
+                            }
 
                             $newWell->save();
 
