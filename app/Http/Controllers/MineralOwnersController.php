@@ -33,7 +33,7 @@ class MineralOwnersController extends Controller
            $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
 
             if ($owners->isEmpty()) {
-                $leaseName = str_replace(['UNIT ', ' UNIT'], ['', ''], $permitValues->lease_name);
+                $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D'], ['', '', ''], $permitValues->lease_name);
                 $operator = str_replace(['UNIT ', ' UNIT'], ['', ''], $request->operator);
                 $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();
 
