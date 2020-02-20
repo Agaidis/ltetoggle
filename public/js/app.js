@@ -42656,7 +42656,11 @@ $(document).ready(function () {
         $('#active_well_count').text(data.active_well_count);
         var netRoyaltyAcres = data.owner_decimal_interest / .125 * $('.acreage').val();
         netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
-        $('#net_royalty_acres').text(netRoyaltyAcres);
+        $('#net_royalty_acres').val(netRoyaltyAcres);
+        var total = $('#owner_price').val() * $('#net_royalty_acres').val();
+        var totalPriceForInterest = total.toFixed(2);
+        totalPriceForInterest = numberWithCommas(totalPriceForInterest);
+        $('#total_price_for_interest').val(totalPriceForInterest);
       },
       error: function error(data) {
         console.log(data);
@@ -42892,8 +42896,10 @@ $(document).ready(function () {
     });
   });
   $('#owner_price').on('focusout', function () {
-    console.log(globalOwnerId);
-    console.log($('.owner_price').val());
+    var total = $('#owner_price').val() * $('#net_royalty_acres').val();
+    var totalPriceForInterest = total.toFixed(2);
+    totalPriceForInterest = numberWithCommas(totalPriceForInterest);
+    $('#total_price_for_interest').val(totalPriceForInterest);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -42917,6 +42923,10 @@ $(document).ready(function () {
       }
     });
   });
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 });
 
 /***/ }),

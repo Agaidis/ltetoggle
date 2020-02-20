@@ -299,8 +299,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
+                                    <div style="margin-bottom:3%;" class="row">
+                                        <div class="col-md-6">
                                             <h3 style="text-align: center;">Owner Contact</h3>
                                             <div class="containers">
                                                 <div style="text-align: center; font-size:16px;" id="name_address_container">
@@ -310,7 +310,7 @@
                                             </div>
                                         </div>
 
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <h3 style="text-align: center;">Lease Info</h3>
                                         <div class="containers">
                                             <label for="lease_name">Lease Name: </label>
@@ -324,40 +324,57 @@
                                         </div>
                                     </div>
                                     </div>
-                                        <div class="col-md-12">
-                                            <h3 style="text-align: center;">Additional Info</h3>
+                                    <div style="margin-bottom:4%;" class="col-md-12">
+                                            <h3 style="text-align: center;">Acre Interests</h3>
                                             <div class="containers">
-                                                <label for="owner_price"><b>Price</b>: </label>
-                                                <input type="text" class="form-control owner_price" name="owner_price" id="owner_price" /><br>
+                                                <div class="row">
+                                                    <div class="offset-2 col-md-5">
+                                                        <label class="addit_labels" for="decimal_interest">Decimal Interest: </label>
+                                                        <span id="decimal_interest"></span>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label class="addit_labels" style="margin-left:-15%;" for="interest_type">Interest Type: </label>
+                                                        <span id="interest_type"></span>
+                                                    </div>
+                                                </div>
 
-                                                <label for="decimal_interest">Decimal Interest: </label>
-                                                <span id="decimal_interest"></span><br>
+                                                <div class="form-group form-inline">
+                                                    <label class="addit_labels control-label" for="owner_price">Price per NRA: </label>
+                                                    <input type="text" style="margin-left:12%;" class="form-control owner_price" name="owner_price" id="owner_price" />
+                                                </div>
 
-                                                <label for="net_royalty_acres">Net Royalty Acres: </label>
-                                                <span id="net_royalty_acres"></span><br>
+                                                <div class="form-group form-inline">
+                                                    <label class="addit_labels" for="net_royalty_acres">Net Royalty Acres: </label>
+                                                    <input type="text" style="margin-left:7.5%;" class="form-control" disabled id="net_royalty_acres" />
+                                                </div>
 
-                                                <label for="interest_type">Interest Type: </label>
-                                                <span id="interest_type"></span><br>
-
-                                                <label for="tax_value">Tax Value: </label>
-                                                <span id="tax_value"></span><br>
-
-                                                <label for="first_prod">First Prod Date: </label>
-                                                <span id="first_prod"></span><br>
-
-                                                <label for="last_prod">Last Prod Date: </label>
-                                                <span id="last_prod"></span><br>
-
-                                                <label for="cum_prod_oil">Cumulative Prod Oil: </label>
-                                                <span id="cum_prod_oil"></span><br>
-
-                                                <label for="cum_prod_gas">Cumulative Prod Gas: </label>
-                                                <span id="cum_prod_gas"></span><br>
-
-                                                <label for="active_well_count">Active Well Count: </label>
-                                                <span id="active_well_count"></span><br>
+                                                <div class="form-group form-inline">
+                                                    <label class="addit_labels" for="total_price_for_interest">Total Price For Interest: </label>
+                                                    <input type="text" style="margin-left:2%;" class="form-control" disabled id="total_price_for_interest" />
+                                                </div>
                                             </div>
                                         </div>
+                                    <div class="col-md-12">
+                                        <h3 style="text-align: center;">Additional Info</h3>
+                                        <div class="containers">
+
+                                            <label class="addit_labels" for="tax_value">Tax Value: </label>
+                                            <span id="tax_value"></span><br>
+
+                                            <label class="addit_labels" for="first_prod">First Prod Date: </label>
+                                            <span id="first_prod"></span><br>
+
+                                            <label class="addit_labels" for="last_prod">Last Prod Date: </label>
+                                            <span id="last_prod"></span><br>
+
+                                            <label class="addit_labels" for="cum_prod_oil">Cumulative Prod Oil: </label>
+                                            <span id="cum_prod_oil"></span><br>
+
+                                            <label class="addit_labels" for="cum_prod_gas">Cumulative Prod Gas: </label>
+                                            <span id="cum_prod_gas"></span><br>
+
+                                            <label class="addit_labels" for="active_well_count">Active Well Count: </label>
+                                            <span id="active_well_count"></span><br>
                                     </div>
                                     <br>
                                     <div class="modal-footer">
