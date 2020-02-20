@@ -165,28 +165,35 @@ $(document).ready(function () {
                 $('#owner_name').text(data.owner);
                 $('#name_address').append(nameAddressString);
                 $('#lease_name_display').text(data.lease_name);
-                $('#owner_price').val(data.price);
+                $('#owner_price').val('$' + data.price);
                 $('#lease_description').text(data.lease_description);
                 $('#rrc_lease_number').text(data.rrc_lease_number);
                 $('#decimal_interest').text(data.owner_decimal_interest);
                 $('#interest_type').text(data.owner_interest_type);
-                $('#tax_value').text(data.tax_value);
+
+                let monthlyRevenue = data.tax_value / 12;
+                monthlyRevenue = monthlyRevenue.toFixed(2);
+                monthlyRevenue = numberWithCommas(monthlyRevenue);
+                $('#monthly_revenue').val(monthlyRevenue);
+
                 $('#first_prod').text(data.first_prod_date);
                 $('#last_prod').text(data.last_prod_date);
                 $('#cum_prod_oil').text(data.cum_prod_oil);
                 $('#cum_prod_gas').text(data.cum_prod_gas);
                 $('#active_well_count').text(data.active_well_count);
+                let ownerPrice = $('#owner_price').val();
+                ownerPrice = ownerPrice.replace('$', '');
 
                 let netRoyaltyAcres = data.owner_decimal_interest / .125 * $('.acreage').val();
                 netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
                 $('#net_royalty_acres').val(netRoyaltyAcres);
 
-                let total = $('#owner_price').val() * $('#net_royalty_acres').val();
+                let total = ownerPrice * $('#net_royalty_acres').val();
                 let totalPriceForInterest = total.toFixed(2);
 
                 totalPriceForInterest = numberWithCommas(totalPriceForInterest);
 
-                $('#total_price_for_interest').val(totalPriceForInterest);
+                $('#total_price_for_interest').val( '$' + totalPriceForInterest);
             },
             error: function error(data) {
                 console.log(data);
@@ -455,12 +462,15 @@ $(document).ready(function () {
     });
 
     $('#owner_price').on('focusout', function() {
-        let total = $('#owner_price').val() * $('#net_royalty_acres').val();
+        let ownerPrice = $('#owner_price').val();
+        ownerPrice = ownerPrice.replace('$', '');
+
+        let total = ownerPrice * $('#net_royalty_acres').val();
         let totalPriceForInterest = total.toFixed(2);
 
         totalPriceForInterest = numberWithCommas(totalPriceForInterest);
 
-        $('#total_price_for_interest').val(totalPriceForInterest);
+        $('#total_price_for_interest').val( '$' + totalPriceForInterest);
 
         $.ajaxSetup({
             headers: {
@@ -475,7 +485,7 @@ $(document).ready(function () {
             url: '/mineral-owners/update/OwnerPrice',
             data: {
                 id: globalOwnerId,
-                price: $('.owner_price').val()
+                price: ownerPrice
             },
             success: function success(data) {
                 console.log(data);

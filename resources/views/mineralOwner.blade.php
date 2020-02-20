@@ -338,9 +338,14 @@
                                                     </div>
                                                 </div>
 
+                                                    <div class="form-group form-inline">
+                                                        <label class="addit_labels" for="interest_type">Monthly Revenue: </label>
+                                                        <input type="text" style="margin-left:4%;" class="form-control monthly_revenue" id="monthly_revenue" disabled />
+                                                    </div>
+
                                                 <div class="form-group form-inline">
-                                                    <label class="addit_labels control-label" for="owner_price">Pricing per NRA: </label>
-                                                    <input type="text" style="margin-left:12%;" class="form-control owner_price" name="owner_price" id="owner_price" />
+                                                    <label class="addit_labels" for="owner_price">Pricing per NRA: </label>
+                                                    <input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price" placeholder="$" />
                                                 </div>
 
                                                 <div class="form-group form-inline">
@@ -357,9 +362,6 @@
                                     <div class="col-md-12">
                                         <h3 style="text-align: center;">Additional Info</h3>
                                         <div class="containers">
-
-                                            <label class="addit_labels" for="tax_value">Tax Value: </label>
-                                            <span id="tax_value"></span><br>
 
                                             <label class="addit_labels" for="first_prod">First Prod Date: </label>
                                             <span id="first_prod"></span><br>
