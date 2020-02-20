@@ -340,7 +340,7 @@
 
                                                     <div class="form-group form-inline">
                                                         <label class="addit_labels" for="interest_type">Monthly Revenue: </label>
-                                                        <input type="text" style="margin-left:4%;" class="form-control monthly_revenue" id="monthly_revenue" disabled />
+                                                        <input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue" disabled />
                                                     </div>
 
                                                 <div class="form-group form-inline">
