@@ -325,7 +325,7 @@
                                     </div>
                                     </div>
                                     <div style="margin-bottom:4%;" class="col-md-12">
-                                            <h3 style="text-align: center;">Acre Interests</h3>
+                                            <h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>
                                             <div class="containers">
                                                 <div class="row">
                                                     <div class="offset-2 col-md-5">
@@ -339,7 +339,7 @@
                                                 </div>
 
                                                 <div class="form-group form-inline">
-                                                    <label class="addit_labels control-label" for="owner_price">Price per NRA: </label>
+                                                    <label class="addit_labels control-label" for="owner_price">Pricing per NRA: </label>
                                                     <input type="text" style="margin-left:12%;" class="form-control owner_price" name="owner_price" id="owner_price" />
                                                 </div>
 
