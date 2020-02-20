@@ -24,9 +24,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="329" column="65" lean-forward="true" selection-start-line="329" selection-start-column="65" selection-end-line="329" selection-end-column="65" />
+            <state relative-caret-position="349">
+              <caret line="326" column="67" selection-start-line="326" selection-start-column="67" selection-end-line="326" selection-end-column="67" />
               <folding>
+                <element signature="e#22179#22204#0#HTML" expanded="true" />
+                <element signature="e#23864#23889#0#HTML" expanded="true" />
                 <element signature="e#23909#23936#0#HTML" expanded="true" />
                 <element signature="e#24612#24637#0#HTML" expanded="true" />
                 <element signature="e#25172#25195#0#HTML" expanded="true" />
@@ -459,16 +461,15 @@
       <workItem from="1581970134151" duration="8009000" />
       <workItem from="1582134137381" duration="234000" />
       <workItem from="1582136747099" duration="3802000" />
-      <workItem from="1582204175956" duration="1631000" />
+      <workItem from="1582204175956" duration="1881000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="312474000" />
+    <option name="totallyTimeSpent" value="312724000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21855922" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -844,9 +845,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="329" column="65" lean-forward="true" selection-start-line="329" selection-start-column="65" selection-end-line="329" selection-end-column="65" />
+        <state relative-caret-position="349">
+          <caret line="326" column="67" selection-start-line="326" selection-start-column="67" selection-end-line="326" selection-end-column="67" />
           <folding>
+            <element signature="e#22179#22204#0#HTML" expanded="true" />
+            <element signature="e#23864#23889#0#HTML" expanded="true" />
             <element signature="e#23909#23936#0#HTML" expanded="true" />
             <element signature="e#24612#24637#0#HTML" expanded="true" />
             <element signature="e#25172#25195#0#HTML" expanded="true" />
