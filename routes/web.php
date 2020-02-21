@@ -54,6 +54,9 @@ Route::get('/mineral-owner/{operator?}/{reporter?}/{id?}', 'MineralOwnersControl
 
 Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo')->middleware('auth');
 
+//Well Details
+Route::post('/mineral-owners/get/getWellDetails', 'MineralOwnersController@getWellInfo')->middleware('auth');
+
 //NOTES
 Route::get('/mineral-owners/getNotes', 'MineralOwnersController@getNotes')->middleware('auth');
 

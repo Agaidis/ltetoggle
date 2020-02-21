@@ -227,7 +227,7 @@
 
                     <div class="modal fade" id="modal_open_wells">
                         <div class="modal-dialog" role="document">
-                            <div style="margin-left:40%; margin-top:30%;" class="modal-content">
+                            <div style="margin-left:-150px; width:850px;" class="modal-content">
                                 <div class="modal-header">
                                     <h4>Wells </h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -235,24 +235,30 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
-
-                                        <table class="table table-hover table-responsive-md table-bordered">
-                                            <thead>
+                                    <table class="table table-hover table-responsive-md table-bordered wells_table">
+                                        <thead>
+                                        <tr>
+                                            <th class="text-center">Well Prod Details</th>
+                                            <th class="text-center">County</th>
+                                            <th class="text-center">Operator</th>
+                                            <th class="text-center">Current Status</th>
+                                            <th class="text-center">Well Name</th>
+                                            <th class="text-center">Well Number</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach ($wells as $well)
                                             <tr>
-                                                <th class="text-center">UID</th>
-                                                <th class="text-center">Current Status</th>
+                                                <td id="{{$well->government_id}}" class="text-center details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                <td class="text-center">{{$well->county}}</td>
+                                                <td class="text-center">{{$well->current_operator}}</td>
+                                                <td class="text-center">{{$well->current_status}}</td>
+                                                <td class="text-center">{{$well->well_name}}</td>
+                                                <td class="text-center">{{$well->well_number}}</td>
                                             </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach ($wells as $well)
-                                                <tr class="owner_row">
-                                                    <td class="text-center">{{$well->uid}}</td>
-                                                    <td class="text-center">{{$well->current_status}}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-
+                                        @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
                                 <br>
                                 <div class="modal-footer">

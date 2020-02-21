@@ -9,9 +9,11 @@ use App\OwnerPhoneNumber;
 use App\PermitNote;
 use App\User;
 use App\WellOrigin;
+use App\WellProductionDetail;
 use Illuminate\Http\Request;
 use App\Permit;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class MineralOwnersController extends Controller
 {
@@ -25,8 +27,8 @@ class MineralOwnersController extends Controller
         $leaseName = $permitValues->lease_name;
 
         try {
-            $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('current_operator', $permitValues->operator_alias)->get();
-            Log::info($wells);
+            $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->get();
+
             $count = count($wells);
 
             $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->get();
@@ -40,8 +42,23 @@ class MineralOwnersController extends Controller
 
             }
 
-            return view('mineralOwner', compact('owners','permitValues', 'permitNotes', 'users', 'operator', 'leaseName', 'wells', 'count'));
+            return view('mineralOwner', compact('owners','permitValues', 'permitNotes', 'users', 'wells', 'operator', 'leaseName', 'count'));
         } catch( \Exception $e) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function getWellInfo(Request $request ) {
+
+        try {
+            $wellDetails = WellProductionDetail::where('api10', $request->govId)->get();
+
+            return $wellDetails;
+        } catch ( \Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 

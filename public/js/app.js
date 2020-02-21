@@ -42872,11 +42872,56 @@ $(document).ready(function () {
       }
     });
   });
+  var table = $('.wells_table').DataTable(); // Add event listener for opening and closing details
+
+  $('.wells_table tbody').on('click', 'td.details-control', function () {
+    var tr = $(this).closest('tr');
+    var row = table.row(tr);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/get/getWellDetails',
+      data: {
+        govId: $(this)[0].id,
+        leaseName: $('#lease_name').val()
+      },
+      success: function success(data) {
+        console.log(data);
+        var tableBody = '<table class="table table-bordered table-hover" style="padding-left:50px;"><thead>' + '<tr>' + '<th class="text-center">Avg Gas</th>' + '<th class="text-center">Avg Oil</th>' + '<th class="text-center">Cum Gas</th>' + '<th class="text-center">Cum Oil</th>' + '<th class="text-center">Gas</th>' + '<th class="text-center">Prod Date</th>' + '</tr>' + '</thead>';
+        var tableRows = '';
+        $.each(data, function (key, value) {
+          var prodDate = value.prod_date;
+          prodDate = prodDate.split('T');
+          tableRows += '<tr>' + '<td class="text-center">' + value.avg_gas + '</td>' + '<td class="text-center">' + value.avg_oil + '</td>' + '<td class="text-center">' + value.cum_gas + '</td>' + '<td class="text-center">' + value.cum_oil + '</td>' + '<td class="text-center">' + value.gas + '</td>' + '<td class="text-center">' + prodDate[0] + '</td>' + '</tr>';
+        });
+        tableBody += tableRows + '</table>';
+
+        if (row.child.isShown()) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          // Open this row
+          row.child(tableBody).show();
+          tr.addClass('shown');
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
   $('.acreage').on('focusout', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
     var uniqueId = splitId[1];
-    console.log(uniqueId);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
