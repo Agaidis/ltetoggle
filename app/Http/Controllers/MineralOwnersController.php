@@ -27,7 +27,7 @@ class MineralOwnersController extends Controller
         $leaseName = $permitValues->lease_name;
 
         try {
-            $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->get();
+            $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('county', $permitValues->county_parish)->get();
 
             $count = count($wells);
 
@@ -193,6 +193,7 @@ class MineralOwnersController extends Controller
 
     public function addPhone(Request $request) {
         try {
+
             $newOwnerPhoneNumber = new OwnerPhoneNumber();
 
             $newOwnerPhoneNumber->phone_number = $request->phoneNumber;

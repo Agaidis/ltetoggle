@@ -160,30 +160,65 @@
                                             <tr class="owner_row" id="owner_row_{{$owner->id}}">
                                                 @if (Auth::user()->role === 'admin')
                                                     <td class="text-center">
-                                                        @if ($owner->assignee == '' || $owner->assignee == '0')
-                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
-                                                            <option selected value="0">Select a User</option>
-                                                            @foreach ($users as $user)
-                                                                    <option value="{{$user->id}}">{{$user->name}}</option>
-                                                            @endforeach
-                                                        </select>
-                                                        @else
-                                                            <input type="text" class="form-control" disabled value="Assigned" />
-                                                        @endif
+                                                        @if (Auth::user()->name === 'Billy Moreaux' && ($owner->assignee != null || $owner->assignee != 0))
+                                                            <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                        @elseif (($owner->assignee != null && $owner->assignee != '0'))
+                                                                    <select disabled class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                                        @else
+                                                                            <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                                        @endif
+                                                                        <option selected value="0">Select a User</option>
+                                                                        @foreach ($users as $user)
+                                                                            @if ($user->id == $owner->assignee)
+                                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @else
+                                                                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                            </select>
+
                                                     </td>
                                                     <td class="text-center">
-                                                        @if ($owner->wellbore_type == '' || $owner->wellbore_type == '0')
-                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
-
-                                                                <option value="0">None</option>
-                                                                <option value="1">1</option>
-                                                                <option value="2">2</option>
-                                                                <option value="3">3</option>
-                                                                <option value="4">4</option>
-                                                        </select>
-                                                        @else
-                                                            <input type="text" class="form-control" disabled value="Wellbore Selected"/>
-                                                        @endif
+                                                                @if (Auth::user()->name === 'Billy Moreaux' && ($owner->wellbore_type != null || $owner->wellbore_type != 0))
+                                                            <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                                @elseif (($owner->wellbore_type != null && $owner->wellbore_type != '0'))
+                                                                    <select disabled class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                                @else
+                                                                            <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                                @endif
+                                                                    @if ($owner->wellbore_type == 1)
+                                                                        <option value="0">None</option>
+                                                                        <option selected value="{{$owner->wellbore_type}}">1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                    @elseif ($owner->wellbore_type == 2)
+                                                                        <option value="0">None</option>
+                                                                        <option value="1">1</option>
+                                                                        <option selected value="{{$owner->wellbore_type}}">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                    @elseif ($owner->wellbore_type == 3)
+                                                                        <option value="0">None</option>
+                                                                        <option value="1">1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option selected value="{{$owner->wellbore_type}}">3</option>
+                                                                        <option value="4">4</option>
+                                                                    @elseif ($owner->wellbore_type == 4)
+                                                                        <option value="0">None</option>
+                                                                        <option value="1">1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option selected value="{{$owner->wellbore_type}}">4</option>
+                                                                    @else
+                                                                        <option selected value="0">None</option>
+                                                                        <option value="1">1</option>
+                                                                        <option value="2">2</option>
+                                                                        <option value="3">3</option>
+                                                                        <option value="4">4</option>
+                                                                    @endif
+                                                            </select>
                                                     </td>
                                                     <td class="text-center">
                                                         <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>

@@ -62,6 +62,9 @@ $(document).ready(function () {
             },
             success: function success(data) {
                 console.log(data);
+
+                $("#owner_follow_up_" + ownerId[1]).datepicker("setDate", "2");
+
             },
             error: function error(data) {
                 console.log(data);
@@ -221,6 +224,7 @@ $(document).ready(function () {
                 wellType: wellType
             },
             success: function success(data) {
+                $("#owner_follow_up_" + ownerId).datepicker("setDate", "2");
                 console.log(data);
             },
             error: function error(data) {
@@ -248,6 +252,7 @@ $(document).ready(function () {
                 notes: $('.owner_notes').val()
             },
             success: function success(data) {
+                $("#owner_follow_up_" + globalOwnerId).datepicker("setDate", "2");
                 let updatedNotes = '';
 
                 $.each(data, function (key, value) {
