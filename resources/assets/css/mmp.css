@@ -168,7 +168,7 @@ hr {
     border-radius: 10px;
 }
 
-#map {
+.map {
     width: 95%;
     margin-left: 2%;
     min-height: 550px;

@@ -105,20 +105,6 @@
                                     </div>
                                     </div>
                                 </div>
-                                <div class="lease_notes_container row">
-                                    <div style="text-align:center;" class="offset-3 col-md-3">
-                                        <label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>
-                                        <div class="previous_owner_notes" id="previous_owner_notes" name="previous_owner_notes" contenteditable="false"></div>
-                                    </div>
-                                    <div style="text-align:center;" class="col-md-3">
-                                        <label style="font-size:20px; font-weight:bold;" for="notes">Enter Owner Notes</label>
-                                        <textarea rows="4" class="owner_notes" id=owner_notes" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>
-                                        <div class="col-md-12">
-                                            <button type="button" class="btn btn-primary update_owner_notes_btn">Update Notes</button>
-                                        </div>
-                                    </div>
-
-                                </div>
                         @endif
                             </div>
                             @if (isset($owners[0]->lease_name))
@@ -135,6 +121,7 @@
 
                                         <tr>
                                             @if (Auth::user()->role === 'admin')
+                                                <th class="text-center">More Data</th>
                                                 <th class="text-center">Assignee/Follow-Up</th>
                                                 <th class="text-center">Wellbore Type</th>
                                                 <th class="text-center" style="width:100px;">Contact</th>
@@ -142,8 +129,9 @@
                                                 <th class="text-center">Owner</th>
                                                 <th class="text-center">ODI</th>
                                                 <th class="text-center">% Type</th>
-                                                <th class="text-center">More Data</th>
+
                                             @else
+                                                <th class="text-center">Col 0</th>
                                                 <th class="text-center">Col 1</th>
                                                 <th class="text-center">Col 2</th>
                                                 <th class="text-center" style="width:100px;">Contact</th>
@@ -159,6 +147,7 @@
                                         @foreach ($owners as $owner)
                                             <tr class="owner_row" id="owner_row_{{$owner->id}}">
                                                 @if (Auth::user()->role === 'admin')
+                                                    <td id="id_{{$owner->id}}" class="text-center owner-details-control view_owner"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                     <td class="text-center">
                                                         @if (Auth::user()->name === 'Billy Moreaux' && ($owner->assignee != null || $owner->assignee != 0))
                                                             <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
@@ -233,9 +222,6 @@
                                                     <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
                                                     <td class="text-center">{{$owner->owner_decimal_interest}}</td>
                                                     <td class="text-center">{{$owner->owner_interest_type}}</td>
-                                                    <td class="text-center">
-                                                        <button type="button" data-target="#modal_show_owner" data-toggle="modal" id="id_{{$owner->id}}" class="fa fa-edit btn-sm btn-primary view_owner"></button>
-                                                    </td>
                                                     @else
                                                     <td class="text-center"></td>
                                                     <td class="text-center"></td>
@@ -328,106 +314,6 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="modal fade" id="modal_show_owner">
-                        <div class="modal-dialog" role="document">
-                            <div style="width:150%; margin-left:-116px;" class="modal-content">
-                                <div class="modal-header">
-                                    <h4>Owner Name: <span id="owner_name"></span></h4>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    <div style="margin-bottom:3%;" class="row">
-                                        <div class="col-md-6">
-                                            <h3 style="text-align: center;">Owner Contact</h3>
-                                            <div class="containers">
-                                                <div style="text-align: center; font-size:16px;" id="name_address_container">
-                                                    <label for="name_address">Name & Address: </label><br>
-                                                    <span id="name_address"></span><br>
-                                                </div><br>
-                                            </div>
-                                        </div>
-
-                                    <div class="col-md-6">
-                                        <h3 style="text-align: center;">Lease Info</h3>
-                                        <div class="containers">
-                                            <label for="lease_name">Lease Name: </label>
-                                            <span id="lease_name_display"></span><br>
-
-                                            <label for="lease_description">Lease Description: </label>
-                                            <span id="lease_description"></span><br><br>
-
-                                            <label for="rrc_lease_number">RRC Lease Number: </label>
-                                            <span id="rrc_lease_number"></span><br>
-                                        </div>
-                                    </div>
-                                    </div>
-                                    <div style="margin-bottom:4%;" class="col-md-12">
-                                            <h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>
-                                            <div class="containers">
-                                                <div class="row">
-                                                    <div class="offset-2 col-md-5">
-                                                        <label class="addit_labels" for="decimal_interest">Decimal Interest: </label>
-                                                        <span id="decimal_interest"></span>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label class="addit_labels" style="margin-left:-15%;" for="interest_type">Interest Type: </label>
-                                                        <span id="interest_type"></span>
-                                                    </div>
-                                                </div>
-
-                                                    <div class="form-group form-inline">
-                                                        <label class="addit_labels" for="interest_type">Monthly Revenue: </label>
-                                                        <input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue" disabled />
-                                                    </div>
-
-                                                <div class="form-group form-inline">
-                                                    <label class="addit_labels" for="owner_price">Pricing per NRA: </label>
-                                                    <input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price" placeholder="$" />
-                                                </div>
-
-                                                <div class="form-group form-inline">
-                                                    <label class="addit_labels" for="net_royalty_acres">Net Royalty Acres: </label>
-                                                    <input type="text" style="margin-left:7.5%;" class="form-control" disabled id="net_royalty_acres" />
-                                                </div>
-
-                                                <div class="form-group form-inline">
-                                                    <label class="addit_labels" for="total_price_for_interest">Total Price For Interest: </label>
-                                                    <input type="text" style="margin-left:2%;" class="form-control" disabled id="total_price_for_interest" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <div class="col-md-12">
-                                        <h3 style="text-align: center;">Additional Info</h3>
-                                        <div class="containers">
-
-                                            <label class="addit_labels" for="first_prod">First Prod Date: </label>
-                                            <span id="first_prod"></span><br>
-
-                                            <label class="addit_labels" for="last_prod">Last Prod Date: </label>
-                                            <span id="last_prod"></span><br>
-
-                                            <label class="addit_labels" for="cum_prod_oil">Cumulative Prod Oil: </label>
-                                            <span id="cum_prod_oil"></span><br>
-
-                                            <label class="addit_labels" for="cum_prod_gas">Cumulative Prod Gas: </label>
-                                            <span id="cum_prod_gas"></span><br>
-
-                                            <label class="addit_labels" for="active_well_count">Active Well Count: </label>
-                                            <span id="active_well_count"></span><br>
-                                    </div>
-                                    <br>
-                                    <div class="modal-footer">
-                                        <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

@@ -107,12 +107,12 @@ class MineralOwnersController extends Controller
 
             $newOwnerLeaseNote->lease_name = $request->leaseName;
             $newOwnerLeaseNote->owner_name = $ownerInfo[0]->owner;
-            $newOwnerLeaseNote->notes = '<div class="owner_note" id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '<span class="fas fa-trash delete_owner_note" id="delete_owner_note_'.$newOwnerLeaseNote->id.'" style="display:none; cursor:pointer; color:red; float:right;margin-right:5%;"></span></p>' . $request->notes .'<hr></div>';
+            $newOwnerLeaseNote->notes = '<div class="owner_note" id="owner_'.$newOwnerLeaseNote->id.'_'.$request->ownerId.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '<span class="fas fa-trash delete_owner_note" id="delete_owner_note_'.$newOwnerLeaseNote->id.'_'.$request->ownerId.'" style="display:none; cursor:pointer; color:red; float:right;margin-right:5%;"></span></p>' . $request->notes .'<hr></div>';
 
             $newOwnerLeaseNote->save();
 
             OwnerNote::where('id', $newOwnerLeaseNote->id)
-                ->update(['notes' => '<div class="owner_note" id="owner_'.$newOwnerLeaseNote->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '<span class="fas fa-trash delete_owner_note" id="delete_owner_note_'.$newOwnerLeaseNote->id.'" style="display: none; cursor:pointer; color:red; float:right;margin-right:3%;"></span></p>' . $request->notes .'<hr></div>']);
+                ->update(['notes' => '<div class="owner_note" id="owner_'.$newOwnerLeaseNote->id.'_'.$request->ownerId.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '<span class="fas fa-trash delete_owner_note" id="delete_owner_note_'.$newOwnerLeaseNote->id.'_'.$request->ownerId.'" style="display: none; cursor:pointer; color:red; float:right;margin-right:3%;"></span></p>' . $request->notes .'<hr></div>']);
 
             $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
 
@@ -148,8 +148,11 @@ class MineralOwnersController extends Controller
     public function updateAssignee(Request $request) {
         try {
             Log::info($request->assigneeId);
-            MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
-
+            if ($request->assigneeId != 0) {
+                MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
+            } else {
+                MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId]);
+            }
             return 'success';
 
         } catch( Exception $e ) {
@@ -231,11 +234,19 @@ class MineralOwnersController extends Controller
 
     public function updateWellType(Request $request) {
         try {
-            MineralOwner::where('id', $request->ownerId)->update(
-                [
-                    'wellbore_type' => $request->wellType,
-                    'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))
-                ]);
+
+            if ($request->wellType != 0) {
+                MineralOwner::where('id', $request->ownerId)->update(
+                    [
+                        'wellbore_type' => $request->wellType,
+                        'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))
+                    ]);
+            } else {
+                MineralOwner::where('id', $request->ownerId)->update(
+                    [
+                        'wellbore_type' => $request->wellType
+                    ]);
+            }
 
             return 'success';
 

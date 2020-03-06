@@ -85,12 +85,12 @@ class NewPermitsController extends Controller
 
             $newPermitNote->permit_id = $request->permitId;
             $newPermitNote->lease_name = $permitInfo->lease_name;
-            $newPermitNote->notes = '<div class="permit_note" id="permit_'.$newPermitNote->id.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '<span class="fas fa-trash delete_permit_note" id="delete_permit_note_'.$newPermitNote->id.'" style="display:none; cursor:pointer; color:red; float:right;margin-right:5%;"></span></p>' . $request->notes .'<hr></div>';
+            $newPermitNote->notes = '<div class="permit_note" id="permit_'.$newPermitNote->id.'_'. $request->permitId.'"><p style="font-size:14px; margin-bottom:0;"> '.$userName . ' | '. $date . '<span class="fas fa-trash delete_permit_note" id="delete_permit_note_'.$newPermitNote->id.'_'.$request->permitId.'" style="display:none; cursor:pointer; color:red; float:right;margin-right:5%;"></span></p>' . $request->notes .'<hr></div>';
 
             $newPermitNote->save();
 
             PermitNote::where('id', $newPermitNote->id)
-                ->update(['notes' => '<div class="permit_note" id="permit_'.$newPermitNote->id.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '<span class="fas fa-trash delete_permit_note" id="delete_permit_note_'.$newPermitNote->id.'" style="display: none; cursor:pointer; color:red; float:right;margin-right:3%;"></span></p>' . $request->notes .'<hr></div>']);
+                ->update(['notes' => '<div class="permit_note" id="permit_'.$newPermitNote->id.'_'. $request->permitId.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '<span class="fas fa-trash delete_permit_note" id="delete_permit_note_'.$newPermitNote->id.'_'.$request->permitId.'" style="display: none; cursor:pointer; color:red; float:right;margin-right:3%;"></span></p>' . $request->notes .'<hr></div>']);
 
             $updatedPermitNote = PermitNote::where('lease_name', $permitInfo->lease_name)->orderBy('id', 'DESC')->get();
 
