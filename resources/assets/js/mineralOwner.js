@@ -280,16 +280,20 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
-    }).on('focusout', '#owner_price', function() {
-        let ownerPrice = $('#owner_price').val();
+    }).on('focusout', '.owner_price', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[2];
+
+        let ownerPrice = $('#owner_price_' +ownerId).val();
         ownerPrice = ownerPrice.replace('$', '');
 
-        let total = ownerPrice * $('#net_royalty_acres').val();
+        let total = ownerPrice * $('#net_royalty_acres_' +ownerId).val();
         let totalPriceForInterest = total.toFixed(2);
 
         totalPriceForInterest = numberWithCommas(totalPriceForInterest);
 
-        $('#total_price_for_interest').val( '$' + totalPriceForInterest);
+        $('#total_price_for_interest_' +ownerId).val( '$' + totalPriceForInterest);
 
         $.ajaxSetup({
             headers: {
@@ -303,7 +307,7 @@ $(document).ready(function () {
             type: "POST",
             url: '/mineral-owners/update/OwnerPrice',
             data: {
-                id: globalOwnerId,
+                id: ownerId,
                 price: ownerPrice
             },
             success: function success(data) {
