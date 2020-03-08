@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="277">
-              <caret line="46" column="142" selection-start-line="46" selection-start-column="142" selection-end-line="46" selection-end-column="142" />
+            <state relative-caret-position="975">
+              <caret line="65" column="102" selection-start-line="65" selection-start-column="102" selection-end-line="65" selection-end-column="102" />
               <folding>
                 <element signature="e#3239#3262#0#HTML" expanded="true" />
               </folding>
@@ -28,8 +28,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="543">
-              <caret line="160" selection-start-line="160" selection-end-line="160" />
+            <state relative-caret-position="5768">
+              <caret line="435" column="11" lean-forward="true" selection-start-line="435" selection-start-column="11" selection-end-line="435" selection-end-column="11" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
@@ -43,8 +43,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="863">
-              <caret line="294" selection-start-line="294" selection-end-line="294" />
+            <state relative-caret-position="2014">
+              <caret line="246" column="29" selection-start-line="246" selection-start-column="16" selection-end-line="246" selection-end-column="29" />
               <folding>
                 <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -119,9 +119,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>&quot;0&quot;</find>
-      <find>console.log</find>
-      <find>government</find>
       <find />
       <find />
       <find>\' +\n</find>
@@ -149,6 +146,9 @@
       <find>delete_permit_note</find>
       <find>delete_owner_note</find>
       <find>owner_price</find>
+      <find>getNotes</find>
+      <find>owner-row</find>
+      <find>getOwnerNotes</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -489,16 +489,15 @@
       <workItem from="1582204175956" duration="3558000" />
       <workItem from="1582212028759" duration="465000" />
       <workItem from="1582295856874" duration="17383000" />
-      <workItem from="1583348471484" duration="17364000" />
+      <workItem from="1583348471484" duration="18132000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="349613000" />
+    <option name="totallyTimeSpent" value="350381000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22588523" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -514,7 +513,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.11122995" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.5326203" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -825,16 +824,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="277">
-          <caret line="46" column="142" selection-start-line="46" selection-start-column="142" selection-end-line="46" selection-end-column="142" />
-          <folding>
-            <element signature="e#3239#3262#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
@@ -865,10 +854,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="975">
+          <caret line="65" column="102" selection-start-line="65" selection-start-column="102" selection-end-line="65" selection-end-column="102" />
+          <folding>
+            <element signature="e#3239#3262#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="863">
-          <caret line="294" selection-start-line="294" selection-end-line="294" />
+        <state relative-caret-position="2014">
+          <caret line="246" column="29" selection-start-line="246" selection-start-column="16" selection-end-line="246" selection-end-column="29" />
           <folding>
             <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -896,8 +895,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="543">
-          <caret line="160" selection-start-line="160" selection-end-line="160" />
+        <state relative-caret-position="5768">
+          <caret line="435" column="11" lean-forward="true" selection-start-line="435" selection-start-column="11" selection-end-line="435" selection-end-column="11" />
           <folding>
             <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
