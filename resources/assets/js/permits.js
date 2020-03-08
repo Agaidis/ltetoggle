@@ -83,7 +83,7 @@ $(document).ready(function () {
                     '<button type="button" id="update_notes_btn_'+ permitId+'" class="btn btn-primary update_permit_notes_btn">Update Notes</button>' +
                     '</div></div></div>';
 
-               // getNotes(id, permitId);
+
                 if ( row.child.isShown() ) {
                     row.child.hide();
                     tr.removeClass('shown');
