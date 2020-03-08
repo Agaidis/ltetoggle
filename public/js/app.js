@@ -43064,63 +43064,68 @@ $(document).ready(function () {
           row.child.hide();
           tr.removeClass('shown');
         } else {
-          var ResizeMap = function ResizeMap() {
-            google.maps.event.trigger(map, "resize");
-          };
-
           row.child(permitBody).show();
           tr.addClass('shown');
-          var geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
-          var obj = [];
-          var map;
-          var bounds;
 
-          for (var j in geoPoints) {
-            if (j == 0) {
-              map = new google.maps.Map(document.getElementById('map_' + permitId), {
-                center: JSON.parse(geoPoints[j]),
-                zoom: 13,
-                mapTypeId: google.maps.MapTypeId.HYBRID
-              });
+          try {
+            var ResizeMap = function ResizeMap() {
+              google.maps.event.trigger(map, "resize");
+            };
+
+            var geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+            var obj = [];
+            var map;
+            var bounds;
+
+            for (var j in geoPoints) {
+              if (j == 0) {
+                map = new google.maps.Map(document.getElementById('map_' + permitId), {
+                  center: JSON.parse(geoPoints[j]),
+                  zoom: 13,
+                  mapTypeId: google.maps.MapTypeId.HYBRID
+                });
+              }
+
+              obj.push(JSON.parse(geoPoints[j]));
             }
 
-            obj.push(JSON.parse(geoPoints[j]));
+            var locationInfowindow = new google.maps.InfoWindow({
+              content: 'What info do we want in here.'
+            });
+            var marker = new google.maps.Marker({
+              position: JSON.parse(geoPoints),
+              map: map,
+              infowindow: locationInfowindow
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+              this.infowindow.open(map, this);
+            });
+            $("#VehicleMovementModal").on('shown', function () {
+              ResizeMap();
+            });
+            bounds = new google.maps.LatLngBounds();
+            google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
+              bounds = map.getBounds();
+            });
+            var input =
+            /** @type {!HTMLInputElement} */
+            document.getElementById('pac-input');
+            var types = document.getElementById('type-selector');
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+            var polygon = new google.maps.Polygon({
+              path: obj,
+              geodesic: true,
+              strokeColor: '#091096',
+              strokeOpacity: 1.0,
+              strokeWeight: 2,
+              fillColor: '#B1AAA9',
+              fillOpacity: 0.35
+            });
+            polygon.setMap(map);
+          } catch (err) {
+            console.log(err);
           }
-
-          var locationInfowindow = new google.maps.InfoWindow({
-            content: 'What info do we want in here.'
-          });
-          var marker = new google.maps.Marker({
-            position: JSON.parse(geoPoints),
-            map: map,
-            infowindow: locationInfowindow
-          });
-          google.maps.event.addListener(marker, 'click', function () {
-            this.infowindow.open(map, this);
-          });
-          $("#VehicleMovementModal").on('shown', function () {
-            ResizeMap();
-          });
-          bounds = new google.maps.LatLngBounds();
-          google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
-            bounds = map.getBounds();
-          });
-          var input =
-          /** @type {!HTMLInputElement} */
-          document.getElementById('pac-input');
-          var types = document.getElementById('type-selector');
-          map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-          map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-          var polygon = new google.maps.Polygon({
-            path: obj,
-            geodesic: true,
-            strokeColor: '#091096',
-            strokeOpacity: 1.0,
-            strokeWeight: 2,
-            fillColor: '#B1AAA9',
-            fillOpacity: 0.35
-          });
-          polygon.setMap(map);
         }
 
         var survey = data['permit'][0]['survey'];
