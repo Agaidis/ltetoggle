@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('process:getPermits')->twiceDaily(7, 19)->timezone('America/New_York');
         $schedule->command('process:getWells')->dailyAt(23)->timezone('America/New_York');
-        $schedule->command('process:DailyReport')->dailyAt(7)->timezone('America/New_York');
+        $schedule->command('process:DailyReport')->dailyAt(8)->timezone('America/New_York');
     }
 
     /**
