@@ -8,6 +8,8 @@ use App\Permit;
 use App\WellOrigin;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
+use Mailgun\Mailgun;
+
 
 class DailyReport extends Command
 {
@@ -54,28 +56,28 @@ class DailyReport extends Command
             $wellsTable = '<table><tbody>';
 
             foreach ($permits as $permit) {
-                $leaseTable .= '<tr><th width="30%">Entity</th><th>Details</th></tr>';
-                $leaseTable .= '<tr><td width="30%">Permit Id</td><td>' . $permit->permit_id . '</td></tr>';
-                $leaseTable .= '<tr><td width="30%">County</td><td>' . $permit->county_parish . '</td></tr>';
-                $leaseTable .= '<tr><td width="30%">Lease Name</td><td>' . $permit->lease_name . '</td></tr>';
-                $leaseTable .= '<tr><td width="30%">County</td><td>' . $permit->permit_type . '</td></tr>';
-                $leaseTable .= '<tr><td width="30%">Lease Name</td><td>' . $permit->permit_status . '</td></tr>';
+                $leaseTable .= '<tr><th width="50%">Entity</th><th>Details</th></tr>';
+                $leaseTable .= '<tr><td width="50%">Permit Id</td><td>' . $permit->permit_id . '</td></tr>';
+                $leaseTable .= '<tr><td width="50%">County</td><td>' . $permit->county_parish . '</td></tr>';
+                $leaseTable .= '<tr><td width="50%">Lease Name</td><td>' . $permit->lease_name . '</td></tr>';
+                $leaseTable .= '<tr><td width="50%">County</td><td>' . $permit->permit_type . '</td></tr>';
+                $leaseTable .= '<tr><td width="50%">Lease Name</td><td>' . $permit->permit_status . '</td></tr>';
             }
 
             foreach ($ownerPhoneNumbers as $ownerPhoneNumber) {
-                $phoneNumbersTable .= '<tr><th width="30%">Entity</th><th>Details</th></tr>';
-                $phoneNumbersTable .= '<tr><td width="30%">Owner Name</td><td>' . $ownerPhoneNumber->owner_name . '</td></tr>';
-                $phoneNumbersTable .= '<tr><td width="30%">Phone Description</td><td>' . $ownerPhoneNumber->phone_desc . '</td></tr>';
-                $phoneNumbersTable .= '<tr><td width="30%">Phone Number</td><td>' . $ownerPhoneNumber->phone_number . '</td></tr>';
+                $phoneNumbersTable .= '<tr><th width="50%">Entity</th><th>Details</th></tr>';
+                $phoneNumbersTable .= '<tr><td width="50%">Owner Name</td><td>' . $ownerPhoneNumber->owner_name . '</td></tr>';
+                $phoneNumbersTable .= '<tr><td width="50%">Phone Description</td><td>' . $ownerPhoneNumber->phone_desc . '</td></tr>';
+                $phoneNumbersTable .= '<tr><td width="50%">Phone Number</td><td>' . $ownerPhoneNumber->phone_number . '</td></tr>';
             }
 
             foreach ($wells as $well) {
-                $wellsTable .= '<tr><th width="30%">Entity</th><th>Details</th></tr>';
-                $wellsTable .= '<tr><td width="30%">Well Id</td><td>' . $well->uid . '</td></tr>';
-                $wellsTable .= '<tr><td width="30%">County</td><td>' . $well->county . '</td></tr>';
-                $wellsTable .= '<tr><td width="30%">Current Operator</td><td>' . $well->current_operator . '</td></tr>';
-                $wellsTable .= '<tr><td width="30%">Current Status</td><td>' . $well->current_status . '</td></tr>';
-                $wellsTable .= '<tr><td width="30%">Lease Name</td><td>' . $well->lease_name . '</td></tr>';
+                $wellsTable .= '<tr><th width="50%">Entity</th><th>Details</th></tr>';
+                $wellsTable .= '<tr><td width="50%">Well Id</td><td>' . $well->uid . '</td></tr>';
+                $wellsTable .= '<tr><td width="50%">County</td><td>' . $well->county . '</td></tr>';
+                $wellsTable .= '<tr><td width="50%">Current Operator</td><td>' . $well->current_operator . '</td></tr>';
+                $wellsTable .= '<tr><td width="50%">Current Status</td><td>' . $well->current_status . '</td></tr>';
+                $wellsTable .= '<tr><td width="50%">Lease Name</td><td>' . $well->lease_name . '</td></tr>';
 
             }
 
@@ -83,25 +85,18 @@ class DailyReport extends Command
             $phoneNumbersTable .= '</tbody></table>';
             $wellsTable .= '</tbody></table>';
 
-            Log::info($leaseTable);
-
             $subject = 'Toggle Daily Report';
-            $headers = 'From: Toggle Report\r\n';
-            $headers .= 'MIME-Version: 1.0\r\n';
-            $headers .= 'Content-Type: text/html; charset=ISO-8859-1\r\n';
             $message = '<html><body>';
             $message .= '<style>
             h1{
-                background-color: #c0392b;
-                color: white;
-                padding: 5px;
+ padding: 5px;
             }
             th, td {
                 padding: 15px;
-                text-align: left;
+                text-align: center;
             }
             th {
-                text-align: left;
+                text-align: center;
             }
             table {
                 border-collapse: collapse;
@@ -111,14 +106,34 @@ class DailyReport extends Command
                 border: 1px solid #000000;
             }
             tr:nth-child(even) {background-color: #dedede}</style>';
-            $message .= '<h2>New Leases</h2>';
+            $message .= '<h1>New Leases</h1>';
             $message .= $leaseTable;
-            $message .= '<h2>New Phone Numbers</h2>';
+            $message .= '<h1>New Phone Numbers</h1>';
             $message .= $phoneNumbersTable;
-            $message .= '<h2>New Wells</h2>';
+            $message .= '<h1>New Wells</h1>';
             $message .= $wellsTable;
             $message .= '</body></html>';
-            mail('andrewg@lexathonenergy.com', $subject, $message, $headers);
+
+
+            // First, instantiate the SDK with your API credentials
+            $mg = Mailgun::create(env('MAIL_API_KEY')); // For US servers
+
+            $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
+                'from'    => 'LTE Toggle <service@toggle.com>',
+                'to'      => 'william@lexathonenergy.com',
+                'subject' => $subject,
+                'text'    => 'Text Report',
+                'html'    => $message
+            ]);
+
+            $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
+                'from'    => 'LTE Toggle <service@toggle.com>',
+                'to'      => 'andrewg@lexathonenergy.com',
+                'subject' => $subject,
+                'text'    => 'Text Report',
+                'html'    => $message
+            ]);
+
         } catch( Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
