@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <?php phpinfo();?>
+
     <div class="container-fluid">
         <div class="row justify-content-center">
             <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
