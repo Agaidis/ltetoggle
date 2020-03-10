@@ -118,7 +118,7 @@ class DailyReport extends Command
             $message .= '<h2>New Wells</h2>';
             $message .= $wellsTable;
             $message .= '</body></html>';
-            mail('andrew.gaidis@gmail.com', $subject, $message, $headers);
+            mail('andrewg@lexathonenergy.com', $subject, $message, $headers);
         } catch( Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
