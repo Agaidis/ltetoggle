@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <?php phpinfo();?>
     <div class="container-fluid">
         <div class="row justify-content-center">
             <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
@@ -46,7 +47,12 @@
                                         <?php $approvedDate = explode('T', $permit->approved_date)?>
                                         <input type="hidden" id="reported_operator_{{$permit->permit_id}}" value="{{$permit->reported_operator}}"/>
 
-                                        <tr class="permit_row" id="permit_row_{{$permit->permit_id}}">
+                                        @if ($permit->is_seen == 1)
+                                            <tr class="permit_row" id="permit_row_{{$permit->permit_id}}">
+                                        @else
+                                            <tr class="permit_row unseen" id="permit_row_{{$permit->permit_id}}">
+                                        @endif
+
                                             @if (Auth::user()->role === 'admin')
                                                 <td id="id_{{$permit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                 <td class="text-center">

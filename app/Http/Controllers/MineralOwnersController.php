@@ -13,7 +13,6 @@ use App\WellProductionDetail;
 use Illuminate\Http\Request;
 use App\Permit;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
 
 class MineralOwnersController extends Controller
 {
@@ -24,6 +23,11 @@ class MineralOwnersController extends Controller
         $permitId = $request->id;
 
         $permitValues = Permit::where('id', $permitId)->first();
+
+        if (Auth()->user()->name === 'Billy Moreaux' && $permitValues->is_seen === 0) {
+            Permit::where('id', $permitId)->update(['is_seen' => 1]);
+        }
+
         $leaseName = $permitValues->lease_name;
 
         try {

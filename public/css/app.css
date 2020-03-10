@@ -10735,6 +10735,9 @@ body {
     font-size:72px;
 }
 
+.unseen {
+    background-color: #f59278!important;
+}
 
 #dashboard_btn_container {
     margin-bottom:2%;

@@ -90,6 +90,7 @@ class GetPermits extends Command
                                 $newPermit->district = $decodedPermits[$i]->District;
                                 $newPermit->created_date = $decodedPermits[$i]->CreatedDate;
                                 $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
+                                $newPermit->is_seen = 0;
 
                                 $newPermit->save();
 
