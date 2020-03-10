@@ -118,13 +118,13 @@ class DailyReport extends Command
             // First, instantiate the SDK with your API credentials
             $mg = Mailgun::create(env('MAIL_API_KEY')); // For US servers
 
-            $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
-                'from'    => 'LTE Toggle <service@toggle.com>',
-                'to'      => 'william@lexathonenergy.com',
-                'subject' => $subject,
-                'text'    => 'Text Report',
-                'html'    => $message
-            ]);
+//            $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
+//                'from'    => 'LTE Toggle <service@toggle.com>',
+//                'to'      => 'william@lexathonenergy.com',
+//                'subject' => $subject,
+//                'text'    => 'Text Report',
+//                'html'    => $message
+//            ]);
 
             $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
                 'from'    => 'LTE Toggle <service@toggle.com>',
