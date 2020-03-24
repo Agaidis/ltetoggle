@@ -35,14 +35,14 @@ class MineralOwnersController extends Controller
 
             $count = count($wells);
 
-            $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interset')->get();
+            $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest')->get();
 
            $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
 
             if ($owners->isEmpty()) {
                 $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $permitValues->lease_name);
                 $operator = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D'], ['', '', ''], $request->operator);
-                $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->orderBy('owner_decimal_interset')->get();
+                $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->orderBy('owner_decimal_interest')->get();
 
             }
 
