@@ -225,6 +225,7 @@
                                                     @else
                                                     <td class="text-center"></td>
                                                     <td class="text-center"></td>
+                                                    <td class="text-center"></td>
                                                     <td class="text-center">
                                                         <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                     </td>
