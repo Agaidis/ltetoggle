@@ -129,11 +129,11 @@
                                                 <th class="text-center">Owner</th>
                                                 <th class="text-center">ODI</th>
                                                 <th class="text-center">% Type</th>
-
                                             @else
                                                 <th class="text-center">Col 0</th>
                                                 <th class="text-center">Col 1</th>
                                                 <th class="text-center">Col 2</th>
+                                                <th class="text-center">Col 3</th>
                                                 <th class="text-center" style="width:100px;">Contact</th>
                                                 <th class="text-center">Col 4</th>
                                                 <th class="text-center">Owner</th>

@@ -28,6 +28,7 @@
                                     <tr>
                                         @if (Auth::user()->role === 'admin')
                                             <th class="text-center">Open Lease</th>
+                                            <th class="text-center">Toggle Status</th>
                                             <th class="text-center">Assignee</th>
                                             <th class="text-center">State / County</th>
                                             <th class="text-center">Reported Operator</th>
@@ -36,6 +37,7 @@
                                             <th class="text-center">Col 1</th>
                                             <th class="text-center">Col 2</th>
                                             <th class="text-center">Col 3</th>
+                                            <th class="text-center">Col 4</th>
                                             <th class="text-center">Lease Name</th>
                                             <th class="text-center">Col 5</th>
                                         @endif
@@ -47,15 +49,55 @@
                                         <?php $approvedDate = explode('T', $permit->approved_date)?>
                                         <input type="hidden" id="reported_operator_{{$permit->permit_id}}" value="{{$permit->reported_operator}}"/>
 
-                                        @if ($permit->is_seen == 1)
-                                            <tr class="permit_row" id="permit_row_{{$permit->permit_id}}">
-                                        @else
-                                            <tr class="permit_row unseen" id="permit_row_{{$permit->permit_id}}">
-                                        @endif
+                                        <tr class="permit_row" id="permit_row_{{$permit->permit_id}}">
 
                                             @if (Auth::user()->role === 'admin')
                                                 <td id="id_{{$permit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
-                                                <td class="text-center">
+                                                    <td>
+                                                            @if ($permit->toggle_status == 'black' || $permit->is_seen == 0)
+                                                            <select id="toggle_status_{{$permit->permit_id}}" class="form-control toggle_status unseen">
+                                                                <option value="none">Select Status</option>
+                                                                <option selected value="black">Untouched</option>
+                                                                <option value="blue">Major Prospect </option>
+                                                                <option value="green">Quality Prospect </option>
+                                                                <option value="red">Not Pursuing </option>
+                                                            </select>
+                                                            @elseif ($permit->toggle_status == 'blue')
+                                                            <select id="toggle_status_{{$permit->permit_id}}" class="form-control toggle_status blue">
+                                                                <option value="none">Select Status</option>
+                                                                <option value="black">Untouched </option>
+                                                                <option selected value="blue">Major Prospect </option>
+                                                                <option value="green">Quality Prospect </option>
+                                                                <option value="red">Not Pursuing </option>
+                                                            </select>
+                                                            @elseif ($permit->toggle_status == 'green')
+                                                            <select id="toggle_status_{{$permit->permit_id}}" class="form-control toggle_status green">
+                                                                <option value="none">Select Status</option>
+                                                                <option value="black">Untouched </option>
+                                                                <option value="blue">Major Prospect </option>
+                                                                <option selected value="green">Quality Prospect </option>
+                                                                <option value="red">Not Pursuing </option>
+                                                            </select>
+                                                            @elseif ($permit->toggle_status == 'red')
+                                                            <select id="toggle_status_{{$permit->permit_id}}" class="form-control toggle_status red">
+                                                                <option value="none">Select Status</option>
+                                                                <option value="black">Untouched </option>
+                                                                <option value="blue">Major Prospect </option>
+                                                                <option value="green">Quality Prospect </option>
+                                                                <option selected value="red">Not Pursuing </option>
+                                                            </select>
+                                                            @else
+                                                            <select id="toggle_status_{{$permit->permit_id}}" class="form-control toggle_status">
+                                                                <option value="none">Select Status</option>
+                                                                <option value="black">Untouched </option>
+                                                                <option value="blue">Major Prospect </option>
+                                                                <option value="green">Quality Prospect </option>
+                                                                <option value="red">Not Pursuing </option>
+                                                            </select>
+                                                            @endif
+
+                                                    </td>
+                                                    <td class="text-center">
                                                     <select class="form-control assignee" id="assignee_{{$permit->permit_id}}">
                                                         <option selected value="">Select a User</option>
                                                         @foreach ($users as $user)

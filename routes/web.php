@@ -43,6 +43,8 @@ Route::put('/new-permits/updateNotes', 'NewPermitsController@updateNotes')->midd
 
 Route::put('/new-permits/updateAssignee', 'NewPermitsController@updateAssignee')->middleware('auth');
 
+Route::put('/new-permits/updateStatus', 'NewPermitsController@updateStatus')->middleware('auth');
+
 Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetails')->middleware('auth');
 
 Route::post('/new-permits/delete/delete-note', 'NewPermitsController@deleteNote')->middleware('auth');
@@ -79,7 +81,13 @@ Route::post('/mineral-owner/addPhone', 'MineralOwnersController@addPhone')->midd
 
 Route::put('/mineral-owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers')->middleware('auth');
 
+Route::put('/mineral-owner/pushPhoneNumber', 'MineralOwnersController@pushPhoneNumber')->middleware('auth');
+
 Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDeletePhone')->middleware('auth');
+
+Route::get('/pushed-phone-numbers', 'PushedPhoneNumbersController@index')->middleware('auth');
+
+Route::put('/pushed-phone-numbers/updatePhoneNumber', 'PushedPhoneNumbersController@updatePhoneNumber')->middleware('auth');
 
 // ACREAGE
 Route::post('/mineral-owners/updateAcreage', 'MineralOwnersController@updateAcreage')->middleware('auth');

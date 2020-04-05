@@ -25,7 +25,7 @@ class MineralOwnersController extends Controller
         $permitValues = Permit::where('id', $permitId)->first();
 
         if (Auth()->user()->name === 'Billy Moreaux' && $permitValues->is_seen === 0) {
-            Permit::where('id', $permitId)->update(['is_seen' => 1]);
+            Permit::where('id', $permitId)->update(['is_seen' => 1, 'toggle_status' => 'none']);
         }
 
         $leaseName = $permitValues->lease_name;
@@ -210,6 +210,26 @@ class MineralOwnersController extends Controller
             $newOwnerPhoneNumber->save();
 
             return $newOwnerPhoneNumber;
+
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function pushPhoneNumber(Request $request) {
+        try {
+
+            OwnerPhoneNumber::where('id', $request->id)
+                ->update([
+                    'is_pushed' => 1,
+                    'reason' => $request->reason
+                ]);
+
+            return $request->id;
 
         } catch( Exception $e ) {
             $errorMsg = new ErrorLog();

@@ -10736,7 +10736,28 @@ body {
 }
 
 .unseen {
-    background-color: #f59278!important;
+    background-color: black!important;
+    color:white;
+}
+
+.black {
+    background-color: black!important;
+    color:black;
+}
+
+.blue {
+    background-color: #6f84fc!important;
+    color:black;
+}
+
+.green {
+    background-color: #7ae696!important;
+    color:black;
+}
+
+.red {
+    background-color: #ff4a4a!important;
+    color:black;
 }
 
 #dashboard_btn_container {

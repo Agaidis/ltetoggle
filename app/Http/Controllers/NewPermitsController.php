@@ -151,4 +151,20 @@ class NewPermitsController extends Controller
             return 'error';
         }
     }
+
+    public function updateStatus(Request $request) {
+        try {
+            Permit::where('permit_id', $request->permitId)
+                    ->update(['toggle_status' => $request->status]);
+
+                return $request->status;
+
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
 }

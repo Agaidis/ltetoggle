@@ -19,6 +19,7 @@ mix.js([
     'resources/assets/js/datatables.min.js',
     'resources/assets/js/jquery-dp-ui.min.js',
     'resources/assets/js/admin.js',
+    'resources/assets/js/phoneNumberPush.js'
 
 
 ], 'public/js/app.js').version()

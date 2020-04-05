@@ -91,6 +91,7 @@ class GetPermits extends Command
                                 $newPermit->created_date = $decodedPermits[$i]->CreatedDate;
                                 $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
                                 $newPermit->is_seen = 0;
+                                $newPermit->toggle_status = 'black';
 
                                 $newPermit->save();
 

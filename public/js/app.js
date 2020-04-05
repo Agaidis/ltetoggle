@@ -42831,7 +42831,7 @@ $(document).ready(function () {
         console.log(data);
         var phoneNumbers = '<div>';
         $.each(data, function (key, value) {
-          phoneNumbers += '<span><div id="phone_' + value.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + value.phone_desc + ': </span>' + '<span><a href="tel:' + value.id + '">' + value.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + value.id + '" "></span>' + '</div></span>';
+          phoneNumbers += '<span><div id="phone_' + value.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + value.phone_desc + ': </span>' + '<span><a href="tel:' + value.id + '">' + value.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + value.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + value.id + '" "></span>' + '</div></span>';
         });
         phoneNumbers += '</div>';
         $('.phone_container').empty().append($(phoneNumbers).html());
@@ -42869,7 +42869,36 @@ $(document).ready(function () {
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
       }
     });
+  }).on('click', '.push_back_phone', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/pushPhoneNumber',
+      data: {
+        id: uniqueId,
+        reason: ''
+      },
+      success: function success(data) {
+        console.log(data);
+        $('#phone_' + uniqueId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
   });
+  ;
   $('.submit_phone_btn').on('click', function () {
     $.ajaxSetup({
       headers: {
@@ -42890,7 +42919,7 @@ $(document).ready(function () {
       success: function success(data) {
         $('#new_phone_desc').val('').text('');
         $('#new_phone_number').val('').text('');
-        var phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' + '</div></span>';
+        var phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + data.id + '" "></span>' + '</div></span>';
         $('.phone_container').append($(phoneNumber).html());
       },
       error: function error(data) {
@@ -43288,6 +43317,33 @@ $(document).ready(function () {
         console.log(data);
       }
     });
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/updateStatus',
+      data: {
+        permitId: permitId[2],
+        status: status
+      },
+      success: function success(data) {
+        $('#toggle_status_' + permitId[2]).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
   }).on('click', '.permit_row', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
@@ -43408,6 +43464,49 @@ $(document).ready(function () {
       }
     });
   }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/phoneNumberPush.js":
+/*!************************************************!*\
+  !*** ./resources/assets/js/phoneNumberPush.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  $('#phone_numbers_table').DataTable().on('click', '.send_back', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var phoneId = splitId[2];
+    var phoneNumber = $('#phone_number_' + phoneId).val();
+    var phoneDesc = $('#phone_desc_' + phoneId).val();
+    console.log(phoneId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/pushed-phone-numbers/updatePhoneNumber',
+      data: {
+        id: phoneId,
+        phoneNumber: phoneNumber,
+        phoneDesc: phoneDesc
+      },
+      success: function success(data) {
+        $('#phone_number_row_' + phoneId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
 });
 
 /***/ }),
@@ -43768,9 +43867,9 @@ $(document).ready(function () {
 /***/ }),
 
 /***/ 0:
-/*!***********************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/sass/app.scss ***!
-  \***********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./resources/assets/sass/app.scss ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -43781,6 +43880,7 @@ __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/datatables.min.js */"./resources/assets/js/datatables.min.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/jquery-dp-ui.min.js */"./resources/assets/js/jquery-dp-ui.min.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/admin.js */"./resources/assets/js/admin.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/phoneNumberPush.js */"./resources/assets/js/phoneNumberPush.js");
 module.exports = __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/sass/app.scss */"./resources/assets/sass/app.scss");
 
 

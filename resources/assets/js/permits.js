@@ -308,6 +308,35 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    }).on('change', '.toggle_status', function() {
+        let id = $(this)[0].id;
+        let status = $(this)[0].value;
+        let permitId = id.split('_');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "PUT",
+            url: '/new-permits/updateStatus',
+            data: {
+                permitId: permitId[2],
+                status: status
+            },
+            success: function success(data) {
+
+                $('#toggle_status_' + permitId[2]).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
+                console.log(data);
+            },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
     }).on('click', '.permit_row', function() {
         let id = $(this)[0].id;
         let splitId = id.split('_');
