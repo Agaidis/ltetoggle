@@ -42561,7 +42561,8 @@ $(document).ready(function () {
   }).on('click', '.owner_row', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
-    var ownerId = splitId[2]; //  globalOwnerId = ownerId;
+    var ownerId = splitId[2];
+    globalOwnerId = ownerId;
   }).on('click', '.update_phone_numbers', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
@@ -42803,14 +42804,10 @@ $(document).ready(function () {
         }
       });
     }
-  });
-  /*                  PHONE CAPABILITIES                  */
-
-  $('.add_phone_btn').on('click', function () {
+  }).on('click', '.add_phone_btn', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
-    var ownerName = splitId[2];
-    globalOwnerName = ownerName;
+    var ownerId = splitId[2];
     $('#new_phone_desc').val('').text('');
     $('#new_phone_number').val('').text('');
     $.ajaxSetup({
@@ -42825,7 +42822,7 @@ $(document).ready(function () {
       type: "GET",
       url: '/mineral-owners/getOwnerNumbers',
       data: {
-        ownerName: ownerName
+        ownerId: ownerId
       },
       success: function success(data) {
         console.log(data);
@@ -42912,7 +42909,7 @@ $(document).ready(function () {
       type: "POST",
       url: '/mineral-owner/addPhone',
       data: {
-        ownerName: globalOwnerName,
+        ownerId: globalOwnerId,
         phoneDesc: $('#new_phone_desc').val(),
         phoneNumber: $('#new_phone_number').val()
       },

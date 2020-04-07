@@ -185,7 +185,9 @@ class MineralOwnersController extends Controller
 
     public function getOwnerNumbers(Request $request) {
         try {
-            $phoneNumbers = OwnerPhoneNumber::where('owner_name', $request->ownerName)->where('soft_delete', 0)->get();
+            $ownerName = MineralOwner::where('id', $request->ownerId)->value('owner');
+
+            $phoneNumbers = OwnerPhoneNumber::where('owner_name', $ownerName)->where('soft_delete', 0)->get();
 
             return $phoneNumbers;
 
@@ -201,10 +203,12 @@ class MineralOwnersController extends Controller
     public function addPhone(Request $request) {
         try {
 
+            $ownerName = MineralOwner::where('id', $request->ownerId)->value('owner');
+
             $newOwnerPhoneNumber = new OwnerPhoneNumber();
 
             $newOwnerPhoneNumber->phone_number = $request->phoneNumber;
-            $newOwnerPhoneNumber->owner_name = $request->ownerName;
+            $newOwnerPhoneNumber->owner_name = $ownerName;
             $newOwnerPhoneNumber->phone_desc = $request->phoneDesc;
 
             $newOwnerPhoneNumber->save();

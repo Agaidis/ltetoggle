@@ -209,7 +209,7 @@
                                                             </select>
                                                     </td>
                                                     <td class="text-center">
-                                                        <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
+                                                        <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->id}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                     </td>
                                                     <td class="text-center">
                                                         @if ($owner->follow_up_date != '')
@@ -226,7 +226,7 @@
                                                     <td class="text-center"></td>
                                                     <td class="text-center"></td>
                                                     <td class="text-center">
-                                                        <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
+                                                        <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->id}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                     </td>
                                                     <td class="text-center"></td>
                                                     <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
