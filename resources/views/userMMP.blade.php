@@ -38,6 +38,7 @@
                                             <th class="text-center">Col 2</th>
                                             <th class="text-center">Col 3</th>
                                             <th class="text-center">Col 4</th>
+                                            <th class="text-center">Col 5</th>
                                             <th class="text-center">Lease Name</th>
                                         @endif
                                     </tr>
