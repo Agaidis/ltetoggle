@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ErrorLog;
+use App\MineralOwner;
 use App\OwnerPhoneNumber;
 use Illuminate\Http\Request;
 
@@ -11,14 +12,43 @@ class PushedPhoneNumbersController extends Controller
     public function index()
     {
         try {
-            $phoneNumbers = OwnerPhoneNumber::where('is_pushed', 1)->get();
+            $ownerArray = array();
+            $pushedPhoneNumbers = OwnerPhoneNumber::where('is_pushed', 1)->get();
 
-            return view('pushedPhoneNumbers', compact('phoneNumbers'));
+            $allNumbers = OwnerPhoneNumber::all();
+            foreach ($pushedPhoneNumbers as $pushedPhoneNumber) {
+                array_push($ownerArray, $pushedPhoneNumber->owner_name);
+            }
+
+            return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'allNumbers', 'ownerArray'));
         } catch (\Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 
             $errorMsg->save();
+        }
+    }
+
+    public function insertPhoneNumber(Request $request) {
+        try {
+            $ownerName = OwnerPhoneNumber::where('id', $request->id)->value('owner_name');
+
+            $newOwnerPhoneNumber = new OwnerPhoneNumber();
+
+            $newOwnerPhoneNumber->phone_number = $request->phoneNumber;
+            $newOwnerPhoneNumber->owner_name = $ownerName;
+            $newOwnerPhoneNumber->phone_desc = $request->phoneDesc;
+
+            $newOwnerPhoneNumber->save();
+
+            return $newOwnerPhoneNumber;
+
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
         }
     }
 

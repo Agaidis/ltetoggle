@@ -89,6 +89,8 @@ Route::get('/pushed-phone-numbers', 'PushedPhoneNumbersController@index')->middl
 
 Route::put('/pushed-phone-numbers/updatePhoneNumber', 'PushedPhoneNumbersController@updatePhoneNumber')->middleware('auth');
 
+Route::post('/pushed-phone-numbers/insertPhoneNumber', 'PushedPhoneNumbersController@insertPhoneNumber')->middleware('auth');
+
 // ACREAGE
 Route::post('/mineral-owners/updateAcreage', 'MineralOwnersController@updateAcreage')->middleware('auth');
 

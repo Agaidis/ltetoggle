@@ -3,11 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,19 +24,38 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="213" column="76" selection-start-line="213" selection-start-column="76" selection-end-line="213" selection-end-column="76" />
+            <state relative-caret-position="148">
+              <caret line="140" column="82" selection-start-line="140" selection-start-column="82" selection-end-line="140" selection-end-column="82" />
+              <folding>
+                <element signature="e#10311#10334#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="159">
+              <caret line="205" column="11" selection-start-line="205" selection-start-column="11" selection-end-line="205" selection-end-column="86" />
+              <folding>
+                <element signature="e#40#57#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
+        <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="190" column="110" lean-forward="true" selection-start-line="190" selection-start-column="110" selection-end-line="190" selection-end-column="110" />
+            <state relative-caret-position="235">
+              <caret line="32" column="136" selection-start-line="32" selection-start-column="136" selection-end-line="32" selection-end-column="136" />
               <folding>
-                <element signature="e#40#57#0#PHP" expanded="true" />
+                <element signature="e#2874#2897#0#HTML" expanded="true" />
+                <element signature="e#3431#3454#0#HTML" expanded="true" />
+                <element signature="e#3583#3606#0#HTML" expanded="true" />
+                <element signature="e#3696#3719#0#HTML" expanded="true" />
+                <element signature="e#3594#3617#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -44,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="525" column="33" selection-start-line="525" selection-start-column="33" selection-end-line="525" selection-end-column="41" />
+            <state relative-caret-position="402">
+              <caret line="252" column="6" selection-start-line="107" selection-start-column="6" selection-end-line="252" selection-end-column="6" />
               <folding>
                 <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -74,6 +94,36 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="444">
+              <caret line="59" column="58" selection-start-line="59" selection-start-column="58" selection-end-line="59" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/web.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="512">
+              <caret line="91" column="91" selection-start-line="91" selection-start-column="91" selection-end-line="91" selection-end-column="91" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="348">
+              <caret line="38" column="47" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="47" />
+              <folding>
+                <element signature="e#40#57#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -86,7 +136,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>delete_owner_note_</find>
       <find>previous_owner_notes_</find>
       <find>permit_note</find>
       <find>delete_permit_note_</find>
@@ -107,7 +156,6 @@
       <find>is_seen</find>
       <find>(Red)</find>
       <find>soft_delete_phone</find>
-      <find>phone</find>
       <find>phone_</find>
       <find>button</find>
       <find>add_phone_</find>
@@ -116,6 +164,8 @@
       <find>globalOwnerId</find>
       <find>addPhone</find>
       <find>ownerName</find>
+      <find>getOwnerNum</find>
+      <find>phone</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -179,17 +229,17 @@
         <option value="$PROJECT_DIR$/resources/assets/js/permits.js" />
         <option value="$PROJECT_DIR$/resources/assets/css/mmp.css" />
         <option value="$PROJECT_DIR$/database/migrations/2020_04_05_181228_create_pushed_phone_numbers.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/webpack.mix.js" />
-        <option value="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" />
-        <option value="$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" />
         <option value="$PROJECT_DIR$/resources/views/userMMP.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js" />
+        <option value="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" />
       </list>
     </option>
   </component>
@@ -361,6 +411,22 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="routes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -478,18 +544,19 @@
       <workItem from="1585952088640" duration="3088000" />
       <workItem from="1586107771685" duration="6865000" />
       <workItem from="1586274662630" duration="373000" />
-      <workItem from="1586278163264" duration="1002000" />
+      <workItem from="1586278163264" duration="1300000" />
+      <workItem from="1586370243133" duration="4203000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="374888000" />
+    <option name="totallyTimeSpent" value="379389000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.16971917" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17155068" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
@@ -615,13 +682,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-02-21.log">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
-          <caret line="341" column="31" selection-start-line="341" selection-start-column="17" selection-end-line="341" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-02-21.log" />
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/GetWells.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="877">
@@ -656,9 +717,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-03-04.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-03-04.log" />
     <entry file="file://$PROJECT_DIR$/database/migrations/2020_03_10_144452_add_billy_toggle_permits.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -667,9 +726,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/process:SendDailyReport.php" />
-    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-03-10.log">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-03-10.log" />
     <entry file="file://$PROJECT_DIR$/composer.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -788,37 +845,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="89" column="12" lean-forward="true" selection-start-line="89" selection-start-column="12" selection-end-line="89" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="313">
-          <caret line="24" column="94" selection-start-line="24" selection-start-column="77" selection-end-line="24" selection-end-column="94" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="18" selection-start-line="23" selection-start-column="18" selection-end-line="23" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/home.blade.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -848,15 +874,45 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="213" column="76" selection-start-line="213" selection-start-column="76" selection-end-line="213" selection-end-column="76" />
+        <state relative-caret-position="148">
+          <caret line="140" column="82" selection-start-line="140" selection-start-column="82" selection-end-line="140" selection-end-column="82" />
+          <folding>
+            <element signature="e#10311#10334#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="512">
+          <caret line="91" column="91" selection-start-line="91" selection-start-column="91" selection-end-line="91" selection-end-column="91" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="205" column="11" selection-start-line="205" selection-start-column="11" selection-end-line="205" selection-end-column="86" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="38" column="47" selection-start-line="38" selection-start-column="47" selection-end-line="38" selection-end-column="47" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="525" column="33" selection-start-line="525" selection-start-column="33" selection-end-line="525" selection-end-column="41" />
+        <state relative-caret-position="402">
+          <caret line="252" column="6" selection-start-line="107" selection-start-column="6" selection-end-line="252" selection-end-column="6" />
           <folding>
             <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -884,12 +940,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="190" column="110" lean-forward="true" selection-start-line="190" selection-start-column="110" selection-end-line="190" selection-end-column="110" />
+        <state relative-caret-position="444">
+          <caret line="59" column="58" selection-start-line="59" selection-start-column="58" selection-end-line="59" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="32" column="136" selection-start-line="32" selection-start-column="136" selection-end-line="32" selection-end-column="136" />
           <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
+            <element signature="e#2874#2897#0#HTML" expanded="true" />
+            <element signature="e#3431#3454#0#HTML" expanded="true" />
+            <element signature="e#3583#3606#0#HTML" expanded="true" />
+            <element signature="e#3696#3719#0#HTML" expanded="true" />
+            <element signature="e#3594#3617#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
