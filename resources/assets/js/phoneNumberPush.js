@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $('#phone_numbers_table').DataTable().on('click', '.send_back', function() {
+   let table = $('#phone_numbers_table').DataTable().on('click', '.send_back', function() {
         let id = $(this)[0].id;
         let splitId = id.split('_');
         let phoneId = splitId[2];
@@ -27,7 +27,11 @@ $(document).ready(function () {
 
             },
             success: function success(data) {
-                $('.' + phoneId).remove();
+                let rows = table
+                    .rows( '.' + phoneId )
+                    .remove()
+                    .draw();
+
             },
             error: function error(data) {
                 console.log(data);

@@ -43473,7 +43473,7 @@ $(document).ready(function () {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
-  $('#phone_numbers_table').DataTable().on('click', '.send_back', function () {
+  var table = $('#phone_numbers_table').DataTable().on('click', '.send_back', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
     var phoneId = splitId[2];
@@ -43497,7 +43497,7 @@ $(document).ready(function () {
         phoneDesc: phoneDesc
       },
       success: function success(data) {
-        $('.' + phoneId).remove();
+        var rows = table.rows('.' + phoneId).remove().draw();
       },
       error: function error(data) {
         console.log(data);
