@@ -43497,7 +43497,7 @@ $(document).ready(function () {
         phoneDesc: phoneDesc
       },
       success: function success(data) {
-        $('#phone_number_row_' + phoneId).remove();
+        $('.' + phoneId).remove();
       },
       error: function error(data) {
         console.log(data);

@@ -22,7 +22,7 @@
                                         </thead>
                                         <tbody>
                                         @foreach ($pushedPhoneNumbers as $pushedPhoneNumber)
-                                            <tr class="phone_number_row" id="phone_number_row_{{$pushedPhoneNumber->id}}">
+                                            <tr class="phone_number_row {{$pushedPhoneNumber->id}}" id="phone_number_row_{{$pushedPhoneNumber->id}}">
 {{--                                                <td id="id_{{$phoneNumber->id}}" class="text-center owner-numbers-control view_numbers"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>--}}
                                                 <td class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
                                                 <td class="text-center"><input type="text" class="form-control" id="phone_desc_{{$pushedPhoneNumber->id}}" value="{{$pushedPhoneNumber->phone_desc}}"/></td>
@@ -32,14 +32,14 @@
                                             @foreach ($allNumbers as $number)
                                                 @if (in_array($number->owner_name, $ownerArray) && $pushedPhoneNumber->id != $number->id )
                                                     @if ($number->soft_delete == 0)
-                                                        <tr>
+                                                        <tr class="{{$pushedPhoneNumber->id}}">
                                                             <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
                                                             <td class="text-center">{{$number->phone_desc}}</td>
                                                             <td class="text-center">{{$number->phone_number}}</td>
                                                             <td class="text-center"></td>
                                                         </tr>
                                                     @else
-                                                        <tr>
+                                                        <tr class="{{$pushedPhoneNumber->id}}">
                                                             <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
                                                             <td style="color:red;"class="text-center">{{$number->phone_desc}}</td>
                                                             <td style="color:red;"class="text-center">{{$number->phone_number}}</td>
@@ -49,7 +49,7 @@
                                                 @endif
                                             @endforeach
 
-                                            <tr>
+                                            <tr class="{{$pushedPhoneNumber->id}}">
                                                 <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
                                                 <td class="text-center"><input type="text" class="form-control" id="insert_phone_desc_{{$pushedPhoneNumber->id}}" value=""/></td>
                                                 <td class="text-center"><input type="text" class="form-control" id="insert_phone_number_{{$pushedPhoneNumber->id}}" value=""/></td>

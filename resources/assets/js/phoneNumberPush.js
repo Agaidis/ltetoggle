@@ -27,7 +27,7 @@ $(document).ready(function () {
 
             },
             success: function success(data) {
-                $('#phone_number_row_'+ phoneId).remove();
+                $('.' + phoneId).remove();
             },
             error: function error(data) {
                 console.log(data);
@@ -59,6 +59,7 @@ $(document).ready(function () {
             success: function success() {
                 $('#insert_phone_number_' + ownerId).val('');
                 $('#insert_phone_desc_' + ownerId).val('');
+
             },
             error: function error(data) {
                 console.log(data);
