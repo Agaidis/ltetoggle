@@ -49,6 +49,8 @@ Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetai
 
 Route::post('/new-permits/delete/delete-note', 'NewPermitsController@deleteNote')->middleware('auth');
 
+Route::put('/update-prices', 'NewPermitsController@updatePrices');
+
 
 /*                      MINERAL OWNER/LEASE PAGE                        */
 //GET OWNERS INFO

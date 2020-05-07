@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ErrorLog;
+use App\GeneralSetting;
 use App\MineralOwner;
 use App\OwnerNote;
 use App\Permit;
@@ -165,6 +166,23 @@ class NewPermitsController extends Controller
 
             $errorMsg->save();
             return 'error';
+        }
+    }
+
+    public function updatePrices(Request $request) {
+        try {
+
+            GeneralSetting::where('name', 'oil')
+                ->update(['value' => $request->oilPrice]);
+
+            GeneralSetting::where('name', 'gas')
+                ->update(['value' => $request->gasPrice]);
+
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
         }
     }
 }

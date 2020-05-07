@@ -43054,6 +43054,7 @@ $(document).ready(function () {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
+  getOilGasPrices();
   var globalPermitId = '';
   var permitTable = $('#permit_table').DataTable({
     "pagingType": "simple",
@@ -43425,6 +43426,37 @@ $(document).ready(function () {
       });
     }
   });
+
+  function getOilGasPrices() {
+    var oilPrice = $('#price_container')[0].children[0].children[0].children[2].firstElementChild.innerText;
+    var gasPrice = $('#price_container')[0].children[0].children[1].children[2].firstElementChild.innerText;
+    oilPrice = oilPrice.replace('$', '');
+    gasPrice = gasPrice.replace('$', '');
+    console.log(gasPrice);
+    console.log(oilPrice);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/update-prices',
+      data: {
+        oilPrice: oilPrice,
+        gasPrice: gasPrice
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
 
   function getNotes(id, permitId) {
     $.ajaxSetup({
