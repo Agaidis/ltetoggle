@@ -182,7 +182,24 @@ $(document).ready(function () {
                     '<div class="form-group form-inline">' +
                     '<label class="addit_labels" for="total_price_for_interest_'+ownerId+'">Total Price For Interest: </label>' +
                     '<input type="text" style="margin-left:2%;" class="form-control total_price_for_interest" disabled id="total_price_for_interest_'+ownerId+'" />' +
-                    '</div></div></div>' +
+                    '</div>' +
+                    '<div class="form-group form-inline">' +
+                    '<label class="addit_labels" for="oil_price">Oil Price: </label>' +
+                    '<input type="text" style="margin-left:18.5%;" class="form-control oil_price" disabled />' +
+                    '</div>' +
+                    '<div class="form-group form-inline">' +
+                    '<label class="addit_labels" for="gas_price">Gas Price: </label>' +
+                    '<input type="text" style="margin-left:17%;" class="form-control gas_price" disabled />' +
+                    '</div>' +
+                    '<div class="form-group form-inline">' +
+                    '<label class="addit_labels" for="bnp_'+ownerId+'">BNP: </label>' +
+                    '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_'+ownerId+'" />' +
+                    '</div>' +
+                    '<div class="form-group form-inline">' +
+                    '<label class="addit_labels" for="">Years to PayOff: </label>' +
+                    '<input type="text" style="margin-left:10%;" class="form-control" disabled />' +
+                    '</div>' +
+                    '</div></div>' +
                     '<div class="col-md-6">' +
                     '<div style="text-align:center;" class="col-md-6">' +
                     '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' +
@@ -238,10 +255,20 @@ $(document).ready(function () {
 
                 let total = ownerPrice * $('#net_royalty_acres_'+ownerId).val();
                 let totalPriceForInterest = total.toFixed(2);
+                let totalPriceForInterestWithCommas = numberWithCommas(totalPriceForInterest);
 
-                totalPriceForInterest = numberWithCommas(totalPriceForInterest);
+                $('#total_price_for_interest_'+ownerId).val( '$' + totalPriceForInterestWithCommas);
 
-                $('#total_price_for_interest_'+ownerId).val( '$' + totalPriceForInterest);
+                let neededIncome = totalPriceForInterest / data.owner_decimal_interest;
+                let bnp = neededIncome / data.oilPrice;
+                bnp = bnp.toFixed(2);
+                let bnpWithComma = numberWithCommas(bnp);
+
+                $('.oil_price').val(data.oilPrice);
+                $('.gas_price').val(data.gasPrice);
+                $('#bnp_' + ownerId).val(bnpWithComma);
+
+
 
 
                 getOwnerNotes( ownerId );
@@ -290,10 +317,16 @@ $(document).ready(function () {
 
         let total = ownerPrice * $('#net_royalty_acres_' +ownerId).val();
         let totalPriceForInterest = total.toFixed(2);
+        let totalPriceForInterestWithComma = numberWithCommas(totalPriceForInterest);
 
-        totalPriceForInterest = numberWithCommas(totalPriceForInterest);
+        $('#total_price_for_interest_' +ownerId).val( '$' + totalPriceForInterestWithComma);
 
-        $('#total_price_for_interest_' +ownerId).val( '$' + totalPriceForInterest);
+        let neededIncome = totalPriceForInterest / $('#decimal_interest_'+ownerId).text();
+        let bnp = neededIncome / $('.oil_price').val();
+        bnp = bnp.toFixed(2);
+        let bnpWithComma = numberWithCommas(bnp);
+
+        $('#bnp_' + ownerId).val(bnpWithComma);
 
         $.ajaxSetup({
             headers: {

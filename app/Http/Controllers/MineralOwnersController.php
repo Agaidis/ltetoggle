@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ErrorLog;
+use App\GeneralSetting;
 use App\MineralOwner;
 use App\OwnerNote;
 use App\OwnerPhoneNumber;
@@ -75,6 +76,12 @@ class MineralOwnersController extends Controller
 
         try {
             $owner = MineralOwner::where('id', $request->id)->groupBy('owner')->first();
+
+            $oilPrice = GeneralSetting::where('name', 'oil')->value('value');
+            $gasPrice = GeneralSetting::where('name', 'gas')->value('value');
+
+            $owner['oilPrice'] = $oilPrice;
+            $owner['gasPrice'] = $gasPrice;
 
             return $owner;
         } catch ( \Exception $e ) {
