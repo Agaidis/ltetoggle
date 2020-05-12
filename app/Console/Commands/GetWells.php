@@ -121,7 +121,8 @@ class GetWells extends Command
                                     $newWellDetail->save();
 
                                 } else {
-                                    WellProductionDetail::where('api10', $decodedWells[$i]->GovernmentID)
+
+                                    WellProductionDetail::where('api10', $decodedWells[$i]->GovernmentID)->where('prod_date', $decodedWellProdDetails[$j]->ProdDate)
                                         ->update([
                                             'api10' => $decodedWellProdDetails[$j]->Api10,
                                             'api14' => $decodedWellProdDetails[$j]->Api14,
