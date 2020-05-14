@@ -36,6 +36,11 @@ class MineralOwnersController extends Controller
             $dateArray = array();
             $oilArray = array();
             $gasArray = array();
+            $totalGasWithComma = '';
+            $totalOilWithComma = '';
+            $bblsWithComma = '';
+            $gbblsWithComma = '';
+
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('county', $permitValues->county_parish)->get();
 
             foreach ($wells as $well) {
