@@ -37,7 +37,7 @@
 
                                         <input type="hidden" id="hidden_permit_notes" value="{{$notes}}" />
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <label for="county">County: </label>
                                         <span id="county">{{$permitValues->county_parish}}</span><br>
 
@@ -68,18 +68,33 @@
 
                                         @if ($permitValues->block != '')
                                         <label for="Block">Block: </label>
-                                        <span id="Block">{{$permitValues->block}}</span>
+                                        <span id="Block">{{$permitValues->block}}</span><br>
                                         @endif
+
+                                        <label for="total_gas">Total Gas Production: </label>
+                                        <span id="total_gas">{{$totalGasWithComma}}</span><br>
+
+                                        <label for="total_oil">Total Oil Production: </label>
+                                        <span id="total_oil">{{$totalOilWithComma}}</span><br>
+
+                                        <label for="bbls">BBLS: </label>
+                                        <span id="bbls">{{$bblsWithComma}}</span><br>
+
+                                        <label for="gbbls">GAS BBLS: </label>
+                                        <span id="gbbls">{{$gbblsWithComma}}</span>
+
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-4">
                                         @if ($permitValues->approved_date != '')
+                                            <?php $approvedDate = explode('T', $permitValues->approved_date) ?>
                                             <label for="approved_date">Approved Date: </label>
-                                            <span id="ApprovedDate">{{$permitValues->approved_date}}</span><br>
+                                            <span id="ApprovedDate">{{$approvedDate[0]}}</span><br>
                                         @endif
 
                                         @if ($permitValues->submitted_date != '')
+                                                <?php $submittedDate = explode('T', $permitValues->submitted_date) ?>
                                             <label for="submitted_date">Submitted Date: </label>
-                                            <span id="SubmittedDate">{{$permitValues->submitted_date}}</span><br>
+                                            <span id="SubmittedDate">{{$submittedDate[0]}}</span><br>
                                         @endif
 
                                             @if ($permitValues->expiration_primary_term != '')
@@ -100,8 +115,19 @@
 
                                             @if ($permitValues->district != '')
                                                 <label for="District">District: </label>
-                                                <span id="District">{{$permitValues->district}}</span>
+                                                <span id="District">{{$permitValues->district}}</span><br>
                                             @endif
+
+                                            <?php $oldestDate = explode('T', $oldestDate) ?>
+                                            <label for="first_month">First month in Production: </label>
+                                            <span id="first_month">{{$oldestDate[0]}}</span><br>
+
+                                            <?php $latestDate = explode('T', $latestDate) ?>
+                                            <label for="last_month">Last month in Production: </label>
+                                            <span id="last_month">{{$latestDate[0]}}</span>
+
+                                            <label for="last_month">Years of Production: </label>
+                                            <span id="last_month">{{$yearsOfProduction}}</span>
                                     </div>
                                     </div>
                                 </div>

@@ -196,8 +196,8 @@ $(document).ready(function () {
                     '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_'+ownerId+'" />' +
                     '</div>' +
                     '<div class="form-group form-inline">' +
-                    '<label class="addit_labels" for="">Years to PayOff: </label>' +
-                    '<input type="text" style="margin-left:10%;" class="form-control" disabled />' +
+                    '<label class="addit_labels" for="ytp">Years to PayOff: </label>' +
+                    '<input type="text" style="margin-left:10%;" class="form-control ytp" id="ytp_'+ownerId+'" disabled />' +
                     '</div>' +
                     '</div></div>' +
                     '<div class="col-md-6">' +
@@ -268,8 +268,14 @@ $(document).ready(function () {
                 $('.gas_price').val(data.gasPrice);
                 $('#bnp_' + ownerId).val(bnpWithComma);
 
+                let bbls = $('#bbls').text();
+                bbls = bbls.replace(',', '');
 
+                let ytp = bnp / bbls;
 
+                ytp = ytp.toFixed(2);
+                let ytpWithComma = numberWithCommas(ytp);
+                $('#ytp_' + ownerId).val(ytpWithComma);
 
                 getOwnerNotes( ownerId );
             },
@@ -327,6 +333,15 @@ $(document).ready(function () {
         let bnpWithComma = numberWithCommas(bnp);
 
         $('#bnp_' + ownerId).val(bnpWithComma);
+
+        let bbls = $('#bbls').text();
+        bbls = bbls.replace(',', '');
+
+        let ytp = bnp / bbls;
+
+        ytp = ytp.toFixed(2);
+        let ytpWithComma = numberWithCommas(ytp);
+        $('#ytp_' + ownerId).val(ytpWithComma);
 
         $.ajaxSetup({
             headers: {

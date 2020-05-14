@@ -14,6 +14,7 @@ use App\WellProductionDetail;
 use Illuminate\Http\Request;
 use App\Permit;
 use Illuminate\Support\Facades\Log;
+use DateTime;
 
 class MineralOwnersController extends Controller
 {
@@ -32,7 +33,39 @@ class MineralOwnersController extends Controller
         $leaseName = $permitValues->lease_name;
 
         try {
+            $dateArray = array();
+            $oilArray = array();
+            $gasArray = array();
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('county', $permitValues->county_parish)->get();
+
+            foreach ($wells as $well) {
+
+                if ($well->current_status == 'ACTIVE') {
+                    $wellDetails = WellProductionDetail::where('api10', $well->government_id)->get();
+                    foreach ( $wellDetails as $wellDetail) {
+                        array_push($dateArray, $wellDetail->prod_date);
+                        array_push($oilArray, $wellDetail->cum_oil);
+                        array_push($gasArray, $wellDetail->cum_gas);
+                    }
+                }
+            }
+            $totalGas = max($gasArray);
+            $totalOil = max($oilArray);
+            $totalGasWithComma = number_format($totalGas);
+            $totalOilWithComma = number_format($totalOil);
+
+            $oldestDate = min($dateArray);
+            $latestDate = max($dateArray);
+
+            $datetime1 = new DateTime($oldestDate);
+            $datetime2 = new DateTime($latestDate);
+            $interval = $datetime1->diff($datetime2);
+            $yearsOfProduction = $interval->y;
+
+            $bbls = $totalOil / $yearsOfProduction;
+            $gbbls = $totalGas / $yearsOfProduction;
+            $bblsWithComma = number_format($bbls);
+            $gbblsWithComma = number_format($gbbls);
 
             $count = count($wells);
 
@@ -47,7 +80,7 @@ class MineralOwnersController extends Controller
 
             }
 
-            return view('mineralOwner', compact('owners','permitValues', 'permitNotes', 'users', 'wells', 'operator', 'leaseName', 'count'));
+            return view('mineralOwner', compact('owners','permitValues', 'permitNotes', 'users', 'wells', 'operator', 'leaseName', 'count', 'oldestDate', 'latestDate' ,'yearsOfProduction', 'totalGasWithComma', 'totalOilWithComma', 'bblsWithComma', 'gbblsWithComma'));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();

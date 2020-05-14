@@ -1,6 +1,9 @@
 $(document).ready(function () {
 
-    getOilGasPrices();
+    if (location.href.split('/')[3] === 'mm-platform') {
+        getOilGasPrices();
+    }
+
     let globalPermitId = '';
 
     let permitTable = $('#permit_table').DataTable({
@@ -332,7 +335,7 @@ $(document).ready(function () {
             success: function success(data) {
 
                 $('#toggle_status_' + permitId[2]).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
-                console.log(data);
+
             },
             error: function error(data) {
                 console.log(data);
@@ -437,8 +440,6 @@ $(document).ready(function () {
         oilPrice = oilPrice.replace('$', '');
         gasPrice = gasPrice.replace('$', '');
 
-        console.log(gasPrice);
-        console.log(oilPrice);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -479,7 +480,6 @@ $(document).ready(function () {
                 permitId: permitId
             },
             success: function success(data) {
-                console.log(data);
                 if (data !== undefined && data !== '') {
                     let updatedNotes = '';
 

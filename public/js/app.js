@@ -42610,7 +42610,7 @@ $(document).ready(function () {
         id: ownerId
       },
       success: function success(data) {
-        var ownerBody = '<div class="row">' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Lease Info</h3>' + '<div class="containers">' + '<label for="lease_name_display_' + ownerId + '">Lease Name: </label>' + '<span id="lease_name_display_' + ownerId + '"></span><br>' + '<label for="lease_description_' + ownerId + '">Lease Description: </label>' + '<span id="lease_description_' + ownerId + '"></span><br><br>' + '<label for="rrc_lease_number_' + ownerId + '">RRC Lease Number: </label>' + '<span id="rrc_lease_number_' + ownerId + '"></span><br>' + '</div></div>' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Additional Info</h3>' + '<div class="containers">' + '<label class="addit_labels" for="first_prod_' + ownerId + '">First Prod Date: </label>' + '<span id="first_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="last_prod_' + ownerId + '">Last Prod Date: </label>' + '<span id="last_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_oil_' + ownerId + '">Cumulative Prod Oil: </label>' + '<span id="cum_prod_oil_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_gas_' + ownerId + '">Cumulative Prod Gas: </label>' + '<span id="cum_prod_gas_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="active_well_count_' + ownerId + '">Active Well Count: </label>' + '<span id="active_well_count_' + ownerId + '"></span><br>' + '</div>' + '</div></div>' + '<div class="row"><div class="col-md-6">' + '<h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>' + '<div class="containers">' + '<div class="row">' + '<div class="offset-2 col-md-5">' + '<label class="addit_labels" for="decimal_interest_' + ownerId + '">Decimal Interest: </label>' + '<span id="decimal_interest_' + ownerId + '"></span>' + '</div>' + '<div class="col-md-4">' + '<label class="addit_labels" style="margin-left:-15%;" for="interest_type_' + ownerId + '">Interest Type: </label>' + '<span id="interest_type_' + ownerId + '"></span>' + '</div></div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="interest_type_' + ownerId + '">Monthly Revenue: </label>' + '<input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue_' + ownerId + '" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="owner_price_' + ownerId + '">Pricing per NRA: </label>' + '<input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price_' + ownerId + '" placeholder="$" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="net_royalty_acres_' + ownerId + '">Net Royalty Acres: </label>' + '<input type="text" style="margin-left:7.5%;" class="form-control net_royalty_acres" disabled id="net_royalty_acres_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="total_price_for_interest_' + ownerId + '">Total Price For Interest: </label>' + '<input type="text" style="margin-left:2%;" class="form-control total_price_for_interest" disabled id="total_price_for_interest_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="oil_price">Oil Price: </label>' + '<input type="text" style="margin-left:18.5%;" class="form-control oil_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="gas_price">Gas Price: </label>' + '<input type="text" style="margin-left:17%;" class="form-control gas_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="bnp_' + ownerId + '">BNP: </label>' + '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="">Years to PayOff: </label>' + '<input type="text" style="margin-left:10%;" class="form-control" disabled />' + '</div>' + '</div></div>' + '<div class="col-md-6">' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' + '<div class="previous_owner_notes" id="previous_owner_notes_' + ownerId + '" name="previous_owner_notes" contenteditable="false"></div>' + '</div>' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="owner_notes_' + ownerId + '">Enter Owner Notes</label>' + '<textarea rows="4" class="owner_notes" id="owner_notes_' + ownerId + '" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' + '<div class="col-md-12">' + '<button type="button" id="update_owner_notes_btn_' + ownerId + '" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' + '</div></div></div>';
+        var ownerBody = '<div class="row">' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Lease Info</h3>' + '<div class="containers">' + '<label for="lease_name_display_' + ownerId + '">Lease Name: </label>' + '<span id="lease_name_display_' + ownerId + '"></span><br>' + '<label for="lease_description_' + ownerId + '">Lease Description: </label>' + '<span id="lease_description_' + ownerId + '"></span><br><br>' + '<label for="rrc_lease_number_' + ownerId + '">RRC Lease Number: </label>' + '<span id="rrc_lease_number_' + ownerId + '"></span><br>' + '</div></div>' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Additional Info</h3>' + '<div class="containers">' + '<label class="addit_labels" for="first_prod_' + ownerId + '">First Prod Date: </label>' + '<span id="first_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="last_prod_' + ownerId + '">Last Prod Date: </label>' + '<span id="last_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_oil_' + ownerId + '">Cumulative Prod Oil: </label>' + '<span id="cum_prod_oil_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_gas_' + ownerId + '">Cumulative Prod Gas: </label>' + '<span id="cum_prod_gas_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="active_well_count_' + ownerId + '">Active Well Count: </label>' + '<span id="active_well_count_' + ownerId + '"></span><br>' + '</div>' + '</div></div>' + '<div class="row"><div class="col-md-6">' + '<h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>' + '<div class="containers">' + '<div class="row">' + '<div class="offset-2 col-md-5">' + '<label class="addit_labels" for="decimal_interest_' + ownerId + '">Decimal Interest: </label>' + '<span id="decimal_interest_' + ownerId + '"></span>' + '</div>' + '<div class="col-md-4">' + '<label class="addit_labels" style="margin-left:-15%;" for="interest_type_' + ownerId + '">Interest Type: </label>' + '<span id="interest_type_' + ownerId + '"></span>' + '</div></div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="interest_type_' + ownerId + '">Monthly Revenue: </label>' + '<input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue_' + ownerId + '" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="owner_price_' + ownerId + '">Pricing per NRA: </label>' + '<input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price_' + ownerId + '" placeholder="$" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="net_royalty_acres_' + ownerId + '">Net Royalty Acres: </label>' + '<input type="text" style="margin-left:7.5%;" class="form-control net_royalty_acres" disabled id="net_royalty_acres_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="total_price_for_interest_' + ownerId + '">Total Price For Interest: </label>' + '<input type="text" style="margin-left:2%;" class="form-control total_price_for_interest" disabled id="total_price_for_interest_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="oil_price">Oil Price: </label>' + '<input type="text" style="margin-left:18.5%;" class="form-control oil_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="gas_price">Gas Price: </label>' + '<input type="text" style="margin-left:17%;" class="form-control gas_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="bnp_' + ownerId + '">BNP: </label>' + '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="ytp">Years to PayOff: </label>' + '<input type="text" style="margin-left:10%;" class="form-control ytp" id="ytp_' + ownerId + '" disabled />' + '</div>' + '</div></div>' + '<div class="col-md-6">' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' + '<div class="previous_owner_notes" id="previous_owner_notes_' + ownerId + '" name="previous_owner_notes" contenteditable="false"></div>' + '</div>' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="owner_notes_' + ownerId + '">Enter Owner Notes</label>' + '<textarea rows="4" class="owner_notes" id="owner_notes_' + ownerId + '" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' + '<div class="col-md-12">' + '<button type="button" id="update_owner_notes_btn_' + ownerId + '" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' + '</div></div></div>';
 
         if (row.child.isShown()) {
           row.child.hide();
@@ -42663,6 +42663,12 @@ $(document).ready(function () {
         $('.oil_price').val(data.oilPrice);
         $('.gas_price').val(data.gasPrice);
         $('#bnp_' + ownerId).val(bnpWithComma);
+        var bbls = $('#bbls').text();
+        bbls = bbls.replace(',', '');
+        var ytp = bnp / bbls;
+        ytp = ytp.toFixed(2);
+        var ytpWithComma = numberWithCommas(ytp);
+        $('#ytp_' + ownerId).val(ytpWithComma);
         getOwnerNotes(ownerId);
       },
       error: function error(data) {
@@ -42713,6 +42719,12 @@ $(document).ready(function () {
     bnp = bnp.toFixed(2);
     var bnpWithComma = numberWithCommas(bnp);
     $('#bnp_' + ownerId).val(bnpWithComma);
+    var bbls = $('#bbls').text();
+    bbls = bbls.replace(',', '');
+    var ytp = bnp / bbls;
+    ytp = ytp.toFixed(2);
+    var ytpWithComma = numberWithCommas(ytp);
+    $('#ytp_' + ownerId).val(ytpWithComma);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43066,7 +43078,10 @@ $(document).ready(function () {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
-  getOilGasPrices();
+  if (location.href.split('/')[3] === 'mm-platform') {
+    getOilGasPrices();
+  }
+
   var globalPermitId = '';
   var permitTable = $('#permit_table').DataTable({
     "pagingType": "simple",
@@ -43348,7 +43363,6 @@ $(document).ready(function () {
       },
       success: function success(data) {
         $('#toggle_status_' + permitId[2]).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
-        console.log(data);
       },
       error: function error(data) {
         console.log(data);
@@ -43444,8 +43458,6 @@ $(document).ready(function () {
     var gasPrice = $('#price_container')[0].children[0].children[1].children[2].firstElementChild.innerText;
     oilPrice = oilPrice.replace('$', '');
     gasPrice = gasPrice.replace('$', '');
-    console.log(gasPrice);
-    console.log(oilPrice);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43486,8 +43498,6 @@ $(document).ready(function () {
         permitId: permitId
       },
       success: function success(data) {
-        console.log(data);
-
         if (data !== undefined && data !== '') {
           var updatedNotes = '';
           $.each(data, function (key, value) {
