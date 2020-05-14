@@ -86,10 +86,6 @@ class MineralOwnersController extends Controller
                 $yearsOfProduction = 0;
             }
 
-
-
-
-
             $count = count($wells);
 
             $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
@@ -103,7 +99,23 @@ class MineralOwnersController extends Controller
 
             }
 
-            return view('mineralOwner', compact('owners','permitValues', 'permitNotes', 'users', 'wells', 'operator', 'leaseName', 'count', 'oldestDate', 'latestDate' ,'yearsOfProduction', 'totalGasWithComma', 'totalOilWithComma', 'bblsWithComma', 'gbblsWithComma'));
+            return view('mineralOwner', compact(
+                'owners',
+                'permitValues',
+                'permitNotes',
+                'users',
+                'wells',
+                'operator',
+                'leaseName',
+                'count',
+                'oldestDate',
+                'latestDate',
+                'yearsOfProduction',
+                'totalGasWithComma',
+                'totalOilWithComma',
+                'bblsWithComma',
+                'gbblsWithComma')
+            );
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
