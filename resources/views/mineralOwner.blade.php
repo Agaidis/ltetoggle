@@ -124,7 +124,7 @@
 
                                             <?php $latestDate = explode('T', $latestDate) ?>
                                             <label for="last_month">Last month in Production: </label>
-                                            <span id="last_month">{{$latestDate[0]}}</span>
+                                            <span id="last_month">{{$latestDate[0]}}</span><br>
 
                                             <label for="last_month">Years of Production: </label>
                                             <span id="last_month">{{$yearsOfProduction}}</span>
