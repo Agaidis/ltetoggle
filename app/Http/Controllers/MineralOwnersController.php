@@ -36,11 +36,6 @@ class MineralOwnersController extends Controller
             $dateArray = array();
             $oilArray = array();
             $gasArray = array();
-            $totalGasWithComma = '';
-            $totalOilWithComma = '';
-            $bblsWithComma = '';
-            $gbblsWithComma = '';
-
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('county', $permitValues->county_parish)->get();
 
             foreach ($wells as $well) {
@@ -54,23 +49,46 @@ class MineralOwnersController extends Controller
                     }
                 }
             }
-            $totalGas = max($gasArray);
-            $totalOil = max($oilArray);
-            $totalGasWithComma = number_format($totalGas);
-            $totalOilWithComma = number_format($totalOil);
 
-            $oldestDate = min($dateArray);
-            $latestDate = max($dateArray);
+            if ( count($gasArray) > 0 ) {
+                $totalGas = max($gasArray);
+                $totalGasWithComma = number_format($totalGas);
+            } else {
+                $totalGas = 0;
+                $totalGasWithComma = 0;
+            }
 
-            $datetime1 = new DateTime($oldestDate);
-            $datetime2 = new DateTime($latestDate);
-            $interval = $datetime1->diff($datetime2);
-            $yearsOfProduction = $interval->y;
+            if ( count($oilArray) > 0 ) {
+                $totalOil = max($oilArray);
+                $totalOilWithComma = number_format($totalOil);
+            } else {
+                $totalOil = 0;
+                $totalOilWithComma = 0;
+            }
 
-            $bbls = $totalOil / $yearsOfProduction;
-            $gbbls = $totalGas / $yearsOfProduction;
-            $bblsWithComma = number_format($bbls);
-            $gbblsWithComma = number_format($gbbls);
+            if ( count($dateArray) > 0 ) {
+                $oldestDate = min($dateArray);
+                $latestDate = max($dateArray);
+                $datetime1 = new DateTime($oldestDate);
+                $datetime2 = new DateTime($latestDate);
+                $interval = $datetime1->diff($datetime2);
+                $yearsOfProduction = $interval->y;
+
+                $bbls = $totalOil / $yearsOfProduction;
+                $gbbls = $totalGas / $yearsOfProduction;
+                $bblsWithComma = number_format($bbls);
+                $gbblsWithComma = number_format($gbbls);
+            } else {
+                $oldestDate = 0;
+                $latestDate = 0;
+                $bblsWithComma = 0;
+                $gbblsWithComma = 0;
+                $yearsOfProduction = 0;
+            }
+
+
+
+
 
             $count = count($wells);
 

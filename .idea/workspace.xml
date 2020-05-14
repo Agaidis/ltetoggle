@@ -4,11 +4,6 @@
     <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/assets/js/permits.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/permits.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,11 +16,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="67" column="50" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="50" />
+            <state relative-caret-position="324">
+              <caret line="64" column="30" selection-start-line="64" selection-start-column="30" selection-end-line="64" selection-end-column="30" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
               </folding>
@@ -34,10 +29,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-05-14.log">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="110">
+              <caret line="213" column="72" selection-start-line="213" selection-start-column="55" selection-end-line="213" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="389">
-              <caret line="80" column="54" selection-start-line="80" selection-start-column="50" selection-end-line="80" selection-end-column="54" />
+            <state relative-caret-position="91">
+              <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
               <folding>
                 <element signature="e#1243#1266#0#HTML" expanded="true" />
               </folding>
@@ -54,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="343" column="47" selection-start-line="343" selection-start-column="47" selection-end-line="343" selection-end-column="47" />
+            <state relative-caret-position="396">
+              <caret line="349" column="11" lean-forward="true" selection-start-line="349" selection-start-column="11" selection-end-line="349" selection-end-column="11" />
               <folding>
                 <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -103,7 +107,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>phone_</find>
       <find>button</find>
       <find>add_phone_</find>
       <find>getOwnerNumbers</find>
@@ -133,6 +136,7 @@
       <find>console.log</find>
       <find>let ytp = bnp</find>
       <find>ytp</find>
+      <find>totalGilWithComma</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -205,9 +209,9 @@
         <option value="$PROJECT_DIR$/resources/views/userMMP.blade.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/GetWells.php" />
         <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/permits.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
       </list>
     </option>
   </component>
@@ -357,18 +361,13 @@
             <path>
               <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
               <item name="Toggle" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="storage" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
               <item name="Toggle" type="462c0819:PsiDirectoryNode" />
               <item name="storage" type="462c0819:PsiDirectoryNode" />
+              <item name="logs" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -491,17 +490,18 @@
       <workItem from="1586278163264" duration="1300000" />
       <workItem from="1586370243133" duration="5072000" />
       <workItem from="1588363896700" duration="10590000" />
-      <workItem from="1589311263728" duration="9941000" />
+      <workItem from="1589311263728" duration="10400000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="400789000" />
+    <option name="totallyTimeSpent" value="401248000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17582418" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17582418" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
@@ -515,7 +515,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.22032085" />
+      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.22032085" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -549,13 +549,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/wellbore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="217" column="31" selection-start-line="217" selection-start-column="31" selection-end-line="217" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-02-19.log" />
     <entry file="file://$PROJECT_DIR$/database/migrations/2020_02_21_144357_add_government_id.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -858,26 +851,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="67" column="50" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="50" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="389">
-          <caret line="80" column="54" selection-start-line="80" selection-start-column="50" selection-end-line="80" selection-end-column="54" />
-          <folding>
-            <element signature="e#1243#1266#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="422">
@@ -893,8 +866,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="343" column="47" selection-start-line="343" selection-start-column="47" selection-end-line="343" selection-end-column="47" />
+        <state relative-caret-position="396">
+          <caret line="349" column="11" lean-forward="true" selection-start-line="349" selection-start-column="11" selection-end-line="349" selection-end-column="11" />
           <folding>
             <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -922,6 +895,33 @@
             <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="91">
+          <caret line="62" lean-forward="true" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="e#1243#1266#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-05-14.log">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="213" column="72" selection-start-line="213" selection-start-column="55" selection-end-line="213" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="64" column="30" selection-start-line="64" selection-start-column="30" selection-end-line="64" selection-end-column="30" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
