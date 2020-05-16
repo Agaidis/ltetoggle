@@ -43083,7 +43083,10 @@ $(document).ready(function () {
   }
 
   var globalPermitId = '';
-  var permitTable = $('#permit_table').DataTable({
+  $(".nav-tabs li.nav-item a.nav-link").click(function () {
+    $(".nav-tabs li.nav-item a.nav-link").removeClass('active');
+  });
+  var permitTable = $('.permit_table').DataTable({
     "pagingType": "simple",
     "aaSorting": [],
     "stateSave": true,

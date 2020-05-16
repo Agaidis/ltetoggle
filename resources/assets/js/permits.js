@@ -6,7 +6,11 @@ $(document).ready(function () {
 
     let globalPermitId = '';
 
-    let permitTable = $('#permit_table').DataTable({
+    $(".nav-tabs li.nav-item a.nav-link").click(function() {
+        $(".nav-tabs li.nav-item a.nav-link").removeClass('active');
+    });
+
+    let permitTable = $('.permit_table').DataTable({
         "pagingType": "simple",
         "aaSorting": [],
         "stateSave": true,

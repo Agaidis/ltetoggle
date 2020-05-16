@@ -34,19 +34,22 @@ class MineralOwnersController extends Controller
 
         try {
             $dateArray = array();
+            $onProductionArray = array();
             $oilArray = array();
             $gasArray = array();
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('county', $permitValues->county_parish)->get();
 
             foreach ($wells as $well) {
+                if ($well->on_production_date != null)
+                array_push($onProductionArray, $well->on_production_date);
 
-                if ($well->current_status == 'ACTIVE') {
-                    $wellDetails = WellProductionDetail::where('api10', $well->government_id)->get();
-                    foreach ( $wellDetails as $wellDetail) {
-                        array_push($dateArray, $wellDetail->prod_date);
-                        array_push($oilArray, $wellDetail->cum_oil);
-                        array_push($gasArray, $wellDetail->cum_gas);
-                    }
+                $wellDetails = WellProductionDetail::where('api10', $well->government_id)->get();
+
+                foreach ( $wellDetails as $wellDetail) {
+                    array_push($dateArray, $wellDetail->prod_date);
+
+                    array_push($oilArray, $wellDetail->cum_oil);
+                    array_push($gasArray, $wellDetail->cum_gas);
                 }
             }
 
@@ -66,9 +69,16 @@ class MineralOwnersController extends Controller
                 $totalOilWithComma = 0;
             }
 
+
             if ( count($dateArray) > 0 ) {
-                $oldestDate = min($dateArray);
                 $latestDate = max($dateArray);
+
+                if ( count($onProductionArray) > 0) {
+                    $oldestDate = min($onProductionArray);
+                } else {
+                    $oldestDate = min($dateArray);
+                }
+
                 $datetime1 = new DateTime($oldestDate);
                 $datetime2 = new DateTime($latestDate);
                 $interval = $datetime1->diff($datetime2);

@@ -44,12 +44,22 @@ class GetPermits extends Command
     {
         $apiManager = new APIManager();
         $token = $apiManager->getToken();
-        $counties = ['ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON'];
+        $eagleInterestAreaArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
+        $nvxInterestArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS', 'LEA', 'EDDY');
+        $counties = ['ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS', 'LEA', 'EDDY'];
         $end_date = date('Y-m-d');
 
         try {
             foreach ($counties as $county) {
-                $date = '2020-01-27';
+                $date = '2020-04-01';
+
+                if (in_array($county, $eagleInterestAreaArray)) {
+                    $interestArea = 'eagle';
+                } else if (in_array($county, $nvxInterestArray)) {
+                    $interestArea = 'nvx';
+                } else {
+                    $interestArea = 'na';
+                }
                 do {
                     $permits = $apiManager->getPermits($county, $token->access_token, $date);
                     $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
@@ -92,6 +102,7 @@ class GetPermits extends Command
                                 $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
                                 $newPermit->is_seen = 0;
                                 $newPermit->toggle_status = 'black';
+                                $newPermit->interest_area = $interestArea;
 
                                 $newPermit->save();
 
@@ -119,7 +130,9 @@ class GetPermits extends Command
                                         'permit_status' => $decodedPermits[$i]->PermitStatus,
                                         'district' => $decodedPermits[$i]->District,
                                         'created_date' => $decodedPermits[$i]->CreatedDate,
-                                        'submitted_date' => $decodedPermits[$i]->SubmittedDate]);
+                                        'submitted_date' => $decodedPermits[$i]->SubmittedDate,
+                                        'interest_area' => $interestArea]);
+
                             }
 
                         }

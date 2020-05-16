@@ -73,6 +73,7 @@ class GetWells extends Command
                             $newWell->uid = $decodedWells[$i]->UID;
                             $newWell->well_name = $decodedWells[$i]->WellName;
                             $newWell->government_id = $decodedWells[$i]->GovernmentID;
+                            $newWell->on_production_date = $decodedWells[$i]->OnProductionDate;
                             if (isset($decodedWells[$i]->wellNumber)) {
                                 $newWell->well_number = $decodedWells[$i]->wellNumber;
                             }
@@ -89,7 +90,8 @@ class GetWells extends Command
                                     'uid' => $decodedWells[$i]->UID,
                                     'well_name' => $decodedWells[$i]->WellName,
                                     'well_number' => $decodedWells[$i]->WellNumber,
-                                    'government_id' => $decodedWells[$i]->GovernmentID]);
+                                    'government_id' => $decodedWells[$i]->GovernmentID,
+                                    'on_production_date' => $decodedWells[$i]->OnProductionDate]);
                         }
 
                         $wellProductionDetails = $apiManager->getWellProductionDetails( $token->access_token, $decodedWells[$i]->GovernmentID );

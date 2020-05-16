@@ -77,10 +77,10 @@
                                         <label for="total_oil">Total Oil Production: </label>
                                         <span id="total_oil">{{$totalOilWithComma}}</span><br>
 
-                                        <label for="bbls">BBLS: </label>
+                                        <label for="bbls">BBLS (OIL): </label>
                                         <span id="bbls">{{$bblsWithComma}}</span><br>
 
-                                        <label for="gbbls">GAS BBLS: </label>
+                                        <label for="gbbls">MNX (GAS): </label>
                                         <span id="gbbls">{{$gbblsWithComma}}</span>
 
                                     </div>
