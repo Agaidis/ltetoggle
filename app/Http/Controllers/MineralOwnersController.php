@@ -82,7 +82,7 @@ class MineralOwnersController extends Controller
                 $datetime1 = new DateTime($oldestDate);
                 $datetime2 = new DateTime($latestDate);
                 $interval = $datetime1->diff($datetime2);
-                $yearsOfProduction = $interval->y;
+                $yearsOfProduction = $interval->y + 1;
 
                 $bbls = $totalOil / $yearsOfProduction;
                 $gbbls = $totalGas / $yearsOfProduction;
