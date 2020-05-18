@@ -83,6 +83,7 @@ class MineralOwnersController extends Controller
                 $datetime2 = new DateTime($latestDate);
                 $interval = $datetime1->diff($datetime2);
                 $yearsOfProduction = $interval->y + 1;
+                $monthsOfProduction = $interval->m;
 
                 $bbls = $totalOil / $yearsOfProduction;
                 $gbbls = $totalGas / $yearsOfProduction;
@@ -125,6 +126,7 @@ class MineralOwnersController extends Controller
                 'totalOilWithComma',
                 'bblsWithComma',
                 'gbblsWithComma')
+
             );
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();

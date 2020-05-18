@@ -4,13 +4,11 @@ namespace App\Console\Commands;
 
 use App\ErrorLog;
 use App\Http\Controllers\APIManager;
-use App\Permit;
 use App\WellOrigin;
 use App\WellProductionDetail;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class GetWells extends Command
 {

@@ -52,23 +52,23 @@
                                         @endif
 
                                         @if ($permitValues->drill_type != '')
-                                        <label for="DrillType">Drill Type: </label>
-                                        <span id="DrillType">{{$permitValues->drill_type}}</span><br>
+                                            <label for="DrillType">Drill Type: </label>
+                                            <span id="DrillType">{{$permitValues->drill_type}}</span><br>
                                         @endif
 
                                         @if ($permitValues->permit_type != '')
-                                        <label for="PermitType">Permit Type: </label>
-                                        <span id="PermitType">{{$permitValues->permit_type}}</span><br>
+                                            <label for="PermitType">Permit Type: </label>
+                                            <span id="PermitType">{{$permitValues->permit_type}}</span><br>
                                         @endif
 
                                         @if ($permitValues->well_type != '')
-                                        <label for="WellType">Well Type: </label>
-                                        <span id="WellType">{{$permitValues->well_type}}</span><br>
+                                            <label for="WellType">Well Type: </label>
+                                            <span id="WellType">{{$permitValues->well_type}}</span><br>
                                         @endif
 
                                         @if ($permitValues->block != '')
-                                        <label for="Block">Block: </label>
-                                        <span id="Block">{{$permitValues->block}}</span><br>
+                                            <label for="Block">Block: </label>
+                                            <span id="Block">{{$permitValues->block}}</span><br>
                                         @endif
 
                                         <label for="total_gas">Total Gas Production: </label>
@@ -128,6 +128,7 @@
 
                                             <label for="last_month">Years of Production: </label>
                                             <span id="last_month">{{$yearsOfProduction}}</span>
+
                                     </div>
                                     </div>
                                 </div>

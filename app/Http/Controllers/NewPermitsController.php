@@ -35,11 +35,13 @@ class NewPermitsController extends Controller
      */
     public function index()
     {
-        $permits = DB::table('permits')->groupBy('abstract', 'lease_name', 'survey')->get();
+        $eaglePermits = DB::table('permits')->where('interest_area', 'eagle')->groupBy('abstract', 'lease_name', 'survey')->get();
+        $nvxPermits = DB::table('permits')->where('interest_area', 'nvx')->groupBy('abstract', 'lease_name', 'survey')->get();
+
         $users = User::all();
         $currentUser = Auth::user()->name;
 
-        return view('dashboard', compact('permits', 'users', 'currentUser'));
+        return view('dashboard', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
     }
 
     public function getPermitDetails(Request $request) {

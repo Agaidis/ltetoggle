@@ -243,6 +243,7 @@ hr {
 .addit_labels {
     font-size:18px;
 }
+
 .loader {
     border: 16px solid #f3f3f3; /* Light grey */
     border-top: 16px solid #3498db; /* Blue */
@@ -263,5 +264,19 @@ hr {
     .phone_modal_dialog {
         max-width: 1000px!important;
     }
+}
+
+.tab-content {
+    padding-top: 15px;
+}
+
+.interest_text {
+    color: #383d41!important;
+}
+.interest_tab {
+    padding:0!important;
+}
+.interest_active {
+    background-color: #eb8f00;
 }
 

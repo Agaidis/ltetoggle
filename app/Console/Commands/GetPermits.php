@@ -42,35 +42,58 @@ class GetPermits extends Command
      */
     public function handle()
     {
-        $apiManager = new APIManager();
-        $token = $apiManager->getToken();
-        $eagleInterestAreaArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
-        $nvxInterestArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS', 'LEA', 'EDDY');
-        $counties = ['ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS', 'LEA', 'EDDY'];
-        $end_date = date('Y-m-d');
+        try {
+            $eagleInterestCountiesArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
+            $nvxInterestCountiesArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS', 'LEA', 'EDDY');
+
+        $dateRanges = array('eagle' => '2020-01-27', 'nvx' => '2020-04-01');
+
+        foreach ($dateRanges as $interestArea => $dateRange ) {
+            if ($interestArea == 'eagle') {
+                $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
+            } else if ( $interestArea == 'nvx') {
+                $this->getCountyPermitData($dateRange, $interestArea, $nvxInterestCountiesArray);
+            }
+
+        }
+
+        return 'success';
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function getCountyPermitData ($initialDate, $interestArea, $counties) {
 
         try {
-            foreach ($counties as $county) {
-                $date = '2020-04-01';
+            $apiManager = new APIManager();
 
-                if (in_array($county, $eagleInterestAreaArray)) {
-                    $interestArea = 'eagle';
-                } else if (in_array($county, $nvxInterestArray)) {
-                    $interestArea = 'nvx';
-                } else {
-                    $interestArea = 'na';
-                }
+            $token = $apiManager->getToken();
+
+            $end_date = date('Y-m-d');
+
+            foreach ($counties as $county) {
+                $incrementingDate = $initialDate;
+
                 do {
-                    $permits = $apiManager->getPermits($county, $token->access_token, $date);
-                    $date = date("Y-m-d", strtotime("+1 day", strtotime($date)));
+                    $permits = $apiManager->getPermits($county, $token->access_token, $incrementingDate);
+                    $incrementingDate = date("Y-m-d", strtotime("+1 day", strtotime($incrementingDate)));
+
                     if ($permits != null && $permits != '' && isset($permits)) {
                         $decodedPermits = json_decode($permits);
+
                         for ($i = 0; $i < count($decodedPermits); $i++) {
+
                             if ($decodedPermits[$i]->BottomHoleLongitudeWGS84 != '' && $decodedPermits[$i]->BottomHoleLongitudeWGS84 != null) {
                                 $btmLatLng = '{"lng": ' . $decodedPermits[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $decodedPermits[$i]->BottomHoleLatitudeWGS84 . "}";
                             } else {
                                 $btmLatLng = '';
                             }
+
                             $doesPermitExist = Permit::where('permit_id', $decodedPermits[$i]->PermitID)->get();
 
                             if ($doesPermitExist->isEmpty()) {
@@ -106,10 +129,9 @@ class GetPermits extends Command
 
                                 $newPermit->save();
 
-
                             } else {
-                                Permit::where('permit_id', $decodedPermits[$i]->PermitID)
-                                    ->update([
+
+                                Permit::where('permit_id', $decodedPermits[$i]->PermitID)->update([
                                         'abstract' => $decodedPermits[$i]->Abstract,
                                         'approved_date' => $decodedPermits[$i]->ApprovedDate,
                                         'block' => $decodedPermits[$i]->Block,
@@ -131,16 +153,17 @@ class GetPermits extends Command
                                         'district' => $decodedPermits[$i]->District,
                                         'created_date' => $decodedPermits[$i]->CreatedDate,
                                         'submitted_date' => $decodedPermits[$i]->SubmittedDate,
-                                        'interest_area' => $interestArea]);
-
+                                        'interest_area' => $interestArea
+                                ]);
                             }
-
                         }
                     }
-                } while (strtotime($date) <= strtotime($end_date));
+
+                } while (strtotime($incrementingDate) <= strtotime($end_date));
             }
             return 'success';
-        } catch( Exception $e ) {
+
+        } catch ( Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
 
@@ -148,5 +171,4 @@ class GetPermits extends Command
             return 'error';
         }
     }
-
 }
