@@ -882,11 +882,6 @@ $(document).ready(function () {
     });
 
 
-
-
-
-
-
     $('.interest_tab').on('click', function(){
 
         $('.interest_tab').removeClass('interest_active');

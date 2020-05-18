@@ -40,7 +40,7 @@
                         <div id="exTab2" class="interest_nav_container">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item nav-link interest_tab" id="interest_tab_eagle">
-                                    <a href="#eagle_interest_area" data-toggle="tab" class="interest_text">Eagle Interest Area</a>
+                                    <a href="#eagle_interest_area" data-toggle="tab" class="interest_text" >Eagle Interest Area</a>
                                 </li>
                                 <li class="nav-item nav-link interest_tab" id="interest_tab_wtx">
                                     <a href="#wtx_nm_interest_area" data-toggle="tab" class="interest_text">WTX/NM Interest Area</a>
@@ -53,7 +53,7 @@
 
 
                                 <!-- EAGLE INTEREST AREA TAB -->
-                                <div class="tab-pane" role="tabpanel" id="eagle_interest_area">
+                                <div class="tab-pane active" role="tabpanel" id="eagle_interest_area">
                                     <div class="row">
                                         <div class="offset-1 col-md-10">
                                             <table class="table table-hover table-responsive-md table-bordered permit_table" id="eagle_permit_table">
