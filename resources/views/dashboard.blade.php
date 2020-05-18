@@ -39,11 +39,11 @@
                         </div>
                         <div id="exTab2" class="interest_nav_container">
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item nav-link interest_tab interest_text" id="interest_tab_eagle">
-                                    <a href="#eagle_interest_area" data-toggle="tab">Eagle Interest Area</a>
+                                <li class="nav-item nav-link interest_tab interest_active" id="interest_tab_eagle">
+                                    <a href="#eagle_interest_area" data-toggle="tab" class="interest_text" >Eagle Interest Area</a>
                                 </li>
                                 <li class="nav-item nav-link interest_tab" id="interest_tab_wtx">
-                                    <a href="#wtx_nm_interest_area" data-toggle="tab">WTX/NM Interest Area</a>
+                                    <a href="#wtx_nm_interest_area" data-toggle="tab" class="interest_text">WTX/NM Interest Area</a>
                                 </li>
                             </ul>
 
