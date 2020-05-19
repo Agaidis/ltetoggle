@@ -50,7 +50,7 @@ class GetPermits extends Command
 
         foreach ($dateRanges as $interestArea => $dateRange ) {
             if ($interestArea == 'eagle') {
-                $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
+           //     $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
             } else if ( $interestArea == 'nvx') {
                 $this->getCountyPermitData($dateRange, $interestArea, $nvxInterestCountiesArray);
             }
@@ -78,6 +78,8 @@ class GetPermits extends Command
 
             foreach ($counties as $county) {
                 $incrementingDate = $initialDate;
+                Log::info($county);
+                Log::info($incrementingDate);
 
                 do {
                     $permits = $apiManager->getPermits($county, $token->access_token, $incrementingDate);
@@ -87,6 +89,7 @@ class GetPermits extends Command
                         $decodedPermits = json_decode($permits);
 
                         for ($i = 0; $i < count($decodedPermits); $i++) {
+                            Log::info($decodedPermits[$i]->PermitID);
 
                             if ($decodedPermits[$i]->BottomHoleLongitudeWGS84 != '' && $decodedPermits[$i]->BottomHoleLongitudeWGS84 != null) {
                                 $btmLatLng = '{"lng": ' . $decodedPermits[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $decodedPermits[$i]->BottomHoleLatitudeWGS84 . "}";
