@@ -37,13 +37,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="exTab2" class="interest_nav_container">
+                        <div id="myTab" class="interest_nav_container">
                             <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item nav-link interest_tab interest_active" id="interest_tab_eagle">
-                                    <a href="#eagle_interest_area" data-toggle="tab" class="interest_text" >Eagle Interest Area</a>
+                                <li class="nav-item nav-link interest_tab" id="interest_tab_eagle">
+                                    <a href="#eagle_interest_area" role="tab" data-toggle="tab" class="interest_text" aria-controls="eagle_interest_area">Eagle Interest Area</a>
                                 </li>
                                 <li class="nav-item nav-link interest_tab" id="interest_tab_wtx">
-                                    <a href="#wtx_nm_interest_area" data-toggle="tab" class="interest_text">WTX/NM Interest Area</a>
+                                    <a href="#wtx_nm_interest_area" role="tab" data-toggle="tab" class="interest_text" aria-controls="wtx_nm_interest_area">WTX/NM Interest Area</a>
                                 </li>
                             </ul>
 

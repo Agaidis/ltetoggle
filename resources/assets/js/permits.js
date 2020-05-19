@@ -6,6 +6,50 @@ $(document).ready(function () {
 
     let globalPermitId = '';
 
+    $('.interest_tab').on('click', function(){
+
+        $('.interest_tab').removeClass('interest_active');
+        let interestId = $(this)[0].id;
+
+        $('#' + interestId).addClass('interest_active');
+
+    });
+
+    $('a[data-toggle="tab"]').on('click', function(e) {
+
+        window.localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+
+    let activeTab = window.localStorage.getItem('activeTab');
+
+    if (activeTab) {
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+        window.localStorage.removeItem("activeTab");
+    } else {
+        $('#interest_tab_eagle').addClass('interest_active');
+    }
+
+    if (location.hash.substr(0,2) === "#!") {
+        console.log(location.hash);
+        let interestHref = location.hash.replace('#!', '');
+        console.log(interestHref);
+        if (interestHref === 'wtx_nm_interest_area') {
+            $('#interest_tab_eagle').removeClass('interest_active');
+            $('#interest_tab_wtx').addClass('interest_active');
+        } else if (interestHref === 'eagle_interest_area') {
+            $('#interest_tab_wtx').removeClass('interest_active');
+            $('#interest_tab_eagle').addClass('interest_active');
+        }
+
+        $("a[href='#" + location.hash.substr(2) + "']").tab("show");
+    }
+
+    $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
+        let hash = $(e.target).attr("href");
+        if (hash.substr(0,1) === "#") {
+            location.replace("#!" + hash.substr(1));
+        }
+    });
 
 
     //EAGLE PERMIT TABLE
@@ -880,23 +924,6 @@ $(document).ready(function () {
             });
         }
     });
-
-
-    $('.interest_tab').on('click', function(){
-
-        $('.interest_tab').removeClass('interest_active');
-        let interestId = $(this)[0].id;
-
-        $('#' + interestId).addClass('interest_active');
-
-    });
-
-
-
-
-
-
-
 
 
 
