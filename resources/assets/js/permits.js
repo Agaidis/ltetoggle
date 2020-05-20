@@ -4,6 +4,10 @@ $(document).ready(function () {
         getOilGasPrices();
     }
 
+    $('#lease_name_select').select2({
+        tags:true
+    });
+
     let globalPermitId = '';
 
     $('.interest_tab').on('click', function(){
@@ -16,7 +20,6 @@ $(document).ready(function () {
     });
 
     $('a[data-toggle="tab"]').on('click', function(e) {
-
         window.localStorage.setItem('activeTab', $(e.target).attr('href'));
     });
 
@@ -30,9 +33,9 @@ $(document).ready(function () {
     }
 
     if (location.hash.substr(0,2) === "#!") {
-        console.log(location.hash);
+
         let interestHref = location.hash.replace('#!', '');
-        console.log(interestHref);
+
         if (interestHref === 'wtx_nm_interest_area') {
             $('#interest_tab_eagle').removeClass('interest_active');
             $('#interest_tab_wtx').addClass('interest_active');

@@ -19,7 +19,8 @@ mix.js([
     'resources/assets/js/datatables.min.js',
     'resources/assets/js/jquery-dp-ui.min.js',
     'resources/assets/js/admin.js',
-    'resources/assets/js/phoneNumberPush.js'
+    'resources/assets/js/phoneNumberPush.js',
+    'vendor/select2/select2/dist/js/select2.min.js'
 
 
 ], 'public/js/app.js').version()
@@ -31,6 +32,7 @@ mix.js([
         'resources/assets/css/jquery-dp-ui.min.css',
         'resources/assets/css/jquery-dp-ui.structure.min.css',
         'resources/assets/css/jquery-dp-ui.theme.min.css',
+        'vendor/select2/select2/dist/css/select2.min.css'
 
 
     ], 'public/css/app.css').version();

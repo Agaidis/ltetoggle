@@ -83,7 +83,6 @@ class MineralOwnersController extends Controller
                 $datetime2 = new DateTime($latestDate);
                 $interval = $datetime1->diff($datetime2);
                 $yearsOfProduction = $interval->y + 1;
-                $monthsOfProduction = $interval->m;
 
                 $bbls = $totalOil / $yearsOfProduction;
                 $gbbls = $totalGas / $yearsOfProduction;
@@ -97,27 +96,46 @@ class MineralOwnersController extends Controller
                 $yearsOfProduction = 0;
             }
 
+            $leases = MineralOwner::groupBy('lease_name')->orderBy('lease_name', 'ASC')->get();
+
+            $leaseArray = array();
+
             $count = count($wells);
+            if ( $permitValues->selected_lease_name != null ) {
 
-            $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
+                $leaseArray = explode('|', $permitValues->selected_lease_name);
 
-           $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
+                $owners = MineralOwner::whereIn('lease_name',  $leaseArray)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
 
-            if ($owners->isEmpty()) {
-                $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $permitValues->lease_name);
-                $operator = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D'], ['', '', ''], $request->operator);
-                $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
+                $permitNotes = PermitNote::where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
 
+            } else {
+
+                $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
+
+                $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
+
+                if ($owners->isEmpty()) {
+                    $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $permitValues->lease_name);
+                    $operator = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D'], ['', '', ''], $request->operator);
+                    $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
+
+                }
             }
+
+            Log::info(count($leaseArray));
 
             return view('mineralOwner', compact(
                 'owners',
                 'permitValues',
+                'leases',
+                'leaseName',
+                'leaseArray',
                 'permitNotes',
                 'users',
                 'wells',
                 'operator',
-                'leaseName',
+
                 'count',
                 'oldestDate',
                 'latestDate',
@@ -398,6 +416,21 @@ class MineralOwnersController extends Controller
             return $request->id;
 
         } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function updateLeaseName(Request $request) {
+        try {
+            Permit::where('id', $request->permitId)
+                ->update(['selected_lease_name' => $request->leaseNames]);
+
+            return $request->permitId;
+        } catch ( Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 

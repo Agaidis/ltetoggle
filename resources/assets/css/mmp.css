@@ -238,6 +238,16 @@ hr {
     -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 10px;
+    font-size:20px;
+}
+
+.labels {
+    font-weight: bold;
+    font-size:20px;
+}
+
+#lease_name_select {
+    width:50%;
 }
 
 .addit_labels {

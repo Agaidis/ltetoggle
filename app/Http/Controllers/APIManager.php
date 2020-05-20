@@ -64,7 +64,7 @@ class APIManager
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=".$date."&countyparish=".$county."&drilltype=H&pagesize=100",
+                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=".$date."&countyparish=".$county."&drilltype=H&drilltype=V&pagesize=100",
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,

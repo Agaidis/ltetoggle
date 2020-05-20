@@ -638,6 +638,54 @@ $(document).ready(function () {
 
 
 
+
+    $('#refresh_lease_data_btn').on('click', function() {
+        let leaseNamesString = '';
+
+       $.each($('#lease_name_select')[0].selectedOptions, function(key,value) {
+           leaseNamesString += value.value + '|';
+       });
+        leaseNamesString = leaseNamesString.slice(0, -1);
+        console.log(leaseNamesString);
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "POST",
+            url: '/mineral-owners/updateLeaseNames',
+            data: {
+                permitId: $('#permit_id').val(),
+                leaseNames: leaseNamesString
+            },
+            success: function success(data) {
+                console.log(data);
+                console.log($('#permit_id').val());
+                if (data === $('#permit_id').val()) {
+                    console.log('im in here');
+                    location.reload();
+                }
+
+            },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
+    });
+
+
+
+
+
+
+
+
+
     /*              WELLS PRODUCTION DETAILS              */
     let table = $('.wells_table').DataTable();
 

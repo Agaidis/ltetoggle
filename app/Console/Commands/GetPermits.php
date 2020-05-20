@@ -78,8 +78,7 @@ class GetPermits extends Command
 
             foreach ($counties as $county) {
                 $incrementingDate = $initialDate;
-                Log::info($county);
-                Log::info($incrementingDate);
+
 
                 do {
                     $permits = $apiManager->getPermits($county, $token->access_token, $incrementingDate);

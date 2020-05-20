@@ -21,10 +21,28 @@
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <span style="font-size:20px;"><b>Lease Name</b>: {{$leaseName}} <span id="acreage_container"><label>Acreage : </label> <input type="text" placeholder="Acreage" class="acreage" id="acreage_{{$permitValues->id}}" name="acreage" value="{{$permitValues->acreage}}"/></span></span>
-                                <br><span style="font-size:20px;">Operator Name: {{$permitValues->reported_operator}}</span>
+                                <label class="labels">Lease Name(s)</label>:
+                                <select id="lease_name_select" class="form-control" multiple="multiple">
+                                    @foreach ($leases as $lease)
+                                            @if (in_array($lease->lease_name, $leaseArray) )
+                                                <option selected value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
+                                            @else
+                                                <option value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
+                                            @endif
+
+                                    @endforeach
+                                </select>
+                                <button style="margin-left:10px;" type="button" id="refresh_lease_data_btn" class="btn btn-success">Refresh Lease Data</button><br>
+                                <span style="font-size:20px;">
+                                    <label class="labels">Operator Name</label>: {{$permitValues->reported_operator}}
+                                </span>
+                                <div class="col-md-4" id="acreage_container">
+                                    <label class="labels">Acreage : </label>
+                                    <input type="text" placeholder="Acreage" class="acreage" id="acreage_{{$permitValues->id}}" name="acreage" value="{{$permitValues->acreage}}">
+                                </div>
                             </div>
                         </div>
+                        <input type="hidden" id="permit_id" value="{{$permitValues->id}}"/>
                             <div style="margin-top:1.5%;" class="offset-3 col-md-9">
                                 <div class="row">
                                     <div style="text-align:center;" class="col-md-4">
