@@ -5,7 +5,7 @@ $(document).ready(function () {
     }
 
     $('#lease_name_select').select2({
-        tags:true
+        minimumInputLength: 3
     });
 
     let globalPermitId = '';

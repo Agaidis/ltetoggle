@@ -43119,7 +43119,7 @@ $(document).ready(function () {
   }
 
   $('#lease_name_select').select2({
-    tags: true
+    minimumInputLength: 3
   });
   var globalPermitId = '';
   $('.interest_tab').on('click', function () {

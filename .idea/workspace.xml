@@ -102,11 +102,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="237">
-              <caret line="29" column="49" lean-forward="true" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
+            <state relative-caret-position="192">
+              <caret line="26" column="89" selection-start-line="26" selection-start-column="89" selection-end-line="26" selection-end-column="89" />
               <folding>
-                <element signature="e#2331#2356#0#HTML" expanded="true" />
-                <element signature="e#2235#2258#0#HTML" expanded="true" />
+                <element signature="e#2399#2424#0#HTML" expanded="true" />
+                <element signature="e#2561#2584#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -568,18 +568,17 @@
       <workItem from="1586278163264" duration="1300000" />
       <workItem from="1586370243133" duration="5072000" />
       <workItem from="1588363896700" duration="10590000" />
-      <workItem from="1589311263728" duration="54277000" />
+      <workItem from="1589311263728" duration="54508000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="445125000" />
+    <option name="totallyTimeSpent" value="445356000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1898657" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1898657" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
@@ -593,7 +592,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32941177" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.22032085" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.22032085" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -1006,11 +1005,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="237">
-          <caret line="29" column="49" lean-forward="true" selection-start-line="29" selection-start-column="49" selection-end-line="29" selection-end-column="49" />
+        <state relative-caret-position="192">
+          <caret line="26" column="89" selection-start-line="26" selection-start-column="89" selection-end-line="26" selection-end-column="89" />
           <folding>
-            <element signature="e#2331#2356#0#HTML" expanded="true" />
-            <element signature="e#2235#2258#0#HTML" expanded="true" />
+            <element signature="e#2399#2424#0#HTML" expanded="true" />
+            <element signature="e#2561#2584#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
