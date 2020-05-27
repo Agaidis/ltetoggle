@@ -22,6 +22,7 @@ class MineralOwnersController extends Controller
         $users = User::all();
 
         $operator = $request->operator;
+        $operator = str_replace('/', '', $operator);
         $permitId = $request->id;
 
         $permitValues = Permit::where('id', $permitId)->first();
