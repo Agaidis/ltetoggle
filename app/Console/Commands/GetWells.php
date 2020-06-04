@@ -56,85 +56,87 @@ class GetWells extends Command
                 if ($wells != null && $wells != '' && isset($wells)) {
                     $decodedWells = json_decode($wells);
 
-                    for ($i = 0; $i < count($decodedWells); $i++) {
+                    if (is_array($decodedWells)) {
+                        for ($i = 0; $i < count($decodedWells); $i++) {
 
-                        $doesWellExist = WellOrigin::where('uid', $decodedWells[$i]->UID)->get();
+                            $doesWellExist = WellOrigin::where('uid', $decodedWells[$i]->UID)->get();
 
-                        if ($doesWellExist->isEmpty()) {
+                            if ($doesWellExist->isEmpty()) {
 
-                            $newWell = new WellOrigin();
+                                $newWell = new WellOrigin();
 
-                            $newWell->county = $decodedWells[$i]->County;
-                            $newWell->current_operator = $decodedWells[$i]->CurrentOperator;
-                            $newWell->current_status = $decodedWells[$i]->CurrentStatus;
-                            $newWell->lease_name = $decodedWells[$i]->LeaseName;
-                            $newWell->uid = $decodedWells[$i]->UID;
-                            $newWell->well_name = $decodedWells[$i]->WellName;
-                            $newWell->government_id = $decodedWells[$i]->GovernmentID;
-                            $newWell->on_production_date = $decodedWells[$i]->OnProductionDate;
-                            if (isset($decodedWells[$i]->wellNumber)) {
-                                $newWell->well_number = $decodedWells[$i]->wellNumber;
+                                $newWell->county = $decodedWells[$i]->County;
+                                $newWell->current_operator = $decodedWells[$i]->CurrentOperator;
+                                $newWell->current_status = $decodedWells[$i]->CurrentStatus;
+                                $newWell->lease_name = $decodedWells[$i]->LeaseName;
+                                $newWell->uid = $decodedWells[$i]->UID;
+                                $newWell->well_name = $decodedWells[$i]->WellName;
+                                $newWell->government_id = $decodedWells[$i]->GovernmentID;
+                                $newWell->on_production_date = $decodedWells[$i]->OnProductionDate;
+                                if (isset($decodedWells[$i]->wellNumber)) {
+                                    $newWell->well_number = $decodedWells[$i]->wellNumber;
+                                }
+
+                                $newWell->save();
+
+                            } else {
+                                WellOrigin::where('uid', $decodedWells[$i]->UID)
+                                    ->update([
+                                        'county' => $decodedWells[$i]->County,
+                                        'current_operator' => $decodedWells[$i]->CurrentOperator,
+                                        'current_status' => $decodedWells[$i]->CurrentStatus,
+                                        'lease_name' => $decodedWells[$i]->LeaseName,
+                                        'uid' => $decodedWells[$i]->UID,
+                                        'well_name' => $decodedWells[$i]->WellName,
+                                        'well_number' => $decodedWells[$i]->WellNumber,
+                                        'government_id' => $decodedWells[$i]->GovernmentID,
+                                        'on_production_date' => $decodedWells[$i]->OnProductionDate]);
                             }
 
-                            $newWell->save();
+                            $wellProductionDetails = $apiManager->getWellProductionDetails($token->access_token, $decodedWells[$i]->GovernmentID);
 
-                        } else {
-                            WellOrigin::where('uid', $decodedWells[$i]->UID)
-                                ->update([
-                                    'county' => $decodedWells[$i]->County,
-                                    'current_operator' => $decodedWells[$i]->CurrentOperator,
-                                    'current_status' => $decodedWells[$i]->CurrentStatus,
-                                    'lease_name' => $decodedWells[$i]->LeaseName,
-                                    'uid' => $decodedWells[$i]->UID,
-                                    'well_name' => $decodedWells[$i]->WellName,
-                                    'well_number' => $decodedWells[$i]->WellNumber,
-                                    'government_id' => $decodedWells[$i]->GovernmentID,
-                                    'on_production_date' => $decodedWells[$i]->OnProductionDate]);
-                        }
+                            $decodedWellProdDetails = json_decode($wellProductionDetails);
 
-                        $wellProductionDetails = $apiManager->getWellProductionDetails( $token->access_token, $decodedWells[$i]->GovernmentID );
+                            for ($j = 0; $j < count($decodedWellProdDetails); $j++) {
 
-                        $decodedWellProdDetails = json_decode($wellProductionDetails);
+                                if (isset($decodedWellProdDetails[$j]->Api10)) {
 
-                        for ($j = 0; $j < count($decodedWellProdDetails); $j++) {
+                                    $doesWellProdDetailsExist = WellProductionDetail::where('api10', $decodedWells[$i]->GovernmentID)->where('prod_date', $decodedWellProdDetails[$j]->ProdDate)->get();
 
-                            if (isset($decodedWellProdDetails[$j]->Api10)) {
+                                    if ($doesWellProdDetailsExist->isEmpty()) {
 
-                                $doesWellProdDetailsExist = WellProductionDetail::where('api10', $decodedWells[$i]->GovernmentID)->where('prod_date', $decodedWellProdDetails[$j]->ProdDate)->get();
+                                        $newWellDetail = new WellProductionDetail();
 
-                                if ($doesWellProdDetailsExist->isEmpty()) {
+                                        $newWellDetail->api10 = $decodedWellProdDetails[$j]->Api10;
+                                        $newWellDetail->api14 = $decodedWellProdDetails[$j]->Api14;
+                                        $newWellDetail->avg_gas = $decodedWellProdDetails[$j]->AvgGas;
+                                        $newWellDetail->avg_oil = $decodedWellProdDetails[$j]->AvgOil;
+                                        $newWellDetail->avg_wtr = $decodedWellProdDetails[$j]->AvgWtr;
+                                        $newWellDetail->cum_gas = $decodedWellProdDetails[$j]->CumGas;
+                                        $newWellDetail->cum_oil = $decodedWellProdDetails[$j]->CumOil;
+                                        $newWellDetail->cum_wtr = $decodedWellProdDetails[$j]->CumWtr;
+                                        $newWellDetail->days = $decodedWellProdDetails[$j]->Days;
+                                        $newWellDetail->gas = $decodedWellProdDetails[$j]->Gas;
+                                        $newWellDetail->prod_date = $decodedWellProdDetails[$j]->ProdDate;
 
-                                    $newWellDetail = new WellProductionDetail();
+                                        $newWellDetail->save();
 
-                                    $newWellDetail->api10 = $decodedWellProdDetails[$j]->Api10;
-                                    $newWellDetail->api14 = $decodedWellProdDetails[$j]->Api14;
-                                    $newWellDetail->avg_gas = $decodedWellProdDetails[$j]->AvgGas;
-                                    $newWellDetail->avg_oil = $decodedWellProdDetails[$j]->AvgOil;
-                                    $newWellDetail->avg_wtr = $decodedWellProdDetails[$j]->AvgWtr;
-                                    $newWellDetail->cum_gas = $decodedWellProdDetails[$j]->CumGas;
-                                    $newWellDetail->cum_oil = $decodedWellProdDetails[$j]->CumOil;
-                                    $newWellDetail->cum_wtr = $decodedWellProdDetails[$j]->CumWtr;
-                                    $newWellDetail->days = $decodedWellProdDetails[$j]->Days;
-                                    $newWellDetail->gas = $decodedWellProdDetails[$j]->Gas;
-                                    $newWellDetail->prod_date = $decodedWellProdDetails[$j]->ProdDate;
+                                    } else {
 
-                                    $newWellDetail->save();
-
-                                } else {
-
-                                    WellProductionDetail::where('api10', $decodedWells[$i]->GovernmentID)->where('prod_date', $decodedWellProdDetails[$j]->ProdDate)
-                                        ->update([
-                                            'api10' => $decodedWellProdDetails[$j]->Api10,
-                                            'api14' => $decodedWellProdDetails[$j]->Api14,
-                                            'avg_gas' => $decodedWellProdDetails[$j]->AvgGas,
-                                            'avg_oil' => $decodedWellProdDetails[$j]->AvgOil,
-                                            'avg_wtr' => $decodedWellProdDetails[$j]->AvgWtr,
-                                            'cum_gas' => $decodedWellProdDetails[$j]->CumGas,
-                                            'cum_oil' => $decodedWellProdDetails[$j]->CumOil,
-                                            'cum_wtr' => $decodedWellProdDetails[$j]->CumWtr,
-                                            'days' => $decodedWellProdDetails[$j]->Days,
-                                            'gas' => $decodedWellProdDetails[$j]->Gas,
-                                            'prod_date' => $decodedWellProdDetails[$j]->ProdDate]);
+                                        WellProductionDetail::where('api10', $decodedWells[$i]->GovernmentID)->where('prod_date', $decodedWellProdDetails[$j]->ProdDate)
+                                            ->update([
+                                                'api10' => $decodedWellProdDetails[$j]->Api10,
+                                                'api14' => $decodedWellProdDetails[$j]->Api14,
+                                                'avg_gas' => $decodedWellProdDetails[$j]->AvgGas,
+                                                'avg_oil' => $decodedWellProdDetails[$j]->AvgOil,
+                                                'avg_wtr' => $decodedWellProdDetails[$j]->AvgWtr,
+                                                'cum_gas' => $decodedWellProdDetails[$j]->CumGas,
+                                                'cum_oil' => $decodedWellProdDetails[$j]->CumOil,
+                                                'cum_wtr' => $decodedWellProdDetails[$j]->CumWtr,
+                                                'days' => $decodedWellProdDetails[$j]->Days,
+                                                'gas' => $decodedWellProdDetails[$j]->Gas,
+                                                'prod_date' => $decodedWellProdDetails[$j]->ProdDate]);
+                                    }
                                 }
                             }
                         }
