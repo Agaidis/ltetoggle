@@ -10748,6 +10748,11 @@ body {
 
 .black {
     background-color: black!important;
+    color:white;
+}
+
+.green {
+    background-color: #7ae696!important;
     color:black;
 }
 
@@ -10756,14 +10761,15 @@ body {
     color:black;
 }
 
-.green {
-    background-color: #7ae696!important;
-    color:black;
-}
-
 .red {
     background-color: #ff4a4a!important;
     color:black;
+}
+
+.assigned_style {
+    font-size: 17px;
+    font-weight: bolder;
+    color: black;
 }
 
 #dashboard_btn_container {

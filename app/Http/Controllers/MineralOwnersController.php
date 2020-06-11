@@ -210,6 +210,7 @@ class MineralOwnersController extends Controller
             MineralOwner::where('id', $request->ownerId)->update(['follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
 
             $userName = Auth()->user()->name;
+            $userId = Auth()->user()->id;
             $date = date('d/m/Y h:m:s', strtotime('-5 hours'));
 
             $newOwnerLeaseNote = new OwnerNote();
@@ -224,6 +225,9 @@ class MineralOwnersController extends Controller
                 ->update(['notes' => '<div class="owner_note" id="owner_'.$newOwnerLeaseNote->id.'_'.$request->ownerId.'"><p style="font-size:14px; margin-bottom:0;">'.$userName . ' | '. $date . '<span class="fas fa-trash delete_owner_note" id="delete_owner_note_'.$newOwnerLeaseNote->id.'_'.$request->ownerId.'" style="display: none; cursor:pointer; color:red; float:right;margin-right:3%;"></span></p>' . $request->notes .'<hr></div>']);
 
             $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
+
+
+            MineralOwner::where('id', $request->ownerId)->update(['assignee' => $userId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
 
             return $updatedOwnerNote;
 
@@ -256,7 +260,6 @@ class MineralOwnersController extends Controller
 
     public function updateAssignee(Request $request) {
         try {
-            Log::info($request->assigneeId);
             if ($request->assigneeId != 0) {
                 MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
             } else {

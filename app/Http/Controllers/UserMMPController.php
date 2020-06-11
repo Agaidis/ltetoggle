@@ -5,18 +5,19 @@ namespace App\Http\Controllers;
 use App\Permit;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class UserMMPController extends Controller
 {
-    //
 
     public function index() {
         try {
-            $permits = Permit::where('assignee', Auth::user()->id)->get();
+            $eaglePermits = DB::table('permits')->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();
+            $nvxPermits = DB::table('permits')->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx', 'apr'])->get();
             $users = User::all();
 
-            return view('userMMP', compact('permits', 'users'));
+            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());

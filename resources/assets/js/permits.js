@@ -340,6 +340,13 @@ $(document).ready(function () {
     }).on('change', '.assignee', function() {
         let assignee = $(this)[0].value;
 
+
+        if (assignee === '') {
+            $(this).removeClass('assigned_style');
+        } else {
+            $(this).addClass('assigned_style');
+        }
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -784,7 +791,15 @@ $(document).ready(function () {
             }
         });
     }).on('change', '.assignee', function() {
+        console.log($(this));
         let assignee = $(this)[0].value;
+        console.log(assignee);
+
+        if (assignee === '') {
+            $(this).removeClass('assigned_style');
+        } else {
+            $(this).addClass('assigned_style');
+        }
 
         $.ajaxSetup({
             headers: {
@@ -802,6 +817,7 @@ $(document).ready(function () {
                 assigneeId: assignee
             },
             success: function success(data) {
+
                 console.log(data);
             },
             error: function error(data) {

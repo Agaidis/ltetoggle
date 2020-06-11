@@ -398,6 +398,8 @@ $(document).ready(function () {
 
                 $('#previous_owner_notes_'+ ownerId).empty().append(updatedNotes.html());
                 $('#owner_notes_'+ownerId).val('').text('');
+
+                $('#assignee_' + ownerId).val($('#user_id').val());
             },
             error: function error(data) {
                 console.log(data);

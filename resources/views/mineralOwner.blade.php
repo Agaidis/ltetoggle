@@ -20,6 +20,7 @@
                                     <button type="button" style="margin-left:5%;" class="btn btn-primary dashboard_btns" data-target="#modal_open_wells" data-toggle="modal" id="well_count_btn">Well Count: {{$count}}</button>
                                 </div>
                             </div>
+                            <input type="hidden" id="user_id" value="{{Auth::user()->id}}" />
                             <div class="col-md-8">
                                 <label class="labels">Lease Name(s)</label>:
                                 <select id="lease_name_select" class="form-control" multiple="multiple">

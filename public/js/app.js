@@ -42776,6 +42776,7 @@ $(document).ready(function () {
         updatedNotes = $('<span>' + updatedNotes + '</span>');
         $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
         $('#owner_notes_' + ownerId).val('').text('');
+        $('#assignee_' + ownerId).val($('#user_id').val());
       },
       error: function error(data) {
         console.log(data);
@@ -43398,6 +43399,13 @@ $(document).ready(function () {
     });
   }).on('change', '.assignee', function () {
     var assignee = $(this)[0].value;
+
+    if (assignee === '') {
+      $(this).removeClass('assigned_style');
+    } else {
+      $(this).addClass('assigned_style');
+    }
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43767,7 +43775,16 @@ $(document).ready(function () {
       }
     });
   }).on('change', '.assignee', function () {
+    console.log($(this));
     var assignee = $(this)[0].value;
+    console.log(assignee);
+
+    if (assignee === '') {
+      $(this).removeClass('assigned_style');
+    } else {
+      $(this).addClass('assigned_style');
+    }
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44058,7 +44075,13 @@ $(document).ready(function () {
     var id = $(this)[0].id;
     var assignee = $(this)[0].value;
     var ownerId = id.split('_');
-    console.log(ownerId);
+
+    if (assignee === '0') {
+      $(this).removeClass('assigned_style');
+    } else {
+      $(this).addClass('assigned_style');
+    }
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44207,6 +44230,13 @@ $(document).ready(function () {
     var id = $(this)[0].id;
     var assignee = $(this)[0].value;
     var ownerId = id.split('_');
+
+    if (assignee === '0') {
+      $(this).removeClass('assigned_style');
+    } else {
+      $(this).addClass('assigned_style');
+    }
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

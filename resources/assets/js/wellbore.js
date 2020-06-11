@@ -13,7 +13,12 @@ $(document).ready(function () {
         let id = $(this)[0].id;
         let assignee = $(this)[0].value;
         let ownerId = id.split('_');
-        console.log(ownerId);
+
+        if (assignee === '0') {
+            $(this).removeClass('assigned_style');
+        } else {
+            $(this).addClass('assigned_style');
+        }
 
         $.ajaxSetup({
             headers: {
@@ -188,6 +193,12 @@ $(document).ready(function () {
         let id = $(this)[0].id;
         let assignee = $(this)[0].value;
         let ownerId = id.split('_');
+
+        if (assignee === '0') {
+            $(this).removeClass('assigned_style');
+        } else {
+            $(this).addClass('assigned_style');
+        }
 
         $.ajaxSetup({
             headers: {

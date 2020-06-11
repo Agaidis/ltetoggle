@@ -43,7 +43,13 @@
                                                         <input type="hidden" name="lease_name" id="lease_name_{{$highPriorityProspect->id}}" value="{{$operator}}"/>
                                                     @endif
                                                 <td class="text-center">
-                                                    <select class="form-control owner_assignee" id="assignee_{{$highPriorityProspect->id}}">
+                                                    @if ($highPriorityProspect->assignee == '')
+                                                        <select class="form-control owner_assignee" id="assignee_{{$highPriorityProspect->id}}">
+                                                        @else
+                                                                <select class="form-control owner_assignee assigned_style" id="assignee_{{$highPriorityProspect->id}}">
+                                                        @endif
+
+
                                                         <option value="0" selected >Select a User</option>
                                                         @foreach ($users as $user)
                                                             @if ($highPriorityProspect->assignee == $user->id)
@@ -159,7 +165,11 @@
                                                 <tr class="owner_row" style="background-color: #f59278;" id="owner_row_{{$owner->id}}">
                                             @endif
                                                     <td class="text-center">
-                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                        @if ($owner->assignee == '')
+                                                            <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                                @else
+                                                                    <select class="form-control owner_assignee assigned_style" id="assignee_{{$owner->id}}">
+                                                                        @endif
                                                             <option selected value="0">Select a User</option>
                                                             @foreach ($users as $user)
                                                                 @if ($owner->assignee == $user->id)
@@ -171,7 +181,7 @@
                                                         </select>
                                                     </td>
                                                 <td class="text-center">
-                                                    <select disabled class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                    <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
                                                         @if ($owner->wellbore_type == 1)
                                                             <option value="0">None</option>
                                                             <option selected value="{{$owner->wellbore_type}}">1</option>

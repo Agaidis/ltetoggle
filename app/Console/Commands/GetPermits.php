@@ -51,9 +51,9 @@ class GetPermits extends Command
 
         foreach ($dateRanges as $interestArea => $dateRange ) {
             if ($interestArea == 'eagle') {
-          //      $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
+                $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
             } else if ( $interestArea == 'nvx') {
-            //    $this->getCountyPermitData($dateRange, $interestArea, $nvxInterestCountiesArray);
+                $this->getCountyPermitData($dateRange, $interestArea, $nvxInterestCountiesArray);
             } else if ( $interestArea == 'apr' ) {
                 $this->getCountyPermitData($dateRange, $interestArea, $nvxByApprovedDate);
             }
