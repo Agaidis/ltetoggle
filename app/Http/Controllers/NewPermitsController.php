@@ -36,7 +36,7 @@ class NewPermitsController extends Controller
     public function index()
     {
         $eaglePermits = DB::table('permits')->where('interest_area', 'eagle')->groupBy('abstract', 'lease_name', 'survey')->get();
-        $nvxPermits = DB::table('permits')->where('interest_area', 'nvx')->groupBy('abstract', 'lease_name', 'survey')->get();
+        $nvxPermits = DB::table('permits')->where('interest_area', 'nvx')->orWhere('interest_area', 'apr')->groupBy('abstract', 'lease_name', 'survey')->get();
 
         $users = User::all();
         $currentUser = Auth::user()->name;

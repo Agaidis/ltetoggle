@@ -44,17 +44,19 @@ class GetPermits extends Command
     {
         try {
             $eagleInterestCountiesArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
-            $nvxInterestCountiesArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS', 'LEA', 'EDDY');
+            $nvxInterestCountiesArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
+            $nvxByApprovedDate = array('LEA', 'EDDY');
 
-        $dateRanges = array('eagle' => '2020-01-27', 'nvx' => '2020-04-01');
+        $dateRanges = array('eagle' => '2020-01-27', 'nvx' => '2020-04-01', 'apr' => '2020-04-01');
 
         foreach ($dateRanges as $interestArea => $dateRange ) {
             if ($interestArea == 'eagle') {
-                $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
+          //      $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
             } else if ( $interestArea == 'nvx') {
-                $this->getCountyPermitData($dateRange, $interestArea, $nvxInterestCountiesArray);
+            //    $this->getCountyPermitData($dateRange, $interestArea, $nvxInterestCountiesArray);
+            } else if ( $interestArea == 'apr' ) {
+                $this->getCountyPermitData($dateRange, $interestArea, $nvxByApprovedDate);
             }
-
         }
 
         return 'success';
@@ -74,14 +76,18 @@ class GetPermits extends Command
 
             $token = $apiManager->getToken();
 
-            $end_date = date('Y-m-d');
+            if ( $interestArea == 'apr') {
+                $end_date = date('2020-06-08');
+            } else {
+                $end_date = date('Y-m-d');
+            }
 
             foreach ($counties as $county) {
                 $incrementingDate = $initialDate;
 
 
                 do {
-                    $permits = $apiManager->getPermits($county, $token->access_token, $incrementingDate);
+                    $permits = $apiManager->getPermits($county, $token->access_token, $incrementingDate, $interestArea );
                     $incrementingDate = date("Y-m-d", strtotime("+1 day", strtotime($incrementingDate)));
 
                     if ($permits != null && $permits != '' && isset($permits)) {

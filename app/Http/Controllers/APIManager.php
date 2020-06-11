@@ -60,11 +60,17 @@ class APIManager
         }
     }
 
-    public function getPermits ($county, $token, $date) {
+    public function getPermits ($county, $token, $date, $interestArea) {
+
+        if ($interestArea == 'apr') {
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?approveddate=".$date."&countyparish=".$county."&drilltype=H&drilltype=V&pagesize=100";
+        } else {
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=".$date."&countyparish=".$county."&drilltype=H&drilltype=V&pagesize=100";
+        }
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=".$date."&countyparish=".$county."&drilltype=H&drilltype=V&pagesize=100",
+                CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
