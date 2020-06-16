@@ -17,6 +17,9 @@
                                         <a href="{{ url('mm-platform') }}">
                                             <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="wellbore_btn">MMP General</button>
                                         </a>
+                                        <a href="{{ url('justus-mmp') }}">
+                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
+                                        </a>
                                     @endif
                                 </div>
                             </div>
