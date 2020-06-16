@@ -91,10 +91,10 @@
                                         @endif
 
                                         <label for="total_gas">Total Gas Production: </label>
-                                        <span id="total_gas">{{$totalGasWithComma}}</span><br>
+                                        <span id="total_gas">{{$cumGasWithComma}}</span><br>
 
                                         <label for="total_oil">Total Oil Production: </label>
-                                        <span id="total_oil">{{$totalOilWithComma}}</span><br>
+                                        <span id="total_oil">{{$cumOilWithComma}}</span><br>
 
                                         <label for="bbls">BBLS (OIL): </label>
                                         <span id="bbls">{{$bblsWithComma}}</span><br>
