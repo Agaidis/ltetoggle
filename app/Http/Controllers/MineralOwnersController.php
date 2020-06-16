@@ -54,8 +54,13 @@ class MineralOwnersController extends Controller
                     array_push($oilArray, $wellDetail->cum_oil);
                     array_push($gasArray, $wellDetail->cum_gas);
                 }
-                $totalGas = $totalGas + max($gasArray);
-                $totalOil = $totalOil + max($oilArray);
+                if ( count($gasArray) > 0 ) {
+                    $totalGas = $totalGas + max($gasArray);
+                }
+                if ( count($oilArray) > 0) {
+                    $totalOil = $totalOil + max($oilArray);
+                }
+
             }
 
             if ( $totalGas > 0 ) {
