@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div id="dashboard_btn_container" class="col-md-4">
-                                @if (Auth::user()->role === 'admin')
+                                @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                 <div class="button_panel">
                                     <a href="{{ url('welbore') }}">
                                         <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
@@ -166,7 +166,7 @@
                                         <thead>
 
                                         <tr>
-                                            @if (Auth::user()->role === 'admin')
+                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular' )
                                                 <th class="text-center">More Data</th>
                                                 <th class="text-center">Assignee/Follow-Up</th>
                                                 <th class="text-center">Wellbore Type</th>
@@ -191,7 +191,7 @@
                                         <tbody>
                                         @foreach ($owners as $owner)
                                             <tr class="owner_row" id="owner_row_{{$owner->id}}">
-                                                @if (Auth::user()->role === 'admin')
+                                                @if (Auth::user()->role === 'admin'  || Auth::user()->role === 'regular')
                                                     <td id="id_{{$owner->id}}" class="text-center owner-details-control view_owner"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                     <td class="text-center">
                                                         @if (Auth::user()->name === 'Billy Moreaux' && ($owner->assignee != null || $owner->assignee != 0))
