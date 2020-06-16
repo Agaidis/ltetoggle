@@ -38,9 +38,11 @@ class MineralOwnersController extends Controller
             $oilArray = array();
             $gasArray = array();
             $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('county', $permitValues->county_parish)->get();
+            $totalGas = 0;
+            $totalGasWithComma = 0;
+            $totalOil = 0;
+            $totalOilWithComma = 0;
 
-            $cumOil = 0;
-            $cumGas = 0;
             foreach ($wells as $well) {
                 if ($well->on_production_date != null)
                 array_push($onProductionArray, $well->on_production_date);
@@ -49,32 +51,22 @@ class MineralOwnersController extends Controller
 
                 foreach ( $wellDetails as $wellDetail) {
                     array_push($dateArray, $wellDetail->prod_date);
-
-                    $cumOil = $cumOil + $wellDetail->cum_oil;
-                    $cumGas = $cumGas + $wellDetail->cum_gas;
                     array_push($oilArray, $wellDetail->cum_oil);
                     array_push($gasArray, $wellDetail->cum_gas);
                 }
+                $totalGas = $totalGas + max($gasArray);
+                $totalOil = $totalOil + max($oilArray);
             }
 
-            if ( count($gasArray) > 0 ) {
-                $totalGas = max($gasArray);
+            if ( $totalGas > 0 ) {
                 $totalGasWithComma = number_format($totalGas);
-                $cumGasWithComma = number_format($cumGas);
-            } else {
-                $totalGas = 0;
-                $totalGasWithComma = 0;
+
             }
 
-            if ( count($oilArray) > 0 ) {
-                $totalOil = max($oilArray);
+            if ( $totalOil > 0 ) {
                 $totalOilWithComma = number_format($totalOil);
-                $cumOilWithComma = number_format($cumOil);
-            } else {
-                $totalOil = 0;
-                $totalOilWithComma = 0;
-            }
 
+            }
 
             if ( count($dateArray) > 0 ) {
                 $latestDate = max($dateArray);
@@ -139,8 +131,6 @@ class MineralOwnersController extends Controller
                 'users',
                 'wells',
                 'operator',
-                'cumGasWithComma',
-                'cumOilWithComma',
                 'count',
                 'oldestDate',
                 'latestDate',
