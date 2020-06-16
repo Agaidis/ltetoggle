@@ -60,7 +60,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered permit_table" id="eagle_permit_table">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                         <th class="text-center">Open Lease</th>
                                                         <th class="text-center">Toggle Status</th>
                                                         <th class="text-center">Assignee</th>
@@ -83,7 +83,7 @@
                                                         <?php $approvedDate = explode('T', $eaglePermit->approved_date)?>
                                                         <input type="hidden" id="reported_operator_{{$eaglePermit->permit_id}}" value="{{$eaglePermit->reported_operator}}"/>
                                                         <tr class="permit_row" id="permit_row_{{$eaglePermit->permit_id}}">
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td id="id_{{$eaglePermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                                 <td>
                                                                     @if ($eaglePermit->toggle_status == 'black' || $eaglePermit->is_seen == 0)
@@ -169,7 +169,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered permit_table" id="nvx_permit_table">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
 
                                                         <th class="text-center">Open Lease</th>
                                                         <th class="text-center">Toggle Status</th>
@@ -195,7 +195,7 @@
 
                                                         <tr class="permit_row" id="permit_row_{{$nvxPermit->permit_id}}">
 
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td id="id_{{$nvxPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                                 <td>
                                                                     @if ($nvxPermit->toggle_status == 'black' || $nvxPermit->is_seen == 0)
