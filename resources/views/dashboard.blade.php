@@ -17,6 +17,13 @@
                                     <a href="{{ url('user-mmp') }}">
                                         <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="user_mmp_btn">{{Auth::user()->name}}</button>
                                     </a>
+                                        <a href="{{ url('justus-mmp') }}">
+                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
+                                        </a>
+                                        @elseif (Auth::user()->name === 'Justus Danna')
+                                        <a href="{{ url('justus-mmp') }}">
+                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
+                                        </a>
                                         @endif
                                 </div>
                             </div>

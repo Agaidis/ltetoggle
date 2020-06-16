@@ -23,6 +23,8 @@ Route::get('/welbore', 'WelboreController@index')->middleware('auth');
 
 Route::get('/user-mmp', 'UserMMPController@index')->middleware('auth');
 
+Route::get('/justus-mmp', 'UserMMPController@justus')->middleware('auth');
+
 Route::get('/FAQ', 'FAQController@index');
 
 Route::get('/about-us', 'AboutUsController@index');

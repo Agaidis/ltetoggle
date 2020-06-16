@@ -40,8 +40,13 @@ class NewPermitsController extends Controller
 
         $users = User::all();
         $currentUser = Auth::user()->name;
+        if ($currentUser === 'Justus Danna') {
+            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
+        } else {
+            return view('dashboard', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
+        }
 
-        return view('dashboard', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
+
     }
 
     public function getPermitDetails(Request $request) {
