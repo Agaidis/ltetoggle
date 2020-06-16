@@ -35,14 +35,19 @@ class NewPermitsController extends Controller
      */
     public function index()
     {
-        $eaglePermits = DB::table('permits')->where('interest_area', 'eagle')->groupBy('abstract', 'lease_name', 'survey')->get();
-        $nvxPermits = DB::table('permits')->where('interest_area', 'nvx')->orWhere('interest_area', 'apr')->groupBy('abstract', 'lease_name', 'survey')->get();
+
 
         $users = User::all();
         $currentUser = Auth::user()->name;
+
         if ($currentUser === 'Justus Danna') {
+            $eaglePermits = DB::table('permits')->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();
+            $nvxPermits = DB::table('permits')->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx', 'apr'])->get();
             return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
         } else {
+            $eaglePermits = DB::table('permits')->where('interest_area', 'eagle')->groupBy('abstract', 'lease_name', 'survey')->get();
+            $nvxPermits = DB::table('permits')->where('interest_area', 'nvx')->orWhere('interest_area', 'apr')->groupBy('abstract', 'lease_name', 'survey')->get();
+
             return view('dashboard', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
         }
 
