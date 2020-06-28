@@ -399,14 +399,14 @@
                                                         </td>
                                                         <td class="text-center">{{$npp->county_parish}}</td>
                                                         <td class="text-center">{{$npp->reported_operator}}</td>
-                                                        <td class="text-center"><a href="{{url( 'mineral-owner/' . $npp->lease_name . '/' . $npp->reported_operator . '/' . $npp->id)}}">{{$npp->lease_name}}</a></td>
+                                                        <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $npp->lease_name . '/' . $npp->reported_operator . '/' . $npp->id)}}">{{$npp->lease_name}}</a></td>
                                                     @else
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
-                                                        <td class="text-center"><a href="{{url( 'mineral-owner/' . $npp->lease_name . '/' . $npp->reported_operator . '/' . $npp->id)}}">{{$npp->lease_name}}</a></td>
+                                                        <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $npp->lease_name . '/' . $npp->reported_operator . '/' . $npp->id)}}">{{$npp->lease_name}}</a></td>
 
                                                     @endif
                                                 </tr>
