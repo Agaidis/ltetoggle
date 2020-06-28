@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\Log;
 class OwnersController extends Controller
 {
     public function index(Request $request) {
-        $ownerName = $request->ownerName;
-        $permitObj = array();
-        $noteArray = array();
+
 
         try {
+            $ownerName = $request->ownerName;
+            $permitObj = array();
+            $noteArray = array();
+
             $ownerNotes = OwnerNote::where('owner_name', $ownerName)->get();
             $ownerPhoneNumbers = OwnerPhoneNumber::where('owner_name', $ownerName)->orderBy('soft_delete', 'ASC')->get();
 
@@ -60,8 +62,6 @@ class OwnersController extends Controller
                 }
                 $count++;
             }
-
-            Log::info(serialize($ownerLeaseData));
 
             return view('owner', compact('ownerName', 'ownerNotes', 'ownerPhoneNumbers','ownerLeaseData', 'permitObj', 'noteArray' ));
         } catch( \Exception $e) {
