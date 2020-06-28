@@ -8,8 +8,9 @@
                     <div class="card-header">Owners Page</div>
                     <div class="card-body">
                         <h2 style="text-align:center;">Owner: {{$ownerName}}</h2>
+                        @if (isset($ownerLeaseData[0]))
                         <h3 style="text-align:center;">Address: {{$ownerLeaseData[0]->owner_address}}<br>{{$ownerLeaseData[0]->owner_city}}, {{$ownerLeaseData[0]->owner_state}}</h3>
-
+@endif
                         <div class="row">
                              <div class="col-md-4">
                                  <h3 style="text-align:center;">Phone Numbers</h3>
@@ -52,6 +53,7 @@
                                         </thead>
                                         <tbody>
                                         <?php $count = 0; ?>
+                                        @if (isset($ownerLeaseData))
                                         @foreach ($ownerLeaseData as $ownerLease)
                                             <tr>
                                                 <td class="text-center"><?php echo $count ?> </td>
@@ -71,6 +73,7 @@
                                             </tr>
                                             <?php $count++; ?>
                                         @endforeach
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>

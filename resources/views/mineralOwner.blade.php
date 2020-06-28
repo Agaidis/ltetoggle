@@ -50,9 +50,11 @@
                                         <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
                                         <div class="previous_notes" id="previous_notes" name="previous_notes" contenteditable="false"></div>
                                         <?php $notes = '';?>
+                                        @if(isset($permitNotes) && !$permitNotes->isEmpty())
                                         @foreach ($permitNotes as $permitNote)
                                             <?php $notes .= $permitNote->notes ?>
                                         @endforeach
+                                        @endif
 
                                         <input type="hidden" id="hidden_permit_notes" value="{{$notes}}" />
                                     </div>
