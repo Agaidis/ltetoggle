@@ -29,25 +29,25 @@
                                                 <td class="text-center"><input type="text" class="form-control" id="phone_number_{{$pushedPhoneNumber->id}}" value="{{$pushedPhoneNumber->phone_number}}"/></td>
                                                 <td class="text-center"><button type="button" class="btn btn-primary send_back" id="send_back_{{$pushedPhoneNumber->id}}">Send Back</button></td>
                                             </tr>
-                                            @foreach ($allNumbers as $number)
-                                                @if (in_array($number->owner_name, $ownerArray) && $pushedPhoneNumber->id != $number->id )
-                                                    @if ($number->soft_delete == 0)
-                                                        <tr class="{{$pushedPhoneNumber->id}}">
-                                                            <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
-                                                            <td class="text-center">{{$number->phone_desc}}</td>
-                                                            <td class="text-center">{{$number->phone_number}}</td>
-                                                            <td class="text-center"></td>
-                                                        </tr>
-                                                    @else
-                                                        <tr class="{{$pushedPhoneNumber->id}}">
-                                                            <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
-                                                            <td style="color:red;"class="text-center">{{$number->phone_desc}}</td>
-                                                            <td style="color:red;"class="text-center">{{$number->phone_number}}</td>
-                                                            <td class="text-center"></td>
-                                                        </tr>
-                                                    @endif
-                                                @endif
-                                            @endforeach
+{{--                                            @foreach ($allNumbers as $number)--}}
+{{--                                                @if (in_array($number->owner_name, $ownerArray) && $pushedPhoneNumber->id != $number->id )--}}
+{{--                                                    @if ($number->soft_delete == 0)--}}
+{{--                                                        <tr class="{{$pushedPhoneNumber->id}}">--}}
+{{--                                                            <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>--}}
+{{--                                                            <td class="text-center">{{$number->phone_desc}}</td>--}}
+{{--                                                            <td class="text-center">{{$number->phone_number}}</td>--}}
+{{--                                                            <td class="text-center"></td>--}}
+{{--                                                        </tr>--}}
+{{--                                                    @else--}}
+{{--                                                        <tr class="{{$pushedPhoneNumber->id}}">--}}
+{{--                                                            <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>--}}
+{{--                                                            <td style="color:red;"class="text-center">{{$number->phone_desc}}</td>--}}
+{{--                                                            <td style="color:red;"class="text-center">{{$number->phone_number}}</td>--}}
+{{--                                                            <td class="text-center"></td>--}}
+{{--                                                        </tr>--}}
+{{--                                                    @endif--}}
+{{--                                                @endif--}}
+{{--                                            @endforeach--}}
 
                                             <tr class="{{$pushedPhoneNumber->id}}">
                                                 <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>

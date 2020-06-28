@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\ErrorLog;
 use App\GeneralSetting;
 use App\MineralOwner;
-use App\OwnerNote;
 use App\Permit;
 use App\PermitNote;
 use App\User;
@@ -13,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class NewPermitsController extends Controller
+class MMPController extends Controller
 {
 
     private $apiManager;
@@ -39,16 +38,19 @@ class NewPermitsController extends Controller
 
         $users = User::all();
         $currentUser = Auth::user()->name;
+        $userRole = Auth::user()->role;
+        $nonProducingPermits = DB::table('permits')->where('interest_area', 'apr')->groupBy('lease_name', 'reported_operator')->get();
 
-        if ($currentUser === 'Justus Danna') {
+        if ($userRole === 'regular') {
             $eaglePermits = DB::table('permits')->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();
-            $nvxPermits = DB::table('permits')->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx', 'apr'])->get();
-            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
+            $nvxPermits = DB::table('permits')->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx'])->get();
+
+            return view('userMMP', compact('userRole', 'eaglePermits', 'nvxPermits', 'users', 'currentUser', 'nonProducingPermits'));
         } else {
             $eaglePermits = DB::table('permits')->where('interest_area', 'eagle')->groupBy('abstract', 'lease_name', 'survey')->get();
-            $nvxPermits = DB::table('permits')->where('interest_area', 'nvx')->orWhere('interest_area', 'apr')->groupBy('abstract', 'lease_name', 'survey')->get();
+            $nvxPermits = DB::table('permits')->whereIn('interest_area', ['nvx'])->groupBy('abstract', 'lease_name', 'survey')->get();
 
-            return view('dashboard', compact('eaglePermits', 'nvxPermits', 'users', 'currentUser'));
+            return view('dashboard', compact('userRole','eaglePermits', 'nvxPermits', 'users', 'currentUser', 'nonProducingPermits'));
         }
 
 

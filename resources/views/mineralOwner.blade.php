@@ -18,6 +18,7 @@
                                         <button type="button" style="margin-left:5%;" class="btn btn-primary dashboard_btns" id="user_mmp_btn">{{Auth::user()->name}}</button>
                                     </a>
                                     <button type="button" style="margin-left:5%;" class="btn btn-primary dashboard_btns" data-target="#modal_open_wells" data-toggle="modal" id="well_count_btn">Well Count: {{$count}}</button>
+                                    <input type="hidden" id="well_count" value="{{$count}}"/>
                                 </div>
                             </div>
                             <input type="hidden" id="user_id" value="{{Auth::user()->id}}" />
@@ -30,7 +31,6 @@
                                             @else
                                                 <option value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
                                             @endif
-
                                     @endforeach
                                 </select>
                                 <button style="margin-left:10px;" type="button" id="refresh_lease_data_btn" class="btn btn-success">Refresh Lease Data</button><br>
@@ -146,7 +146,7 @@
                                             <span id="last_month">{{$latestDate[0]}}</span><br>
 
                                             <label for="last_month">Years of Production: </label>
-                                            <span id="last_month">{{$yearsOfProduction}}</span>
+                                            <span id="years_of_prod">{{$yearsOfProduction}}</span>
 
                                     </div>
                                     </div>
@@ -302,6 +302,23 @@
                                     </button>
                                 </div>
                                 <div class="modal-body">
+                                    <div class="containers" style="text-align:center; margin-bottom:10px;">
+                                        <h3>Sum Well Data</h3>
+                                        <label for="first_month">First month in Production: </label>
+                                        <span>{{$oldestDate[0]}}</span><br>
+
+                                        <label for="last_month">Last month in Production: </label>
+                                        <span>{{$latestDate[0]}}</span><br>
+
+                                        <label for="last_month">Years of Production: </label>
+                                        <span>{{$yearsOfProduction}}</span><br>
+
+                                        <label for="total_gas">Total Gas Production: </label>
+                                        <span>{{$totalGasWithComma}}</span><br>
+
+                                        <label for="total_oil">Total Oil Production: </label>
+                                        <span>{{$totalOilWithComma}}</span><br>
+                                    </div>
                                     <table class="table table-hover table-responsive-md table-bordered wells_table">
                                         <thead>
                                         <tr>
@@ -316,12 +333,12 @@
                                         <tbody>
                                         @foreach ($wells as $well)
                                             <tr>
-                                                <td id="{{$well->government_id}}" class="text-center details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
-                                                <td class="text-center">{{$well->county}}</td>
-                                                <td class="text-center">{{$well->current_operator}}</td>
-                                                <td class="text-center">{{$well->current_status}}</td>
-                                                <td class="text-center">{{$well->well_name}}</td>
-                                                <td class="text-center">{{$well->well_number}}</td>
+                                                <td id="{{$well->id}}" class="text-center details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                <td class="text-center">{{$well->CountyParish}}</td>
+                                                <td class="text-center">{{$well->OperatorCompanyName}}</td>
+                                                <td class="text-center">{{$well->WellStatus}}</td>
+                                                <td class="text-center">{{$well->WellName}}</td>
+                                                <td class="text-center">{{$well->WellNumber}}</td>
                                             </tr>
                                         @endforeach
                                         </tbody>

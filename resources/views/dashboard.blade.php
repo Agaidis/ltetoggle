@@ -12,18 +12,24 @@
                         <div class="row">
                             <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
-                                    @if (Auth::user()->role === 'admin')
-                                    <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
-                                    <a href="{{ url('user-mmp') }}">
-                                        <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="user_mmp_btn">{{Auth::user()->name}}</button>
-                                    </a>
+
+                                    @if ($userRole == 'admin')
+                                        <a href="{{ url('welbore') }}">
+                                            <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
+                                        </a>
+                                        <a href="{{ url('user-mmp') }}">
+                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="user_mmp_btn">{{Auth::user()->name}}</button>
+                                        </a>
                                         <a href="{{ url('justus-mmp') }}">
                                             <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
                                         </a>
-                                        @elseif (Auth::user()->name === 'Justus Danna')
-                                        <a href="{{ url('justus-mmp') }}">
-                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
+                                        @elseif ($userRole == 'regular')
+                                        <a href="{{ url('welbore') }}">
+                                            <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                         </a>
+{{--                                        <a href="{{ url('justus-mmp') }}">--}}
+{{--                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">{{Auth::user()->name}}</button>--}}
+{{--                                        </a>--}}
                                         @endif
                                 </div>
                             </div>
@@ -298,6 +304,121 @@
                             </div>
 
                         </div>
+                            </div><hr><br>
+
+
+
+                            <!-- NON PRODUCING LEASES NM -->
+                            <div class="row">
+                                <div class="offset-1 col-md-10">
+                                    <table class="table table-hover table-responsive-md table-bordered non_producing_permits" id="non_producing_permits">
+                                        <thead>
+                                        <tr>
+                                            @if (Auth::user()->role === 'admin')
+                                                <th class="text-center">Open Lease</th>
+                                                <th class="text-center">Toggle Status</th>
+                                                <th class="text-center">Assignee</th>
+                                                <th class="text-center">State / County</th>
+                                                <th class="text-center">Reported Operator</th>
+                                                <th class="text-center">Lease Name</th>
+                                            @else
+                                                <th class="text-center">Col 1</th>
+                                                <th class="text-center">Col 2</th>
+                                                <th class="text-center">Col 3</th>
+                                                <th class="text-center">Col 4</th>
+                                                <th class="text-center">Col 5</th>
+                                                <th class="text-center">Lease Name</th>
+                                            @endif
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @if (isset($nonProducingPermits) && !$nonProducingPermits->isEmpty())
+                                            @foreach ($nonProducingPermits as $npp)
+                                                <?php $approvedDate = explode('T', $npp->approved_date)?>
+                                                <input type="hidden" id="reported_operator_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" value="{{$npp->reported_operator}}"/>
+
+                                                <tr class="permit_row" id="permit_row_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}">
+
+                                                    @if (Auth::user()->role === 'admin')
+                                                        <td id="id_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                        <td>
+                                                            @if ($npp->toggle_status == 'black' || $npp->is_seen == 0)
+                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status unseen">
+                                                                    <option value="none">Select Status</option>
+                                                                    <option selected value="black">Untouched</option>
+                                                                    <option value="green">Major Prospect </option>
+                                                                    <option value="blue">Quality Prospect </option>
+                                                                    <option value="red">Not Pursuing </option>
+                                                                </select>
+                                                            @elseif ($npp->toggle_status == 'green')
+                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status blue">
+                                                                    <option value="none">Select Status</option>
+                                                                    <option value="black">Untouched </option>
+                                                                    <option selected value="green">Major Prospect </option>
+                                                                    <option value="blue">Quality Prospect </option>
+                                                                    <option value="red">Not Pursuing </option>
+                                                                </select>
+                                                            @elseif ($npp->toggle_status == 'blue')
+                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status green">
+                                                                    <option value="none">Select Status</option>
+                                                                    <option value="black">Untouched </option>
+                                                                    <option value="green">Major Prospect </option>
+                                                                    <option selected value="blue">Quality Prospect </option>
+                                                                    <option value="red">Not Pursuing </option>
+                                                                </select>
+                                                            @elseif ($npp->toggle_status == 'red')
+                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status red">
+                                                                    <option value="none">Select Status</option>
+                                                                    <option value="black">Untouched </option>
+                                                                    <option value="green">Major Prospect </option>
+                                                                    <option value="blue">Quality Prospect </option>
+                                                                    <option selected value="red">Not Pursuing </option>
+                                                                </select>
+                                                            @else
+                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status">
+                                                                    <option value="none">Select Status</option>
+                                                                    <option value="black">Untouched </option>
+                                                                    <option value="green">Major Prospect </option>
+                                                                    <option value="blue">Quality Prospect </option>
+                                                                    <option value="red">Not Pursuing </option>
+                                                                </select>
+                                                            @endif
+
+                                                        </td>
+                                                        <td class="text-center">
+                                                            <select class="form-control assignee" id="assignee_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}">
+                                                                <option selected value="">Select a User</option>
+                                                                @foreach ($users as $user)
+                                                                    @if ($npp->assignee == $user->id)
+                                                                        <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                    @else
+                                                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                    @endif
+                                                                @endforeach
+                                                            </select>
+                                                        </td>
+                                                        <td class="text-center">{{$npp->county_parish}}</td>
+                                                        <td class="text-center">{{$npp->reported_operator}}</td>
+                                                        <td class="text-center"><a href="{{url( 'mineral-owner/' . $npp->lease_name . '/' . $npp->reported_operator . '/' . $npp->id)}}">{{$npp->lease_name}}</a></td>
+                                                    @else
+                                                        <td class="text-center"></td>
+                                                        <td class="text-center"></td>
+                                                        <td class="text-center"></td>
+                                                        <td class="text-center"></td>
+                                                        <td class="text-center"></td>
+                                                        <td class="text-center"><a href="{{url( 'mineral-owner/' . $npp->lease_name . '/' . $npp->reported_operator . '/' . $npp->id)}}">{{$npp->lease_name}}</a></td>
+
+                                                    @endif
+                                                </tr>
+
+                                            @endforeach
+                                        @endif
+                                        </tbody>
+                                        <tfoot>
+                                        <caption class="lease_table_caption">Non-Producing Tracks</caption>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
 
 

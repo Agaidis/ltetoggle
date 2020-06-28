@@ -20,6 +20,7 @@ mix.js([
     'resources/assets/js/jquery-dp-ui.min.js',
     'resources/assets/js/admin.js',
     'resources/assets/js/phoneNumberPush.js',
+    'resources/assets/js/owner.js',
     'vendor/select2/select2/dist/js/select2.min.js'
 
 

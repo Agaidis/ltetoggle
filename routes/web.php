@@ -25,10 +25,6 @@ Route::get('/user-mmp', 'UserMMPController@index')->middleware('auth');
 
 Route::get('/justus-mmp', 'UserMMPController@justus')->middleware('auth');
 
-Route::get('/FAQ', 'FAQController@index');
-
-Route::get('/about-us', 'AboutUsController@index');
-
 
 /*                              ADMIN AREA                  */
 Route::get('/admin', 'AdminController@index')->middleware('auth');
@@ -37,21 +33,21 @@ Route::get('/admin/updatePermits', 'AdminController@updatePermits')->middleware(
 
 
 /*              PERMITS/MM-PLATFORM                     */
-Route::get('/mm-platform', 'NewPermitsController@index')->middleware('auth');
+Route::get('/mm-platform', 'MMPController@index')->middleware('auth');
 
-Route::get('/new-permits/getNotes', 'NewPermitsController@getNotes')->middleware('auth');
+Route::get('/new-permits/getNotes', 'MMPController@getNotes')->middleware('auth');
 
-Route::put('/new-permits/updateNotes', 'NewPermitsController@updateNotes')->middleware('auth');
+Route::put('/new-permits/updateNotes', 'MMPController@updateNotes')->middleware('auth');
 
-Route::put('/new-permits/updateAssignee', 'NewPermitsController@updateAssignee')->middleware('auth');
+Route::put('/new-permits/updateAssignee', 'MMPController@updateAssignee')->middleware('auth');
 
-Route::put('/new-permits/updateStatus', 'NewPermitsController@updateStatus')->middleware('auth');
+Route::put('/new-permits/updateStatus', 'MMPController@updateStatus')->middleware('auth');
 
-Route::get('/new-permits/getPermitDetails', 'NewPermitsController@getPermitDetails')->middleware('auth');
+Route::get('/new-permits/getPermitDetails', 'MMPController@getPermitDetails')->middleware('auth');
 
-Route::post('/new-permits/delete/delete-note', 'NewPermitsController@deleteNote')->middleware('auth');
+Route::post('/new-permits/delete/delete-note', 'MMPController@deleteNote')->middleware('auth');
 
-Route::put('/update-prices', 'NewPermitsController@updatePrices');
+Route::put('/update-prices', 'MMPController@updatePrices');
 
 
 /*                      MINERAL OWNER/LEASE PAGE                        */

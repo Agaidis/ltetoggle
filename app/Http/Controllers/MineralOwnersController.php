@@ -9,11 +9,10 @@ use App\OwnerNote;
 use App\OwnerPhoneNumber;
 use App\PermitNote;
 use App\User;
-use App\WellOrigin;
 use App\WellProductionDetail;
+use App\WellRollUp;
 use Illuminate\Http\Request;
 use App\Permit;
-use Illuminate\Support\Facades\Log;
 use DateTime;
 
 class MineralOwnersController extends Controller
@@ -37,40 +36,33 @@ class MineralOwnersController extends Controller
             $onProductionArray = array();
             $oilArray = array();
             $gasArray = array();
-            $wells = WellOrigin::where('lease_name', $permitValues->lease_name)->where('county', $permitValues->county_parish)->get();
+            $wells = WellRollUp::where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
             $totalGas = 0;
             $totalGasWithComma = 0;
             $totalOil = 0;
             $totalOilWithComma = 0;
 
             foreach ($wells as $well) {
-                if ($well->on_production_date != null)
-                array_push($onProductionArray, $well->on_production_date);
+                if ($well->FirstProdDate != null)
+                    array_push($onProductionArray, $well->FirstProdDate);
+                    array_push($dateArray, $well->LastProdDate);
+                    array_push($oilArray, $well->CumOil);
+                    array_push($gasArray, $well->CumGas);
 
-                $wellDetails = WellProductionDetail::where('api10', $well->government_id)->get();
-
-                foreach ( $wellDetails as $wellDetail) {
-                    array_push($dateArray, $wellDetail->prod_date);
-                    array_push($oilArray, $wellDetail->cum_oil);
-                    array_push($gasArray, $wellDetail->cum_gas);
-                }
                 if ( count($gasArray) > 0 ) {
-                    $totalGas = $totalGas + max($gasArray);
+                    $totalGas = $totalGas + $well->CumGas;
                 }
                 if ( count($oilArray) > 0) {
-                    $totalOil = $totalOil + max($oilArray);
+                    $totalOil = $totalOil + $well->CumOil;
                 }
-
             }
 
             if ( $totalGas > 0 ) {
                 $totalGasWithComma = number_format($totalGas);
-
             }
 
             if ( $totalOil > 0 ) {
                 $totalOilWithComma = number_format($totalOil);
-
             }
 
             if ( count($dateArray) > 0 ) {
@@ -158,7 +150,7 @@ class MineralOwnersController extends Controller
     public function getWellInfo(Request $request ) {
 
         try {
-            $wellDetails = WellProductionDetail::where('api10', $request->govId)->get();
+            $wellDetails = WellRollUp::where('id', $request->id)->get();
 
             return $wellDetails;
         } catch ( \Exception $e ) {

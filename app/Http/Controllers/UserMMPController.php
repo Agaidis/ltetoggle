@@ -15,9 +15,10 @@ class UserMMPController extends Controller
         try {
             $eaglePermits = DB::table('permits')->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();
             $nvxPermits = DB::table('permits')->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx', 'apr'])->get();
+            $userRole = Auth::user()->role;
             $users = User::all();
 
-            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users'));
+            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users', 'userRole'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());
@@ -31,9 +32,10 @@ class UserMMPController extends Controller
         try {
             $eaglePermits = DB::table('permits')->where('assignee', 68)->where('interest_area', 'eagle')->get();
             $nvxPermits = DB::table('permits')->where('assignee', 68)->whereIn('interest_area', ['nvx', 'apr'])->get();
+            $userRole = Auth::user()->role;
             $users = User::all();
 
-            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users'));
+            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users', 'userRole'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());

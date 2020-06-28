@@ -164,6 +164,48 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    }).on('click', '.add_phone_btn', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[2];
+
+        $('#new_phone_desc').val('').text('');
+        $('#new_phone_number').val('').text('');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "GET",
+            url: '/mineral-owners/getOwnerNumbers',
+            data: {
+                ownerId: ownerId
+            },
+            success: function success(data) {
+                console.log(data);
+                let phoneNumbers = '<div>';
+                $.each(data, function (key, value) {
+                    phoneNumbers += '<span><div id="phone_'+value.id+'" style="padding: 2%;">'+
+                        '<span style="font-weight: bold;">'+value.phone_desc+': </span>'+
+                        '<span><a href="tel:'+value.id+'">'+value.phone_number+' </a></span>'+
+                        '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_'+value.id+'" "></span>'+
+                        '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_'+value.id+'" "></span>'+
+                        '</div></span>';
+                });
+                phoneNumbers += '</div>';
+
+                $('.phone_container').empty().append($(phoneNumbers).html());
+            },
+            error: function error(data) {
+                console.log(data);
+                $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+            }
+        });
     });
 
 

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\ErrorLog;
 use App\OwnerPhoneNumber;
 use App\Permit;
-use App\WellOrigin;
+use App\WellRollUp;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Mailgun\Mailgun;
@@ -49,7 +49,7 @@ class DailyReport extends Command
 
             $permits = Permit::where('created_at', '>=', $lastDay)->get();
             $ownerPhoneNumbers = OwnerPhoneNumber::where('created_at', '>=', $lastDay)->get();
-            $wells = WellOrigin::where('created_at', '>=', $lastDay)->get();
+            $wells = WellRollUp::where('created_at', '>=', $lastDay)->get();
 
             $leaseTable = '<table><tbody>';
             $phoneNumbersTable = '<table><tbody>';
@@ -121,6 +121,14 @@ class DailyReport extends Command
             $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
                 'from'    => 'LTE Toggle <service@toggle.com>',
                 'to'      => 'william@lexathonenergy.com',
+                'subject' => $subject,
+                'text'    => 'Text Report',
+                'html'    => $message
+            ]);
+
+            $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
+                'from'    => 'LTE Toggle <service@toggle.com>',
+                'to'      => 'Audrey.huntsberger@gmail.com',
                 'subject' => $subject,
                 'text'    => 'Text Report',
                 'html'    => $message

@@ -41,22 +41,16 @@
                     <!-- Right Side Of Navbar -->
 
                     <ul class="nav navbar-nav navbar-right">
-                        @if (Auth::check() && (Auth::user()->name === 'Billy Moreaux' || Auth::user()->name === 'Andrew Gaidis'))
+                        @if (Auth::check() && (Auth::user()->role === 'admin'))
 
                             <li><a href="{{ url('mm-platform') }}" id="dashboard_btn">Mineral Management Platform</a></li>
-                            <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
-                            <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
                             <li><a href="{{ url('admin') }}" id="admin_btn">Admin Area</a></li>
                             <li><a href="{{ url('pushed-phone-numbers') }}" id="pushed_phone_number_btn">Numbers to Update</a></li>
                         @elseif (Auth::check())
                             <li><a href="{{ url('mm-platform') }}" id="dashboard_btn">Mineral Management Platform</a></li>
-                            <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
-                            <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
                             <li><a href="{{ url('pushed-phone-numbers') }}" id="pushed_phone_number_btn">Numbers to Update</a></li>
 
                             @else
-                            <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
-                            <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
                         @endif<!-- Authentication Links today -->
 
 

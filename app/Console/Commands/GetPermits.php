@@ -47,17 +47,12 @@ class GetPermits extends Command
             $nvxInterestCountiesArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
             $nvxByApprovedDate = array('LEA', 'EDDY');
 
-        $dateRanges = array('eagle' => '2020-01-27', 'nvx' => '2020-04-01', 'apr' => '2020-04-01');
+            $this->getCountyPermitData('2020-01-27', 'eagle', $eagleInterestCountiesArray);
 
-        foreach ($dateRanges as $interestArea => $dateRange ) {
-            if ($interestArea == 'eagle') {
-                $this->getCountyPermitData($dateRange, $interestArea, $eagleInterestCountiesArray);
-            } else if ( $interestArea == 'nvx') {
-                $this->getCountyPermitData($dateRange, $interestArea, $nvxInterestCountiesArray);
-            } else if ( $interestArea == 'apr' ) {
-                $this->getCountyPermitData($dateRange, $interestArea, $nvxByApprovedDate);
-            }
-        }
+            $this->getCountyPermitData('2020-04-01', 'nvx', $nvxInterestCountiesArray);
+
+            $this->getCountyPermitData('2020-04-01', 'apr', $nvxByApprovedDate);
+
 
         return 'success';
         } catch( Exception $e ) {
@@ -69,105 +64,92 @@ class GetPermits extends Command
         }
     }
 
-    public function getCountyPermitData ($initialDate, $interestArea, $counties) {
+    public function getCountyPermitData ($date, $interestArea, $counties) {
 
         try {
             $apiManager = new APIManager();
 
             $token = $apiManager->getToken();
 
-            if ( $interestArea == 'apr') {
-                $end_date = date('2020-06-08');
-            } else {
-                $end_date = date('Y-m-d');
-            }
-
             foreach ($counties as $county) {
-                $incrementingDate = $initialDate;
 
+                $permits = $apiManager->getPermits($county, $token->access_token, $date, $interestArea);
 
-                do {
-                    $permits = $apiManager->getPermits($county, $token->access_token, $incrementingDate, $interestArea );
-                    $incrementingDate = date("Y-m-d", strtotime("+1 day", strtotime($incrementingDate)));
+                if ($permits != null && $permits != '' && isset($permits)) {
+                    $decodedPermits = json_decode($permits);
 
-                    if ($permits != null && $permits != '' && isset($permits)) {
-                        $decodedPermits = json_decode($permits);
+                    for ($i = 0; $i < count($decodedPermits); $i++) {
+                        Log::info($decodedPermits[$i]->PermitID);
 
-                        for ($i = 0; $i < count($decodedPermits); $i++) {
-                            Log::info($decodedPermits[$i]->PermitID);
+                        if ($decodedPermits[$i]->BottomHoleLongitudeWGS84 != '' && $decodedPermits[$i]->BottomHoleLongitudeWGS84 != null) {
+                            $btmLatLng = '{"lng": ' . $decodedPermits[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $decodedPermits[$i]->BottomHoleLatitudeWGS84 . "}";
+                        } else {
+                            $btmLatLng = '';
+                        }
 
-                            if ($decodedPermits[$i]->BottomHoleLongitudeWGS84 != '' && $decodedPermits[$i]->BottomHoleLongitudeWGS84 != null) {
-                                $btmLatLng = '{"lng": ' . $decodedPermits[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $decodedPermits[$i]->BottomHoleLatitudeWGS84 . "}";
-                            } else {
-                                $btmLatLng = '';
-                            }
+                        $doesPermitExist = Permit::where('permit_id', $decodedPermits[$i]->PermitID)->get();
 
-                            $doesPermitExist = Permit::where('permit_id', $decodedPermits[$i]->PermitID)->get();
+                        if ($doesPermitExist->isEmpty()) {
 
-                            if ($doesPermitExist->isEmpty()) {
+                            $newPermit = new Permit();
 
-                                $newPermit = new Permit();
+                            $newPermit->permit_id = $decodedPermits[$i]->PermitID;
+                            $newPermit->notes = '';
+                            $newPermit->abstract = $decodedPermits[$i]->Abstract;
+                            $newPermit->approved_date = $decodedPermits[$i]->ApprovedDate;
+                            $newPermit->block = $decodedPermits[$i]->Block;
+                            $newPermit->county_parish = $decodedPermits[$i]->CountyParish;
+                            $newPermit->drill_type = $decodedPermits[$i]->DrillType;
+                            $newPermit->lease_name = $decodedPermits[$i]->LeaseName;
+                            $newPermit->operator_alias = $decodedPermits[$i]->OperatorAlias;
+                            $newPermit->permit_type = $decodedPermits[$i]->PermitType;
+                            $newPermit->range = $decodedPermits[$i]->Range;
+                            $newPermit->section = $decodedPermits[$i]->Section;
+                            $newPermit->state = $decodedPermits[$i]->StateProvince;
+                            $newPermit->survey = $decodedPermits[$i]->Survey;
+                            $newPermit->township = $decodedPermits[$i]->Township;
+                            $newPermit->well_type = $decodedPermits[$i]->WellType;
+                            $newPermit->btm_geometry = $btmLatLng;
+                            $newPermit->reported_operator = $decodedPermits[$i]->ReportedOperator;
+                            $newPermit->permit_number = $decodedPermits[$i]->PermitNumber;
+                            $newPermit->permit_status = $decodedPermits[$i]->PermitStatus;
+                            $newPermit->district = $decodedPermits[$i]->District;
+                            $newPermit->created_date = $decodedPermits[$i]->CreatedDate;
+                            $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
+                            $newPermit->is_seen = 0;
+                            $newPermit->toggle_status = 'black';
+                            $newPermit->interest_area = $interestArea;
+                            $newPermit->save();
 
-                                $newPermit->permit_id = $decodedPermits[$i]->PermitID;
-                                $newPermit->notes = '';
-                                $newPermit->abstract = $decodedPermits[$i]->Abstract;
-                                $newPermit->approved_date = $decodedPermits[$i]->ApprovedDate;
-                                $newPermit->block = $decodedPermits[$i]->Block;
-                                $newPermit->county_parish = $decodedPermits[$i]->CountyParish;
-                                $newPermit->drill_type = $decodedPermits[$i]->DrillType;
-                                $newPermit->lease_name = $decodedPermits[$i]->LeaseName;
-                                $newPermit->operator_alias = $decodedPermits[$i]->OperatorAlias;
-                                $newPermit->permit_type = $decodedPermits[$i]->PermitType;
-                                $newPermit->range = $decodedPermits[$i]->Range;
-                                $newPermit->section = $decodedPermits[$i]->Section;
-                                $newPermit->state = $decodedPermits[$i]->StateProvince;
-                                $newPermit->survey = $decodedPermits[$i]->Survey;
-                                $newPermit->township = $decodedPermits[$i]->Township;
-                                $newPermit->well_type = $decodedPermits[$i]->WellType;
-                                $newPermit->btm_geometry = $btmLatLng;
-                                $newPermit->reported_operator = $decodedPermits[$i]->ReportedOperator;
-                                $newPermit->permit_number = $decodedPermits[$i]->PermitNumber;
-                                $newPermit->permit_status = $decodedPermits[$i]->PermitStatus;
-                                $newPermit->district = $decodedPermits[$i]->District;
-                                $newPermit->created_date = $decodedPermits[$i]->CreatedDate;
-                                $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
-                                $newPermit->is_seen = 0;
-                                $newPermit->toggle_status = 'black';
-                                $newPermit->interest_area = $interestArea;
+                        } else {
 
-                                $newPermit->save();
-
-                            } else {
-
-                                Permit::where('permit_id', $decodedPermits[$i]->PermitID)->update([
-                                        'abstract' => $decodedPermits[$i]->Abstract,
-                                        'approved_date' => $decodedPermits[$i]->ApprovedDate,
-                                        'block' => $decodedPermits[$i]->Block,
-                                        'county_parish' => $decodedPermits[$i]->CountyParish,
-                                        'drill_type' => $decodedPermits[$i]->DrillType,
-                                        'lease_name' => $decodedPermits[$i]->LeaseName,
-                                        'operator_alias' => $decodedPermits[$i]->OperatorAlias,
-                                        'permit_type' => $decodedPermits[$i]->PermitType,
-                                        'range' => $decodedPermits[$i]->Range,
-                                        'section' => $decodedPermits[$i]->Section,
-                                        'state' => $decodedPermits[$i]->StateProvince,
-                                        'survey' => $decodedPermits[$i]->Survey,
-                                        'township' => $decodedPermits[$i]->Township,
-                                        'well_type' => $decodedPermits[$i]->WellType,
-                                        'btm_geometry' => $btmLatLng,
-                                        'reported_operator' => $decodedPermits[$i]->ReportedOperator,
-                                        'permit_number' => $decodedPermits[$i]->PermitNumber,
-                                        'permit_status' => $decodedPermits[$i]->PermitStatus,
-                                        'district' => $decodedPermits[$i]->District,
-                                        'created_date' => $decodedPermits[$i]->CreatedDate,
-                                        'submitted_date' => $decodedPermits[$i]->SubmittedDate,
-                                        'interest_area' => $interestArea
-                                ]);
-                            }
+                            Permit::where('permit_id', $decodedPermits[$i]->PermitID)->update([
+                                'abstract' => $decodedPermits[$i]->Abstract,
+                                'approved_date' => $decodedPermits[$i]->ApprovedDate,
+                                'block' => $decodedPermits[$i]->Block,
+                                'county_parish' => $decodedPermits[$i]->CountyParish,
+                                'drill_type' => $decodedPermits[$i]->DrillType,
+                                'lease_name' => $decodedPermits[$i]->LeaseName,
+                                'operator_alias' => $decodedPermits[$i]->OperatorAlias,
+                                'permit_type' => $decodedPermits[$i]->PermitType,
+                                'range' => $decodedPermits[$i]->Range,
+                                'section' => $decodedPermits[$i]->Section,
+                                'state' => $decodedPermits[$i]->StateProvince,
+                                'survey' => $decodedPermits[$i]->Survey,
+                                'township' => $decodedPermits[$i]->Township,
+                                'well_type' => $decodedPermits[$i]->WellType,
+                                'btm_geometry' => $btmLatLng,
+                                'reported_operator' => $decodedPermits[$i]->ReportedOperator,
+                                'permit_number' => $decodedPermits[$i]->PermitNumber,
+                                'permit_status' => $decodedPermits[$i]->PermitStatus,
+                                'district' => $decodedPermits[$i]->District,
+                                'created_date' => $decodedPermits[$i]->CreatedDate,
+                                'submitted_date' => $decodedPermits[$i]->SubmittedDate,
+                                'interest_area' => $interestArea
+                            ]);
                         }
                     }
-
-                } while (strtotime($incrementingDate) <= strtotime($end_date));
+                }
             }
             return 'success';
 

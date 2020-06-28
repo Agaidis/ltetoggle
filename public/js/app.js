@@ -42610,7 +42610,7 @@ $(document).ready(function () {
         id: ownerId
       },
       success: function success(data) {
-        var ownerBody = '<div class="row">' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Lease Info</h3>' + '<div class="containers">' + '<label for="lease_name_display_' + ownerId + '">Lease Name: </label>' + '<span id="lease_name_display_' + ownerId + '"></span><br>' + '<label for="lease_description_' + ownerId + '">Lease Description: </label>' + '<span id="lease_description_' + ownerId + '"></span><br><br>' + '<label for="rrc_lease_number_' + ownerId + '">RRC Lease Number: </label>' + '<span id="rrc_lease_number_' + ownerId + '"></span><br>' + '</div></div>' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Additional Info</h3>' + '<div class="containers">' + '<label class="addit_labels" for="first_prod_' + ownerId + '">First Prod Date: </label>' + '<span id="first_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="last_prod_' + ownerId + '">Last Prod Date: </label>' + '<span id="last_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_oil_' + ownerId + '">Cumulative Prod Oil: </label>' + '<span id="cum_prod_oil_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_gas_' + ownerId + '">Cumulative Prod Gas: </label>' + '<span id="cum_prod_gas_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="active_well_count_' + ownerId + '">Active Well Count: </label>' + '<span id="active_well_count_' + ownerId + '"></span><br>' + '</div>' + '</div></div>' + '<div class="row"><div class="col-md-6">' + '<h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>' + '<div class="containers">' + '<div class="row">' + '<div class="offset-2 col-md-5">' + '<label class="addit_labels" for="decimal_interest_' + ownerId + '">Decimal Interest: </label>' + '<span id="decimal_interest_' + ownerId + '"></span>' + '</div>' + '<div class="col-md-4">' + '<label class="addit_labels" style="margin-left:-15%;" for="interest_type_' + ownerId + '">Interest Type: </label>' + '<span id="interest_type_' + ownerId + '"></span>' + '</div></div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="interest_type_' + ownerId + '">Monthly Revenue: </label>' + '<input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue_' + ownerId + '" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="owner_price_' + ownerId + '">Pricing per NRA: </label>' + '<input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price_' + ownerId + '" placeholder="$" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="net_royalty_acres_' + ownerId + '">Net Royalty Acres: </label>' + '<input type="text" style="margin-left:7.5%;" class="form-control net_royalty_acres" disabled id="net_royalty_acres_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="total_price_for_interest_' + ownerId + '">Total Price For Interest: </label>' + '<input type="text" style="margin-left:2%;" class="form-control total_price_for_interest" disabled id="total_price_for_interest_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="oil_price">Oil Price: </label>' + '<input type="text" style="margin-left:18.5%;" class="form-control oil_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="gas_price">Gas Price: </label>' + '<input type="text" style="margin-left:17%;" class="form-control gas_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="bnp_' + ownerId + '">BNP: </label>' + '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="ytp">Years to PayOff: </label>' + '<input type="text" style="margin-left:10%;" class="form-control ytp" id="ytp_' + ownerId + '" disabled />' + '</div>' + '</div></div>' + '<div class="col-md-6">' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' + '<div class="previous_owner_notes" id="previous_owner_notes_' + ownerId + '" name="previous_owner_notes" contenteditable="false"></div>' + '</div>' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="owner_notes_' + ownerId + '">Enter Owner Notes</label>' + '<textarea rows="4" class="owner_notes" id="owner_notes_' + ownerId + '" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' + '<div class="col-md-12">' + '<button type="button" id="update_owner_notes_btn_' + ownerId + '" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' + '</div></div></div>';
+        var ownerBody = '<div class="row">' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Lease Info</h3>' + '<div class="containers">' + '<label for="lease_name_display_' + ownerId + '">Lease Name: </label>' + '<span id="lease_name_display_' + ownerId + '"></span><br>' + '<label for="lease_description_' + ownerId + '">Lease Description: </label>' + '<span id="lease_description_' + ownerId + '"></span><br><br>' + '<label for="rrc_lease_number_' + ownerId + '">RRC Lease Number: </label>' + '<span id="rrc_lease_number_' + ownerId + '"></span><br>' + '</div></div>' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Well Production</h3>' + '<div class="containers">' + '<label class="addit_labels" for="active_well_count_' + ownerId + '">Well Count: </label>' + '<span id="active_well_count_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="first_prod_' + ownerId + '">First Prod Date: </label>' + '<span id="first_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="last_prod_' + ownerId + '">Last Prod Date: </label>' + '<span id="last_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="years_of_prod_' + ownerId + '">Years of Production: </label>' + '<span id="years_of_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_oil_' + ownerId + '">Total Oil Production: </label>' + '<span id="cum_prod_oil_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_gas_' + ownerId + '">Total Gas Production: </label>' + '<span id="cum_prod_gas_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="bbls_' + ownerId + '">BBLS (OIL): </label>' + '<span id="bbls_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="gbbls_' + ownerId + '">MNX (GAS): </label>' + '<span id="gbbls_' + ownerId + '"></span><br>' + '' + '</div>' + '</div></div>' + '<div class="row"><div class="col-md-6">' + '<h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>' + '<div class="containers">' + '<div class="row">' + '<div class="offset-2 col-md-5">' + '<label class="addit_labels" for="decimal_interest_' + ownerId + '">Decimal Interest: </label>' + '<span id="decimal_interest_' + ownerId + '"></span>' + '</div>' + '<div class="col-md-4">' + '<label class="addit_labels" style="margin-left:-15%;" for="interest_type_' + ownerId + '">Interest Type: </label>' + '<span id="interest_type_' + ownerId + '"></span>' + '</div></div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="interest_type_' + ownerId + '">Monthly Revenue: </label>' + '<input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue_' + ownerId + '" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="owner_price_' + ownerId + '">Pricing per NRA: </label>' + '<input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price_' + ownerId + '" placeholder="$" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="net_royalty_acres_' + ownerId + '">Net Royalty Acres: </label>' + '<input type="text" style="margin-left:7.5%;" class="form-control net_royalty_acres" disabled id="net_royalty_acres_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="total_price_for_interest_' + ownerId + '">Total Price For Interest: </label>' + '<input type="text" style="margin-left:2%;" class="form-control total_price_for_interest" disabled id="total_price_for_interest_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="oil_price">Oil Price: </label>' + '<input type="text" style="margin-left:18.5%;" class="form-control oil_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="gas_price">Gas Price: </label>' + '<input type="text" style="margin-left:17%;" class="form-control gas_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="bnp_' + ownerId + '">BNP: </label>' + '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="ytp">Years to PayOff: </label>' + '<input type="text" style="margin-left:10%;" class="form-control ytp" id="ytp_' + ownerId + '" disabled />' + '</div>' + '</div></div>' + '<div class="col-md-6">' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' + '<div class="previous_owner_notes" id="previous_owner_notes_' + ownerId + '" name="previous_owner_notes" contenteditable="false"></div>' + '</div>' + '<div style="text-align:center;" class="col-md-6">' + '<label style="font-size:20px; font-weight:bold;" for="owner_notes_' + ownerId + '">Enter Owner Notes</label>' + '<textarea rows="4" class="owner_notes" id="owner_notes_' + ownerId + '" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' + '<div class="col-md-12">' + '<button type="button" id="update_owner_notes_btn_' + ownerId + '" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' + '</div></div></div>';
 
         if (row.child.isShown()) {
           row.child.hide();
@@ -42636,11 +42636,14 @@ $(document).ready(function () {
         monthlyRevenue = monthlyRevenue.toFixed(2);
         monthlyRevenue = numberWithCommas(monthlyRevenue);
         $('#monthly_revenue_' + ownerId).val(monthlyRevenue);
-        $('#first_prod_' + ownerId).text(' ' + data.first_prod_date);
-        $('#last_prod_' + ownerId).text(' ' + data.last_prod_date);
-        $('#cum_prod_oil_' + ownerId).text(' ' + data.cum_prod_oil);
-        $('#cum_prod_gas_' + ownerId).text(' ' + data.cum_prod_gas);
-        $('#active_well_count_' + ownerId).text(' ' + data.active_well_count);
+        $('#active_well_count_' + ownerId).text(' ' + $('#well_count').val());
+        $('#first_prod_' + ownerId).text(' ' + $('#first_month').text());
+        $('#last_prod_' + ownerId).text(' ' + $('#last_month').text());
+        $('#cum_prod_oil_' + ownerId).text(' ' + $('#total_oil').text());
+        $('#cum_prod_gas_' + ownerId).text(' ' + $('#total_gas').text());
+        $('#years_of_prod_' + ownerId).text(' ' + $('#years_of_prod').text());
+        $('#bbls_' + ownerId).text(' ' + $('#bbls').text());
+        $('#gbbls_' + ownerId).text(' ' + $('#gbbls').text());
         var ownerPrice = $('#owner_price_' + ownerId).val();
 
         if (ownerPrice !== undefined) {
@@ -43034,17 +43037,26 @@ $(document).ready(function () {
       type: "POST",
       url: '/mineral-owners/get/getWellDetails',
       data: {
-        govId: $(this)[0].id,
+        id: $(this)[0].id,
         leaseName: $('#lease_name').val()
       },
       success: function success(data) {
         console.log(data);
-        var tableBody = '<table class="table table-bordered table-hover" style="padding-left:50px;"><thead>' + '<tr>' + '<th class="text-center">Avg Gas</th>' + '<th class="text-center">Avg Oil</th>' + '<th class="text-center">Cum Gas</th>' + '<th class="text-center">Cum Oil</th>' + '<th class="text-center">Gas</th>' + '<th class="text-center">Prod Date</th>' + '</tr>' + '</thead>';
+        var tableBody = '<table class="table table-bordered table-hover" style="padding-left:50px;"><thead>' + '<tr>' + '<th class="text-center">Cum Gas</th>' + '<th class="text-center">Cum Oil</th>' + '<th class="text-center">Measured Depth</th>' + '<th class="text-center">Abstract</th>' + '<th class="text-center">Range</th>' + '<th class="text-center">District</th>' + '<th class="text-center">Section</th>' + '<th class="text-center">Prod Date</th>' + '</tr>' + '</thead>';
         var tableRows = '';
         $.each(data, function (key, value) {
-          var prodDate = value.prod_date;
-          prodDate = prodDate.split('T');
-          tableRows += '<tr>' + '<td class="text-center">' + value.avg_gas + '</td>' + '<td class="text-center">' + value.avg_oil + '</td>' + '<td class="text-center">' + value.cum_gas + '</td>' + '<td class="text-center">' + value.cum_oil + '</td>' + '<td class="text-center">' + value.gas + '</td>' + '<td class="text-center">' + prodDate[0] + '</td>' + '</tr>';
+          var firstProdDate = '';
+          var prodDate = '';
+
+          if (value.FirstProdDate !== null) {
+            prodDate = value.FirstProdDate;
+            var prodDateArray = prodDate.split('T');
+            firstProdDate = prodDateArray[0];
+          } else {
+            firstProdDate = 'N/A';
+          }
+
+          tableRows += '<tr>' + '<td class="text-center">' + value.CumGas + '</td>' + '<td class="text-center">' + value.CumOil + '</td>' + '<td class="text-center">' + value.MeasuredDepth + '</td>' + '<td class="text-center">' + value.Abstract + '</td>' + '<td class="text-center">' + value.Range + '</td>' + '<td class="text-center">' + value.District + '</td>' + '<td class="text-center">' + value.Section + '</td>' + '<td class="text-center">' + firstProdDate + '</td>' + '</tr>';
         });
         tableBody += tableRows + '</table>';
 
@@ -43103,6 +43115,28 @@ $(document).ready(function () {
   function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/owner.js":
+/*!**************************************!*\
+  !*** ./resources/assets/js/owner.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var phoneTable = $('#owner_phone_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 10,
+    "aaSorting": []
+  });
+  var ownerLeaseTable = $('#owner_lease_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 5,
+    "aaSorting": []
+  });
 });
 
 /***/ }),
@@ -43174,6 +43208,142 @@ $(document).ready(function () {
     var reportedOperator = $('#reported_operator_' + permitId).val();
     var tr = $(this).closest('tr');
     var row = eaglePermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row);
+  }).on('change', '.assignee', function () {
+    updateAssignee($(this)[0].value);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    globalPermitId = permitId;
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }); //NVX PERMIT TABLE
+
+  var nvxPermitTable = $('#nvx_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nvxPermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }); //NON Producing TABLE
+
+  var nonProducingPermits = $('#non_producing_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingPermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  });
+
+  function moreData(id, tr, permitId, reportedOperator, row) {
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43397,9 +43567,9 @@ $(document).ready(function () {
         console.log(data);
       }
     });
-  }).on('change', '.assignee', function () {
-    var assignee = $(this)[0].value;
+  }
 
+  function updateAssignee(assignee) {
     if (assignee === '') {
       $(this).removeClass('assigned_style');
     } else {
@@ -43428,495 +43598,7 @@ $(document).ready(function () {
         console.log(data);
       }
     });
-  }).on('change', '.toggle_status', function () {
-    var id = $(this)[0].id;
-    var status = $(this)[0].value;
-    var permitId = id.split('_');
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "PUT",
-      url: '/new-permits/updateStatus',
-      data: {
-        permitId: permitId[2],
-        status: status
-      },
-      success: function success(data) {
-        $('#toggle_status_' + permitId[2]).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
-      },
-      error: function error(data) {
-        console.log(data);
-      }
-    });
-  }).on('click', '.permit_row', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var permitId = splitId[2];
-    globalPermitId = permitId;
-  }).on('click', '.update_permit_notes_btn', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var permitId = splitId[3];
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "PUT",
-      url: '/new-permits/updateNotes',
-      data: {
-        permitId: permitId,
-        notes: $('#notes_' + permitId).val()
-      },
-      success: function success(data) {
-        var updatedNotes = '';
-        $.each(data, function (key, value) {
-          updatedNotes += '<span>' + value.notes + '</span>';
-        });
-        updatedNotes = $('<span>' + updatedNotes + '</span>');
-        $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
-        $('#notes_' + permitId).val('').text('');
-      },
-      error: function error(data) {
-        $('#notes_' + permitId).val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
-      }
-    });
-  }).on('mouseover', '.permit_note', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var noteId = splitId[1];
-    var permitId = splitId[2];
-    $('#' + id).css('background-color', 'lightgrey');
-    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
-  }).on('mouseleave', '.permit_note', function () {
-    $('.delete_permit_note').css('display', 'none');
-    $('.permit_note').css('background-color', '#F2EDD7FF');
-  }).on('click', '.delete_permit_note', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var noteId = splitId[3];
-    var permitId = splitId[4];
-    var response = confirm('Are you sure you want to delete this note?');
-
-    if (response) {
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      $.ajax({
-        beforeSend: function beforeSend(xhr) {
-          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-        },
-        type: "POST",
-        url: '/new-permits/delete/delete-note',
-        data: {
-          id: noteId
-        },
-        success: function success(data) {
-          console.log(data);
-          var updatedNotes = '';
-          $.each(data, function (key, value) {
-            updatedNotes += '<span>' + value.notes + '</span>';
-          });
-          updatedNotes = $('<span>' + updatedNotes + '</span>');
-          $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
-        },
-        error: function error(data) {
-          console.log(data);
-        }
-      });
-    }
-  }); //NVX PERMIT TABLE
-
-  var nvxPermitTable = $('#nvx_permit_table').DataTable({
-    "pagingType": "simple",
-    "aaSorting": [],
-    "stateSave": true,
-    "order": [[2, "asc"]]
-  }).on('click', 'td.mmp-details-control', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var permitId = splitId[1];
-    var reportedOperator = $('#reported_operator_' + permitId).val();
-    var tr = $(this).closest('tr');
-    var row = nvxPermitTable.row(tr);
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "GET",
-      url: '/new-permits/getPermitDetails',
-      data: {
-        permitId: permitId,
-        reportedOperator: reportedOperator
-      },
-      success: function success(data) {
-        var permitBody = '<div class="row"><div class="col-md-6">' + '<h3>Location & Contact</h3>' + '<div class="containers">' + '<label for="permit_number_' + permitId + '">Permit Number: </label>' + '<span id="permit_number_' + permitId + '"></span><br>' + '<label for="County/Parish_' + permitId + '">County State: </label>' + '<span id="CountyParish_' + permitId + '"></span><br>' + '<label for="Township_' + permitId + '">Township: </label>' + '<span id="Township_' + permitId + '"></span><br>' + '<label for="OperatorAlias_' + permitId + '">Operator: </label>' + '<span id="OperatorAlias_' + permitId + '"></span><br>' + '<label for="area_acres_' + permitId + '">Acreage: </label>' + '<span id="area_acres_' + permitId + '"></span><br>' + '<label for="Range_' + permitId + '">Range: </label>' + '<span id="Range_' + permitId + '"></span><br>' + '<label for="Section_' + permitId + '">Section: </label>' + '<span id="Section_' + permitId + '"></span><br>' + '<label for="District_' + permitId + '">District: </label>' + '<span id="District_' + permitId + '"></span><br>' + '<label for="Block_' + permitId + '">Block: </label>' + '<span id="Block_' + permitId + '"></span>' + '</div></div>' + '<div class="col-md-6">' + '<h3>Permit Info.</h3>' + '<div class="containers">' + '<label for="permitStatus_' + permitId + '">Permit Status:</label>' + '<span id="permitStatus_' + permitId + '"></span><br>' + '<label for="DrillType_' + permitId + '">Drill Type: </label>' + '<span id="DrillType_' + permitId + '"></span><br>' + '<label for="PermitType_' + permitId + '">Permit Type: </label>' + '<span id="PermitType_' + permitId + '"></span><br>' + '<label for="WellType_' + permitId + '">Well Type: </label>' + '<span id="WellType_' + permitId + '"></span><br>' + '<label for="approved_date_' + permitId + '">Approved Date: </label>' + '<span id="ApprovedDate_' + permitId + '"></span><br>' + '<label for="submitted_date_' + permitId + '">Submitted Date: </label>' + '<span id="SubmittedDate_' + permitId + '"></span><br>' + '<label for="Survey_' + permitId + '">Survey: </label>' + '<span id="Survey_' + permitId + '"></span><br>' + '<label for="Abstract_' + permitId + '">Abstract: </label>' + '<span id="Abstract_' + permitId + '"></span><br>' + '</div></div></div><br>' + '<div class="row"><div class="col-md-4">' + '<div class="map" id="map_' + permitId + '"></div></div>' + '<div class="col-md-6"><div style="margin-top:1.5%;">' + '<label style="font-size:20px; font-weight:bold;" for="previous_notes">Previous Landtrac Notes</label>' + '<div class="previous_notes" name="previous_notes" id="previous_notes_' + permitId + '" contenteditable="false"></div><br>' + '<label style="font-size:20px; font-weight:bold;" for="notes_' + permitId + '">Submit Landtrac Notes</label><br>' + '<textarea rows="5" class="notes" name="notes" id="notes_' + permitId + '" style="width:300px;" placeholder="Enter Notes: "></textarea><br>' + '<button type="button" id="update_notes_btn_' + permitId + '" class="btn btn-primary update_permit_notes_btn">Update Notes</button>' + '</div></div></div>';
-        getNotes(id, permitId);
-
-        if (row.child.isShown()) {
-          row.child.hide();
-          tr.removeClass('shown');
-        } else {
-          row.child(permitBody).show();
-          tr.addClass('shown');
-
-          try {
-            var ResizeMap = function ResizeMap() {
-              google.maps.event.trigger(map, "resize");
-            };
-
-            var geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
-            var obj = [];
-            var map;
-            var bounds;
-
-            for (var j in geoPoints) {
-              if (j == 0) {
-                map = new google.maps.Map(document.getElementById('map_' + permitId), {
-                  center: JSON.parse(geoPoints[j]),
-                  zoom: 13,
-                  mapTypeId: google.maps.MapTypeId.HYBRID
-                });
-              }
-
-              obj.push(JSON.parse(geoPoints[j]));
-            }
-
-            var locationInfowindow = new google.maps.InfoWindow({
-              content: 'What info do we want in here.'
-            });
-            var marker = new google.maps.Marker({
-              position: JSON.parse(geoPoints),
-              map: map,
-              infowindow: locationInfowindow
-            });
-            google.maps.event.addListener(marker, 'click', function () {
-              this.infowindow.open(map, this);
-            });
-            $("#VehicleMovementModal").on('shown', function () {
-              ResizeMap();
-            });
-            bounds = new google.maps.LatLngBounds();
-            google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
-              bounds = map.getBounds();
-            });
-            var input =
-            /** @type {!HTMLInputElement} */
-            document.getElementById('pac-input');
-            var types = document.getElementById('type-selector');
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-            map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-            var polygon = new google.maps.Polygon({
-              path: obj,
-              geodesic: true,
-              strokeColor: '#091096',
-              strokeOpacity: 1.0,
-              strokeWeight: 2,
-              fillColor: '#B1AAA9',
-              fillOpacity: 0.35
-            });
-            polygon.setMap(map);
-          } catch (err) {
-            console.log(err);
-          }
-        }
-
-        var survey = data['permit'][0]['survey'];
-
-        if (data['permit'][0]['survey'] === null) {
-          survey = 'N/A';
-        } else {
-          survey = data['permit'][0]['survey'];
-        }
-
-        var _abstract2 = data['permit'][0]['abstract'];
-
-        if (data['permit'][0]['abstract'] === null) {
-          _abstract2 = 'N/A';
-        } else {
-          _abstract2 = data['permit'][0]['abstract'];
-        }
-
-        var district = data['permit'][0]['district'];
-
-        if (data['permit'][0]['district'] === null) {
-          district = 'N/A';
-        } else {
-          district = data['permit'][0]['district'];
-        }
-
-        var block = data['permit'][0]['block'];
-
-        if (data['permit'][0]['block'] === null) {
-          block = 'N/A';
-        } else {
-          block = data['permit'][0]['block'];
-        }
-
-        var approvedDate = '';
-
-        if (data['permit'][0]['approved_date'] !== null) {
-          approvedDate = data['permit'][0]['approved_date'].split('T');
-        } else {
-          approvedDate[0] = 'N/A';
-        }
-
-        var permitStatus = '';
-
-        if (data['permit'][0]['permit_status'] !== null) {
-          permitStatus = data['permit'][0]['permit_status'].split('T');
-        } else {
-          permitStatus[0] = 'N/A';
-        }
-
-        var submittedDate = '';
-
-        if (data['permit'][0]['submitted_date'] !== null) {
-          submittedDate = data['permit'][0]['submitted_date'].split('T');
-        } else {
-          submittedDate[0] = 'N/A';
-        }
-
-        var township = '';
-
-        if (data['permit'][0]['submitted_date'] !== null) {
-          township = data['permit'][0]['township'];
-        } else {
-          township = 'N/A';
-        }
-
-        var acreage = '';
-
-        if (data['permit'][0]['acreage'] !== null) {
-          acreage = data['permit'][0]['acreage'];
-        } else {
-          acreage = 'N/A';
-        }
-
-        var drillType = '';
-
-        if (data['permit'][0]['drill_type'] !== null) {
-          drillType = data['permit'][0]['drill_type'];
-        } else {
-          drillType = 'N/A';
-        }
-
-        var leaseName = '';
-
-        if (data['permit'][0]['lease_name'] !== null) {
-          leaseName = data['permit'][0]['lease_name'];
-        } else {
-          leaseName = 'N/A';
-        }
-
-        var range = '';
-
-        if (data['permit'][0]['range'] !== null) {
-          range = data['permit'][0]['range'];
-        } else {
-          range = 'N/A';
-        }
-
-        var section = '';
-
-        if (data['permit'][0]['section'] !== null) {
-          section = data['permit'][0]['section'];
-        } else {
-          section = 'N/A';
-        }
-
-        var wellType = '';
-
-        if (data['permit'][0]['well_type'] !== null) {
-          wellType = data['permit'][0]['well_type'];
-        } else {
-          wellType = 'N/A';
-        }
-
-        $('#Abstract_' + permitId).text(' ' + _abstract2);
-        $('#ApprovedDate_' + permitId).text(' ' + approvedDate[0]);
-        $('#SubmittedDate_' + permitId).text(' ' + submittedDate[0]);
-        $('#Block_' + permitId).text(' ' + block);
-        $('#permitStatus_' + permitId).text(' ' + permitStatus);
-        $('#CountyParish_' + permitId).text(' ' + data['permit'][0]['county_parish'] + ', ' + data['permit'][0]['state']);
-        $('#DrillType_' + permitId).text(' ' + drillType);
-        $('#LeaseName_' + permitId).text(' ' + leaseName);
-        $('#OperatorAlias_' + permitId).text(' ' + data['permit'][0]['operator_alias']);
-        $('#PermitID_' + permitId).text(' ' + data['permit'][0]['permit_id']);
-        $('#PermitType_' + permitId).text(' ' + data['permit'][0]['permit_type']);
-        $('#permit_number_' + permitId).text(' ' + data['permit'][0]['permit_number']);
-        $('#Range_' + permitId).text(' ' + range);
-        $('#Section_' + permitId).text(' ' + section);
-        $('#Survey_' + permitId).text(' ' + survey);
-        $('#Township_' + permitId).text(' ' + township);
-        $('#WellType_' + permitId).text(' ' + wellType);
-        $('#area_acres_' + permitId).text(' ' + acreage);
-        $('#District_' + permitId).text(' ' + district);
-      },
-      error: function error(data) {
-        console.log(data);
-      }
-    });
-  }).on('change', '.assignee', function () {
-    console.log($(this));
-    var assignee = $(this)[0].value;
-    console.log(assignee);
-
-    if (assignee === '') {
-      $(this).removeClass('assigned_style');
-    } else {
-      $(this).addClass('assigned_style');
-    }
-
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "PUT",
-      url: '/new-permits/updateAssignee',
-      data: {
-        permitId: globalPermitId,
-        assigneeId: assignee
-      },
-      success: function success(data) {
-        console.log(data);
-      },
-      error: function error(data) {
-        console.log(data);
-      }
-    });
-  }).on('change', '.toggle_status', function () {
-    var id = $(this)[0].id;
-    var status = $(this)[0].value;
-    var permitId = id.split('_');
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "PUT",
-      url: '/new-permits/updateStatus',
-      data: {
-        permitId: permitId[2],
-        status: status
-      },
-      success: function success(data) {
-        $('#toggle_status_' + permitId[2]).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
-      },
-      error: function error(data) {
-        console.log(data);
-      }
-    });
-  }).on('click', '.permit_row', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var permitId = splitId[2];
-    globalPermitId = permitId;
-  }).on('click', '.update_permit_notes_btn', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var permitId = splitId[3];
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "PUT",
-      url: '/new-permits/updateNotes',
-      data: {
-        permitId: permitId,
-        notes: $('#notes_' + permitId).val()
-      },
-      success: function success(data) {
-        var updatedNotes = '';
-        $.each(data, function (key, value) {
-          updatedNotes += '<span>' + value.notes + '</span>';
-        });
-        updatedNotes = $('<span>' + updatedNotes + '</span>');
-        $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
-        $('#notes_' + permitId).val('').text('');
-      },
-      error: function error(data) {
-        $('#notes_' + permitId).val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
-      }
-    });
-  }).on('mouseover', '.permit_note', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var noteId = splitId[1];
-    var permitId = splitId[2];
-    $('#' + id).css('background-color', 'lightgrey');
-    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
-  }).on('mouseleave', '.permit_note', function () {
-    $('.delete_permit_note').css('display', 'none');
-    $('.permit_note').css('background-color', '#F2EDD7FF');
-  }).on('click', '.delete_permit_note', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var noteId = splitId[3];
-    var permitId = splitId[4];
-    var response = confirm('Are you sure you want to delete this note?');
-
-    if (response) {
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
-      $.ajax({
-        beforeSend: function beforeSend(xhr) {
-          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-        },
-        type: "POST",
-        url: '/new-permits/delete/delete-note',
-        data: {
-          id: noteId
-        },
-        success: function success(data) {
-          console.log(data);
-          var updatedNotes = '';
-          $.each(data, function (key, value) {
-            updatedNotes += '<span>' + value.notes + '</span>';
-          });
-          updatedNotes = $('<span>' + updatedNotes + '</span>');
-          $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
-        },
-        error: function error(data) {
-          console.log(data);
-        }
-      });
-    }
-  });
+  }
 
   function getOilGasPrices() {
     var oilPrice = $('#price_container')[0].children[0].children[0].children[2].firstElementChild.innerText;
@@ -43938,8 +43620,30 @@ $(document).ready(function () {
         oilPrice: oilPrice,
         gasPrice: gasPrice
       },
+      success: function success(data) {},
+      error: function error(data) {}
+    });
+  }
+
+  function toggleStatus(permitId, status) {
+    console.log(permitId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/updateStatus',
+      data: {
+        permitId: permitId,
+        status: status
+      },
       success: function success(data) {
-        console.log(data);
+        $('#toggle_status_' + permitId).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
       },
       error: function error(data) {
         console.log(data);
@@ -43979,6 +43683,69 @@ $(document).ready(function () {
         $('.notes').val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
       }
     });
+  }
+
+  function updateNotes(permitId) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/updateNotes',
+      data: {
+        permitId: permitId,
+        notes: $('#notes_' + permitId).val()
+      },
+      success: function success(data) {
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
+        $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+        $('#notes_' + permitId).val('').text('');
+      },
+      error: function error(data) {
+        $('#notes_' + permitId).val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
+      }
+    });
+  }
+
+  function deleteNote(permitId, noteId, response) {
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/new-permits/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
   }
 });
 
@@ -44216,6 +43983,40 @@ $(document).ready(function () {
       },
       error: function error(data) {
         console.log(data);
+      }
+    });
+  }).on('click', '.add_phone_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    $('#new_phone_desc').val('').text('');
+    $('#new_phone_number').val('').text('');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners/getOwnerNumbers',
+      data: {
+        ownerId: ownerId
+      },
+      success: function success(data) {
+        console.log(data);
+        var phoneNumbers = '<div>';
+        $.each(data, function (key, value) {
+          phoneNumbers += '<span><div id="phone_' + value.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + value.phone_desc + ': </span>' + '<span><a href="tel:' + value.id + '">' + value.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + value.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + value.id + '" "></span>' + '</div></span>';
+        });
+        phoneNumbers += '</div>';
+        $('.phone_container').empty().append($(phoneNumbers).html());
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
       }
     });
   });
@@ -47245,9 +47046,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ }),
 
 /***/ 0:
-/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./vendor/select2/select2/dist/js/select2.min.js ./resources/assets/sass/app.scss ***!
-  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./resources/assets/js/owner.js ./vendor/select2/select2/dist/js/select2.min.js ./resources/assets/sass/app.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47259,6 +47060,7 @@ __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/jquery-dp-ui.min.js */"./resources/assets/js/jquery-dp-ui.min.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/admin.js */"./resources/assets/js/admin.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/phoneNumberPush.js */"./resources/assets/js/phoneNumberPush.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/owner.js */"./resources/assets/js/owner.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/vendor/select2/select2/dist/js/select2.min.js */"./vendor/select2/select2/dist/js/select2.min.js");
 module.exports = __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/sass/app.scss */"./resources/assets/sass/app.scss");
 

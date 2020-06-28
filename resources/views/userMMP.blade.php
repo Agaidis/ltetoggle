@@ -12,13 +12,17 @@
                         <div class="row">
                             <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
-                                    @if (Auth::user()->role === 'admin')
+                                    @if ($userRole == 'admin')
                                         <a href="{{ url('welbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
                                         <a href="{{ url('mm-platform') }}">
-                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="wellbore_btn">MMP General</button>
+                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="user_mmp_btn">MMP General</button>
                                         </a>
                                         <a href="{{ url('justus-mmp') }}">
                                             <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
+                                        </a>
+                                    @elseif ($userRole == 'regular')
+                                        <a href="{{ url('welbore') }}">
+                                            <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                         </a>
                                     @endif
                                 </div>

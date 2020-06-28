@@ -141,18 +141,30 @@ $(document).ready(function () {
                     '<span id="rrc_lease_number_'+ownerId+'"></span><br>' +
                     '</div></div>' +
                     '<div class="col-md-6">' +
-                    '<h3 style="text-align: center;">Additional Info</h3>' +
+                    '<h3 style="text-align: center;">Well Production</h3>' +
                     '<div class="containers">' +
+                    '<label class="addit_labels" for="active_well_count_'+ownerId+'">Well Count: </label>' +
+                    '<span id="active_well_count_'+ownerId+'"></span><br>' +
                     '<label class="addit_labels" for="first_prod_'+ownerId+'">First Prod Date: </label>' +
                     '<span id="first_prod_'+ownerId+'"></span><br>' +
                     '<label class="addit_labels" for="last_prod_'+ownerId+'">Last Prod Date: </label>' +
                     '<span id="last_prod_'+ownerId+'"></span><br>' +
-                    '<label class="addit_labels" for="cum_prod_oil_'+ownerId+'">Cumulative Prod Oil: </label>' +
+                    '<label class="addit_labels" for="years_of_prod_'+ownerId+'">Years of Production: </label>' +
+                    '<span id="years_of_prod_'+ownerId+'"></span><br>' +
+
+
+
+                    '<label class="addit_labels" for="cum_prod_oil_'+ownerId+'">Total Oil Production: </label>' +
                     '<span id="cum_prod_oil_'+ownerId+'"></span><br>' +
-                    '<label class="addit_labels" for="cum_prod_gas_'+ownerId+'">Cumulative Prod Gas: </label>' +
+                    '<label class="addit_labels" for="cum_prod_gas_'+ownerId+'">Total Gas Production: </label>' +
                     '<span id="cum_prod_gas_'+ownerId+'"></span><br>' +
-                    '<label class="addit_labels" for="active_well_count_'+ownerId+'">Active Well Count: </label>' +
-                    '<span id="active_well_count_'+ownerId+'"></span><br>' +
+                    '<label class="addit_labels" for="bbls_'+ownerId+'">BBLS (OIL): </label>' +
+                    '<span id="bbls_'+ownerId+'"></span><br>' +
+                    '<label class="addit_labels" for="gbbls_'+ownerId+'">MNX (GAS): </label>' +
+                    '<span id="gbbls_'+ownerId+'"></span><br>' +
+                    '' +
+
+
                     '</div>' +
                     '</div></div>' +
                     '<div class="row"><div class="col-md-6">' +
@@ -237,11 +249,15 @@ $(document).ready(function () {
                 monthlyRevenue = numberWithCommas(monthlyRevenue);
                 $('#monthly_revenue_' +ownerId).val(monthlyRevenue);
 
-                $('#first_prod_'+ownerId).text(' ' + data.first_prod_date);
-                $('#last_prod_'+ownerId).text(' ' + data.last_prod_date);
-                $('#cum_prod_oil_'+ownerId).text(' ' + data.cum_prod_oil);
-                $('#cum_prod_gas_'+ownerId).text(' ' + data.cum_prod_gas);
-                $('#active_well_count_'+ownerId).text(' ' + data.active_well_count);
+                $('#active_well_count_' + ownerId).text(' ' + $('#well_count').val());
+                $('#first_prod_'+ownerId).text(' ' + $('#first_month').text());
+                $('#last_prod_'+ownerId).text(' ' + $('#last_month').text());
+                $('#cum_prod_oil_'+ownerId).text(' ' + $('#total_oil').text());
+                $('#cum_prod_gas_'+ownerId).text(' ' + $('#total_gas').text());
+                $('#years_of_prod_'+ownerId).text(' ' + $('#years_of_prod').text());
+                $('#bbls_'+ownerId).text(' ' + $('#bbls').text());
+                $('#gbbls_'+ownerId).text(' ' + $('#gbbls').text());
+
                 let ownerPrice = $('#owner_price_'+ownerId).val();
                 if (ownerPrice !== undefined) {
                     ownerPrice = ownerPrice.replace('$', '');
@@ -708,33 +724,46 @@ $(document).ready(function () {
              type: "POST",
              url: '/mineral-owners/get/getWellDetails',
              data: {
-                 govId: $(this)[0].id,
+                 id: $(this)[0].id,
                  leaseName: $('#lease_name').val()
              },
              success: function success(data) {
                  console.log(data);
                  let tableBody = '<table class="table table-bordered table-hover" style="padding-left:50px;"><thead>' +
                      '<tr>' +
-                     '<th class="text-center">Avg Gas</th>' +
-                     '<th class="text-center">Avg Oil</th>' +
                      '<th class="text-center">Cum Gas</th>' +
                      '<th class="text-center">Cum Oil</th>' +
-                     '<th class="text-center">Gas</th>' +
+                     '<th class="text-center">Measured Depth</th>' +
+                     '<th class="text-center">Abstract</th>' +
+                     '<th class="text-center">Range</th>' +
+                     '<th class="text-center">District</th>' +
+                     '<th class="text-center">Section</th>' +
                      '<th class="text-center">Prod Date</th>' +
                      '</tr>' +
                      '</thead>';
                  let tableRows = '';
 
                  $.each(data, function( key, value ) {
-                     let prodDate = value.prod_date;
-                     prodDate = prodDate.split('T');
+                     let firstProdDate = '';
+                     let prodDate = '';
+
+                     if (value.FirstProdDate !== null) {
+                         prodDate = value.FirstProdDate;
+                         let prodDateArray = prodDate.split('T');
+                         firstProdDate = prodDateArray[0];
+                     } else {
+                         firstProdDate = 'N/A';
+                     }
+
                      tableRows += '<tr>' +
-                         '<td class="text-center">'+value.avg_gas+'</td>' +
-                         '<td class="text-center">'+value.avg_oil+'</td>' +
-                         '<td class="text-center">'+value.cum_gas+'</td>' +
-                         '<td class="text-center">'+value.cum_oil+'</td>' +
-                         '<td class="text-center">'+value.gas+'</td>' +
-                         '<td class="text-center">'+prodDate[0]+'</td>' +
+                         '<td class="text-center">'+value.CumGas+'</td>' +
+                         '<td class="text-center">'+value.CumOil+'</td>' +
+                         '<td class="text-center">'+value.MeasuredDepth+'</td>' +
+                         '<td class="text-center">'+value.Abstract+'</td>' +
+                         '<td class="text-center">'+value.Range+'</td>' +
+                         '<td class="text-center">'+value.District+'</td>' +
+                         '<td class="text-center">'+value.Section+'</td>' +
+                         '<td class="text-center">'+firstProdDate+'</td>' +
                          '</tr>'
                  });
                  tableBody += tableRows + '</table>';

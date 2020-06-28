@@ -15,12 +15,11 @@ class PushedPhoneNumbersController extends Controller
             $ownerArray = array();
             $pushedPhoneNumbers = OwnerPhoneNumber::where('is_pushed', 1)->get();
 
-            $allNumbers = OwnerPhoneNumber::all();
             foreach ($pushedPhoneNumbers as $pushedPhoneNumber) {
                 array_push($ownerArray, $pushedPhoneNumber->owner_name);
             }
 
-            return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'allNumbers', 'ownerArray'));
+            return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'ownerArray'));
         } catch (\Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();

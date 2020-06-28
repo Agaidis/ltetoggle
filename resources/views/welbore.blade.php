@@ -27,7 +27,6 @@
                                             <th class="text-center">Owner</th>
                                             <th class="text-center">ODI</th>
                                             <th class="text-center">% Type</th>
-                                            <th class="text-center">More Data</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -96,7 +95,7 @@
                                                     </select>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$highPriorityProspect->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
+                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$highPriorityProspect->id}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($highPriorityProspect->follow_up_date != '')
@@ -108,9 +107,7 @@
                                                 <td class="text-center"><a href="{{url( 'owner/' . $highPriorityProspect->owner)}}">{{$highPriorityProspect->owner}}</a><br>{{$highPriorityProspect->owner_address}}<br>{{$highPriorityProspect->owner_city}}, {{$highPriorityProspect->owner_zip}}</td>
                                                 <td class="text-center">{{$highPriorityProspect->owner_decimal_interest}}</td>
                                                 <td class="text-center">{{$highPriorityProspect->owner_interest_type}}</td>
-                                                <td class="text-center">
-                                                    <button type="button" data-target="#modal_show_owner" data-toggle="modal" id="id_{{$highPriorityProspect->id}}" class="fa fa-edit btn-sm btn-primary view_owner"></button>
-                                                </td>
+
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -216,7 +213,7 @@
                                                     </select>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->owner}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
+                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->id}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($owner->follow_up_date != '')
@@ -228,9 +225,6 @@
                                                 <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
                                                 <td class="text-center">{{$owner->owner_decimal_interest}}</td>
                                                 <td class="text-center">{{$owner->owner_interest_type}}</td>
-                                                <td class="text-center">
-                                                    <button type="button" data-target="#modal_show_owner" data-toggle="modal" id="id_{{$owner->id}}" class="fa fa-edit btn-sm btn-primary view_owner"></button>
-                                                </td>
                                             </tr>
                                         @endforeach
                                         </tbody>
@@ -283,84 +277,9 @@
                             </div>
                         </div>
 
-
-                        <div class="modal fade" id="modal_show_owner">
-                            <div class="modal-dialog" role="document">
-                                <div style="width:150%; margin-left:-116px;" class="modal-content">
-                                    <div class="modal-header">
-                                        <h4>Owner Name: <span id="owner_name"></span></h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <h3 style="text-align: center;">Owner Contact</h3>
-                                                <div class="containers">
-                                                    <div style="text-align: center; font-size:16px;" id="name_address_container">
-                                                        <label for="name_address">Name & Address: </label><br>
-                                                        <span id="name_address"></span><br>
-                                                    </div><br>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-md-8">
-                                                <h3 style="text-align: center;">Lease Info</h3>
-                                                <div style="text-align: center;" class="containers">
-                                                    <label for="lease_name">Lease Name: </label>
-                                                    <span id="lease_name"></span><br>
-
-                                                    <label for="lease_description">Lease Description: </label>
-                                                    <span id="lease_description"></span><br><br>
-
-                                                    <label for="rrc_lease_number">RRC Lease Number: </label>
-                                                    <span id="rrc_lease_number"></span><br>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <h3 style="text-align: center;">Additional Info</h3>
-                                            <div class="containers">
-                                                <label for="decimal_interest">Decimal Interest: </label>
-                                                <span id="decimal_interest"></span><br>
-
-                                                <label for="interest_type">Interest Type: </label>
-                                                <span id="interest_type"></span><br>
-
-                                                <label for="tax_value">Tax Value: </label>
-                                                <span id="tax_value"></span><br>
-
-                                                <label for="first_prod">First Prod Date: </label>
-                                                <span id="first_prod"></span><br>
-
-                                                <label for="last_prod">Last Prod Date: </label>
-                                                <span id="last_prod"></span><br>
-
-                                                <label for="cum_prod_oil">Cumulative Prod Oil: </label>
-                                                <span id="cum_prod_oil"></span><br>
-
-                                                <label for="cum_prod_gas">Cumulative Prod Gas: </label>
-                                                <span id="cum_prod_gas"></span><br>
-
-                                                <label for="active_well_count">Active Well Count: </label>
-                                                <span id="active_well_count"></span><br>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
-                                    <div class="modal-footer">
-                                        <button type="button" id="cancel_date" class="approve-btn btn btn-primary" data-dismiss="modal" >Exit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-    </div>
 @endsection

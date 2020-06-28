@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ErrorLog;
-use App\Permit;
 use Illuminate\Support\Facades\Log;
-use App\WellOrigin;
 
 
 class APIManager
@@ -63,9 +61,9 @@ class APIManager
     public function getPermits ($county, $token, $date, $interestArea) {
 
         if ($interestArea == 'apr') {
-            $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?approveddate=".$date."&countyparish=".$county."&drilltype=in(H,V)&pagesize=100";
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?approveddate=ge(".$date.")&countyparish=".$county."&drilltype=in(H,V)&pagesize=10000";
         } else {
-            $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=".$date."&countyparish=".$county."&drilltype=in(H,V)&pagesize=100";
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=ge(".$date.")&countyparish=".$county."&drilltype=in(H,V)&pagesize=10000";
         }
             $curl = curl_init();
 
@@ -96,56 +94,96 @@ class APIManager
             return $response;
     }
 
-    public function getWellCounts ($token, $permitLease) {
+    public function getWellRollUps ($token, $county, $linkUrl) {
+        try {
 
-        $leaseName = str_replace([' ', '(', ')'], ['%20','',''], $permitLease);
+            if ($linkUrl == '') {
+                $url = "https://di-api.drillinginfo.com/v2/direct-access/well-rollups?CountyParish=".$county."&pagesize=2000";
+            } else {
+                $url = "https://di-api.drillinginfo.com/v2/direct-access/well-rollups" . $linkUrl;
+            }
 
-        $curl = curl_init();
+            $url = str_replace(['\'', ' '], ['', ''], $url);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/well-origins?leasename=". $leaseName,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                "Accept: */*",
-                "Authorization: Bearer " . $token
-            ),
-        ));
+            $curl = curl_init();
+            Log::info($url);
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 50,
+                CURLOPT_HEADER => 1,
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                    "Accept: */*",
+                    "Authorization: Bearer " . $token
+                ),
+            ));
 
-        curl_close($curl);
 
-        if ($err) {
-            return "cURL Error #:" . $err;
-        } else {
-            return $response;
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            curl_close($curl);
+
+            $response = rtrim($response);
+            $data = explode("\n",$response);
+
+            if (isset($data[5])) {
+                $nextUrl = str_replace(['Links: </well-rollups', '>; rel="next"'], ['',''], $data[5]);
+            } else {
+                $nextUrl = '';
+            }
+
+            if (strpos($nextUrl, 'openresty')) {
+                $nextUrl = '';
+            }
+
+            if (isset($data[16])) {
+                $jsonData = $data[16];
+            } else {
+                $jsonData = '';
+            }
+
+            $responseWithLink = [0 => $jsonData, 1 => $nextUrl];
+
+            if ($err) {
+                return "cURL Error #:" . $err;
+            } else {
+                return $responseWithLink;
+            }
+
+        } catch ( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
+
+            $errorMsg->save();
         }
     }
 
+    public function getLandtracLeases ($county, $token, $linkUrl) {
 
-    public function getWellProductionDetails ( $token, $api ) {
+        if ($linkUrl == '') {
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases?countyparish=".$county."&pagesize=2000";
+        } else {
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/landtrac-leases" . $linkUrl;
+        }
 
         try {
             $curl = curl_init();
 
-            if (strlen((string)$api) == 10) {
-                $api = $api . '0000';
-            }
-
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/well-production-details?Api14=". $api,
+                CURLOPT_URL => $url,
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => "",
                 CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
+                CURLOPT_TIMEOUT => 50,
+                CURLOPT_HEADER => 1,
                 CURLOPT_FOLLOWLOCATION => false,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
                 CURLOPT_CUSTOMREQUEST => "GET",
@@ -161,52 +199,108 @@ class APIManager
 
             curl_close($curl);
 
+            $response = rtrim($response);
+            $response = explode('Connection: keep-alive', $response);
+
+            $headerInfo = explode("\n",$response[0]);
+            $jsonData = ltrim($response[1]);
+
+            if (isset($headerInfo[5])) {
+                $urlArray = explode(',', $headerInfo[5]);
+                if (isset($urlArray[1])) {
+                    $nextUrl = str_replace(['</landtrac-leases', '>; rel="next"'], ['',''], $urlArray[1]);
+                } else {
+                    $nextUrl = '';
+                }
+            } else {
+                $nextUrl = '';
+            }
+
+            if (strpos($nextUrl, 'openresty')) {
+                $nextUrl = '';
+            }
+
+            $responseWithLink = [0 => $jsonData, 1 => $nextUrl];
+
             if ($err) {
                 return "cURL Error #:" . $err;
             } else {
-                return $response;
+                return $responseWithLink;
             }
-        } catch ( \Exception $e ) {
+        } catch ( Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
 
             $errorMsg->save();
-            return 'error';
         }
-
     }
 
+    public function getLegalLeases ($county, $token, $linkUrl) {
 
-
-
-    public function getProducingEntities ($token) {
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://di-api.drillinginfo.com/v2/direct-access/producing-entities",
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => "",
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => false,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "X-API-KEY: e89c4d8b6edf1a7b5c9739e6ae5e4235",
-                "Content-Type: application/x-www-form-urlencoded",
-                "Authorization: Bearer " . $token
-            ),
-        ));
-
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        if ($err) {
-            return "cURL Error #:" . $err;
+        if ($linkUrl == '') {
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases?countyparish=".$county."&pagesize=2000";
         } else {
-            return $response;
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases" . $linkUrl;
+        }
+
+        try {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 50,
+                CURLOPT_HEADER => 1,
+                CURLOPT_FOLLOWLOCATION => false,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "x-api-key: e89c4d8b6edf1a7b5c9739e6ae5e4235",
+                    "Accept: */*",
+                    "Authorization: Bearer " . $token
+                ),
+            ));
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+
+            $response = rtrim($response);
+            $response = explode('Connection: keep-alive', $response);
+
+            $headerInfo = explode("\n",$response[0]);
+            $jsonData = ltrim($response[1]);
+
+            if (isset($headerInfo[5])) {
+                $urlArray = explode(',', $headerInfo[5]);
+                if (isset($urlArray[1])) {
+                    $nextUrl = str_replace(['</legal-leases', '>; rel="next"'], ['',''], $urlArray[1]);
+                } else {
+                    $nextUrl = '';
+                }
+            } else {
+                $nextUrl = '';
+            }
+
+            if (strpos($nextUrl, 'openresty')) {
+                $nextUrl = '';
+            }
+
+            $responseWithLink = [0 => $jsonData, 1 => $nextUrl];
+
+            if ($err) {
+                return "cURL Error #:" . $err;
+            } else {
+                return $responseWithLink;
+            }
+        } catch ( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
+
+            $errorMsg->save();
         }
     }
 }

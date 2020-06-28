@@ -15,6 +15,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         Commands\GetPermits::class,
         Commands\GetWells::class,
+        Commands\GetLandtracLeases::class,
+        Commands\GetLegalLeases::class,
         Commands\DailyReport::class
     ];
 
@@ -28,6 +30,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('process:getPermits')->twiceDaily(7, 19)->timezone('America/New_York');
         $schedule->command('process:getWells')->dailyAt(23)->timezone('America/New_York');
+        $schedule->command('process:getLandtracLeases')->dailyAt(3)->timezone('America/New_York');
+        $schedule->command('process:getLegalLeases')->dailyAt(6)->timezone('America/New_York');
+        $schedule->command('process:stitch')->dailyAt(5)->timezone('America/New_York');
         $schedule->command('process:DailyReport')->dailyAt(8)->timezone('America/New_York');
     }
 
