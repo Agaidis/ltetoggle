@@ -2,60 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Console/Commands/GetLandtracLeases.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Console/Commands/GetLegalLeases.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/LandtracLease.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/LegalLease.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/WellRollUp.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_19_192026_drop_well_tables.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_19_192123_create_well_rollups_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_22_163921_create_landtrac_leases_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_22_163931_create_legal_leases_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_22_195846_add_index_to_landtrac_leases.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_23_171052_add_mapping_id.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_26_180649_add_first_prod_date_well_rollups.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_26_203037_add_index_to_well_rollups.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_26_210326_add_index_to_legal_leases.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_26_215421_add_last_prod_date_wells.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_06_27_150232_add_stitching_value_to_permits.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/assets/js/owner.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/DailyReport.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/DailyReport.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GetPermits.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/GetPermits.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GetWells.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/GetWells.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Console/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AboutUsController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/FAQController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/NewPermitsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OwnersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OwnersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/UserMMPController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/UserMMPController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Lease.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/WellOrigin.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/WellProductionDetail.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/assets/js/permits.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/permits.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/assets/js/wellbore.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/wellbore.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/FAQ.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/aboutUs.blade.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/owner.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/owner.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/userMMP.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/userMMP.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/welbore.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welbore.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/CreatesApplication.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Feature/ExampleTest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/TestCase.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/Unit/ExampleTest.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -68,11 +20,71 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1902">
-              <caret line="415" column="48" lean-forward="true" selection-start-line="415" selection-start-column="48" selection-end-line="415" selection-end-column="48" />
+            <state relative-caret-position="271">
+              <caret line="323" column="49" selection-start-line="323" selection-start-column="49" selection-end-line="323" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Console/Commands/GetLegalLeases.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-737">
+              <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+              <folding>
+                <element signature="e#40#57#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="193">
+              <caret line="57" column="53" selection-start-line="57" selection-start-column="53" selection-end-line="57" selection-end-column="53" />
+              <folding>
+                <element signature="e#40#57#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="373" column="46" lean-forward="true" selection-start-line="373" selection-start-column="46" selection-end-line="373" selection-end-column="46" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Console/Kernel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="231">
+              <caret line="32" column="28" lean-forward="true" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="53" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="294">
+              <caret line="75" column="30" selection-start-line="75" selection-start-column="22" selection-end-line="75" selection-end-column="30" />
+              <folding>
+                <element signature="e#40#57#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -89,9 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>DataTable</find>
-      <find>Std</find>
-      <find>lease_name</find>
       <find>BOENING</find>
       <find>owner_note</find>
       <find>previous_owner_notes_</find>
@@ -119,6 +128,9 @@
       <find>cum_prod_gas_</find>
       <find>active_well_count_</find>
       <find>years_of_prod</find>
+      <find>getPermitDetails</find>
+      <find>[0]</find>
+      <find>geoPoints</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -157,7 +169,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/2020_05_14_055114_add_interest_area.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_05_16_164628_add_on_production_date.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_05_19_184357_add_custom_lease_name.php" />
         <option value="$PROJECT_DIR$/composer.json" />
@@ -196,18 +207,19 @@
         <option value="$PROJECT_DIR$/resources/views/owner.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_27_150232_add_stitching_value_to_permits.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/GetLegalLeases.php" />
-        <option value="$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php" />
         <option value="$PROJECT_DIR$/app/Console/Kernel.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UserMMPController.php" />
         <option value="$PROJECT_DIR$/resources/views/userMMP.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/welbore.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" />
-        <option value="$PROJECT_DIR$/resources/assets/js/permits.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
         <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2020_06_27_162336_add_legal_lease_records.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/permits.js" />
+        <option value="$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php" />
       </list>
     </option>
   </component>
@@ -342,6 +354,30 @@
             <path>
               <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
               <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Console" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Console" type="462c0819:PsiDirectoryNode" />
+              <item name="Commands" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="Http" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -356,6 +392,13 @@
               <item name="resources" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="css" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Toggle" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Toggle" type="b2602c69:ProjectViewProjectNode" />
@@ -502,18 +545,17 @@
       <workItem from="1593097511962" duration="1054000" />
       <workItem from="1593100472787" duration="192000" />
       <workItem from="1593101117975" duration="512000" />
-      <workItem from="1593192353955" duration="43773000" />
+      <workItem from="1593192353955" duration="46017000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="544307000" />
+    <option name="totallyTimeSpent" value="546551000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="119" width="1680" height="997" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="53" width="1680" height="997" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23565324" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23565324" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
@@ -527,7 +569,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32941177" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2950276" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2950276" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -564,18 +606,6 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-06-20.log" />
-    <entry file="file://$PROJECT_DIR$/app/Lease.php" />
     <entry file="file://$PROJECT_DIR$/app/MineralOwner.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -813,16 +843,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/GetLegalLeases.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="41" column="28" lean-forward="true" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Console/Commands/GetLandtracLeases.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-960">
@@ -833,27 +853,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="22" column="7" lean-forward="true" selection-start-line="22" selection-start-column="7" selection-end-line="22" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/HomeController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="86" selection-start-line="86" selection-end-line="86" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -892,19 +895,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1056">
           <caret line="283" column="14" selection-start-line="283" selection-start-column="14" selection-end-line="283" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="581" column="30" selection-start-line="581" selection-start-column="30" selection-end-line="581" selection-end-column="30" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -980,20 +970,81 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="271">
+          <caret line="323" column="49" selection-start-line="323" selection-start-column="49" selection-end-line="323" selection-end-column="49" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2020_06_28_180304_add_legal_lease_records.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2020_06_27_162336_add_legal_lease_records.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="32" lean-forward="true" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="95">
-          <caret line="34" column="27" selection-start-line="34" selection-start-column="27" selection-end-line="34" selection-end-column="27" />
+        <state relative-caret-position="294">
+          <caret line="75" column="30" selection-start-line="75" selection-start-column="22" selection-end-line="75" selection-end-column="30" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1902">
-          <caret line="415" column="48" lean-forward="true" selection-start-line="415" selection-start-column="48" selection-end-line="415" selection-end-column="48" />
+        <state relative-caret-position="420">
+          <caret line="373" column="46" lean-forward="true" selection-start-line="373" selection-start-column="46" selection-end-line="373" selection-end-column="46" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="32" column="28" lean-forward="true" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/GetLegalLeases.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-737">
+          <caret line="10" column="6" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="57" column="53" selection-start-line="57" selection-start-column="53" selection-end-line="57" selection-end-column="53" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ErrorLog;
 use App\GeneralSetting;
+use App\LegalLease;
 use App\MineralOwner;
 use App\Permit;
 use App\PermitNote;
@@ -59,12 +60,20 @@ class MMPController extends Controller
     public function getPermitDetails(Request $request) {
 
         try {
-            $permit = Permit::where('permit_id', $request->permitId)->get();
+            $permit = Permit::where('permit_id', $request->permitId)->first();
+            if ($permit->stitch_lease_id != null && $permit->stitch_lease_id != '') {
+                $leaseGeo = LegalLease::where('LeaseId', $permit->stitch_lease_id)->value('Geometry');
+                $leaseGeo = str_replace(['POINT (', ')', ' '], ['{"lng":', '}', ',"lat":'], $leaseGeo);
+
+            } else {
+                $leaseGeo = '';
+            }
             $leaseDescription = MineralOwner::where('lease_name', $request->reportedOperator)->first();
             $objData = new \stdClass;
 
             $objData->permit = $permit;
             $objData->leaseDescription = $leaseDescription;
+            $objData->leaseGeo = $leaseGeo;
         } catch ( \Exception $e)  {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();

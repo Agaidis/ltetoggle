@@ -43375,8 +43375,9 @@ $(document).ready(function () {
               google.maps.event.trigger(map, "resize");
             };
 
-            var geoPoints = data['permit'][0].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+            var geoPoints = data['permit'].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
             var obj = [];
+            geoPoints.push(data.leaseGeo);
             var map;
             var bounds;
 
@@ -43396,7 +43397,7 @@ $(document).ready(function () {
               content: 'What info do we want in here.'
             });
             var marker = new google.maps.Marker({
-              position: JSON.parse(geoPoints),
+              position: JSON.parse(geoPoints[0]),
               map: map,
               infowindow: locationInfowindow
             });
@@ -43431,114 +43432,114 @@ $(document).ready(function () {
           }
         }
 
-        var survey = data['permit'][0]['survey'];
+        var survey = data['permit']['survey'];
 
-        if (data['permit'][0]['survey'] === null) {
+        if (data['permit']['survey'] === null) {
           survey = 'N/A';
         } else {
-          survey = data['permit'][0]['survey'];
+          survey = data['permit']['survey'];
         }
 
-        var _abstract = data['permit'][0]['abstract'];
+        var _abstract = data['permit']['abstract'];
 
-        if (data['permit'][0]['abstract'] === null) {
+        if (data['permit']['abstract'] === null) {
           _abstract = 'N/A';
         } else {
-          _abstract = data['permit'][0]['abstract'];
+          _abstract = data['permit']['abstract'];
         }
 
-        var district = data['permit'][0]['district'];
+        var district = data['permit']['district'];
 
-        if (data['permit'][0]['district'] === null) {
+        if (data['permit']['district'] === null) {
           district = 'N/A';
         } else {
-          district = data['permit'][0]['district'];
+          district = data['permit']['district'];
         }
 
-        var block = data['permit'][0]['block'];
+        var block = data['permit']['block'];
 
-        if (data['permit'][0]['block'] === null) {
+        if (data['permit']['block'] === null) {
           block = 'N/A';
         } else {
-          block = data['permit'][0]['block'];
+          block = data['permit']['block'];
         }
 
         var approvedDate = '';
 
-        if (data['permit'][0]['approved_date'] !== null) {
-          approvedDate = data['permit'][0]['approved_date'].split('T');
+        if (data['permit']['approved_date'] !== null) {
+          approvedDate = data['permit']['approved_date'].split('T');
         } else {
-          approvedDate[0] = 'N/A';
+          approvedDate = 'N/A';
         }
 
         var permitStatus = '';
 
-        if (data['permit'][0]['permit_status'] !== null) {
-          permitStatus = data['permit'][0]['permit_status'].split('T');
+        if (data['permit']['permit_status'] !== null) {
+          permitStatus = data['permit']['permit_status'].split('T');
         } else {
-          permitStatus[0] = 'N/A';
+          permitStatus = 'N/A';
         }
 
         var submittedDate = '';
 
-        if (data['permit'][0]['submitted_date'] !== null) {
-          submittedDate = data['permit'][0]['submitted_date'].split('T');
+        if (data['permit']['submitted_date'] !== null) {
+          submittedDate = data['permit']['submitted_date'].split('T');
         } else {
-          submittedDate[0] = 'N/A';
+          submittedDate = 'N/A';
         }
 
         var township = '';
 
-        if (data['permit'][0]['submitted_date'] !== null) {
-          township = data['permit'][0]['township'];
+        if (data['permit']['submitted_date'] !== null) {
+          township = data['permit']['township'];
         } else {
           township = 'N/A';
         }
 
         var acreage = '';
 
-        if (data['permit'][0]['acreage'] !== null) {
-          acreage = data['permit'][0]['acreage'];
+        if (data['permit']['acreage'] !== null) {
+          acreage = data['permit']['acreage'];
         } else {
           acreage = 'N/A';
         }
 
         var drillType = '';
 
-        if (data['permit'][0]['drill_type'] !== null) {
-          drillType = data['permit'][0]['drill_type'];
+        if (data['permit']['drill_type'] !== null) {
+          drillType = data['permit']['drill_type'];
         } else {
           drillType = 'N/A';
         }
 
         var leaseName = '';
 
-        if (data['permit'][0]['lease_name'] !== null) {
-          leaseName = data['permit'][0]['lease_name'];
+        if (data['permit']['lease_name'] !== null) {
+          leaseName = data['permit']['lease_name'];
         } else {
           leaseName = 'N/A';
         }
 
         var range = '';
 
-        if (data['permit'][0]['range'] !== null) {
-          range = data['permit'][0]['range'];
+        if (data['permit']['range'] !== null) {
+          range = data['permit']['range'];
         } else {
           range = 'N/A';
         }
 
         var section = '';
 
-        if (data['permit'][0]['section'] !== null) {
-          section = data['permit'][0]['section'];
+        if (data['permit']['section'] !== null) {
+          section = data['permit']['section'];
         } else {
           section = 'N/A';
         }
 
         var wellType = '';
 
-        if (data['permit'][0]['well_type'] !== null) {
-          wellType = data['permit'][0]['well_type'];
+        if (data['permit']['well_type'] !== null) {
+          wellType = data['permit']['well_type'];
         } else {
           wellType = 'N/A';
         }
@@ -43548,13 +43549,13 @@ $(document).ready(function () {
         $('#SubmittedDate_' + permitId).text(' ' + submittedDate[0]);
         $('#Block_' + permitId).text(' ' + block);
         $('#permitStatus_' + permitId).text(' ' + permitStatus);
-        $('#CountyParish_' + permitId).text(' ' + data['permit'][0]['county_parish'] + ', ' + data['permit'][0]['state']);
+        $('#CountyParish_' + permitId).text(' ' + data['permit']['county_parish'] + ', ' + data['permit']['state']);
         $('#DrillType_' + permitId).text(' ' + drillType);
         $('#LeaseName_' + permitId).text(' ' + leaseName);
-        $('#OperatorAlias_' + permitId).text(' ' + data['permit'][0]['operator_alias']);
-        $('#PermitID_' + permitId).text(' ' + data['permit'][0]['permit_id']);
-        $('#PermitType_' + permitId).text(' ' + data['permit'][0]['permit_type']);
-        $('#permit_number_' + permitId).text(' ' + data['permit'][0]['permit_number']);
+        $('#OperatorAlias_' + permitId).text(' ' + data['permit']['operator_alias']);
+        $('#PermitID_' + permitId).text(' ' + data['permit']['permit_id']);
+        $('#PermitType_' + permitId).text(' ' + data['permit']['permit_type']);
+        $('#permit_number_' + permitId).text(' ' + data['permit']['permit_number']);
         $('#Range_' + permitId).text(' ' + range);
         $('#Section_' + permitId).text(' ' + section);
         $('#Survey_' + permitId).text(' ' + survey);

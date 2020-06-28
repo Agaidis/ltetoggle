@@ -55,7 +55,7 @@ class StitchPermitsAndLeases extends Command
             }
 
             foreach ($permits as $permit) {
-                if ($permit->stitch_lease_id != '' && $permit->stitch_lease_id != null) {
+                if ($permit->stitch_lease_id == '' || $permit->stitch_lease_id == null) {
                     $permitGeo = str_replace(['"lng": ', ' "lat": ', '{', '}'], ['', '', '', ''], $permit->btm_geometry);
                     $permitLocationArray = explode(',', $permitGeo);
 
