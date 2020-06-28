@@ -107,7 +107,7 @@ class MineralOwnersController extends Controller
             } else {
 
                 $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
-
+//
                 $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
 
                 if ($owners->isEmpty()) {
