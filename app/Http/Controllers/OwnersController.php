@@ -24,13 +24,17 @@ class OwnersController extends Controller
             $ownerNotes = OwnerNote::where('owner_name', $ownerName)->get();
             $ownerPhoneNumbers = OwnerPhoneNumber::where('owner_name', $ownerName)->orderBy('soft_delete', 'ASC')->get();
 
-            $ownerLeaseData = DB::table('mineral_owners')
-                ->where('owner', $ownerName)
-                ->join('owner_notes', 'mineral_owners.owner', '=', 'owner_notes.owner_name')
-                ->select('owner_notes.*', 'mineral_owners.*')
-                ->groupBy('mineral_owners.lease_name')
-                ->get();
 
+            if (!$ownerNotes->isEmpty()) {
+                $ownerLeaseData = DB::table('mineral_owners')
+                    ->where('owner', $ownerName)
+                    ->join('owner_notes', 'mineral_owners.owner', '=', 'owner_notes.owner_name')
+                    ->select('owner_notes.*', 'mineral_owners.*')
+                    ->groupBy('mineral_owners.lease_name')
+                    ->get();
+            } else {
+                $ownerLeaseData = DB::table('mineral_owners')->where('owner', $ownerName)->get();
+            }
             $count = 0;
 
             foreach ($ownerLeaseData as $ownerLease) {

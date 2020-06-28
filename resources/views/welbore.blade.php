@@ -151,7 +151,6 @@
                                             <th class="text-center">Owner</th>
                                             <th class="text-center">ODI</th>
                                             <th class="text-center">% Type</th>
-                                            <th class="text-center">More Data</th>
                                         </tr>
                                         </thead>
                                         <tbody>
