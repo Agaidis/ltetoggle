@@ -130,13 +130,13 @@ class DailyReport extends Command
                 'html'    => $message
             ]);
 
-//            $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
-//                'from'    => 'LTE Toggle <service@toggle.com>',
-//                'to'      => 'Audrey.huntsberger@gmail.com',
-//                'subject' => $subject,
-//                'text'    => 'Text Report',
-//                'html'    => $message
-//            ]);
+            $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
+                'from'    => 'LTE Toggle <service@toggle.com>',
+                'to'      => 'Audrey.huntsberger@gmail.com',
+                'subject' => $subject,
+                'text'    => 'Text Report',
+                'html'    => $message
+            ]);
 
             $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
                 'from'    => 'LTE Toggle <service@toggle.com>',
