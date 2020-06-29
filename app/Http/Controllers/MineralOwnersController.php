@@ -105,6 +105,7 @@ class MineralOwnersController extends Controller
                     'assignee',
                     'wellbore_type',
                     'follow_up_date',
+                    'owner',
                     'owner_address',
                     'owner_city',
                     'owner_zip',
