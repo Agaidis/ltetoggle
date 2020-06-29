@@ -100,15 +100,24 @@ class MineralOwnersController extends Controller
 
                 $leaseArray = explode('|', $permitValues->selected_lease_name);
 
-                $owners = MineralOwner::whereIn('lease_name',  $leaseArray)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
+                $owners = MineralOwner::select('id',
+                    'lease_name',
+                    'assignee',
+                    'wellbore_type',
+                    'follow_up_date',
+                    'owner_address',
+                    'owner_city',
+                    'owner_zip',
+                    'owner_decimal_interest',
+                    'owner_interest_type')->whereIn('lease_name',  $leaseArray)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
 
-                $permitNotes = PermitNote::where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
+                $permitNotes = PermitNote::select('notes')->where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
 
             } else {
 
                 $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
 //
-                $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
+                $permitNotes = PermitNote::select('notes')->where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
 
                 if ($owners->isEmpty()) {
                     $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $permitValues->lease_name);
