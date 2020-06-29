@@ -49,7 +49,7 @@ class DailyReport extends Command
 
             $permits = Permit::where('created_at', '>=', $lastDay)->get();
             $ownerPhoneNumbers = OwnerPhoneNumber::where('created_at', '>=', $lastDay)->get();
-            $wells = WellRollUp::where('created_at', '>=', $lastDay)->get();
+          //  $wells = WellRollUp::where('created_at', '>=', $lastDay)->get();
 
             $leaseTable = '<table><tbody>';
             $phoneNumbersTable = '<table><tbody>';
