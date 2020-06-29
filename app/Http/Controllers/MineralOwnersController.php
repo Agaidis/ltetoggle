@@ -91,7 +91,7 @@ class MineralOwnersController extends Controller
                 $yearsOfProduction = 0;
             }
 
-            $leases = MineralOwner::groupBy('lease_name')->orderBy('lease_name', 'ASC')->get();
+            $leases = MineralOwner::select('lease_name')->groupBy('lease_name')->get();
 
             $leaseArray = array();
 
