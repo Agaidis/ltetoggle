@@ -115,7 +115,8 @@ class GetLegalLeases extends Command
                                     'MinDepth' => $decodedLeases[$i]->MinDepth,
                                     'Range' => $decodedLeases[$i]->Range,
                                     'Section' => $decodedLeases[$i]->Section,
-                                    'Township' => $decodedLeases[$i]->Township
+                                    'Township' => $decodedLeases[$i]->Township,
+                                    'RecordDate' => $decodedLeases[$i]->RecordDate
                                 ]);
                         }
                     }
