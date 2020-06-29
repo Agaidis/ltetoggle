@@ -71,19 +71,19 @@ class DailyReport extends Command
                 $phoneNumbersTable .= '<tr><td width="50%">Phone Number</td><td>' . $ownerPhoneNumber->phone_number . '</td></tr>';
             }
 
-            foreach ($wells as $well) {
-                $wellsTable .= '<tr><th width="50%">Entity</th><th>Details</th></tr>';
-                $wellsTable .= '<tr><td width="50%">Well Id</td><td>' . $well->uid . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">County</td><td>' . $well->CountyParish . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">Lease Name</td><td>' . $well->LeaseName . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">Operator Company Name</td><td>' . $well->OperatorCompanyName . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">Reported Operator</td><td>' . $well->ReportedOperator . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">Well Name</td><td>' . $well->WellName . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">Well Number</td><td>' . $well->WellNumber . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">Well Status</td><td>' . $well->WellStatus . '</td></tr>';
-                $wellsTable .= '<tr><td width="50%">Drill Type</td><td>' . $well->DrillType . '</td></tr>';
-
-            }
+//            foreach ($wells as $well) {
+//                $wellsTable .= '<tr><th width="50%">Entity</th><th>Details</th></tr>';
+//                $wellsTable .= '<tr><td width="50%">Well Id</td><td>' . $well->uid . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">County</td><td>' . $well->CountyParish . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">Lease Name</td><td>' . $well->LeaseName . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">Operator Company Name</td><td>' . $well->OperatorCompanyName . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">Reported Operator</td><td>' . $well->ReportedOperator . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">Well Name</td><td>' . $well->WellName . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">Well Number</td><td>' . $well->WellNumber . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">Well Status</td><td>' . $well->WellStatus . '</td></tr>';
+//                $wellsTable .= '<tr><td width="50%">Drill Type</td><td>' . $well->DrillType . '</td></tr>';
+//
+//            }
 
             $leaseTable .= '</tbody></table>';
             $phoneNumbersTable .= '</tbody></table>';
