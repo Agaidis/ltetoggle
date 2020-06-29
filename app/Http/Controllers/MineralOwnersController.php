@@ -18,7 +18,7 @@ use DateTime;
 class MineralOwnersController extends Controller
 {
     public function index(Request $request) {
-        $users = User::all();
+        $users = User::select('id','name')->get();
 
         $operator = $request->operator;
         $permitId = $request->id;
@@ -36,7 +36,7 @@ class MineralOwnersController extends Controller
             $onProductionArray = array();
             $oilArray = array();
             $gasArray = array();
-            $wells = WellRollUp::where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+            $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber')->where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
             $totalGas = 0;
             $totalGasWithComma = 0;
             $totalOil = 0;

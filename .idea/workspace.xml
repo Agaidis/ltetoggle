@@ -18,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="102" column="54" selection-start-line="102" selection-start-column="54" selection-end-line="102" selection-end-column="54" />
+            <state relative-caret-position="184">
+              <caret line="20" column="49" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
               </folding>
@@ -30,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-273">
-              <caret line="269" column="115" selection-start-line="269" selection-start-column="115" selection-end-line="269" selection-end-column="115" />
+            <state relative-caret-position="223">
+              <caret line="206" column="88" selection-start-line="206" selection-start-column="82" selection-end-line="206" selection-end-column="88" />
             </state>
           </provider>
         </entry>
@@ -48,7 +48,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>googleapis</find>
       <find>LatitudeWGS84</find>
       <find>4662963</find>
       <find>$nvxPermit</find>
@@ -78,6 +77,7 @@
       <find>$permitNotes</find>
       <find>$owners</find>
       <find>$owner</find>
+      <find>$users</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -482,18 +482,18 @@
       <workItem from="1593097511962" duration="1054000" />
       <workItem from="1593100472787" duration="192000" />
       <workItem from="1593101117975" duration="512000" />
-      <workItem from="1593192353955" duration="51447000" />
+      <workItem from="1593192353955" duration="51683000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="551981000" />
+    <option name="totallyTimeSpent" value="552217000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2" y="23" width="1680" height="997" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.23565324" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23565324" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
@@ -507,7 +507,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32941177" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2950276" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.2950276" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -965,15 +965,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-273">
-          <caret line="269" column="115" selection-start-line="269" selection-start-column="115" selection-end-line="269" selection-end-column="115" />
+        <state relative-caret-position="223">
+          <caret line="206" column="88" selection-start-line="206" selection-start-column="82" selection-end-line="206" selection-end-column="88" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="102" column="54" selection-start-line="102" selection-start-column="54" selection-end-line="102" selection-end-column="54" />
+        <state relative-caret-position="184">
+          <caret line="20" column="49" selection-start-line="20" selection-start-column="49" selection-end-line="20" selection-end-column="49" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
