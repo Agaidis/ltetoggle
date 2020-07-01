@@ -132,7 +132,7 @@ class DailyReport extends Command
 
             $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
                 'from'    => 'LTE Toggle <service@toggle.com>',
-                'to'      => 'audrey.huntsberger@gmail.com',
+                'to'      => 'andrewg@lexathonenergy.com',
                 'subject' => $subject,
                 'text'    => 'Text Report',
                 'html'    => $message
@@ -140,11 +140,13 @@ class DailyReport extends Command
 
             $mg->messages()->send('sandboxd2bb4a70ddf345fb86cab99733a22be7.mailgun.org', [
                 'from'    => 'LTE Toggle <service@toggle.com>',
-                'to'      => 'andrewg@lexathonenergy.com',
+                'to'      => 'audrey.huntsberger@gmail.com',
                 'subject' => $subject,
                 'text'    => 'Text Report',
                 'html'    => $message
             ]);
+
+
 
         } catch( Exception $e ) {
             $errorMsg = new ErrorLog();
