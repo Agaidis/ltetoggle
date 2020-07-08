@@ -16,11 +16,17 @@ class PushedPhoneNumbersController extends Controller
             $ownerArray = array();
            // $pushedPhoneNumbers = OwnerPhoneNumber::where('is_pushed', 1)->get();
 
+//            $pushedPhoneNumbers = DB::table('owner_phone_numbers')
+//                ->where('is_pushed', 1)
+//                ->join('mineral_owners', function ($join) {
+//                $join->on('owner_phone_numbers.owner_name', '=', 'mineral_owners.owner')
+//                    ->select('owner_phone_numbers.*', 'mineral_owners.owner_address', 'mineral_owners.owner_city', 'mineral_owners.owner_state', 'mineral_owners.owner_zip');
+//            })->groupBy('mineral_owners.owner')->get();
             $pushedPhoneNumbers = DB::table('owner_phone_numbers')
                 ->where('is_pushed', 1)
                 ->join('mineral_owners', 'owner_phone_numbers.owner_name', '=', 'mineral_owners.owner')
                 ->select('owner_phone_numbers.*', 'mineral_owners.owner_address', 'mineral_owners.owner_city', 'mineral_owners.owner_state', 'mineral_owners.owner_zip')
-                ->get();
+                ->groupBy('mineral_owners.owner')->get();
 
             foreach ($pushedPhoneNumbers as $pushedPhoneNumber) {
                 array_push($ownerArray, $pushedPhoneNumber->owner_name);
