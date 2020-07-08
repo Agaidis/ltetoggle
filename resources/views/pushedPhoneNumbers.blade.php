@@ -24,7 +24,7 @@
                                         @foreach ($pushedPhoneNumbers as $pushedPhoneNumber)
                                             <tr class="phone_number_row {{$pushedPhoneNumber->id}}" id="phone_number_row_{{$pushedPhoneNumber->id}}">
 {{--                                                <td id="id_{{$phoneNumber->id}}" class="text-center owner-numbers-control view_numbers"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>--}}
-                                                <td class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
+                                                <td class="text-center">{{$pushedPhoneNumber->owner_name}}<br>{{$pushedPhoneNumber->owner_address}}<br>{{$pushedPhoneNumber->owner_city}}, {{$pushedPhoneNumber->owner_state}} {{$pushedPhoneNumber->owner_zip}}</td>
                                                 <td class="text-center"><input type="text" class="form-control" id="phone_desc_{{$pushedPhoneNumber->id}}" value="{{$pushedPhoneNumber->phone_desc}}"/></td>
                                                 <td class="text-center"><input type="text" class="form-control" id="phone_number_{{$pushedPhoneNumber->id}}" value="{{$pushedPhoneNumber->phone_number}}"/></td>
                                                 <td class="text-center"><button type="button" class="btn btn-primary send_back" id="send_back_{{$pushedPhoneNumber->id}}">Send Back</button></td>
@@ -50,7 +50,7 @@
 {{--                                            @endforeach--}}
 
                                             <tr class="{{$pushedPhoneNumber->id}}">
-                                                <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}</td>
+                                                <td style="color:darkgrey;" class="text-center">{{$pushedPhoneNumber->owner_name}}<br>{{$pushedPhoneNumber->owner_address}}<br>{{$pushedPhoneNumber->owner_city}}, {{$pushedPhoneNumber->owner_state}} {{$pushedPhoneNumber->owner_zip}}</td>
                                                 <td class="text-center"><input type="text" class="form-control" id="insert_phone_desc_{{$pushedPhoneNumber->id}}" value=""/></td>
                                                 <td class="text-center"><input type="text" class="form-control" id="insert_phone_number_{{$pushedPhoneNumber->id}}" value=""/></td>
                                                 <td class="text-center"><button type="button" class="btn btn-primary insert_number" id="insert_number_{{$pushedPhoneNumber->id}}">Insert Number</button></td>

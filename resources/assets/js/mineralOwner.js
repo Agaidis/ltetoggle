@@ -213,11 +213,11 @@ $(document).ready(function () {
                     '</div>' +
                     '</div></div>' +
                     '<div class="col-md-6">' +
-                    '<div style="text-align:center;" class="col-md-6">' +
+                    '<div style="text-align:center;" class="col-md-12">' +
                     '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' +
                     '<div class="previous_owner_notes" id="previous_owner_notes_'+ownerId+'" name="previous_owner_notes" contenteditable="false"></div>' +
                     '</div>' +
-                    '<div style="text-align:center;" class="col-md-6">' +
+                    '<div style="text-align:center;" class="col-md-12">' +
                     '<label style="font-size:20px; font-weight:bold;" for="owner_notes_'+ownerId+'">Enter Owner Notes</label>' +
                     '<textarea rows="4" class="owner_notes" id="owner_notes_'+ownerId+'" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' +
                     '<div class="col-md-12">' +

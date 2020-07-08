@@ -6,6 +6,7 @@ use App\ErrorLog;
 use App\MineralOwner;
 use App\OwnerPhoneNumber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PushedPhoneNumbersController extends Controller
 {
@@ -13,11 +14,19 @@ class PushedPhoneNumbersController extends Controller
     {
         try {
             $ownerArray = array();
-            $pushedPhoneNumbers = OwnerPhoneNumber::where('is_pushed', 1)->get();
+           // $pushedPhoneNumbers = OwnerPhoneNumber::where('is_pushed', 1)->get();
+
+            $pushedPhoneNumbers = DB::table('owner_phone_numbers')
+                ->where('is_pushed', 1)
+                ->join('mineral_owners', 'owner_phone_numbers.owner_name', '=', 'mineral_owners.owner')
+                ->select('owner_phone_numbers.*', 'mineral_owners.owner_address', 'mineral_owners.owner_city', 'mineral_owners.owner_state', 'mineral_owners.owner_zip')
+                ->get();
 
             foreach ($pushedPhoneNumbers as $pushedPhoneNumber) {
                 array_push($ownerArray, $pushedPhoneNumber->owner_name);
             }
+
+
 
             return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'ownerArray'));
         } catch (\Exception $e) {

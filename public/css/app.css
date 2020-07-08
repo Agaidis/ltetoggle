@@ -10857,7 +10857,6 @@ hr {
     min-height: 550px;
 }
 .previous_notes, .previous_owner_notes {
-    height: 160px;
     width: 100%;
     border: 1px solid lightgrey;
     overflow: auto;
@@ -10869,11 +10868,12 @@ hr {
 }
 
 .previous_notes {
+    height: 160px;
     background-color: #F2EDD7FF;
 }
 
-#previous_owner_notes {
-    background-color: #BCE8A6;
+.previous_owner_notes {
+    height:300px;
 }
 
 .lease_notes_container {
