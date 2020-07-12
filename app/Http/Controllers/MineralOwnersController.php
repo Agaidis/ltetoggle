@@ -320,6 +320,7 @@ class MineralOwnersController extends Controller
             $newOwnerPhoneNumber->phone_number = $request->phoneNumber;
             $newOwnerPhoneNumber->owner_name = $ownerName;
             $newOwnerPhoneNumber->phone_desc = $request->phoneDesc;
+            $newOwnerPhoneNumber->owner_id = $request->ownerId;
 
             $newOwnerPhoneNumber->save();
 

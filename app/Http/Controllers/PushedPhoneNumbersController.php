@@ -7,6 +7,7 @@ use App\MineralOwner;
 use App\OwnerPhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PushedPhoneNumbersController extends Controller
 {
@@ -14,25 +15,22 @@ class PushedPhoneNumbersController extends Controller
     {
         try {
             $ownerArray = array();
-           // $pushedPhoneNumbers = OwnerPhoneNumber::where('is_pushed', 1)->get();
 
-//            $pushedPhoneNumbers = DB::table('owner_phone_numbers')
-//                ->where('is_pushed', 1)
-//                ->join('mineral_owners', function ($join) {
-//                $join->on('owner_phone_numbers.owner_name', '=', 'mineral_owners.owner')
-//                    ->select('owner_phone_numbers.*', 'mineral_owners.owner_address', 'mineral_owners.owner_city', 'mineral_owners.owner_state', 'mineral_owners.owner_zip');
-//            })->groupBy('mineral_owners.owner')->get();
             $pushedPhoneNumbers = DB::table('owner_phone_numbers')
                 ->where('is_pushed', 1)
-                ->join('mineral_owners', 'owner_phone_numbers.owner_name', '=', 'mineral_owners.owner')
+                ->join('mineral_owners', 'owner_phone_numbers.owner_id', '=', 'mineral_owners.id')
                 ->select('owner_phone_numbers.*', 'mineral_owners.owner_address', 'mineral_owners.owner_city', 'mineral_owners.owner_state', 'mineral_owners.owner_zip')
-                ->groupBy('mineral_owners.owner')->get();
+                ->orderBy('owner_phone_numbers.owner_name', 'ASC')->get();
 
-            foreach ($pushedPhoneNumbers as $pushedPhoneNumber) {
-                array_push($ownerArray, $pushedPhoneNumber->owner_name);
-            }
-
-
+//           $phoneNumbers = OwnerPhoneNumber::where('owner_id', null)->get();
+//
+//           foreach ( $phoneNumbers as $phoneNumber) {
+//               if ($phoneNumber->owner_id === '' || $phoneNumber->owner_id === null) {
+//                   $owner = MineralOwner::where('owner', $phoneNumber->owner_name)->first();
+//
+//                   OwnerPhoneNumber::where('owner_name', $phoneNumber->owner_name)->update(['owner_id' => $owner->id]);
+//               }
+//           }
 
             return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'ownerArray'));
         } catch (\Exception $e) {

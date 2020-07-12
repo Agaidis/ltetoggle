@@ -43793,7 +43793,7 @@ $(document).ready(function () {
   }).on('click', '.insert_number', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
-    var ownerId = splitId[2];
+    var phoneId = splitId[2];
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -43806,13 +43806,14 @@ $(document).ready(function () {
       type: "POST",
       url: '/pushed-phone-numbers/insertPhoneNumber',
       data: {
-        id: ownerId,
-        phoneNumber: $('#insert_phone_number_' + ownerId).val(),
-        phoneDesc: $('#insert_phone_desc_' + ownerId).val()
+        id: phoneId,
+        phoneNumber: $('#insert_phone_number_' + phoneId).val(),
+        phoneDesc: $('#insert_phone_desc_' + phoneId).val(),
+        ownerId: $('#owner_id_' + phoneId).val()
       },
       success: function success() {
-        $('#insert_phone_number_' + ownerId).val('');
-        $('#insert_phone_desc_' + ownerId).val('');
+        $('#insert_phone_number_' + phoneId).val('');
+        $('#insert_phone_desc_' + phoneId).val('');
       },
       error: function error(data) {
         console.log(data);
