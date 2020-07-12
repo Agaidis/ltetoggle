@@ -22,15 +22,15 @@ class PushedPhoneNumbersController extends Controller
                 ->select('owner_phone_numbers.*', 'mineral_owners.owner_address', 'mineral_owners.owner_city', 'mineral_owners.owner_state', 'mineral_owners.owner_zip')
                 ->orderBy('owner_phone_numbers.owner_name', 'ASC')->get();
 
-//           $phoneNumbers = OwnerPhoneNumber::where('owner_id', null)->get();
-//
-//           foreach ( $phoneNumbers as $phoneNumber) {
-//               if ($phoneNumber->owner_id === '' || $phoneNumber->owner_id === null) {
-//                   $owner = MineralOwner::where('owner', $phoneNumber->owner_name)->first();
-//
-//                   OwnerPhoneNumber::where('owner_name', $phoneNumber->owner_name)->update(['owner_id' => $owner->id]);
-//               }
-//           }
+           $phoneNumbers = OwnerPhoneNumber::where('owner_id', null)->get();
+
+           foreach ( $phoneNumbers as $phoneNumber) {
+               if ($phoneNumber->owner_id === '' || $phoneNumber->owner_id === null) {
+                   $owner = MineralOwner::where('owner', $phoneNumber->owner_name)->first();
+
+                   OwnerPhoneNumber::where('owner_name', $phoneNumber->owner_name)->update(['owner_id' => $owner->id]);
+               }
+           }
 
             return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'ownerArray'));
         } catch (\Exception $e) {
