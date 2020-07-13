@@ -28,7 +28,7 @@
                                                 @if ($i == 0 || $currentOwnerName != $previousOwnerName)
                                                     <tr class="phone_number_row" id="phone_number_row_{{$pushedPhoneNumbers[$i]->id}}">
                                                         <td class="text-center">{{$pushedPhoneNumbers[$i]->owner_name}}<br>{{$pushedPhoneNumbers[$i]->owner_address}}<br>{{$pushedPhoneNumbers[$i]->owner_city}}, {{$pushedPhoneNumbers[$i]->owner_state}} {{$pushedPhoneNumbers[$i]->owner_zip}}</td>
-                                                        <td class="text-center" style="border:none;"></td>
+                                                        <td class="text-center"></td>
                                                         <td class="text-center"><input type="text" class="form-control" id="insert_phone_desc_{{$pushedPhoneNumbers[$i]->id}}" value=""/></td>
                                                         <td class="text-center"><input type="text" class="form-control" id="insert_phone_number_{{$pushedPhoneNumbers[$i]->id}}" value=""/></td>
                                                         <td class="text-center"><button type="button" class="btn btn-success insert_number" id="insert_number_{{$pushedPhoneNumbers[$i]->id}}">New Number</button></td>
