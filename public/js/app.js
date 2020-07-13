@@ -43760,7 +43760,10 @@ $(document).ready(function () {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
-  var table = $('#phone_numbers_table').DataTable().on('click', '.send_back', function () {
+  var table = $('#phone_numbers_table').DataTable({
+    "ordering": false,
+    "pageLength": 50
+  }).on('click', '.send_back', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
     var phoneId = splitId[2];

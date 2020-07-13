@@ -1,6 +1,9 @@
 $(document).ready(function () {
 
-   let table = $('#phone_numbers_table').DataTable().on('click', '.send_back', function() {
+   let table = $('#phone_numbers_table').DataTable({
+       "ordering": false,
+       "pageLength": 50
+   }).on('click', '.send_back', function() {
         let id = $(this)[0].id;
         let splitId = id.split('_');
         let phoneId = splitId[2];
