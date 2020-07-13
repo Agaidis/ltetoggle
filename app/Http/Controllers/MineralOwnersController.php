@@ -9,7 +9,6 @@ use App\OwnerNote;
 use App\OwnerPhoneNumber;
 use App\PermitNote;
 use App\User;
-use App\WellProductionDetail;
 use App\WellRollUp;
 use Illuminate\Http\Request;
 use App\Permit;
@@ -321,6 +320,7 @@ class MineralOwnersController extends Controller
             $newOwnerPhoneNumber->owner_name = $ownerName;
             $newOwnerPhoneNumber->phone_desc = $request->phoneDesc;
             $newOwnerPhoneNumber->owner_id = $request->ownerId;
+            $newOwnerPhoneNumber->lease_name = $request->leaseName;
 
             $newOwnerPhoneNumber->save();
 

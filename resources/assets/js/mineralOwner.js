@@ -593,7 +593,8 @@ $(document).ready(function () {
             data: {
                 ownerId: globalOwnerId,
                 phoneDesc: $('#new_phone_desc').val(),
-                phoneNumber: $('#new_phone_number').val()
+                phoneNumber: $('#new_phone_number').val(),
+                leaseName: $('#lease_name').val()
             },
             success: function success(data) {
 
