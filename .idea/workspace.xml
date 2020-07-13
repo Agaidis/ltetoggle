@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -88,14 +88,14 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+            <state relative-caret-position="282">
+              <caret line="39" column="136" selection-start-line="39" selection-start-column="136" selection-end-line="39" selection-end-column="136" />
               <folding>
-                <element signature="e#2233#2253#0#HTML" expanded="true" />
-                <element signature="e#3306#3326#0#HTML" expanded="true" />
-                <element signature="e#3426#3446#0#HTML" expanded="true" />
-                <element signature="e#3662#3682#0#HTML" expanded="true" />
-                <element signature="e#3902#3922#0#HTML" expanded="true" />
+                <element signature="e#3341#3361#0#HTML" expanded="true" />
+                <element signature="e#3444#3464#0#HTML" expanded="true" />
+                <element signature="e#3586#3606#0#HTML" expanded="true" />
+                <element signature="e#3826#3846#0#HTML" expanded="true" />
+                <element signature="e#4070#4090#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -595,12 +595,12 @@
       <workItem from="1594238800709" duration="1249000" />
       <workItem from="1594569303596" duration="11776000" />
       <workItem from="1594588602284" duration="2044000" />
-      <workItem from="1594667907458" duration="7157000" />
+      <workItem from="1594667907458" duration="8376000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="582534000" />
+    <option name="totallyTimeSpent" value="583753000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="932" extended-state="0" />
@@ -1073,14 +1073,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
+        <state relative-caret-position="282">
+          <caret line="39" column="136" selection-start-line="39" selection-start-column="136" selection-end-line="39" selection-end-column="136" />
           <folding>
-            <element signature="e#2233#2253#0#HTML" expanded="true" />
-            <element signature="e#3306#3326#0#HTML" expanded="true" />
-            <element signature="e#3426#3446#0#HTML" expanded="true" />
-            <element signature="e#3662#3682#0#HTML" expanded="true" />
-            <element signature="e#3902#3922#0#HTML" expanded="true" />
+            <element signature="e#3341#3361#0#HTML" expanded="true" />
+            <element signature="e#3444#3464#0#HTML" expanded="true" />
+            <element signature="e#3586#3606#0#HTML" expanded="true" />
+            <element signature="e#3826#3846#0#HTML" expanded="true" />
+            <element signature="e#4070#4090#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>

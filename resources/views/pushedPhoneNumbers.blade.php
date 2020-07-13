@@ -23,7 +23,8 @@
                                         <tbody>
                                         <?php $currentOwnerName = ''; $previousOwnerName = ''; $phoneDescriptions = ''; $phoneNumbers = '';?>
                                             @for ($i = 0; $i < count($pushedPhoneNumbers); $i++)
-                                                <?php $currentOwnerName = $pushedPhoneNumbers[$i]->owner_name; ?>
+                                                <?php $currentOwnerName = $pushedPhoneNumbers[$i]->owner_name;
+                                                ?>
 
                                                 @if ($i == 0 || $currentOwnerName != $previousOwnerName)
                                                     <tr class="phone_number_row" id="phone_number_row_{{$pushedPhoneNumbers[$i]->id}}">
@@ -36,8 +37,7 @@
                                                 @endif
 
                                                 <tr class="{{$pushedPhoneNumbers[$i]->id}}">
-                                                    <td class="text-center" style="border:none;"></td>
-
+                                                    <td class="text-center" style="border:none; color:white;">{{$pushedPhoneNumbers[$i]->owner_name}}</td>
                                                     <td class="text-center" style="border:none;">{{$pushedPhoneNumbers[$i]->lease_name}}</td>
                                                     <td class="text-center" style="border:none;"><input type="text" class="form-control" id="phone_desc_{{$pushedPhoneNumbers[$i]->id}}" value="{{$pushedPhoneNumbers[$i]->phone_desc}}"/></td>
                                                     <td class="text-center" style="border:none;"><input type="text" class="form-control" id="phone_number_{{$pushedPhoneNumbers[$i]->id}}" value="{{$pushedPhoneNumbers[$i]->phone_number}}"/></td>
