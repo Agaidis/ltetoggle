@@ -70,7 +70,7 @@ class OwnersController extends Controller
             return view('owner', compact('ownerName', 'ownerNotes', 'ownerPhoneNumbers','ownerLeaseData', 'permitObj', 'noteArray' ));
         } catch( \Exception $e) {
             $errorMsg = new ErrorLog();
-            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+            $errorMsg->payload = $e->getTraceAsString() . $e->getMessage() . ' Line #: ' . $e->getLine();
 
             $errorMsg->save();
             return 'error';
