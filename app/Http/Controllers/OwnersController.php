@@ -41,7 +41,7 @@ class OwnersController extends Controller
                 $leaseNote = '';
 
                 $permits = Permit::where('lease_name', $ownerLease->lease_name)->first();
-                $notes = OwnerNote::where('owner_name', $ownerName)->where('lease_name', $ownerLease->lease_name)->orderBy('created_at', 'DESC')->get();
+                $notes = OwnerNote::where('owner_name', $ownerLease->owner)->where('lease_name', $ownerLease->lease_name)->orderBy('created_at', 'DESC')->get();
 
                 if (is_object(($permits))) {
                     $permitObj[$count]['lease_name'] = $permits->lease_name;
