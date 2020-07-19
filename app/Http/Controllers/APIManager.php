@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Console\Commands\GetPermits;
 use App\ErrorLog;
 use Illuminate\Support\Facades\Log;
 
@@ -60,7 +61,7 @@ class APIManager
 
     public function getPermits ($county, $token, $date, $interestArea) {
 
-        if ($interestArea == 'apr') {
+        if ($interestArea == 'apr' || $interestArea == 'admin') {
             $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?approveddate=ge(".$date.")&countyparish=".$county."&drilltype=in(H,V)&pagesize=10000";
         } else {
             $url = "https://di-api.drillinginfo.com/v2/direct-access/permits?submitteddate=ge(".$date.")&countyparish=".$county."&drilltype=in(H,V)&pagesize=10000";

@@ -79,7 +79,6 @@ class GetPermits extends Command
                     $decodedPermits = json_decode($permits);
 
                     for ($i = 0; $i < count($decodedPermits); $i++) {
-                        Log::info($decodedPermits[$i]->PermitID);
 
                         if ($decodedPermits[$i]->BottomHoleLongitudeWGS84 != '' && $decodedPermits[$i]->BottomHoleLongitudeWGS84 != null) {
                             $btmLatLng = '{"lng": ' . $decodedPermits[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $decodedPermits[$i]->BottomHoleLatitudeWGS84 . "}";

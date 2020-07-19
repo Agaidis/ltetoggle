@@ -36907,42 +36907,21 @@ module.exports = function(module) {
 /***/ (function(module, exports) {
 
 $(document).ready(function () {
-  $(function () {
-    var dateFormat = "mm/dd/yy",
-        from = $("#from").datepicker({
-      defaultDate: "-7",
-      changeMonth: true,
-      numberOfMonths: 1,
-      maxDate: 0
-    }).on("change", function () {
-      to.datepicker("option", "minDate", getDate(this));
-    }),
-        to = $("#to").datepicker({
-      defaultDate: "+1w",
-      changeMonth: true,
-      numberOfMonths: 2,
-      maxDate: 0
-    }).on("change", function () {
-      from.datepicker("option", "maxDate", getDate(this));
-    });
+  var adminPermitTable = ''; //EAGLE PERMIT TABLE
 
-    function getDate(element) {
-      var date;
-
-      try {
-        date = $.datepicker.parseDate(dateFormat, element.value);
-      } catch (error) {
-        date = null;
-      }
-
-      return date;
-    }
+  $('#admin_permit_table').on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = adminPermitTable.row(tr);
+    moreAdminData(id, tr, permitId, reportedOperator, row);
   });
   $('#update_permit_btn').on('click', function () {
     var county = $('#county_select').val();
-    console.log(county);
 
-    if (county === null) {
+    if (county === '') {
       alert('Please select a county');
     } else {
       $('.loader').css('display', 'inline-block');
@@ -36964,16 +36943,20 @@ $(document).ready(function () {
           $('.loader').css('display', 'none');
           console.log(data);
 
-          if (data === 'success') {
-            var messages = $('.messages');
-            var successHtml = '<div class="alert alert-success">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + '<strong><i class="glyphicon glyphicon-ok-sign push-5-r"></</strong> Database has successfully been updated!' + '</div>';
+          if (data !== '') {
+            var rows = '';
+            $.each(data, function (key, value) {
+              rows += '<tr>' + '<td id="id_' + value.permit_id + '" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>' + '<td class="text-center">' + value.county_parish + '</td>' + '<td class="text-center">' + value.reported_operator + '</td>' + '<td class="text-center">' + value.lease_name + '</td>' + '</tr>';
+            });
+            console.log(rows);
+            adminPermitTable = $('#admin_permit_table').append(rows).DataTable({
+              paging: true,
+              destroy: true
+            });
+          } else {
+            var messages = $('.alert-danger');
+            var successHtml = '<div class="alert alert-danger">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + '<strong><i class="glyphicon glyphicon-ok-sign push-5-r"></</strong> There was a problem Updating Database' + '</div>';
             $(messages).html(successHtml);
-          } else if (data === 'error') {
-            var _messages = $('.alert-danger');
-
-            var _successHtml = '<div class="alert alert-danger">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + '<strong><i class="glyphicon glyphicon-ok-sign push-5-r"></</strong> There was a problem Updating Database' + '</div>';
-
-            $(_messages).html(_successHtml);
           }
         },
         error: function error(data) {
@@ -36982,6 +36965,232 @@ $(document).ready(function () {
       });
     }
   });
+
+  function moreAdminData(id, tr, permitId, reportedOperator, row) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/new-permits/getPermitDetails',
+      data: {
+        permitId: permitId,
+        reportedOperator: reportedOperator
+      },
+      success: function success(data) {
+        var permitBody = '<div class="row"><div class="col-md-6">' + '<h3>Location & Contact</h3>' + '<div class="containers">' + '<label for="permit_number_' + permitId + '">Permit Number: </label>' + '<span id="permit_number_' + permitId + '"></span><br>' + '<label for="County/Parish_' + permitId + '">County State: </label>' + '<span id="CountyParish_' + permitId + '"></span><br>' + '<label for="Township_' + permitId + '">Township: </label>' + '<span id="Township_' + permitId + '"></span><br>' + '<label for="OperatorAlias_' + permitId + '">Operator: </label>' + '<span id="OperatorAlias_' + permitId + '"></span><br>' + '<label for="area_acres_' + permitId + '">Acreage: </label>' + '<span id="area_acres_' + permitId + '"></span><br>' + '<label for="Range_' + permitId + '">Range: </label>' + '<span id="Range_' + permitId + '"></span><br>' + '<label for="Section_' + permitId + '">Section: </label>' + '<span id="Section_' + permitId + '"></span><br>' + '<label for="District_' + permitId + '">District: </label>' + '<span id="District_' + permitId + '"></span><br>' + '<label for="Block_' + permitId + '">Block: </label>' + '<span id="Block_' + permitId + '"></span>' + '</div></div>' + '<div class="col-md-6">' + '<h3>Permit Info.</h3>' + '<div class="containers">' + '<label for="permitStatus_' + permitId + '">Permit Status:</label>' + '<span id="permitStatus_' + permitId + '"></span><br>' + '<label for="DrillType_' + permitId + '">Drill Type: </label>' + '<span id="DrillType_' + permitId + '"></span><br>' + '<label for="PermitType_' + permitId + '">Permit Type: </label>' + '<span id="PermitType_' + permitId + '"></span><br>' + '<label for="WellType_' + permitId + '">Well Type: </label>' + '<span id="WellType_' + permitId + '"></span><br>' + '<label for="approved_date_' + permitId + '">Approved Date: </label>' + '<span id="ApprovedDate_' + permitId + '"></span><br>' + '<label for="submitted_date_' + permitId + '">Submitted Date: </label>' + '<span id="SubmittedDate_' + permitId + '"></span><br>' + '<label for="Survey_' + permitId + '">Survey: </label>' + '<span id="Survey_' + permitId + '"></span><br>' + '<label for="Abstract_' + permitId + '">Abstract: </label>' + '<span id="Abstract_' + permitId + '"></span><br>' + '</div></div></div><br>' + '<div class="row"><div class="col-md-4">' + '<div class="map" id="map_' + permitId + '"></div></div>' + '<div class="col-md-6"><div style="margin-top:1.5%;">' + '</div></div></div>';
+
+        if (row.child.isShown()) {
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          row.child(permitBody).show();
+          tr.addClass('shown');
+
+          try {
+            var ResizeMap = function ResizeMap() {
+              google.maps.event.trigger(map, "resize");
+            };
+
+            var geoPoints = data['permit'].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+            var obj = [];
+            geoPoints.push(data.leaseGeo);
+            var map;
+            var bounds;
+
+            for (var j in geoPoints) {
+              if (j == 0) {
+                map = new google.maps.Map(document.getElementById('map_' + permitId), {
+                  center: JSON.parse(geoPoints[j]),
+                  zoom: 13,
+                  mapTypeId: google.maps.MapTypeId.HYBRID
+                });
+              }
+
+              obj.push(JSON.parse(geoPoints[j]));
+            }
+
+            var locationInfowindow = new google.maps.InfoWindow({
+              content: 'What info do we want in here.'
+            });
+            var marker = new google.maps.Marker({
+              position: JSON.parse(geoPoints[0]),
+              map: map,
+              infowindow: locationInfowindow
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+              this.infowindow.open(map, this);
+            });
+            $("#VehicleMovementModal").on('shown', function () {
+              ResizeMap();
+            });
+            bounds = new google.maps.LatLngBounds();
+            google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
+              bounds = map.getBounds();
+            });
+            var input =
+            /** @type {!HTMLInputElement} */
+            document.getElementById('pac-input');
+            var types = document.getElementById('type-selector');
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+            var polygon = new google.maps.Polygon({
+              path: obj,
+              geodesic: true,
+              strokeColor: '#091096',
+              strokeOpacity: 1.0,
+              strokeWeight: 2,
+              fillColor: '#B1AAA9',
+              fillOpacity: 0.35
+            });
+            polygon.setMap(map);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+
+        var survey = data['permit']['survey'];
+
+        if (data['permit']['survey'] === null) {
+          survey = 'N/A';
+        } else {
+          survey = data['permit']['survey'];
+        }
+
+        var _abstract = data['permit']['abstract'];
+
+        if (data['permit']['abstract'] === null) {
+          _abstract = 'N/A';
+        } else {
+          _abstract = data['permit']['abstract'];
+        }
+
+        var district = data['permit']['district'];
+
+        if (data['permit']['district'] === null) {
+          district = 'N/A';
+        } else {
+          district = data['permit']['district'];
+        }
+
+        var block = data['permit']['block'];
+
+        if (data['permit']['block'] === null) {
+          block = 'N/A';
+        } else {
+          block = data['permit']['block'];
+        }
+
+        var approvedDate = '';
+
+        if (data['permit']['approved_date'] !== null) {
+          approvedDate = data['permit']['approved_date'].split('T');
+        } else {
+          approvedDate = 'N/A';
+        }
+
+        var permitStatus = '';
+
+        if (data['permit']['permit_status'] !== null) {
+          permitStatus = data['permit']['permit_status'].split('T');
+        } else {
+          permitStatus = 'N/A';
+        }
+
+        var submittedDate = '';
+
+        if (data['permit']['submitted_date'] !== null) {
+          submittedDate = data['permit']['submitted_date'].split('T');
+        } else {
+          submittedDate = 'N/A';
+        }
+
+        var township = '';
+
+        if (data['permit']['submitted_date'] !== null) {
+          township = data['permit']['township'];
+        } else {
+          township = 'N/A';
+        }
+
+        var acreage = '';
+
+        if (data['permit']['acreage'] !== null) {
+          acreage = data['permit']['acreage'];
+        } else {
+          acreage = 'N/A';
+        }
+
+        var drillType = '';
+
+        if (data['permit']['drill_type'] !== null) {
+          drillType = data['permit']['drill_type'];
+        } else {
+          drillType = 'N/A';
+        }
+
+        var leaseName = '';
+
+        if (data['permit']['lease_name'] !== null) {
+          leaseName = data['permit']['lease_name'];
+        } else {
+          leaseName = 'N/A';
+        }
+
+        var range = '';
+
+        if (data['permit']['range'] !== null) {
+          range = data['permit']['range'];
+        } else {
+          range = 'N/A';
+        }
+
+        var section = '';
+
+        if (data['permit']['section'] !== null) {
+          section = data['permit']['section'];
+        } else {
+          section = 'N/A';
+        }
+
+        var wellType = '';
+
+        if (data['permit']['well_type'] !== null) {
+          wellType = data['permit']['well_type'];
+        } else {
+          wellType = 'N/A';
+        }
+
+        $('#Abstract_' + permitId).text(' ' + _abstract);
+        $('#ApprovedDate_' + permitId).text(' ' + approvedDate[0]);
+        $('#SubmittedDate_' + permitId).text(' ' + submittedDate[0]);
+        $('#Block_' + permitId).text(' ' + block);
+        $('#permitStatus_' + permitId).text(' ' + permitStatus);
+        $('#CountyParish_' + permitId).text(' ' + data['permit']['county_parish'] + ', ' + data['permit']['state']);
+        $('#DrillType_' + permitId).text(' ' + drillType);
+        $('#LeaseName_' + permitId).text(' ' + leaseName);
+        $('#OperatorAlias_' + permitId).text(' ' + data['permit']['operator_alias']);
+        $('#PermitID_' + permitId).text(' ' + data['permit']['permit_id']);
+        $('#PermitType_' + permitId).text(' ' + data['permit']['permit_type']);
+        $('#permit_number_' + permitId).text(' ' + data['permit']['permit_number']);
+        $('#Range_' + permitId).text(' ' + range);
+        $('#Section_' + permitId).text(' ' + section);
+        $('#Survey_' + permitId).text(' ' + survey);
+        $('#Township_' + permitId).text(' ' + township);
+        $('#WellType_' + permitId).text(' ' + wellType);
+        $('#area_acres_' + permitId).text(' ' + acreage);
+        $('#District_' + permitId).text(' ' + district);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
 });
 
 /***/ }),
@@ -42925,6 +43134,7 @@ $(document).ready(function () {
   });
   ;
   $('.submit_phone_btn').on('click', function () {
+    console.log(globalOwnerId);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

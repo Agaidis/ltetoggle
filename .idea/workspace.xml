@@ -2,7 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Console/Commands/GetPermits.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Console/Commands/GetPermits.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/OwnersController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/OwnersController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WelboreController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WelboreController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/js/admin.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/admin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welbore.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welbore.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,61 +27,29 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
+        <entry file="file://$PROJECT_DIR$/resources/views/admin.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="324" column="41" selection-start-line="324" selection-start-column="41" selection-end-line="324" selection-end-column="41" />
+            <state relative-caret-position="432">
+              <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
               <folding>
-                <element signature="e#40#57#0#PHP" expanded="true" />
+                <element signature="e#474#513#0#HTML" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/assets/js/admin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="592" column="19" selection-start-line="592" selection-start-column="19" selection-end-line="592" selection-end-column="19" />
+            <state relative-caret-position="403">
+              <caret line="80" selection-start-line="80" selection-end-line="80" />
               <folding>
-                <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#2;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#3;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#4;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#5;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#6;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#7;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#input#0;n#div#8;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#i#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+                <element signature="e#89#96#1" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#label#0;n#div#1;n#div#1;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#textarea#0;n#div#1;n#div#1;n#div#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
-              <folding>
-                <element signature="e#40#57#0#PHP" expanded="true" />
+                <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -79,42 +58,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1515">
-              <caret line="101" column="107" selection-start-line="101" selection-start-column="107" selection-end-line="101" selection-end-column="126" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="39" column="136" selection-start-line="39" selection-start-column="136" selection-end-line="39" selection-end-column="136" />
-              <folding>
-                <element signature="e#3341#3361#0#HTML" expanded="true" />
-                <element signature="e#3444#3464#0#HTML" expanded="true" />
-                <element signature="e#3586#3606#0#HTML" expanded="true" />
-                <element signature="e#3826#3846#0#HTML" expanded="true" />
-                <element signature="e#4070#4090#0#HTML" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="158" column="85" selection-start-line="158" selection-start-column="75" selection-end-line="158" selection-end-column="85" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="495">
-              <caret line="33" column="42" selection-start-line="33" selection-start-column="42" selection-end-line="33" selection-end-column="42" />
+            <state relative-caret-position="-1614">
+              <caret line="105" column="86" selection-start-line="105" selection-start-column="86" selection-end-line="105" selection-end-column="86" />
             </state>
           </provider>
         </entry>
@@ -122,13 +67,49 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="61" column="26" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
+            <state relative-caret-position="340">
+              <caret line="115" column="4" selection-start-line="115" selection-start-column="4" selection-end-line="120" selection-end-column="6" />
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AdminController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="346">
+              <caret line="35" selection-start-line="35" selection-end-line="35" />
+              <folding>
+                <element signature="e#40#76#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="260">
+              <caret line="45" column="38" selection-start-line="45" selection-start-column="38" selection-end-line="45" selection-end-column="38" />
+              <folding>
+                <element signature="e#40#57#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/APIManager.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="235">
+              <caret line="63" column="62" selection-start-line="63" selection-start-column="62" selection-end-line="63" selection-end-column="62" />
+              <folding>
+                <element signature="e#40#76#0#PHP" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -146,16 +127,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>active_well_count_</find>
-      <find>years_of_prod</find>
-      <find>getPermitDetails</find>
-      <find>geoPoints</find>
-      <find>leases</find>
-      <find>[0]</find>
-      <find>Register</find>
-      <find>$ownerNotes</find>
-      <find>$permitNotes</find>
-      <find>$owners</find>
       <find>$users</find>
       <find>$wells</find>
       <find>$well</find>
@@ -175,7 +146,17 @@
       <find>!important</find>
       <find>DataTable</find>
       <find>addPhone</find>
+      <find>submit_phone</find>
+      <find>globalOwnerId</find>
       <find>phone</find>
+      <find>owner_row</find>
+      <find>high_priority_wellbore_table</find>
+      <find>low_priority_wellbore_table</find>
+      <find>owner_table</find>
+      <find>getCountyPermitData</find>
+      <find>getPermits</find>
+      <find>minPermitTable.row</find>
+      <find>moreData</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -215,10 +196,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/migrations/2020_06_19_192026_drop_well_tables.php" />
-        <option value="$PROJECT_DIR$/database/migrations/2020_06_19_192123_create_well_rollups_table.php" />
-        <option value="$PROJECT_DIR$/storage/logs/laravel-2020-06-19.log" />
-        <option value="$PROJECT_DIR$/app/Console/Commands/GetLeases.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_22_163931_create_legal_leases_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_22_163921_create_landtrac_leases_table.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_22_195846_add_index_to_landtrac_leases.php" />
@@ -226,7 +203,6 @@
         <option value="$PROJECT_DIR$/database/migrations/2020_06_26_175422_add_lease_name_to_well_rollups.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_26_180649_add_first_prod_date_well_rollups.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_26_203037_add_index_to_well_rollups.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" />
         <option value="$PROJECT_DIR$/app/LegalLease.php" />
         <option value="$PROJECT_DIR$/app/LandtracLease.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/GetLandtracLeases.php" />
@@ -238,7 +214,6 @@
         <option value="$PROJECT_DIR$/resources/assets/js/owner.js" />
         <option value="$PROJECT_DIR$/public/css/app.css" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_27_150232_add_stitching_value_to_permits.php" />
-        <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UserMMPController.php" />
         <option value="$PROJECT_DIR$/resources/views/userMMP.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_27_162336_add_legal_lease_records.php" />
@@ -249,23 +224,29 @@
         <option value="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/nonProducingOwnersController.php" />
         <option value="$PROJECT_DIR$/resources/views/owner.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/welbore.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/mineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/app/Console/Kernel.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/GetLegalLeases.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/DailyReport.php" />
         <option value="$PROJECT_DIR$/resources/assets/css/mmp.css" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/OwnersController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/WelboreController.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_07_12_155524_add_owner_id.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/permits.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js" />
         <option value="$PROJECT_DIR$/database/migrations/2020_07_13_203057_add_lease_to_phone_number.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
-        <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
         <option value="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/WelboreController.php" />
+        <option value="$PROJECT_DIR$/resources/views/welbore.blade.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/OwnersController.php" />
+        <option value="$PROJECT_DIR$/app/Console/Commands/GetPermits.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" />
+        <option value="$PROJECT_DIR$/resources/views/admin.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/admin.js" />
       </list>
     </option>
   </component>
@@ -381,9 +362,10 @@
     </include_path>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="2" />
     <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="932" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -391,7 +373,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -450,6 +431,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -595,18 +577,18 @@
       <workItem from="1594238800709" duration="1249000" />
       <workItem from="1594569303596" duration="11776000" />
       <workItem from="1594588602284" duration="2044000" />
-      <workItem from="1594667907458" duration="8376000" />
+      <workItem from="1594667907458" duration="14072000" />
+      <workItem from="1595177856056" duration="10614000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="583753000" />
+    <option name="totallyTimeSpent" value="600063000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="932" extended-state="0" />
-    <editor active="true" />
+    <frame x="2" y="23" width="1680" height="1027" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26556778" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26862028" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="npm" order="3" side_tool="true" />
@@ -620,7 +602,7 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.18095239" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.16256684" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -657,42 +639,10 @@
     <option featureType="com.intellij.fileTypeFactory" implementationName="*.log" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/database/migrations/2020_06_22_163931_create_legal_leases_table.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2020-06-26.log" />
-    <entry file="file://$PROJECT_DIR$/database/migrations/2020_06_26_203037_add_index_to_well_rollups.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/database/migrations/2020_06_26_210326_add_index_to_legal_leases.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2020_06_22_195846_add_index_to_landtrac_leases.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/APIManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="181" column="47" lean-forward="true" selection-start-line="181" selection-start-column="47" selection-end-line="181" selection-end-column="47" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -714,13 +664,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="19" lean-forward="true" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.mix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="45" selection-start-line="21" selection-start-column="45" selection-end-line="21" selection-end-column="45" />
         </state>
       </provider>
     </entry>
@@ -796,19 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/wellbore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="208" column="7" selection-start-line="208" selection-start-column="7" selection-end-line="208" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2020_06_28_180304_add_legal_lease_records.php" />
     <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
@@ -821,16 +751,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-574">
           <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="24" selection-start-line="24" selection-end-line="57" selection-end-column="5" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
@@ -916,27 +836,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OwnersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="33" column="28" lean-forward="true" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/owner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-326">
           <caret line="19" column="42" selection-start-line="19" selection-start-column="42" selection-end-line="19" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/WelboreController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="58" selection-start-line="58" selection-end-line="58" />
         </state>
       </provider>
     </entry>
@@ -947,37 +850,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/welbore.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-395">
-          <caret line="177" column="57" selection-start-line="177" selection-start-column="57" selection-end-line="177" selection-end-column="57" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/owner.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="31" lean-forward="true" selection-start-column="31" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1515">
-          <caret line="101" column="107" selection-start-line="101" selection-start-column="107" selection-end-line="101" selection-end-column="126" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="61" column="26" selection-start-line="61" selection-start-column="26" selection-end-line="61" selection-end-column="26" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1009,16 +885,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="324" column="41" selection-start-line="324" selection-start-column="41" selection-end-line="324" selection-end-column="41" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
@@ -1026,61 +892,172 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
+    <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="592" column="19" selection-start-line="592" selection-start-column="19" selection-end-line="592" selection-end-column="19" />
+        <state relative-caret-position="247">
+          <caret line="39" column="108" selection-start-line="39" selection-start-column="108" selection-end-line="39" selection-end-column="108" />
           <folding>
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#h3#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#1;n#div#0;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#1;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#2;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#3;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#4;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#5;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#6;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#7;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#8;n#div#0;n#div#0;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#1;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#textarea#0;n#div#1;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
+            <element signature="e#3170#3203#0#HTML" expanded="true" />
+            <element signature="e#3444#3464#0#HTML" expanded="true" />
+            <element signature="e#3586#3606#0#HTML" expanded="true" />
+            <element signature="e#3826#3846#0#HTML" expanded="true" />
+            <element signature="e#4070#4090#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="13" column="27" lean-forward="true" selection-start-line="13" selection-start-column="27" selection-end-line="13" selection-end-column="27" />
+        <state relative-caret-position="354">
+          <caret line="328" column="33" lean-forward="true" selection-start-line="328" selection-start-column="33" selection-end-line="328" selection-end-column="33" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/WelboreController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="39" column="136" selection-start-line="39" selection-start-column="136" selection-end-line="39" selection-end-column="136" />
+        <state relative-caret-position="436">
+          <caret line="44" column="39" selection-start-line="44" selection-start-column="39" selection-end-line="44" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="6" selection-start-line="11" selection-start-column="6" selection-end-line="11" selection-end-column="6" />
           <folding>
-            <element signature="e#3341#3361#0#HTML" expanded="true" />
-            <element signature="e#3444#3464#0#HTML" expanded="true" />
-            <element signature="e#3586#3606#0#HTML" expanded="true" />
-            <element signature="e#3826#3846#0#HTML" expanded="true" />
-            <element signature="e#4070#4090#0#HTML" expanded="true" />
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/welbore.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" column="112" selection-start-line="19" selection-start-column="112" selection-end-line="19" selection-end-column="112" />
+          <folding>
+            <element signature="e#12821#12855#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3375">
+          <caret line="225" selection-start-line="225" selection-end-line="225" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/wellbore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="361" column="55" selection-start-line="361" selection-start-column="55" selection-end-line="361" selection-end-column="55" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/OwnersController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="537">
+          <caret line="43" column="152" selection-start-line="43" selection-start-column="152" selection-end-line="43" selection-end-column="152" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="45" column="38" selection-start-line="45" selection-start-column="38" selection-end-line="45" selection-end-column="38" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/webpack.mix.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/admin.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="29" column="30" selection-start-line="29" selection-start-column="30" selection-end-line="29" selection-end-column="30" />
+          <folding>
+            <element signature="e#474#513#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1614">
+          <caret line="105" column="86" selection-start-line="105" selection-start-column="86" selection-end-line="105" selection-end-column="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Console/Commands/GetPermits.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="75" column="44" selection-start-line="75" selection-start-column="44" selection-end-line="75" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/APIManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="235">
+          <caret line="63" column="62" selection-start-line="63" selection-start-column="62" selection-end-line="63" selection-end-column="62" />
+          <folding>
+            <element signature="e#40#76#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AdminController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="35" selection-start-line="35" selection-end-line="35" />
+          <folding>
+            <element signature="e#40#76#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="115" column="4" selection-start-line="115" selection-start-column="4" selection-end-line="120" selection-end-column="6" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/admin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="403">
+          <caret line="80" selection-start-line="80" selection-end-line="80" />
+          <folding>
+            <element signature="n#style#0;n#i#0;n#td#0;n#tr#0;n#!!top" expanded="true" />
+            <element signature="e#89#96#1" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

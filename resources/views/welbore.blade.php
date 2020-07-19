@@ -17,7 +17,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="overflow-x:auto;">
-                                    <table class="table table-hover table-responsive-md table-bordered high_priority_wellbore_table" style="width:1475px;">
+                                    <table class="table table-hover table-responsive-md table-bordered wellbore high_priority_wellbore_table" style="width:1475px;">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Assignee</th>
@@ -141,7 +141,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="overflow-x:auto;">
-                                    <table class="table table-hover table-responsive-md table-bordered low_priority_wellbore_table" style="width:1475px;">
+                                    <table class="table table-hover table-responsive-md table-bordered wellbore low_priority_wellbore_table" style="width:1475px;">
                                         <thead>
                                         <tr>
                                             <th class="text-center">Assignee/Follow-Up</th>

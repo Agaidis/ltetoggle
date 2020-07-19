@@ -7,25 +7,14 @@
                 <div class="card">
                     <div class="card-header">Admin Area</div>
                     <div class="card-body">
-
                         <div class="row">
                             <div class="col-md-6" style="margin-top: 2%; display: block;">
-                                <h3>Grab/Update Permits by County</h3>
+                                <h3>Grab Permits by County - These will be pulled based on an Approved Date of everything after April 1st, 2020 </h3>
                                 <div class="col-md-6">
-                                    <select class="form-control county_parish" id="county_select">
-                                        <option value="none" selected disabled>Select a County/Parish</option>
-                                        <option value="ATASCOSA">Atacosa (TX)</option>
-                                        <option value="BEE">Bee (TX)</option>
-                                        <option value="DEWITT">DeWitt (TX)</option>
-                                        <option value="GONZALES">Gonzales (TX)</option>
-                                        <option value="KARNES">KARNES (TX)</option>
-                                        <option values="LIVE OAK">Live Oak (TX)</option>
-                                        <option value="LAVACA">Lavaca (TX)</option>
-                                        <option value="WILSON">Wilson (TX)</option>
-                                    </select>
+                                    <input class="form-control county_parish" id="county_select" placeholder="GRADY"/>
                                 </div><br>
                                 <div class="col-md-4">
-                                    <button type="button" id="update_permit_btn" class="btn btn-primary">Update Database</button>
+                                    <button type="button" id="update_permit_btn" class="btn btn-primary">Get Data</button>
                                     <span class="loader"></span>
                                 </div><br>
                             </div><br>
@@ -37,6 +26,21 @@
                                     <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('alert-danger') }}</p>
                                 @endif
                                 <div class="messages"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="offset-1 col-md-10">
+                                <table class="table table-hover table-responsive-md table-bordered" id="admin_permit_table">
+                                    <thead>
+                                    <tr>
+                                            <th class="text-center">Open Lease</th>
+                                            <th class="text-center">State / County</th>
+                                            <th class="text-center">Reported Operator</th>
+                                            <th class="text-center">Lease Name</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

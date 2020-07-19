@@ -579,6 +579,8 @@ $(document).ready(function () {
     });;
 
     $('.submit_phone_btn').on('click', function() {
+
+        console.log(globalOwnerId);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
