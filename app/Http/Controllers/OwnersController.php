@@ -54,8 +54,8 @@ class OwnersController extends Controller
                 }
 
                 if ($notes->isEmpty()) {
-                    $noteArray[$count]['lease_name'] = '';
-                    $noteArray[$count]['notes'] = '';
+                    $noteArray[$count]['lease_name'] = 'nothing';
+                    $noteArray[$count]['notes'] = 'nothing';
 
                 } else {
                     for ($i = 0; $i < 2; $i++) {
