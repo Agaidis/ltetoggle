@@ -59,7 +59,7 @@ class OwnersController extends Controller
 
                 } else {
                     for ($i = 0; $i < 2; $i++) {
-                        $leaseNote .= $notes[$i]->notes;
+                      //  $leaseNote .= $notes[$i]->notes;
                     }
                     $noteArray[$count]['lease_name'] = $notes[0]->lease_name;
                     $noteArray[$count]['notes'] = $leaseNote;
