@@ -58,8 +58,8 @@ class OwnersController extends Controller
                     $noteArray[$count]['notes'] = '';
 
                 } else {
-                    for ($i = 0; $i < 2; $i++) {
-                      //  $leaseNote .= $notes[$i]->notes;
+                  foreach ($notes as $note ) {
+                      $leaseNote .= $note->notes;
                     }
                     $noteArray[$count]['lease_name'] = $notes[0]->lease_name;
                     $noteArray[$count]['notes'] = $leaseNote;
