@@ -11,7 +11,7 @@
                             <div class="col-md-6" style="margin-top: 2%; display: block;">
                                 <h3>Grab Permits by County - <br>Pulled based on an Approved Date of everything after April 1st, 2020 </h3>
                                 <div class="col-md-6">
-                                    <input class="form-control county_parish" id="county_select" placeholder="GRADY"/>
+                                    <input class="form-control county_parish" id="county_select" placeholder="COUNTY ex. KARNES"/>
                                 </div><br>
                                 <div class="col-md-4">
                                     <button type="button" id="update_permit_btn" class="btn btn-primary">Get Data</button>
