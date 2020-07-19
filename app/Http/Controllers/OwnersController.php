@@ -41,7 +41,7 @@ class OwnersController extends Controller
                 $leaseNote = '';
 
                 $permits = Permit::where('lease_name', $ownerLease->lease_name)->first();
-                $notes = OwnerNote::where('lease_name', $ownerLease->lease_name)->orderBy('created_at', 'DESC')->get();
+                $notes = OwnerNote::where('owner_name', $ownerName)->where('lease_name', $ownerLease->lease_name)->orderBy('created_at', 'DESC')->get();
 
                 if (is_object(($permits))) {
                     $permitObj[$count]['lease_name'] = $permits->lease_name;
@@ -53,16 +53,16 @@ class OwnersController extends Controller
                     $permitObj[$count]['id'] = '';
                 }
 
-                if (!$notes->isEmpty()) {
+                if ($notes->isEmpty()) {
+                    $noteArray[$count]['lease_name'] = '';
+                    $noteArray[$count]['notes'] = '';
+
+                } else {
                     for ($i = 0; $i < 2; $i++) {
                         $leaseNote .= $notes[$i]->notes;
                     }
                     $noteArray[$count]['lease_name'] = $notes[0]->lease_name;
                     $noteArray[$count]['notes'] = $leaseNote;
-                } else {
-                    $noteArray[$count]['lease_name'] = '';
-                    $noteArray[$count]['notes'] = '';
-
                 }
                 $count++;
             }
