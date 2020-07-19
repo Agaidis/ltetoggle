@@ -9,7 +9,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6" style="margin-top: 2%; display: block;">
-                                <h3>Grab Permits by County - These will be pulled based on an Approved Date of everything after April 1st, 2020 </h3>
+                                <h3>Grab Permits by County - <br>Pulled based on an Approved Date of everything after April 1st, 2020 </h3>
                                 <div class="col-md-6">
                                     <input class="form-control county_parish" id="county_select" placeholder="GRADY"/>
                                 </div><br>

@@ -35,7 +35,13 @@ class MineralOwnersController extends Controller
             $onProductionArray = array();
             $oilArray = array();
             $gasArray = array();
-            $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+            if ($permitValues->selected_lease_name == '' || $permitValues->selected_lease_name == null) {
+                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+
+            } else {
+                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->selected_lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+            }
+
             $totalGas = 0;
             $totalGasWithComma = 0;
             $totalOil = 0;
