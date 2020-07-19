@@ -381,7 +381,7 @@
       <path value="$PROJECT_DIR$/vendor/barryvdh/laravel-debugbar" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="x" value="1" />
     <option name="y" value="23" />
     <option name="width" value="1680" />
