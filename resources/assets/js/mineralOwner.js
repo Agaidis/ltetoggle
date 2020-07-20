@@ -11,6 +11,8 @@ $(document).ready(function () {
         let uniqueId = splitId[3];
 
         let date = $('#owner_follow_up_' + uniqueId).val();
+
+        console.log(date);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

@@ -214,7 +214,7 @@ class MineralOwnersController extends Controller
         try {
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->get();
 
-            MineralOwner::where('id', $request->ownerId)->update(['follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
+            MineralOwner::where('id', $request->ownerId)->update(['follow_up_date' => date('Y-m-d h:i:s A', strtotime('+1 day +19 hours'))]);
 
             $userName = Auth()->user()->name;
             $userId = Auth()->user()->id;
@@ -234,7 +234,7 @@ class MineralOwnersController extends Controller
             $updatedOwnerNote = OwnerNote::where('owner_name', $ownerInfo[0]->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
 
 
-            MineralOwner::where('id', $request->ownerId)->update(['assignee' => $userId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
+            MineralOwner::where('id', $request->ownerId)->update(['assignee' => $userId, 'follow_up_date' => date('Y-m-d h:i:s A', strtotime('+1 day +19 hours'))]);
 
             return $updatedOwnerNote;
 
@@ -268,7 +268,7 @@ class MineralOwnersController extends Controller
     public function updateAssignee(Request $request) {
         try {
             if ($request->assigneeId != 0) {
-                MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId, 'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))]);
+                MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId, 'follow_up_date' => date('Y-m-d h:i:s A', strtotime('+1 day +19 hours'))]);
             } else {
                 MineralOwner::where('id', $request->ownerId)->update(['assignee' => $request->assigneeId]);
             }
@@ -384,7 +384,7 @@ class MineralOwnersController extends Controller
                 MineralOwner::where('id', $request->ownerId)->update(
                     [
                         'wellbore_type' => $request->wellType,
-                        'follow_up_date' => date('Y-m-d', strtotime('+1 day +19 hours'))
+                        'follow_up_date' => date('Y-m-d h:i:s A', strtotime('+1 day +19 hours'))
                     ]);
             } else {
                 MineralOwner::where('id', $request->ownerId)->update(
