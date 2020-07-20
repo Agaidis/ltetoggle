@@ -47,7 +47,7 @@ class GetPermits extends Command
             $nvxInterestCountiesArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
             $nvxByApprovedDate = array('LEA', 'EDDY');
 
-            $this->getCountyPermitData('2020-01-27', 'eagle', $eagleInterestCountiesArray);
+            $this->getCountyPermitData('2020-01-01', 'eagle', $eagleInterestCountiesArray);
 
             $this->getCountyPermitData('2020-04-01', 'nvx', $nvxInterestCountiesArray);
 
