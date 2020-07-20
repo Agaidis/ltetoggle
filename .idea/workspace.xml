@@ -13,14 +13,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="370">
-              <caret line="282" column="9" lean-forward="true" selection-start-line="282" selection-start-column="9" selection-end-line="282" selection-end-column="9" />
+            <state relative-caret-position="265">
+              <caret line="275" lean-forward="true" selection-start-line="275" selection-end-line="275" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/userMMP.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="900">
+              <caret line="60" column="32" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -114,7 +123,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>submit_phone</find>
       <find>phone</find>
       <find>owner_row</find>
       <find>high_priority_wellbore_table</find>
@@ -144,6 +152,7 @@
       <find>owner_follow_up</find>
       <find>ownerFollowupDateChange</find>
       <find>follow_up</find>
+      <find>Eagle Interest</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -202,7 +211,6 @@
         <option value="$PROJECT_DIR$/public/css/app.css" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_27_150232_add_stitching_value_to_permits.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/UserMMPController.php" />
-        <option value="$PROJECT_DIR$/resources/views/userMMP.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_06_27_162336_add_legal_lease_records.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/StitchPermitsAndLeases.php" />
@@ -234,6 +242,7 @@
         <option value="$PROJECT_DIR$/resources/views/welbore.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
+        <option value="$PROJECT_DIR$/resources/views/userMMP.blade.php" />
       </list>
     </option>
   </component>
@@ -565,12 +574,12 @@
       <workItem from="1594569303596" duration="11776000" />
       <workItem from="1594588602284" duration="2044000" />
       <workItem from="1594667907458" duration="14072000" />
-      <workItem from="1595177856056" duration="24190000" />
+      <workItem from="1595177856056" duration="24505000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="613639000" />
+    <option name="totallyTimeSpent" value="613954000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1680" height="1027" extended-state="0" />
@@ -717,13 +726,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="199">
           <caret line="20" column="83" selection-start-line="20" selection-start-column="83" selection-end-line="20" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/userMMP.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="216" column="101" selection-start-line="216" selection-start-column="101" selection-end-line="216" selection-end-column="101" />
         </state>
       </provider>
     </entry>
@@ -1074,11 +1076,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="282" column="9" lean-forward="true" selection-start-line="282" selection-start-column="9" selection-end-line="282" selection-end-column="9" />
+        <state relative-caret-position="265">
+          <caret line="275" lean-forward="true" selection-start-line="275" selection-end-line="275" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/userMMP.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="900">
+          <caret line="60" column="32" selection-start-line="60" selection-start-column="32" selection-end-line="60" selection-end-column="32" />
         </state>
       </provider>
     </entry>

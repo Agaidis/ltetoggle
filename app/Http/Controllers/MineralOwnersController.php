@@ -285,13 +285,18 @@ class MineralOwnersController extends Controller
 
     public function updateFollowUp(Request $request) {
         try {
-            $dateObj = str_replace('/', '-', $request->date);
 
-            $dateArray = explode('-', $dateObj);
+            if ($request->date != '') {
+                $dateObj = str_replace('/', '-', $request->date);
 
-            $formattedDate = $dateArray[1] . '-' . $dateArray[0] . '-' . $dateArray[2];
+                $dateArray = explode('-', $dateObj);
 
-            $date = date('Y-m-d h:i:s A', strtotime($formattedDate));
+                $formattedDate = $dateArray[1] . '-' . $dateArray[0] . '-' . $dateArray[2];
+
+                $date = date('Y-m-d h:i:s A', strtotime($formattedDate));
+            } else {
+                $date = null;
+            }
 
             MineralOwner::where('id', $request->id)->update(['follow_up_date' => $date]);
 
