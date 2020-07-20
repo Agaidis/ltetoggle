@@ -42,7 +42,7 @@ class WelboreController extends Controller
                 ->where(function ($query) {
                     $query->where('wellbore_type', '=', NULL)
                         ->orWhere('wellbore_type', '=', '0');
-                })->orderBy('updated_at')->get();
+                })->orderBy('follow_up_date', 'DESC')->get();
 
             return view('welbore', compact('owners','highPriorityProspects', 'users'));
         } catch( \Exception $e) {
