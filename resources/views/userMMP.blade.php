@@ -49,7 +49,7 @@
                         <div id="myTab" class="interest_nav_container">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item nav-link interest_tab" id="interest_tab_eagle">
-                                    <a href="#eagle_interest_area" role="tab" data-toggle="tab" class="interest_text" aria-controls="eagle_interest_area">Eagle Interest Area</a>
+                                    <a href="#eagle_interest_area" role="tab" data-toggle="tab" class="interest_text" aria-controls="eagle_interest_area">Eagle Ford Interest Area</a>
                                 </li>
                                 <li class="nav-item nav-link interest_tab" id="interest_tab_wtx">
                                     <a href="#wtx_nm_interest_area" role="tab" data-toggle="tab" class="interest_text" aria-controls="wtx_nm_interest_area">WTX/NM Interest Area</a>
