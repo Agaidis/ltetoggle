@@ -44046,6 +44046,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   /* HIGH PRIORITY WELLBORE TABLE */
+  $('.wellbore_owner_follow_up').datepicker();
   $('.high_priority_wellbore_table').DataTable({
     "pagingType": "simple",
     "pageLength": 25,
@@ -44077,6 +44078,11 @@ $(document).ready(function () {
     var splitId = id.split('_');
     $('#owner_id').val(splitId[2]);
     openPhoneModal(splitId[2]);
+  }).on('change', '.wellbore_owner_follow_up', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    ownerFollowupDateChange(uniqueId);
   });
   /* LOWER PRIORITY WELLBORE TABLE */
 
@@ -44111,6 +44117,12 @@ $(document).ready(function () {
     var splitId = id.split('_');
     $('#owner_id').val(splitId[2]);
     openPhoneModal(splitId[2]);
+  }).on('change', '.wellbore_owner_follow_up', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    console.log(uniqueId);
+    ownerFollowupDateChange(uniqueId);
   });
   $('.phone_container').on('click', '.soft_delete_phone', function () {
     var id = $(this)[0].id;
@@ -44209,7 +44221,6 @@ $(document).ready(function () {
         id: ownerId
       },
       success: function success(data) {
-        console.log(data);
         var nameAddressString = data.owner + '<br>' + data.owner_address + '<br>' + data.owner_city + ',' + data.owner_zip;
         $('#owner_name').text(data.owner);
         $('#name_address').append(nameAddressString);
@@ -44374,6 +44385,34 @@ $(document).ready(function () {
       error: function error(data) {
         console.log(data);
         $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  }
+
+  function ownerFollowupDateChange(uniqueId) {
+    var date = $('#owner_follow_up_' + uniqueId).val();
+    console.log(uniqueId);
+    console.log(date);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateFollowUp',
+      data: {
+        id: uniqueId,
+        date: date
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
       }
     });
   }

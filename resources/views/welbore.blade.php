@@ -100,9 +100,9 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($highPriorityProspect->follow_up_date != '')
-                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$highPriorityProspect->id}}" value="{{date('M j, Y', strtotime($highPriorityProspect->follow_up_date))}}" />
+                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control wellbore_owner_follow_up" id="owner_follow_up_{{$highPriorityProspect->id}}" value="{{date('M j, Y', strtotime($highPriorityProspect->follow_up_date))}}" />
                                                     @else
-                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$highPriorityProspect->id}}" />
+                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control wellbore_owner_follow_up" id="owner_follow_up_{{$highPriorityProspect->id}}" />
                                                     @endif
                                                 </td>
                                                 <td class="text-center"><a href="{{url( 'owner/' . $highPriorityProspect->owner)}}">{{$highPriorityProspect->owner}}</a><br>{{$highPriorityProspect->owner_address}}<br>{{$highPriorityProspect->owner_city}}, {{$highPriorityProspect->owner_zip}}</td>
@@ -217,9 +217,9 @@
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($owner->follow_up_date != '')
-                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" value="{{date('M j, Y', strtotime($owner->follow_up_date))}}" />
+                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control wellbore_owner_follow_up" id="owner_follow_up_{{$owner->id}}" value="{{date('M j, Y', strtotime($owner->follow_up_date))}}" />
                                                     @else
-                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
+                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control wellbore_owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
                                                     @endif
                                                 </td>
                                                 <td class="text-center"><a href="{{url( 'owner/' . $owner->owner)}}">{{$owner->owner}}</a><br>{{$owner->owner_address}}<br>{{$owner->owner_city}}, {{$owner->owner_zip}}</td>
