@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="" />
+    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/assets/js/wellbore.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/wellbore.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/welbore.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/welbore.blade.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,8 +23,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="215">
-              <caret line="285" column="34" selection-start-line="285" selection-start-column="20" selection-end-line="285" selection-end-column="34" />
+            <state relative-caret-position="358">
+              <caret line="304" column="102" selection-start-line="304" selection-start-column="102" selection-end-line="304" selection-end-column="102" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
               </folding>
@@ -25,20 +32,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/WelboreController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="540">
-              <caret line="48" column="29" lean-forward="true" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
+            <state relative-caret-position="307">
+              <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
-              <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+            <state relative-caret-position="127">
+              <caret line="512" column="41" selection-start-line="512" selection-start-column="41" selection-end-line="512" selection-end-column="41" />
               <folding>
                 <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -74,8 +81,44 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/welbore.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-33">
-              <caret line="19" column="112" selection-start-line="19" selection-start-column="112" selection-end-line="19" selection-end-column="112" />
+            <state relative-caret-position="309">
+              <caret line="262" column="63" selection-start-line="262" selection-start-column="63" selection-end-line="262" selection-end-column="63" />
+              <folding>
+                <element signature="e#19776#19806#0#HTML" expanded="true" />
+                <element signature="e#19901#19942#0#HTML" expanded="true" />
+                <element signature="e#21553#21573#0#HTML" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/assets/js/wellbore.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="214">
+              <caret line="113" column="22" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="22" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="482">
+              <caret line="375" column="98" selection-start-line="375" selection-start-column="98" selection-end-line="375" selection-end-column="98" />
+              <folding>
+                <element signature="e#29351#29371#0#HTML" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -92,23 +135,10 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>//</find>
-      <find>overflow</find>
-      <find>Date</find>
-      <find>previous_owner_notes</find>
-      <find>distinct</find>
-      <find>update(</find>
-      <find>addPh</find>
-      <find>phone_desc</find>
-      <find>insertPhoneNumber</find>
-      <find>insert_number</find>
-      <find>$pushedPhoneNumber</find>
-      <find>phone_number_row</find>
       <find>!important</find>
       <find>DataTable</find>
       <find>addPhone</find>
       <find>submit_phone</find>
-      <find>globalOwnerId</find>
       <find>phone</find>
       <find>owner_row</find>
       <find>high_priority_wellbore_table</find>
@@ -122,6 +152,19 @@
       <find>moreData</find>
       <find>follow_up_date</find>
       <find>updateFollowUp</find>
+      <find>url: '/mineral-owner/updateWellType',</find>
+      <find>wellbore_dropdown</find>
+      <find>getOwnerNumbers</find>
+      <find>softDeletePhone</find>
+      <find>add_phone_btn</find>
+      <find>globalOwnerId</find>
+      <find>row</find>
+      <find>owner_id</find>
+      <find>wellbore_submit_phone_btn</find>
+      <find>submit_phone_btn</find>
+      <find>soft_delete_phone</find>
+      <find>submitPhone</find>
+      <find>phone_container</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -200,8 +243,6 @@
         <option value="$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js" />
         <option value="$PROJECT_DIR$/database/migrations/2020_07_13_203057_add_lease_to_phone_number.php" />
         <option value="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/welbore.blade.php" />
-        <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
         <option value="$PROJECT_DIR$/app/Console/Commands/GetPermits.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/AdminController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/APIManager.php" />
@@ -209,9 +250,11 @@
         <option value="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/OwnersController.php" />
         <option value="$PROJECT_DIR$/resources/views/admin.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
-        <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/WelboreController.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
+        <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
+        <option value="$PROJECT_DIR$/resources/views/welbore.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php" />
       </list>
     </option>
   </component>
@@ -543,16 +586,15 @@
       <workItem from="1594569303596" duration="11776000" />
       <workItem from="1594588602284" duration="2044000" />
       <workItem from="1594667907458" duration="14072000" />
-      <workItem from="1595177856056" duration="15424000" />
+      <workItem from="1595177856056" duration="20126000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="604873000" />
+    <option name="totallyTimeSpent" value="609575000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26862028" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -851,13 +893,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="158" column="85" selection-start-line="158" selection-start-column="75" selection-end-line="158" selection-end-column="85" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
@@ -868,19 +903,6 @@
             <element signature="e#3586#3606#0#HTML" expanded="true" />
             <element signature="e#3826#3846#0#HTML" expanded="true" />
             <element signature="e#4070#4090#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/wellbore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="361" column="55" selection-start-line="361" selection-start-column="55" selection-end-line="361" selection-end-column="55" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -948,19 +970,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="115" column="4" selection-start-line="115" selection-start-column="4" selection-end-line="120" selection-end-column="6" />
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/AdminController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="346">
@@ -991,17 +1000,69 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="267">
+          <caret line="112" lean-forward="true" selection-start-line="112" selection-end-line="112" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/mineralOwner.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="482">
+          <caret line="375" column="98" selection-start-line="375" selection-start-column="98" selection-end-line="375" selection-end-column="98" />
+          <folding>
+            <element signature="e#29351#29371#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/wellbore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="113" column="22" selection-start-line="113" selection-start-column="8" selection-end-line="113" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#2;n#div#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/welbore.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-33">
-          <caret line="19" column="112" selection-start-line="19" selection-start-column="112" selection-end-line="19" selection-end-column="112" />
+        <state relative-caret-position="309">
+          <caret line="262" column="63" selection-start-line="262" selection-start-column="63" selection-end-line="262" selection-end-column="63" />
+          <folding>
+            <element signature="e#19776#19806#0#HTML" expanded="true" />
+            <element signature="e#19901#19942#0#HTML" expanded="true" />
+            <element signature="e#21553#21573#0#HTML" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/WelboreController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="33" column="5" selection-start-line="33" selection-start-column="5" selection-end-line="33" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MineralOwnersController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="215">
-          <caret line="285" column="34" selection-start-line="285" selection-start-column="20" selection-end-line="285" selection-end-column="34" />
+        <state relative-caret-position="358">
+          <caret line="304" column="102" selection-start-line="304" selection-start-column="102" selection-end-line="304" selection-end-column="102" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
@@ -1010,8 +1071,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/mineralOwner.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="35" column="13" lean-forward="true" selection-start-line="35" selection-start-column="13" selection-end-line="35" selection-end-column="13" />
+        <state relative-caret-position="127">
+          <caret line="512" column="41" selection-start-line="512" selection-start-column="41" selection-end-line="512" selection-end-column="41" />
           <folding>
             <element signature="n#style#0;n#h3#0;n#div#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#h3#0;n#div#1;n#div#0;n#!!top" expanded="true" />
@@ -1040,13 +1101,6 @@
             <element signature="n#style#0;n#span#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#table#0;n#!!top" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/WelboreController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="48" column="29" lean-forward="true" selection-start-line="48" selection-start-column="29" selection-end-line="48" selection-end-column="29" />
         </state>
       </provider>
     </entry>

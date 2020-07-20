@@ -13,6 +13,7 @@
                             <h5>2 - We have sent an Offer</h5>
                             <h5>1 - They are a lead....</h5>
                         </div>
+                        <input type="hidden" id="owner_id" />
 
                         <div class="row">
                             <div class="col-md-12">
@@ -259,12 +260,12 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body row">
+                                    <div class="current_phones modal-body row">
                                         <div class="col-md-6">
                                             <label>Phone Description</label><input type="text" class="form-control" id="new_phone_desc" name="new_phone_desc" placeholder="Home, Cell, Sister, Etc."/>
                                             <label>Phone Number</label><input type="text" class="form-control" id="new_phone_number" name="new_phone_number" placeholder="(ext) 000 - 0000"/>
                                             <div class="modal-footer">
-                                                <button type="button" id="submit_phone" class="submit_phone_btn btn btn-primary" >Submit #</button>
+                                                <button type="button" id="submit_phone" class="wellbore_submit_phone_btn btn btn-primary" >Submit #</button>
                                                 <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success" data-dismiss="modal" >Close Modal</button>
                                             </div>
                                         </div>
