@@ -69,7 +69,7 @@ $(document).ready(function () {
         let tr = $(this).closest('tr');
         let row = eaglePermitTable.row( tr );
 
-        moreData(id, tr, permitId, reportedOperator, row);
+        moreData(id, tr, permitId, reportedOperator, row, false);
     }).on('change', '.assignee', function() {
         updateAssignee($(this)[0].value);
     }).on('change', '.toggle_status', function() {
@@ -126,7 +126,7 @@ $(document).ready(function () {
         let tr = $(this).closest('tr');
         let row = nvxPermitTable.row( tr );
 
-        moreData(id, tr, permitId, reportedOperator, row)
+        moreData(id, tr, permitId, reportedOperator, row, false)
 
     }).on('change', '.assignee', function() {
         let assignee = $(this)[0].value;
@@ -171,6 +171,8 @@ $(document).ready(function () {
 
         deleteNote(permitId, noteId, response);
     });
+
+
 
     //NON Producing TABLE
     let nonProducingPermits = $('#non_producing_permits').DataTable({
@@ -186,7 +188,7 @@ $(document).ready(function () {
         let tr = $(this).closest('tr');
         let row = nonProducingPermits.row( tr );
 
-        moreData(id, tr, permitId, reportedOperator, row)
+        moreData(id, tr, permitId, reportedOperator, row, true)
 
     }).on('change', '.assignee', function() {
         let assignee = $(this)[0].value;
@@ -230,10 +232,19 @@ $(document).ready(function () {
         let response = confirm('Are you sure you want to delete this note?');
 
         deleteNote(permitId, noteId, response);
+    }).on('change', '.check_lease', function() {
+        let id = $(this)[0].id;
+        let isChecked = $(this)[0].checked;
+        let splitId = id.split('_');
+        let leaseId = splitId[2];
+        let permitId = splitId[3];
+
+
+        stitchLeaseToPermit(leaseId, permitId, isChecked);
     });
 
 
-    function moreData(id, tr, permitId, reportedOperator, row) {
+    function moreData(id, tr, permitId, reportedOperator, row, isNonProducing) {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -247,7 +258,8 @@ $(document).ready(function () {
             url: '/new-permits/getPermitDetails',
             data: {
                 permitId: permitId,
-                reportedOperator: reportedOperator
+                reportedOperator: reportedOperator,
+                isNonProducing: isNonProducing
             },
             success: function success(data) {
                 let permitBody = '<div class="row"><div class="col-md-6">' +
@@ -292,7 +304,7 @@ $(document).ready(function () {
                     '<label for="Abstract_'+ permitId+'">Abstract: </label>' +
                     '<span id="Abstract_'+ permitId+'"></span><br>' +
                     '</div></div></div><br>' +
-                    '<div class="row"><div class="col-md-4">' +
+                    '<div class="row"><div class="col-md-6">' +
                     '<div class="map" id="map_'+ permitId+'"></div></div>' +
                     '<div class="col-md-6"><div style="margin-top:1.5%;">' +
                     '<label style="font-size:20px; font-weight:bold;" for="previous_notes">Previous Landtrac Notes</label>' +
@@ -311,69 +323,73 @@ $(document).ready(function () {
                     tr.addClass('shown');
 
                     try {
-                        let geoPoints = data['permit'].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
-                        let obj = [];
-                       geoPoints.push(data.leaseGeo);
+                        let permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
                         let map;
-                        let bounds;
+                        let bounds = new google.maps.LatLngBounds();
 
-
-                        for (let j in geoPoints) {
-                            if (j == 0) {
-                                map = new google.maps.Map(document.getElementById('map_'+ permitId), {
-                                    center: JSON.parse(geoPoints[j]),
-                                    zoom: 13,
-                                    mapTypeId: google.maps.MapTypeId.HYBRID
-                                });
-
-                            }
-                            obj.push(JSON.parse(geoPoints[j]));
-                        }
-
-                        let locationInfowindow = new google.maps.InfoWindow({
-                            content: 'What info do we want in here.',
+                        // Display a map on the page
+                        map = new google.maps.Map(document.getElementById('map_' + permitId), {
+                            zoom: 13,
+                            center: JSON.parse(permitPoint[0]),
+                            mapTypeId: google.maps.MapTypeId.HYBRID
                         });
 
-                        let marker = new google.maps.Marker({
-                            position: JSON.parse(geoPoints[0]),
+                        let position = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+                        bounds.extend(position);
+                        let permitMarker = new google.maps.Marker({
+                            position: position,
                             map: map,
-                            infowindow: locationInfowindow
+                            label: 'P',
+                            title: data.permit.lease_name
                         });
 
-                        google.maps.event.addListener(marker, 'click', function() {
-                            this.infowindow.open(map, this);
+                        google.maps.event.addListener(permitMarker, 'click', (function(permitMarker) {
+                            return function() {
+                                infoWindow.setContent('<div class="info_content">' +
+                                    '<h4>Lease: '+data.permit.lease_name+'</h4>' +
+                                    '<h5>Range: '+data.permit.range+'</h5>' +
+                                    '<h5>Section: '+data.permit.section+'</h5>' +
+                                    '<h5>Township: '+data.permit.township+'</h5>' +
+                                    '</div>');
+                                infoWindow.open(map, permitMarker);
+                            }
+                        })(permitMarker));
+
+                        // Display multiple markers on a map
+                        let infoWindow = new google.maps.InfoWindow(), marker;
+
+                        // Loop through our array of markers & place each one on the map
+                        $.each( data.leaseGeo, function (key, value ) {
+
+                            let position = new google.maps.LatLng(JSON.parse(value.Geometry));
+                            bounds.extend(position);
+                            marker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                title: value.Grantor
+                            });
+
+                            let checkbox = '';
+
+                            if (value.permit_stitch_id === permitId) {
+                                checkbox = '<input type="checkbox" checked class="form-control check_lease" id="check_lease_'+value.LeaseId+'_'+permitId+'"/>';
+                            } else {
+                                checkbox = '<input type="checkbox" class="form-control check_lease" id="check_lease_'+value.LeaseId+'_'+permitId+'"/>';
+                            }
+
+                            // Allow each marker to have an info window
+                            google.maps.event.addListener(marker, 'click', (function(marker) {
+                                return function() {
+                                    infoWindow.setContent('<div class="info_content">' +
+                                        '<h4>Grantor: '+value.Grantor+'</h4>' +
+                                        '<h5>Range: '+value.Range+'</h5>' +
+                                        '<h5>Section: '+value.Section+'</h5>' +
+                                        '<h5>Township: '+value.Township+'</h5>' +
+                                        '</div><div> <label style="margin-left:40%;" for="check_lease">Add Lease to Permit: </label>'+checkbox+'</div>');
+                                    infoWindow.open(map, marker);
+                                }
+                            })(marker));
                         });
-
-                        function ResizeMap() {
-                            google.maps.event.trigger(map, "resize");
-                        }
-
-                        $("#VehicleMovementModal").on('shown', function () {
-                            ResizeMap();
-                        });
-
-                        bounds = new google.maps.LatLngBounds();
-                        google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
-
-                            bounds = map.getBounds();
-                        });
-
-                        let input = /** @type {!HTMLInputElement} */(
-                            document.getElementById('pac-input'));
-                        let types = document.getElementById('type-selector');
-                        map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-                        map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
-
-                        let polygon = new google.maps.Polygon({
-                            path: obj,
-                            geodesic: true,
-                            strokeColor: '#091096',
-                            strokeOpacity: 1.0,
-                            strokeWeight: 2,
-                            fillColor: '#B1AAA9',
-                            fillOpacity: 0.35,
-                        });
-                        polygon.setMap(map);
                     } catch( err ) {
                         console.log(err);
                     }
@@ -498,6 +514,33 @@ $(document).ready(function () {
                 $('#District_'+ permitId).text(' ' + district);
 
 
+            },
+            error: function error(data) {
+                console.log(data);
+            }
+        });
+    }
+
+    function stitchLeaseToPermit(leaseId, permitId, isChecked) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "PUT",
+            url: '/new-permits/stitchLeaseToPermit',
+            data: {
+                permitId: permitId,
+                leaseId: leaseId,
+                isChecked: isChecked
+            },
+            success: function success(data) {
+
+                console.log(data);
             },
             error: function error(data) {
                 console.log(data);

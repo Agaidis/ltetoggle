@@ -97,13 +97,13 @@ class nonProducingOwnersController extends Controller
 
                 $leaseArray = explode('|', $permitValues->selected_lease_name);
 
-                $owners = LegalLease::whereIn('leaseId',  $permitValues->stitch_lease_id)->get();
+                $owners = LegalLease::where('permit_stitch_id',  $permitValues->permit_id)->get();
 
                 $permitNotes = PermitNote::where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
 
             } else {
 
-                $owners = LegalLease::where('leaseId', $permitValues->stitch_lease_id)->get();
+                $owners = LegalLease::where('permit_stitch_id', $permitValues->permit_id)->get();
 
                 $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
 

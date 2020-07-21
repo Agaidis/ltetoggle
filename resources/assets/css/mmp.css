@@ -205,9 +205,9 @@ hr {
 }
 
 .map {
-    width: 95%;
+    width: 100%;
     margin-left: 2%;
-    min-height: 550px;
+    min-height: 600px;
 }
 .previous_notes, .previous_owner_notes {
     width: 100%;

@@ -61,19 +61,31 @@ class MMPController extends Controller
 
         try {
             $permit = Permit::where('permit_id', $request->permitId)->first();
-            if ($permit->stitch_lease_id != null && $permit->stitch_lease_id != '') {
+
+
+            if ($request->isNonProducing) {
+                $leaseData = LegalLease::select('LeaseId','Grantor', 'Range', 'Section', 'Township', 'Geometry', 'permit_stitch_id')->get();
+                $leaseDescription = '';
+                foreach ($leaseData as $lease) {
+                    if ($lease->Geometry != '' || $lease->Geometry != null) {
+                        $lease->Geometry = str_replace(['POINT (', ')', ' '], ['{"lng":', '}', ',"lat":'], $lease->Geometry);
+                    }
+                }
+
+                $objData = new \stdClass;
+                $objData->permit = $permit;
+                $objData->leaseDescription = $leaseDescription;
+                $objData->leaseGeo = $leaseData;
+            } else {
                 $leaseGeo = LegalLease::where('LeaseId', $permit->stitch_lease_id)->value('Geometry');
                 $leaseGeo = str_replace(['POINT (', ')', ' '], ['{"lng":', '}', ',"lat":'], $leaseGeo);
+                $leaseDescription = MineralOwner::where('lease_name', $request->reportedOperator)->first();
 
-            } else {
-                $leaseGeo = '';
+                $objData = new \stdClass;
+                $objData->permit = $permit;
+                $objData->leaseDescription = $leaseDescription;
+                $objData->leaseGeo = $leaseGeo;
             }
-            $leaseDescription = MineralOwner::where('lease_name', $request->reportedOperator)->first();
-            $objData = new \stdClass;
-
-            $objData->permit = $permit;
-            $objData->leaseDescription = $leaseDescription;
-            $objData->leaseGeo = $leaseGeo;
         } catch ( \Exception $e)  {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
@@ -82,6 +94,26 @@ class MMPController extends Controller
             $objData = false;
         }
         return response()->json($objData);
+    }
+
+    public function stitchLeaseToPermit(Request $request) {
+        try {
+            if ($request->isChecked) {
+                LegalLease::where('LeaseId', $request->leaseId)
+                    ->update(['permit_stitch_id' => $request->permitId]);
+            } else {
+                LegalLease::where('LeaseId', $request->leaseId)
+                    ->update(['permit_stitch_id' => '']);
+            }
+            return 'success';
+
+        } catch( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
     }
 
     public function getNotes(Request $request) {
