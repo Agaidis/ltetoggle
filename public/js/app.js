@@ -44447,6 +44447,12 @@ $(document).ready(function () {
   }
 
   $('.update_owner_notes_wellbore_btn').on('click', function () {
+    var ownerId = $('#owner_id').val();
+
+    if (ownerId === '') {
+      alert('Owner not Found, make sure you have selected a row');
+    }
+
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44459,8 +44465,8 @@ $(document).ready(function () {
       type: "PUT",
       url: '/mineral-owner/updateNotes',
       data: {
-        ownerId: $('#owner_id').val(),
-        leaseName: $('#lease_name_' + globalOwnerId).val(),
+        ownerId: ownerId,
+        leaseName: $('#lease_name_' + ownerId).val(),
         notes: $('.owner_notes').val()
       },
       success: function success(data) {
