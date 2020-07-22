@@ -459,7 +459,7 @@ $(document).ready(function () {
             type: "PUT",
             url: '/mineral-owner/updateNotes',
             data: {
-                ownerId: globalOwnerId,
+                ownerId: $('#owner_id').val(),
                 leaseName: $('#lease_name_' + globalOwnerId).val(),
                 notes: $('.owner_notes').val()
             },
