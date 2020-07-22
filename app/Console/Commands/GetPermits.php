@@ -118,6 +118,8 @@ class GetPermits extends Command
                             $newPermit->is_seen = 0;
                             $newPermit->toggle_status = 'black';
                             $newPermit->interest_area = $interestArea;
+                            $newPermit->SurfaceLatitudeWGS84 = $decodedPermits[$i]->SurfaceLatitudeWGS84;
+                            $newPermit->SurfaceLongitudeWGS84 = $decodedPermits[$i]->SurfaceLongitudeWGS84;
                             $newPermit->save();
 
                         } else {
@@ -144,7 +146,9 @@ class GetPermits extends Command
                                 'district' => $decodedPermits[$i]->District,
                                 'created_date' => $decodedPermits[$i]->CreatedDate,
                                 'submitted_date' => $decodedPermits[$i]->SubmittedDate,
-                                'interest_area' => $interestArea
+                                'interest_area' => $interestArea,
+                                'SurfaceLatitudeWGS84' => $decodedPermits[$i]->SurfaceLatitudeWGS84,
+                                'SurfaceLongitudeWGS84' => $decodedPermits[$i]->SurfaceLongitudeWGS84
                             ]);
                         }
                     }
