@@ -74,7 +74,7 @@ class PushedPhoneNumbersController extends Controller
                     'phone_desc' => $request->phoneDesc
                 ]);
 
-            return view('pushedPhoneNumbers');
+            return 'success';
         } catch (\Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
