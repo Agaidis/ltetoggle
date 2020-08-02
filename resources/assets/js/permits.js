@@ -324,24 +324,62 @@ $(document).ready(function () {
 
                     try {
                         let permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+                        let surfaceLng = '{"lng":' + data.permit.SurfaceLongitudeWGS84;
+                        let surfaceLat = '"lat":' + data.permit.SurfaceLatitudeWGS84 + '}';
                         let map;
                         let bounds = new google.maps.LatLngBounds();
 
                         // Display a map on the page
                         map = new google.maps.Map(document.getElementById('map_' + permitId), {
                             zoom: 13,
-                            center: JSON.parse(permitPoint[0]),
+                            center: JSON.parse(surfaceLng + ',' + surfaceLat),
                             mapTypeId: google.maps.MapTypeId.HYBRID
                         });
 
-                        let position = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+                        let position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
                         bounds.extend(position);
+
                         let permitMarker = new google.maps.Marker({
                             position: position,
                             map: map,
-                            label: 'P',
+                            label: 'BM',
                             title: data.permit.lease_name
                         });
+
+                        let btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+                        bounds.extend(btmPosition);
+
+                        let SurfaceMarker = new google.maps.Marker({
+                            position: btmPosition,
+                            map: map,
+                            label: 'SF',
+                            title: data.permit.lease_name
+                        });
+
+                        let flightPath = new google.maps.Polyline({
+                            path: [
+                                JSON.parse(surfaceLng + ',' + surfaceLat),
+                                JSON.parse(permitPoint[0])
+                            ],
+                            geodesic: true,
+                            strokeColor: "#FF0000",
+                            strokeOpacity: 1.0,
+                            strokeWeight: 2
+                        });
+
+                        flightPath.setMap(map);
+
+                        google.maps.event.addListener(SurfaceMarker, 'click', (function(SurfaceMarker) {
+                            return function() {
+                                infoWindow.setContent('<div class="info_content">' +
+                                    '<h4>Lease: '+data.permit.lease_name+'</h4>' +
+                                    '<h5>Range: '+data.permit.range+'</h5>' +
+                                    '<h5>Section: '+data.permit.section+'</h5>' +
+                                    '<h5>Township: '+data.permit.township+'</h5>' +
+                                    '</div>');
+                                infoWindow.open(map, SurfaceMarker);
+                            }
+                        })(SurfaceMarker));
 
                         google.maps.event.addListener(permitMarker, 'click', (function(permitMarker) {
                             return function() {
@@ -627,7 +665,7 @@ $(document).ready(function () {
             },
             success: function success(data) {
 
-                $('#toggle_status_' + permitId).removeClass('black').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
+                $('#toggle_status_' + permitId).removeClass('yellow').removeClass('purple').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
 
             },
             error: function error(data) {

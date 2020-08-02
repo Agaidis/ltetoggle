@@ -26,10 +26,10 @@
                                 <label class="labels">Lease Name(s)</label>:
                                 <select id="lease_name_select" class="form-control" multiple="multiple">
                                     @foreach ($leases as $lease)
-                                        @if (in_array($lease->lease_name, $leaseArray) )
-                                            <option selected value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
+                                        @if (in_array($lease->LeaseName, $leaseArray) )
+                                            <option selected value="{{$lease->LeaseName}}">{{$lease->LeaseName}}</option>
                                         @else
-                                            <option value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
+                                            <option value="{{$lease->LeaseName}}">{{$lease->LeaseName}}</option>
                                         @endif
                                     @endforeach
                                 </select>
@@ -44,7 +44,11 @@
                             </div>
                         </div>
                         <input type="hidden" id="permit_id" value="{{$permitValues->id}}"/>
-                        <div style="margin-top:1.5%;" class="offset-3 col-md-9">
+                        <input type="hidden" id="surfaceLat" value="{{$permitValues->SurfaceLatitudeWGS84}}" />
+                        <input type="hidden" id="surfaceLng" value="{{$permitValues->SurfaceLongitudeWGS84}}" />
+                        <input type="hidden" id="btmGeo" value="{{$permitValues->btm_geometry}}" />
+
+                        <div style="margin-top:1.5%;" class="col-md-12">
                             <div class="row">
                                 <div style="text-align:center;" class="col-md-4">
                                     <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
@@ -56,10 +60,17 @@
 
                                     <input type="hidden" id="hidden_permit_notes" value="{{$notes}}" />
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
+                                    <div class="map" id="nonMap"></div>
+                                </div>
+                                <div class="col-md-4">
                                     <label for="county">County: </label>
                                     <span id="county">{{$permitValues->county_parish}}</span><br>
 
+                                    @if ($permitValues->range != '')
+                                        <label for="Township">Township: </label>
+                                        <span id="Township">{{$permitValues->township}}</span><br>
+                                    @endif
                                     @if ($permitValues->range != '')
                                         <label for="Range">Range: </label>
                                         <span id="Range">{{$permitValues->range}}</span><br>
@@ -100,10 +111,8 @@
                                     <span id="bbls">{{$bblsWithComma}}</span><br>
 
                                     <label for="gbbls">MNX (GAS): </label>
-                                    <span id="gbbls">{{$gbblsWithComma}}</span>
+                                    <span id="gbbls">{{$gbblsWithComma}}</span><br>
 
-                                </div>
-                                <div class="col-md-4">
                                     @if ($permitValues->approved_date != '')
                                         <?php $approvedDate = explode('T', $permitValues->approved_date) ?>
                                         <label for="approved_date">Approved Date: </label>
@@ -153,8 +162,8 @@
                         </div>
                         @endif
                     </div>
-                    @if (isset($owners[0]->lease_name))
-                        <input type="hidden" name="lease_name" id="lease_name" value="{{$owners[0]->lease_name}}"/>
+                    @if (isset($permitValues->lease_name))
+                        <input type="hidden" name="lease_name" id="lease_name" value="{{$permitValues->lease_name}}"/>
                     @else
                         <input type="hidden" name="lease_name" id="lease_name" value="{{$operator}}"/>
                     @endif
@@ -162,11 +171,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div style="overflow-x:auto;">
-                                <table class="table table-hover table-responsive-md table-bordered owner_table" style="width:1475px;">
+                                <table class="table table-hover table-responsive-md table-bordered non_producing_owner_table" style="width:1475px;">
                                     <thead>
 
                                     <tr>
                                         @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular' )
+                                            <th class="text-center">More Data</th>
                                             <th class="text-center">Assignee</th>
                                             <th class="text-center">Wellbore Type</th>
                                             <th class="text-center" style="width:100px;">Contact</th>
@@ -176,6 +186,7 @@
                                             <th class="text-center">Record Date/Term/Extension</th>
                                             <th class="text-center">Acres</th>
                                         @else
+                                            <th class="text-center">Col 1</th>
                                             <th class="text-center">Col 2</th>
                                             <th class="text-center">Col 3</th>
                                             <th class="text-center" style="width:100px;">Contact</th>
@@ -191,6 +202,7 @@
                                     @foreach ($owners as $owner)
                                         <tr class="owner_row" id="owner_row_{{$owner->id}}">
                                             @if (Auth::user()->role === 'admin'  || Auth::user()->role === 'regular')
+                                                <td id="id_{{$owner->id}}" class="text-center owner-details-control view_owner"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                 <td class="text-center">
                                                     @if (Auth::user()->name === 'Billy Moreaux' && ($owner->assignee != null || $owner->assignee != 0))
                                                         <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
@@ -262,11 +274,12 @@
                                                         <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
                                                     @endif
                                                 </td>
-                                                <td class="text-center">{{$owner->Grantor}}</td>
-                                                <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantee)}}">{{$owner->Grantee}}</a></td>
+                                                <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantee)}}">{{$owner->Grantor}}</a></td>
+                                                <td class="text-center">{{$owner->Grantee}}</td>
                                                 <td class="text-center">{{$owner->RecordDate}}</td>
                                                 <td class="text-center">{{$owner->AreaAcres}}</td>
                                             @else
+                                                <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>

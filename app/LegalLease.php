@@ -27,7 +27,8 @@ class LegalLease extends Model
         'MinDepth',
         'Range',
         'Section',
-        'Township'
+        'Township',
+        'RecordDate'
     ];
 
     protected $table = 'legal_leases';

@@ -201,7 +201,7 @@ class MineralOwnersController extends Controller
     public function getNotes(Request $request) {
         try {
             $ownerInfo = MineralOwner::where('id', $request->ownerId)->first();
-            return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'ASC')->get();
+            return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
         } catch( \Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();

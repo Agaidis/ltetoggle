@@ -44,7 +44,7 @@ class GetPermits extends Command
     {
         try {
             $eagleInterestCountiesArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
-            $nvxInterestCountiesArray = array('DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
+            $nvxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
             $nvxByApprovedDate = array('LEA', 'EDDY');
 
             $this->getCountyPermitData('2020-01-01', 'eagle', $eagleInterestCountiesArray);
@@ -116,7 +116,7 @@ class GetPermits extends Command
                             $newPermit->created_date = $decodedPermits[$i]->CreatedDate;
                             $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
                             $newPermit->is_seen = 0;
-                            $newPermit->toggle_status = 'black';
+                            $newPermit->toggle_status = 'yellow';
                             $newPermit->interest_area = $interestArea;
                             $newPermit->SurfaceLatitudeWGS84 = $decodedPermits[$i]->SurfaceLatitudeWGS84;
                             $newPermit->SurfaceLongitudeWGS84 = $decodedPermits[$i]->SurfaceLongitudeWGS84;

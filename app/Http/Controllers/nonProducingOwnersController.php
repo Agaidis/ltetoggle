@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\ErrorLog;
-use App\MineralOwner;
 use App\Permit;
 use App\PermitNote;
 use App\User;
@@ -11,6 +10,7 @@ use App\WellRollUp;
 use DateTime;
 use App\LegalLease;
 use Illuminate\Http\Request;
+use JavaScript;
 
 class nonProducingOwnersController extends Controller
 {
@@ -33,7 +33,31 @@ class nonProducingOwnersController extends Controller
             $onProductionArray = array();
             $oilArray = array();
             $gasArray = array();
-            $wells = WellRollUp::where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+            $leaseArray = array();
+
+            $leases = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->where('WellStatus', 'ACTIVE')->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
+
+            if ( $permitValues->selected_lease_name != null ) {
+
+                $wells = WellRollUp::where('LeaseName', $permitValues->selected_lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+
+                $owners = LegalLease::where('permit_stitch_id',  $permitValues->permit_id)->get();
+
+                $permitNotes = PermitNote::where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
+
+                $leaseArray = explode('|', $permitValues->selected_lease_name);
+
+            } else {
+
+                $wells = WellRollUp::where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+
+                $owners = LegalLease::where('permit_stitch_id', $permitValues->permit_id)->get();
+
+                $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
+
+            }
+
+            $count = count($wells);
             $totalGas = 0;
             $totalGasWithComma = 0;
             $totalOil = 0;
@@ -88,32 +112,10 @@ class nonProducingOwnersController extends Controller
                 $yearsOfProduction = 0;
             }
 
-            $leases = MineralOwner::groupBy('lease_name')->orderBy('lease_name', 'ASC')->get();
-
-            $leaseArray = array();
-
-            $count = count($wells);
-            if ( $permitValues->selected_lease_name != null ) {
-
-                $leaseArray = explode('|', $permitValues->selected_lease_name);
-
-                $owners = LegalLease::where('permit_stitch_id',  $permitValues->permit_id)->get();
-
-                $permitNotes = PermitNote::where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
-
-            } else {
-
-                $owners = LegalLease::where('permit_stitch_id', $permitValues->permit_id)->get();
-
-                $permitNotes = PermitNote::where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
-
-                if ($owners->isEmpty()) {
-                    $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $permitValues->lease_name);
-                    $operator = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D'], ['', '', ''], $request->operator);
-                    $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
-
-                }
-            }
+            JavaScript::put(
+                [
+                    'leases' => $leases
+                ]);
 
             return view('nonProducingMineralOwner', compact(
                     'owners',

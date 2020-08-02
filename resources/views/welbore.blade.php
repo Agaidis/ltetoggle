@@ -21,6 +21,7 @@
                                     <table class="table table-hover table-responsive-md table-bordered wellbore high_priority_wellbore_table" style="width:1475px;">
                                         <thead>
                                         <tr>
+                                            <th class="text-center">See Notes</th>
                                             <th class="text-center">Assignee</th>
                                             <th class="text-center">Wellbore Type</th>
                                             <th class="text-center" style="width:250px;">Contact</th>
@@ -38,10 +39,12 @@
                                                 <tr class="owner_row" style="background-color: #f59278;" id="owner_row_{{$highPriorityProspect->id}}">
                                             @endif
                                                     @if (isset($highPriorityProspect->lease_name))
-                                                        <input type="hidden" name="lease_name" id="lease_name_{{$highPriorityProspect->id}}" value="{{$highPriorityProspect->lease_name}}"/>
+                                                        <input type="hidden" id="lease_name_{{$highPriorityProspect->id}}" value="{{$highPriorityProspect->lease_name}}"/>
                                                     @else
-                                                        <input type="hidden" name="lease_name" id="lease_name_{{$highPriorityProspect->id}}" value="{{$operator}}"/>
+                                                        <input type="hidden" id="lease_name_{{$highPriorityProspect->id}}" value="{{$operator}}"/>
                                                     @endif
+
+                                                <td id="id_{{$highPriorityProspect->id}}" class="text-center wellbore-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                 <td class="text-center">
                                                     @if ($highPriorityProspect->assignee == '')
                                                         <select class="form-control owner_assignee" id="assignee_{{$highPriorityProspect->id}}">
@@ -145,6 +148,7 @@
                                     <table class="table table-hover table-responsive-md table-bordered wellbore low_priority_wellbore_table" style="width:1475px;">
                                         <thead>
                                         <tr>
+                                            <th class="text-center">See Notes</th>
                                             <th class="text-center">Assignee/Follow-Up</th>
                                             <th class="text-center">Wellbore Type</th>
                                             <th class="text-center" style="width:250px;">Contact</th>
@@ -161,6 +165,12 @@
                                             @else
                                                 <tr class="owner_row" style="background-color: #f59278;" id="owner_row_{{$owner->id}}">
                                             @endif
+                                                    @if (isset($highPriorityProspect->lease_name))
+                                                        <input type="hidden" id="lease_name_{{$owner->id}}" value="{{$owner->lease_name}}"/>
+                                                    @else
+                                                        <input type="hidden" id="lease_name_{{$owner->id}}" value="{{$operator}}"/>
+                                                    @endif
+                                                    <td id="id_{{$owner->id}}" class="text-center wellbore-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                     <td class="text-center">
                                                         @if ($owner->assignee == '')
                                                             <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">

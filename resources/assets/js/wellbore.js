@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     $('.wellbore_owner_follow_up').datepicker();
 
-    $('.high_priority_wellbore_table').DataTable( {
+    let highPriorityTable = $('.high_priority_wellbore_table').DataTable( {
         "pagingType": "simple",
         "pageLength" : 25,
         "aaSorting": [],
@@ -20,16 +20,7 @@ $(document).ready(function () {
     }).on('click', '.owner_row', function() {
         let id = $(this)[0].id;
         let splitId = id.split('_');
-        let ownerId = splitId[2];
         $('#owner_id').val(splitId[2]);
-
-        selectRow(ownerId);
-
-    }).on('click', '.view_owner', function () {
-        let id = $(this)[0].id;
-        let splitId = id.split('_');
-
-        viewOwner(splitId[1]);
 
     }).on('change', '.wellbore_dropdown', function () {
         let id = $(this)[0].id;
@@ -52,13 +43,107 @@ $(document).ready(function () {
         let uniqueId = splitId[3];
 
         ownerFollowupDateChange(uniqueId);
+    }).on('click', 'td.wellbore-details-control', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[1];
+        let tr = $(this).closest('tr');
+        let row = highPriorityTable.row( tr );
+        getNotes(ownerId, tr, row)
+
+    }).on('click', '.update_owner_notes_btn', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[4];
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "PUT",
+            url: '/mineral-owner/updateNotes',
+            data: {
+                ownerId: ownerId,
+                leaseName: $('#lease_name_' + ownerId).val(),
+                notes: $('#owner_notes_' +ownerId).val()
+            },
+            success: function success(data) {
+                let updatedNotes = '';
+
+                $.each(data, function (key, value) {
+                    updatedNotes += '<span>'+value.notes+'</span>';
+                });
+                updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                $('#previous_owner_notes_'+ ownerId).empty().append(updatedNotes.html());
+                $('#owner_notes_'+ownerId).val('').text('');
+
+                $('#assignee_' + ownerId).val($('#user_id').val());
+            },
+            error: function error(data) {
+                console.log(data);
+                $('#owner_notes_'+ownerId).val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+            }
+        });
+    }).on('mouseover', '.owner_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[1];
+        let ownerId = splitId[2];
+
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_owner_note_'+noteId+'_'+ownerId).css('display', 'inherit');
+    }).on('mouseleave', '.owner_note', function() {
+        $('.delete_owner_note').css('display', 'none');
+        $('.owner_note').css('background-color', '#F2EDD7FF');
+    }).on('click', '.delete_owner_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[3];
+        let ownerId = splitId[4];
+        let response = confirm('Are you sure you want to delete this note?');
+
+        if (response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "POST",
+                url: '/mineral-owners/delete/delete-note',
+                data: {
+                    id: noteId
+                },
+                success: function success(data) {
+                    console.log(data);
+                    let updatedNotes = '';
+
+                    $.each(data, function (key, value) {
+                        updatedNotes += '<span>'+value.notes+'</span>';
+                    });
+                    updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                    $('#previous_owner_notes_'+ ownerId).empty().append(updatedNotes.html());
+                },
+                error: function error(data) {
+                    console.log(data);
+                }
+            });
+        }
     });
-
-
 
     /* LOWER PRIORITY WELLBORE TABLE */
 
-    $('.low_priority_wellbore_table').DataTable( {
+    let lowPriorityTable = $('.low_priority_wellbore_table').DataTable( {
         "pagingType": "simple",
         "pageLength" : 25,
         "aaSorting": [],
@@ -73,16 +158,7 @@ $(document).ready(function () {
     }).on('click', '.owner_row', function() {
         let id = $(this)[0].id;
         let splitId = id.split('_');
-        let ownerId = splitId[2];
         $('#owner_id').val(splitId[2]);
-
-        selectRow(ownerId);
-
-    }).on('click', '.view_owner', function () {
-        let id = $(this)[0].id;
-        let splitId = id.split('_');
-
-        viewOwner(splitId[1]);
 
     }).on('change', '.wellbore_dropdown', function () {
         let id = $(this)[0].id;
@@ -103,9 +179,104 @@ $(document).ready(function () {
         let splitId = id.split('_');
         let uniqueId = splitId[3];
 
-        console.log(uniqueId);
-
         ownerFollowupDateChange(uniqueId);
+    }).on('click', 'td.wellbore-details-control', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[1];
+        let tr = $(this).closest('tr');
+        let row = lowPriorityTable.row( tr );
+
+        getNotes(ownerId, tr, row)
+
+    }).on('click', '.update_owner_notes_btn', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let ownerId = splitId[4];
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            beforeSend: function beforeSend(xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            },
+            type: "PUT",
+            url: '/mineral-owner/updateNotes',
+            data: {
+                ownerId: ownerId,
+                leaseName: $('#lease_name_' + ownerId).val(),
+                notes: $('#owner_notes_' +ownerId).val()
+            },
+            success: function success(data) {
+                let updatedNotes = '';
+
+                $.each(data, function (key, value) {
+                    updatedNotes += '<span>'+value.notes+'</span>';
+                });
+                updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                $('#previous_owner_notes_'+ ownerId).empty().append(updatedNotes.html());
+                $('#owner_notes_'+ownerId).val('').text('');
+
+                $('#assignee_' + ownerId).val($('#user_id').val());
+            },
+            error: function error(data) {
+                console.log(data);
+                $('#owner_notes_'+ownerId).val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+            }
+        });
+    }).on('mouseover', '.owner_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[1];
+        let ownerId = splitId[2];
+
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_owner_note_'+noteId+'_'+ownerId).css('display', 'inherit');
+    }).on('mouseleave', '.owner_note', function() {
+        $('.delete_owner_note').css('display', 'none');
+        $('.owner_note').css('background-color', '#F2EDD7FF');
+    }).on('click', '.delete_owner_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[3];
+        let ownerId = splitId[4];
+        let response = confirm('Are you sure you want to delete this note?');
+
+        if (response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "POST",
+                url: '/mineral-owners/delete/delete-note',
+                data: {
+                    id: noteId
+                },
+                success: function success(data) {
+                    console.log(data);
+                    let updatedNotes = '';
+
+                    $.each(data, function (key, value) {
+                        updatedNotes += '<span>'+value.notes+'</span>';
+                    });
+                    updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                    $('#previous_owner_notes_'+ ownerId).empty().append(updatedNotes.html());
+                },
+                error: function error(data) {
+                    console.log(data);
+                }
+            });
+        }
     });
 
 
@@ -128,6 +299,7 @@ $(document).ready(function () {
 
 
     $('.current_phones').on('click', '.wellbore_submit_phone_btn', function() {
+        console.log('hahaha');
         submitPhone();
     });
 
@@ -171,7 +343,9 @@ $(document).ready(function () {
         });
     }
 
-    function selectRow(ownerId) {
+    function getNotes(ownerId, tr, row) {
+        console.log($('#lease_name_' + ownerId).val());
+        console.log(ownerId);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -188,6 +362,27 @@ $(document).ready(function () {
                 leaseName: $('#lease_name_' + ownerId).val()
             },
             success: function success(data) {
+
+                console.log(data);
+               let noteContainer = '<div class="col-md-6">' +
+                   '<div style="text-align:center;" class="col-md-12">' +
+                   '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' +
+                   '<div class="previous_owner_notes" id="previous_owner_notes_'+ownerId+'" name="previous_owner_notes" contenteditable="false"></div>' +
+                   '</div>' +
+                   '<div style="text-align:center;" class="col-md-12">' +
+                   '<label style="font-size:20px; font-weight:bold;" for="owner_notes_'+ownerId+'">Enter Owner Notes</label>' +
+                   '<textarea rows="4" class="owner_notes" id="owner_notes_'+ownerId+'" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' +
+                   '<div class="col-md-12">' +
+                   '<button type="button" id="update_owner_notes_btn_'+ownerId+'" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' +
+                   '</div></div></div>';
+                if ( row.child.isShown() ) {
+                    row.child.hide();
+                    tr.removeClass('shown');
+                } else {
+                    row.child(noteContainer).show();
+                    tr.addClass('shown');
+                }
+
                 if (data !== undefined && data !== '') {
                     let updatedNotes = '';
 
@@ -196,10 +391,12 @@ $(document).ready(function () {
                     });
                     updatedNotes = $('<span>' + updatedNotes + '</span>');
 
-                    $('.previous_owner_notes').empty().append(updatedNotes.html());
+                    $('#previous_owner_notes_'+ownerId).empty().append(updatedNotes.html());
                 } else {
-                    $('.previous_owner_notes').empty();
+                    $('#previous_owner_notes_'+ownerId).empty();
                 }
+
+
             },
             error: function error(data) {
                 $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
@@ -207,47 +404,72 @@ $(document).ready(function () {
         });
     }
 
-    function viewOwner(ownerId) {
+    function updateNotes( permitId ) {
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $.ajax({
             beforeSend: function beforeSend(xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
             },
-            type: "GET",
-            url: '/mineral-owners',
+            type: "PUT",
+            url: '/new-permits/updateNotes',
             data: {
-                id: ownerId
+                permitId: permitId,
+                notes: $('#notes_' + permitId).val(),
+
             },
             success: function success(data) {
-                let nameAddressString = data.owner + '<br>' + data.owner_address + '<br>' + data.owner_city + ',' + data.owner_zip;
-                $('#owner_name').text(data.owner);
-                $('#name_address').append(nameAddressString);
-                $('#lease_name').text(data.lease_name);
-                $('#owner_price').val(data.price);
-                $('#lease_description').text(data.lease_description);
-                $('#rrc_lease_number').text(data.rrc_lease_number);
-                $('#decimal_interest').text(data.owner_decimal_interest);
-                $('#interest_type').text(data.owner_interest_type);
-                $('#tax_value').text(data.tax_value);
-                $('#first_prod').text(data.first_prod_date);
-                $('#last_prod').text(data.last_prod_date);
-                $('#cum_prod_oil').text(data.cum_prod_oil);
-                $('#cum_prod_gas').text(data.cum_prod_gas);
-                $('#active_well_count').text(data.active_well_count);
+                let updatedNotes = '';
 
-                let netRoyaltyAcres = data.owner_decimal_interest / .125 * $('.acreage').val();
-                netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
-                $('#net_royalty_acres').text(netRoyaltyAcres)
+                $.each(data, function (key, value) {
+                    updatedNotes += '<span>'+value.notes+'</span>';
+                });
+                updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+                $('#notes_' + permitId).val('').text('');
             },
             error: function error(data) {
-                console.log(data);
+                $('#notes_' + permitId).val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
             }
         });
+    }
+
+    function deleteNote( permitId, noteId, response ) {
+        if (response) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "POST",
+                url: '/new-permits/delete/delete-note',
+                data: {
+                    id: noteId
+                },
+                success: function success(data) {
+                    console.log(data);
+                    let updatedNotes = '';
+
+                    $.each(data, function (key, value) {
+                        updatedNotes += '<span>'+value.notes+'</span>';
+                    });
+                    updatedNotes = $('<span>' + updatedNotes + '</span>');
+
+                    $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+                },
+                error: function error(data) {
+                    console.log(data);
+                }
+            });
+        }
     }
 
 
@@ -315,7 +537,6 @@ $(document).ready(function () {
     }
 
     function softDeletePhone(uniqueId) {
-        console.log($('#owner_id').val());
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -342,7 +563,6 @@ $(document).ready(function () {
     }
 
     function pushBackPhone(uniqueId) {
-        console.log($('#owner_id').val());
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -371,8 +591,6 @@ $(document).ready(function () {
     }
 
     function submitPhone() {
-        console.log('IM IN HERE ATLEAST!');
-        console.log($('#owner_id').val());
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -388,7 +606,7 @@ $(document).ready(function () {
                 ownerId: $('#owner_id').val(),
                 phoneDesc: $('#new_phone_desc').val(),
                 phoneNumber: $('#new_phone_number').val(),
-                leaseName: $('#lease_name').val()
+                leaseName: $('#lease_name_' + $('#owner_id').val()).val()
             },
             success: function success(data) {
 
@@ -416,9 +634,6 @@ $(document).ready(function () {
 
         let date = $('#owner_follow_up_' + uniqueId).val();
 
-        console.log(uniqueId);
-        console.log(date);
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -442,47 +657,4 @@ $(document).ready(function () {
             }
         });
     }
-
-
-
-
-    $('.update_owner_notes_wellbore_btn').on('click', function() {
-
-        let ownerId = $('#owner_id').val();
-        if (ownerId === '') {
-            alert('Owner not Found, make sure you have selected a row');
-        }
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            beforeSend: function beforeSend(xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-            },
-            type: "PUT",
-            url: '/mineral-owner/updateNotes',
-            data: {
-                ownerId: ownerId,
-                leaseName: $('#lease_name_' + ownerId).val(),
-                notes: $('.owner_notes').val()
-            },
-            success: function success(data) {
-                let updatedNotes = '';
-
-                $.each(data, function (key, value) {
-                    updatedNotes += '<span>'+value.notes+'</span>';
-                });
-                updatedNotes = $('<span>' + updatedNotes + '</span>');
-
-                $('.previous_owner_notes').empty().append(updatedNotes.html());
-                $('.owner_notes').val('').text('');
-            },
-            error: function error(data) {
-                console.log(data);
-                $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
-            }
-        });
-    });
 });

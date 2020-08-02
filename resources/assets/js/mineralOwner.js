@@ -12,7 +12,6 @@ $(document).ready(function () {
 
         let date = $('#owner_follow_up_' + uniqueId).val();
 
-        console.log(date);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -581,6 +580,7 @@ $(document).ready(function () {
     });
 
     $('.submit_phone_btn').on('click', function() {
+        console.log('haha');
 
         $.ajaxSetup({
             headers: {
@@ -668,7 +668,6 @@ $(document).ready(function () {
            leaseNamesString += value.value + '|';
        });
         leaseNamesString = leaseNamesString.slice(0, -1);
-        console.log(leaseNamesString);
 
         $.ajaxSetup({
             headers: {

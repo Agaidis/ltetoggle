@@ -40,7 +40,7 @@ class MMPController extends Controller
         $users = User::all();
         $currentUser = Auth::user()->name;
         $userRole = Auth::user()->role;
-        $nonProducingPermits = DB::table('permits')->where('interest_area', 'apr')->groupBy('lease_name', 'reported_operator')->get();
+        $nonProducingPermits = DB::table('permits')->where('interest_area', 'apr')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
 
         if ($userRole === 'regular') {
             $eaglePermits = DB::table('permits')->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();

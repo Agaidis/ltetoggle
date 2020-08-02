@@ -101,45 +101,45 @@
                                             @if (Auth::user()->role === 'admin')
                                                 <td id="id_{{$eaglePermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                     <td>
-                                                            @if ($eaglePermit->toggle_status == 'black' || $eaglePermit->is_seen == 0)
+                                                            @if ($eaglePermit->toggle_status == 'yellow' || $eaglePermit->is_seen == 0)
                                                             <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                <option value="none">Select Status</option>
-                                                                <option selected value="black">Untouched</option>
+                                                                <option selected value="yellow">Untouched</option>
                                                                 <option value="green">Major Prospect </option>
                                                                 <option value="blue">Quality Prospect </option>
-                                                                <option value="red">Not Pursuing </option>
+                                                                <option value="red">Active but paused </option>
+                                                                <option value="purple">Completed</option>
                                                             </select>
                                                             @elseif ($eaglePermit->toggle_status == 'green')
                                                             <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status green">
-                                                                <option value="none">Select Status</option>
-                                                                <option value="black">Untouched </option>
+                                                                <option value="yellow">Untouched </option>
                                                                 <option selected value="green">Major Prospect </option>
                                                                 <option value="blue">Quality Prospect </option>
-                                                                <option value="red">Not Pursuing </option>
+                                                                <option value="red">Active but paused </option>
+                                                                <option value="purple">Completed</option>
                                                             </select>
                                                             @elseif ($eaglePermit->toggle_status == 'blue')
                                                             <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status blue">
-                                                                <option value="none">Select Status</option>
-                                                                <option value="black">Untouched </option>
+                                                                <option value="yellow">Untouched </option>
                                                                 <option value="green">Major Prospect </option>
                                                                 <option selected value="blue">Quality Prospect </option>
-                                                                <option value="red">Not Pursuing </option>
+                                                                <option value="red">Active but paused </option>
+                                                                <option value="purple">Completed</option>
                                                             </select>
                                                             @elseif ($eaglePermit->toggle_status == 'red')
                                                             <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status red">
-                                                                <option value="none">Select Status</option>
-                                                                <option value="black">Untouched </option>
+                                                                <option value="yellow">Untouched </option>
                                                                 <option value="green">Major Prospect </option>
                                                                 <option value="blue">Quality Prospect </option>
-                                                                <option selected value="red">Not Pursuing </option>
+                                                                <option selected value="red">Active but paused </option>
+                                                                <option value="purple">Completed</option>
                                                             </select>
-                                                            @else
-                                                            <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status">
-                                                                <option value="none">Select Status</option>
-                                                                <option value="black">Untouched </option>
+                                                            @elseif ($eaglePermit->toggle_status == 'purple')
+                                                            <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status purple">
+                                                                <option value="yellow">Untouched </option>
                                                                 <option value="green">Major Prospect </option>
                                                                 <option value="blue">Quality Prospect </option>
-                                                                <option value="red">Not Pursuing </option>
+                                                                <option value="red">Active but paused </option>
+                                                                <option selected value="purple">Completed</option>
                                                             </select>
                                                             @endif
 
@@ -224,45 +224,45 @@
                                                     @if (Auth::user()->role === 'admin')
                                                         <td id="id_{{$nvxPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                         <td>
-                                                            @if ($nvxPermit->toggle_status == 'black' || $nvxPermit->is_seen == 0)
+                                                            @if ($nvxPermit->toggle_status == 'yellow' || $nvxPermit->is_seen == 0)
                                                                 <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option selected value="black">Untouched</option>
+                                                                    <option selected value="yellow">Untouched</option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nvxPermit->toggle_status == 'green')
                                                                 <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status blue">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option selected value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option selected value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nvxPermit->toggle_status == 'blue')
                                                                 <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status green">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option selected value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option selected value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nvxPermit->toggle_status == 'red')
                                                                 <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status red">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option selected value="red">Not Pursuing </option>
+                                                                    <option selected value="red">Active but paused </option>
+                                                                    <option selected value="purple">Completed</option>
                                                                 </select>
-                                                            @else
-                                                                <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                            @elseif ($nvxPermit->toggle_status == 'purple')
+                                                                <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status purple">
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option selected value="purple">Completed</option>
                                                                 </select>
                                                             @endif
 
@@ -342,45 +342,45 @@
                                                     @if (Auth::user()->role === 'admin')
                                                         <td id="id_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                         <td>
-                                                            @if ($npp->toggle_status == 'black' || $npp->is_seen == 0)
+                                                            @if ($npp->toggle_status == 'yellow' || $npp->is_seen == 0)
                                                                 <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status unseen">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option selected value="black">Untouched</option>
+                                                                    <option selected value="yellow">Untouched</option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($npp->toggle_status == 'green')
                                                                 <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status blue">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option selected value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($npp->toggle_status == 'blue')
                                                                 <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status green">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option selected value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($npp->toggle_status == 'red')
                                                                 <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status red">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option selected value="red">Not Pursuing </option>
+                                                                    <option selected value="red">Active but paused </option>
+                                                                    <option selected value="purple">Completed</option>
                                                                 </select>
-                                                            @else
+                                                            @elseif ($npp->toggle_status == 'purple')
                                                                 <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status">
-                                                                    <option value="none">Select Status</option>
-                                                                    <option value="black">Untouched </option>
+                                                                    <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Not Pursuing </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option selected value="purple">Completed</option>
                                                                 </select>
                                                             @endif
 
