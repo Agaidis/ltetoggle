@@ -390,6 +390,14 @@
                                                                     <option value="red">Active but paused </option>
                                                                     <option selected value="purple">Completed</option>
                                                                 </select>
+                                                            @else
+                                                                <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status yellow">
+                                                                    <option selected value="yellow">Untouched </option>
+                                                                    <option value="green">Major Prospect </option>
+                                                                    <option value="blue">Quality Prospect </option>
+                                                                    <option value="red">Active but paused </option>
+                                                                    <option value="purple">Completed</option>
+                                                                </select>
                                                             @endif
 
                                                         </td>
