@@ -74,6 +74,11 @@ class PushedPhoneNumbersController extends Controller
                     'phone_desc' => $request->phoneDesc
                 ]);
 
+            MineralOwner::where('owner', $request->ownerName)->where('lease_name', $request->leaseName)
+                ->update([
+                    'follow_up_date' => date('Y-m-d h:i:s A')
+                ]);
+
             return 'success';
         } catch (\Exception $e) {
             $errorMsg = new ErrorLog();

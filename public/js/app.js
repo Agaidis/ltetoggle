@@ -44192,6 +44192,8 @@ $(document).ready(function () {
     var phoneId = splitId[2];
     var phoneNumber = $('#phone_number_' + phoneId).val();
     var phoneDesc = $('#phone_desc_' + phoneId).val();
+    var ownerName = $('#owner_name_' + phoneId).val();
+    var leaseName = $('#lease_name_' + phoneId).val();
     console.log(phoneId);
     $.ajaxSetup({
       headers: {
@@ -44207,7 +44209,9 @@ $(document).ready(function () {
       data: {
         id: phoneId,
         phoneNumber: phoneNumber,
-        phoneDesc: phoneDesc
+        phoneDesc: phoneDesc,
+        ownerName: ownerName,
+        leaseName: leaseName
       },
       success: function success(data) {
         var rows = table.rows('.' + phoneId).remove().draw();

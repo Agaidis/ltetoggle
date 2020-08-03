@@ -10,6 +10,8 @@ $(document).ready(function () {
 
         let phoneNumber = $('#phone_number_' + phoneId).val();
         let phoneDesc = $('#phone_desc_' + phoneId).val();
+        let ownerName = $('#owner_name_' + phoneId).val();
+        let leaseName = $('#lease_name_' + phoneId).val();
 
         console.log(phoneId);
         $.ajaxSetup({
@@ -26,7 +28,9 @@ $(document).ready(function () {
             data: {
                 id: phoneId,
                 phoneNumber: phoneNumber,
-                phoneDesc: phoneDesc
+                phoneDesc: phoneDesc,
+                ownerName: ownerName,
+                leaseName: leaseName
 
             },
             success: function success(data) {
