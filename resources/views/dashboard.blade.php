@@ -350,7 +350,7 @@
                                                     @if (Auth::user()->role === 'admin')
                                                         <td id="id_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                         <td>
-                                                            @if ($npp->toggle_status == 'yellow' || $npp->is_seen == 0)
+                                                            @if ($npp->toggle_status == 'yellow' || $npp->is_seen == 0 || $nvxPermit->is_seen == 'none')
                                                                 <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status unseen">
                                                                     <option selected value="yellow">Untouched</option>
                                                                     <option value="green">Major Prospect </option>
