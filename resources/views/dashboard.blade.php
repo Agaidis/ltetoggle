@@ -391,7 +391,7 @@
                                                                     <option selected value="purple">Completed</option>
                                                                 </select>
                                                             @else
-                                                                <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status yellow">
+                                                                <select id="toggle_status_{{$npp->permit_id}}" class="form-control toggle_status yellow">
                                                                     <option selected value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
