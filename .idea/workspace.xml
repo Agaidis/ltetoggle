@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="" />
+    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,8 +57,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="380" column="75" selection-start-line="380" selection-start-column="75" selection-end-line="380" selection-end-column="75" />
+            <state relative-caret-position="403">
+              <caret line="352" column="119" selection-start-line="352" selection-start-column="119" selection-end-line="352" selection-end-column="119" />
             </state>
           </provider>
         </entry>
@@ -586,16 +588,15 @@
       <workItem from="1596137167470" duration="125000" />
       <workItem from="1596209682899" duration="507000" />
       <workItem from="1596222944334" duration="852000" />
-      <workItem from="1596385990140" duration="17049000" />
+      <workItem from="1596385990140" duration="17308000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="662044000" />
+    <option name="totallyTimeSpent" value="662303000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18009768" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1099,8 +1100,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="380" column="75" selection-start-line="380" selection-start-column="75" selection-end-line="380" selection-end-column="75" />
+        <state relative-caret-position="403">
+          <caret line="352" column="119" selection-start-line="352" selection-start-column="119" selection-end-line="352" selection-end-column="119" />
         </state>
       </provider>
     </entry>
