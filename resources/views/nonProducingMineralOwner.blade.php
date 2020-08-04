@@ -274,8 +274,8 @@
                                                         <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
                                                     @endif
                                                 </td>
-                                                <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantee)}}">{{$owner->Grantor}}</a></td>
-                                                <td class="text-center">{{$owner->Grantee}}</td>
+                                                <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantee)}}">{{$owner->Grantee}}</a></td>
+                                                <td class="text-center">{{$owner->Grantor}}</td>
                                                 <td class="text-center">{{$owner->RecordDate}}</td>
                                                 <td class="text-center">{{$owner->AreaAcres}}</td>
                                             @else
