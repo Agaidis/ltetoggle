@@ -181,8 +181,8 @@
                                             <th class="text-center">Wellbore Type</th>
                                             <th class="text-center" style="width:100px;">Contact</th>
                                             <th class="text-center">Follow-Up</th>
-                                            <th class="text-center">Owner/Grantor</th>
-                                            <th class="text-center">Grantee</th>
+                                            <th class="text-center">Grantee/Owner</th>
+                                            <th class="text-center">Grantor</th>
                                             <th class="text-center">Record Date/Term/Extension</th>
                                             <th class="text-center">Acres</th>
                                         @else
