@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/PermitStorageController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2020_08_06_175351_add_is_stored.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/assets/js/permitStorage.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/permitStorage.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/mix-manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/public/mix-manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/assets/js/permits.js" beforeDir="false" afterPath="$PROJECT_DIR$/resources/assets/js/permits.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/dashboard.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/dashboard.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +18,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PermitStorageController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+            <state relative-caret-position="155">
+              <caret line="28" column="96" selection-start-line="28" selection-start-column="96" selection-end-line="28" selection-end-column="96" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
               </folding>
@@ -66,11 +55,20 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="280" column="49" lean-forward="true" selection-start-line="280" selection-start-column="49" selection-end-line="280" selection-end-column="49" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/permitStorage.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="44" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
+            <state relative-caret-position="615">
+              <caret line="41" column="43" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
             </state>
           </provider>
         </entry>
@@ -100,14 +98,23 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="235">
-              <caret line="233" column="20" selection-start-line="233" selection-start-column="20" selection-end-line="233" selection-end-column="20" />
+            <state relative-caret-position="509">
+              <caret line="42" column="175" selection-start-line="42" selection-start-column="131" selection-end-line="42" selection-end-column="175" />
               <folding>
                 <element signature="e#40#57#0#PHP" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/webpack.mix.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="240">
+              <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -227,24 +234,24 @@
         <option value="$PROJECT_DIR$/app/Console/Commands/DetermineProduction.php" />
         <option value="$PROJECT_DIR$/config/javascript.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/nonProducingOwnersController.php" />
-        <option value="$PROJECT_DIR$/webpack.mix.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/nonProducingLeasePage.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/phoneNumberPush.js" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/PushedPhoneNumbersController.php" />
         <option value="$PROJECT_DIR$/resources/views/pushedPhoneNumbers.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/userMMP.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/app.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2020_08_06_175351_add_is_stored.php" />
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/permits.js" />
-        <option value="$PROJECT_DIR$/resources/assets/js/permitStorage.js" />
         <option value="$PROJECT_DIR$/resources/views/permitStorage.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/PermitStorageController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" />
+        <option value="$PROJECT_DIR$/webpack.mix.js" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/PermitStorageController.php" />
+        <option value="$PROJECT_DIR$/resources/assets/js/permitStorage.js" />
+        <option value="$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php" />
       </list>
     </option>
   </component>
@@ -608,16 +615,15 @@
       <workItem from="1596509979096" duration="19000" />
       <workItem from="1596549091058" duration="756000" />
       <workItem from="1596579865532" duration="404000" />
-      <workItem from="1596728273632" duration="6274000" />
+      <workItem from="1596728273632" duration="6726000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="671703000" />
+    <option name="totallyTimeSpent" value="672155000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18742369" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -857,13 +863,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/webpack.mix.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/wellbore.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="432">
@@ -991,13 +990,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-488">
-          <caret line="223" lean-forward="true" selection-start-line="223" selection-end-line="223" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/userMMP.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -1111,13 +1103,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/assets/js/permitStorage.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="44" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/permitStorage.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="338">
@@ -1128,23 +1113,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PermitStorageController.php">
+    <entry file="file://$PROJECT_DIR$/webpack.mix.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+        <state relative-caret-position="240">
+          <caret line="16" column="38" selection-start-line="16" selection-start-column="38" selection-end-line="16" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="509">
+          <caret line="42" column="175" selection-start-line="42" selection-start-column="131" selection-end-line="42" selection-end-column="175" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/PermitStorageController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="235">
-          <caret line="233" column="20" selection-start-line="233" selection-start-column="20" selection-end-line="233" selection-end-column="20" />
+        <state relative-caret-position="155">
+          <caret line="28" column="96" selection-start-line="28" selection-start-column="96" selection-end-line="28" selection-end-column="96" />
           <folding>
             <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/assets/js/permitStorage.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="43" selection-start-line="41" selection-start-column="43" selection-end-line="41" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="280" column="49" lean-forward="true" selection-start-line="280" selection-start-column="49" selection-end-line="280" selection-end-column="49" />
         </state>
       </provider>
     </entry>

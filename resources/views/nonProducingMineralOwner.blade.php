@@ -275,7 +275,7 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantee)}}">{{$owner->Grantee}}</a></td>
-                                                <td class="text-center">{{$owner->Grantor}}</td>
+                                                <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantor)}}">{{$owner->Grantor}}</a></td>
                                                 <td class="text-center">{{$owner->RecordDate}}</td>
                                                 <td class="text-center">{{$owner->AreaAcres}}</td>
                                             @else
