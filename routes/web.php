@@ -41,7 +41,7 @@ Route::put('/new-permits/updateNotes', 'MMPController@updateNotes')->middleware(
 
 Route::put('/new-permits/updateAssignee', 'MMPController@updateAssignee')->middleware('auth');
 
-Route::put('/new-permits/updateStatus', 'MMPController@updateStatus')->middleware('auth');
+Route::post('/new-permits/updateStatus', 'MMPController@updateStatus')->middleware('auth');
 
 Route::put('/new-permits/stitchLeaseToPermit', 'MMPController@stitchLeaseToPermit')->middleware('auth');
 

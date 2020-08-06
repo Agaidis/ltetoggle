@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="" />
+    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,7 +24,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="466">
@@ -56,7 +58,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="330">
@@ -189,7 +191,6 @@
         <option value="$PROJECT_DIR$/app/Console/Commands/DetermineProduction.php" />
         <option value="$PROJECT_DIR$/config/javascript.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/nonProducingOwnersController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" />
         <option value="$PROJECT_DIR$/webpack.mix.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/wellbore.js" />
         <option value="$PROJECT_DIR$/resources/assets/js/mineralOwner.js" />
@@ -201,6 +202,7 @@
         <option value="$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/dashboard.blade.php" />
         <option value="$PROJECT_DIR$/resources/assets/js/permits.js" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/MMPController.php" />
       </list>
     </option>
   </component>
@@ -559,12 +561,12 @@
       <workItem from="1596509979096" duration="19000" />
       <workItem from="1596549091058" duration="756000" />
       <workItem from="1596579865532" duration="404000" />
-      <workItem from="1596728273632" duration="593000" />
+      <workItem from="1596728273632" duration="944000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="666022000" />
+    <option name="totallyTimeSpent" value="666373000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="6" />
@@ -1031,16 +1033,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="213" column="62" selection-start-line="213" selection-start-column="62" selection-end-line="213" selection-end-column="62" />
-          <folding>
-            <element signature="e#40#57#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="429">
@@ -1055,13 +1047,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/userMMP.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1011">
-          <caret line="131" column="81" selection-start-line="131" selection-start-column="81" selection-end-line="131" selection-end-column="81" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="466">
@@ -1072,6 +1057,23 @@
             <element signature="n#style#0;n#label#1;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#textarea#0;n#div#0;n#div#1;n#div#1;n#!!top" expanded="true" />
             <element signature="n#style#0;n#label#0;n#div#1;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/userMMP.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1011">
+          <caret line="131" column="81" selection-start-line="131" selection-start-column="81" selection-end-line="131" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/MMPController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="213" column="62" selection-start-line="213" selection-start-column="62" selection-end-line="213" selection-end-column="62" />
+          <folding>
+            <element signature="e#40#57#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>

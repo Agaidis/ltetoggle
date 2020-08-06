@@ -44061,7 +44061,7 @@ $(document).ready(function () {
       beforeSend: function beforeSend(xhr) {
         xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
       },
-      type: "PUT",
+      type: "POST",
       url: '/new-permits/updateStatus',
       data: {
         permitId: permitId,

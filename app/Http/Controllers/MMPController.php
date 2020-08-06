@@ -211,13 +211,13 @@ class MMPController extends Controller
     public function updateStatus(Request $request) {
         try {
             $errorMsg = new ErrorLog();
-            $errorMsg->payload = $request->permitId . ' Status #: ' . $request->status;
+            $errorMsg->payload = $_POST['permitId'] . ' Status #: ' . $_POST['status'];
 
             $errorMsg->save();
-            Permit::where('permit_id', $request->permitId)
-                    ->update(['toggle_status' => $request->status]);
+            Permit::where('permit_id', $_POST['permitId'])
+                    ->update(['toggle_status' => $_POST['status']]);
 
-                return $request->status;
+                return $_POST['status'];
 
         } catch( Exception $e ) {
             $errorMsg = new ErrorLog();
