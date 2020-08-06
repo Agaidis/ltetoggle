@@ -14,6 +14,7 @@ let mix = require('laravel-mix');
 mix.js([
     'resources/assets/js/bootstrap.js',
     'resources/assets/js/permits.js',
+    'resources/assets/js/permitStorage.js',
     'resources/assets/js/mineralOwner.js',
     'resources/assets/js/nonProducingLeasePage.js',
     'resources/assets/js/wellbore.js',

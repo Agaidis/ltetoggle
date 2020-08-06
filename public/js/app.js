@@ -43511,6 +43511,58 @@ $(document).ready(function () {
 
 /***/ }),
 
+/***/ "./resources/assets/js/permitStorage.js":
+/*!**********************************************!*\
+  !*** ./resources/assets/js/permitStorage.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var storedPermitsTable = $('#stored_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    sendPermitBack(permitId, leaseName);
+  });
+
+  function sendPermitBack(permitId, leaseName) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/permit-storage/sendBack',
+      data: {
+        permitId: permitId,
+        leaseName: leaseName
+      },
+      success: function success(data) {
+        console.log(data);
+        console.log(permitId);
+        $('#permit_row_' + permitId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.notes').val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
+      }
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/permits.js":
 /*!****************************************!*\
   !*** ./resources/assets/js/permits.js ***!
@@ -43615,6 +43667,12 @@ $(document).ready(function () {
     var permitId = splitId[4];
     var response = confirm('Are you sure you want to delete this note?');
     deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
   }); //NVX PERMIT TABLE
 
   var nvxPermitTable = $('#nvx_permit_table').DataTable({
@@ -43664,6 +43722,12 @@ $(document).ready(function () {
     var permitId = splitId[4];
     var response = confirm('Are you sure you want to delete this note?');
     deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
   }); //NON Producing TABLE
 
   var nonProducingPermits = $('#non_producing_permits').DataTable({
@@ -43720,6 +43784,12 @@ $(document).ready(function () {
     var leaseId = splitId[2];
     var permitId = splitId[3];
     stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
   });
 
   function moreData(id, tr, permitId, reportedOperator, row, isNonProducing) {
@@ -44107,6 +44177,33 @@ $(document).ready(function () {
       error: function error(data) {
         console.log(data);
         $('.notes').val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
+      }
+    });
+  }
+
+  function storePermit(permitId, leaseName) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/new-permits/storePermit',
+      data: {
+        permitId: permitId,
+        leaseName: leaseName
+      },
+      success: function success(data) {
+        console.log(data);
+        console.log(permitId);
+        $('#permit_row_' + permitId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
       }
     });
   }
@@ -47665,14 +47762,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ }),
 
 /***/ 0:
-/*!**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/nonProducingLeasePage.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./resources/assets/js/owner.js ./vendor/select2/select2/dist/js/select2.min.js ./resources/assets/sass/app.scss ***!
-  \**********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/permitStorage.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/nonProducingLeasePage.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./resources/assets/js/owner.js ./vendor/select2/select2/dist/js/select2.min.js ./resources/assets/sass/app.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/bootstrap.js */"./resources/assets/js/bootstrap.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/permits.js */"./resources/assets/js/permits.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/permitStorage.js */"./resources/assets/js/permitStorage.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/mineralOwner.js */"./resources/assets/js/mineralOwner.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/nonProducingLeasePage.js */"./resources/assets/js/nonProducingLeasePage.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/wellbore.js */"./resources/assets/js/wellbore.js");

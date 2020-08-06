@@ -31,6 +31,10 @@ Route::get('/admin', 'AdminController@index')->middleware('auth');
 
 Route::get('/admin/updatePermits', 'AdminController@updatePermits')->middleware('auth');
 
+/*                  PERMIT STORAGE              */
+Route::get('/permit-storage', 'PermitStorageController@index')->middleware('auth');
+Route::get('/permit-storage/sendBack', 'PermitStorageController@sendBack')->middleware('auth');
+
 
 /*              PERMITS/MM-PLATFORM                     */
 Route::get('/mm-platform', 'MMPController@index')->middleware('auth');
@@ -49,6 +53,8 @@ Route::put('/new-permits/stitchLeaseToPermit', 'MMPController@stitchLeaseToPermi
 Route::get('/new-permits/getPermitDetails', 'MMPController@getPermitDetails')->middleware('auth');
 
 Route::post('/new-permits/delete/delete-note', 'MMPController@deleteNote')->middleware('auth');
+
+Route::get('/new-permits/storePermit', 'MMPController@storePermit')->middleware('auth');
 
 Route::put('/update-prices', 'MMPController@updatePrices');
 

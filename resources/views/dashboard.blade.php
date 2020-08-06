@@ -73,7 +73,7 @@
                                                 <thead>
                                                 <tr>
                                                     @if (Auth::user()->role === 'admin')
-
+                                                        <th class="text-center">Store Lease</th>
                                                         <th class="text-center">Open Lease</th>
                                             <th class="text-center">Toggle Status</th>
                                             <th class="text-center">Assignee</th>
@@ -99,6 +99,7 @@
                                         <tr class="permit_row" id="permit_row_{{$eaglePermit->permit_id}}">
 
                                             @if (Auth::user()->role === 'admin')
+                                                <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$eaglePermit->permit_id}}_{{$eaglePermit->lease_name}}">Store</button></td>
                                                 <td id="id_{{$eaglePermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                     <td>
                                                             @if ($eaglePermit->toggle_status == 'yellow')
@@ -205,6 +206,7 @@
                                         <tr>
                                             @if (Auth::user()->role === 'admin')
 
+                                                <th class="text-center">Store Lease</th>
                                                 <th class="text-center">Open Lease</th>
                                                 <th class="text-center">Toggle Status</th>
                                                 <th class="text-center">Assignee</th>
@@ -230,6 +232,7 @@
                                                 <tr class="permit_row" id="permit_row_{{$nvxPermit->permit_id}}">
 
                                                     @if (Auth::user()->role === 'admin')
+                                                        <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$nvxPermit->permit_id}}_{{$nvxPermit->lease_name}}">Store</button></td>
                                                         <td id="id_{{$nvxPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                         <td>
                                                             @if ($nvxPermit->toggle_status == 'yellow')
@@ -334,6 +337,7 @@
                                         <thead>
                                         <tr>
                                             @if (Auth::user()->role === 'admin')
+                                                <th class="text-center">Store Lease</th>
                                                 <th class="text-center">Open Lease</th>
                                                 <th class="text-center">Toggle Status</th>
                                                 <th class="text-center">Assignee</th>
@@ -354,15 +358,17 @@
                                         @if (isset($nonProducingPermits) && !$nonProducingPermits->isEmpty())
                                             @foreach ($nonProducingPermits as $npp)
                                                 <?php $approvedDate = explode('T', $npp->approved_date)?>
-                                                <input type="hidden" id="reported_operator_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" value="{{$npp->reported_operator}}"/>
+                                                <input type="hidden" id="reported_operator_{{$npp->permit_id}}" value="{{$npp->reported_operator}}"/>
 
-                                                <tr class="permit_row" id="permit_row_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}">
+                                                <tr class="permit_row" id="permit_row_{{$npp->permit_id}}">
 
                                                     @if (Auth::user()->role === 'admin')
-                                                        <td id="id_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                        <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$npp->permit_id}}_{{$npp->lease_name}}">Store</button></td>
+
+                                                        <td id="id_{{$npp->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                         <td>
                                                             @if ($npp->toggle_status == 'yellow')
-                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status unseen">
+                                                                <select id="toggle_status_{{$npp->permit_id}}" class="form-control toggle_status unseen">
                                                                     <option selected value="yellow">Untouched</option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
@@ -370,7 +376,7 @@
                                                                     <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($npp->toggle_status == 'green')
-                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status blue">
+                                                                <select id="toggle_status_{{$npp->permit_id}}" class="form-control toggle_status blue">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option selected value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
@@ -378,7 +384,7 @@
                                                                     <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($npp->toggle_status == 'blue')
-                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status green">
+                                                                <select id="toggle_status_{{$npp->permit_id}}" class="form-control toggle_status green">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option selected value="blue">Quality Prospect </option>
@@ -386,15 +392,15 @@
                                                                     <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($npp->toggle_status == 'red')
-                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status red">
+                                                                <select id="toggle_status_{{$npp->permit_id}}" class="form-control toggle_status red">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
                                                                     <option selected value="red">Active but paused </option>
-                                                                    <option selected value="purple">Completed</option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($npp->toggle_status == 'purple')
-                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status">
+                                                                <select id="toggle_status_{{$npp->permit_id}}" class="form-control toggle_status purple">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
@@ -403,7 +409,7 @@
                                                                 </select>
 
                                                                 @else
-                                                                <select id="toggle_status_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}" class="form-control toggle_status unseen">
+                                                                <select id="toggle_status_{{$npp->permit_id}}" class="form-control toggle_status unseen">
                                                                     <option selected value="yellow">Untouched</option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
@@ -414,7 +420,7 @@
 
                                                         </td>
                                                         <td class="text-center">
-                                                            <select class="form-control assignee" id="assignee_{{$npp->permit_id}}_{{$npp->stitch_lease_id}}">
+                                                            <select class="form-control assignee" id="assignee_{{$npp->permit_id}}">
                                                                 <option selected value="">Select a User</option>
                                                                 @foreach ($users as $user)
                                                                     @if ($npp->assignee == $user->id)

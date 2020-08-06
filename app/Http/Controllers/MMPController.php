@@ -40,16 +40,16 @@ class MMPController extends Controller
         $users = User::all();
         $currentUser = Auth::user()->name;
         $userRole = Auth::user()->role;
-        $nonProducingPermits = DB::table('permits')->where('interest_area', 'apr')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
+        $nonProducingPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'apr')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
 
         if ($userRole === 'regular') {
-            $eaglePermits = DB::table('permits')->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();
-            $nvxPermits = DB::table('permits')->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx'])->get();
+            $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();
+            $nvxPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx'])->get();
 
             return view('userMMP', compact('userRole', 'eaglePermits', 'nvxPermits', 'users', 'currentUser', 'nonProducingPermits'));
         } else {
-            $eaglePermits = DB::table('permits')->where('interest_area', 'eagle')->groupBy('abstract', 'lease_name', 'survey')->get();
-            $nvxPermits = DB::table('permits')->whereIn('interest_area', ['nvx'])->groupBy('abstract', 'lease_name', 'survey')->get();
+            $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'eagle')->groupBy('abstract', 'lease_name', 'survey')->get();
+            $nvxPermits = DB::table('permits')->where('is_stored', 0)->whereIn('interest_area', ['nvx'])->groupBy('abstract', 'lease_name', 'survey')->get();
 
             return view('dashboard', compact('userRole','eaglePermits', 'nvxPermits', 'users', 'currentUser', 'nonProducingPermits'));
         }
@@ -224,6 +224,23 @@ class MMPController extends Controller
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 
             $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function storePermit()
+    {
+        try {
+            Permit::where('lease_name', $_GET['leaseName'])->update(['is_stored' => 1]);
+
+            return 'success';
+        } catch ( Exception $e ) {
+            $errorMsg = new ErrorLog();
+
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+
             return 'error';
         }
     }
