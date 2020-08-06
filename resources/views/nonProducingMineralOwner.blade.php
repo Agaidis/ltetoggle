@@ -181,8 +181,8 @@
                                             <th class="text-center">Wellbore Type</th>
                                             <th class="text-center" style="width:100px;">Contact</th>
                                             <th class="text-center">Follow-Up</th>
-                                            <th class="text-center">Grantee/Owner</th>
                                             <th class="text-center">Grantor</th>
+                                            <th class="text-center">Grantee/Owner</th>
                                             <th class="text-center">Record Date/Term/Extension</th>
                                             <th class="text-center">Acres</th>
                                         @else
@@ -274,8 +274,9 @@
                                                         <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
                                                     @endif
                                                 </td>
-                                                <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantee)}}">{{$owner->Grantee}}</a></td>
                                                 <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantor)}}">{{$owner->Grantor}}</a></td>
+                                                <td class="text-center">{{$owner->Grantee}}</td>
+
                                                 <td class="text-center">{{$owner->RecordDate}}</td>
                                                 <td class="text-center">{{$owner->AreaAcres}}</td>
                                             @else
