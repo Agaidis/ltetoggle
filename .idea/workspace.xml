@@ -53,11 +53,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="563">
-              <caret line="208" column="73" lean-forward="true" selection-start-line="208" selection-start-column="73" selection-end-line="208" selection-end-column="73" />
+            <state relative-caret-position="188">
+              <caret line="183" column="81" selection-start-line="183" selection-start-column="81" selection-end-line="183" selection-end-column="81" />
             </state>
           </provider>
         </entry>
@@ -71,10 +71,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
+            <state relative-caret-position="233">
               <caret line="365" column="182" selection-start-line="365" selection-start-column="182" selection-end-line="365" selection-end-column="182" />
               <folding>
                 <element signature="e#7547#7570#0#HTML" expanded="true" />
@@ -613,12 +613,12 @@
       <workItem from="1596509979096" duration="19000" />
       <workItem from="1596549091058" duration="756000" />
       <workItem from="1596579865532" duration="404000" />
-      <workItem from="1596728273632" duration="6948000" />
+      <workItem from="1596728273632" duration="7133000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="672377000" />
+    <option name="totallyTimeSpent" value="672562000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
@@ -1077,17 +1077,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="365" column="182" selection-start-line="365" selection-start-column="182" selection-end-line="365" selection-end-column="182" />
-          <folding>
-            <element signature="e#7547#7570#0#HTML" expanded="true" />
-            <element signature="e#19242#19265#0#HTML" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/permits.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -1148,8 +1137,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="563">
-          <caret line="208" column="73" lean-forward="true" selection-start-line="208" selection-start-column="73" selection-end-line="208" selection-end-column="73" />
+        <state relative-caret-position="188">
+          <caret line="183" column="81" selection-start-line="183" selection-start-column="81" selection-end-line="183" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/dashboard.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="233">
+          <caret line="365" column="182" selection-start-line="365" selection-start-column="182" selection-end-line="365" selection-end-column="182" />
+          <folding>
+            <element signature="e#7547#7570#0#HTML" expanded="true" />
+            <element signature="e#19242#19265#0#HTML" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

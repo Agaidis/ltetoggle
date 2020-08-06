@@ -35,7 +35,7 @@ class nonProducingOwnersController extends Controller
             $gasArray = array();
             $leaseArray = array();
 
-            $leases = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->where('WellStatus', 'ACTIVE')->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
+            $leases = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
 
             if ( $permitValues->selected_lease_name != null ) {
 
