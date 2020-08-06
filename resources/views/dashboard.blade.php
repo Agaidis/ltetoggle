@@ -239,7 +239,7 @@
                                                                     <option selected value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
                                                                     <option value="red">Active but paused </option>
-                                                                    <option selected value="purple">Completed</option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nvxPermit->toggle_status == 'blue')
                                                                 <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status green">
@@ -247,7 +247,7 @@
                                                                     <option value="green">Major Prospect </option>
                                                                     <option selected value="blue">Quality Prospect </option>
                                                                     <option value="red">Active but paused </option>
-                                                                    <option selected value="purple">Completed</option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nvxPermit->toggle_status == 'red')
                                                                 <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status red">
@@ -255,7 +255,7 @@
                                                                     <option value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
                                                                     <option selected value="red">Active but paused </option>
-                                                                    <option selected value="purple">Completed</option>
+                                                                    <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nvxPermit->toggle_status == 'purple')
                                                                 <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status purple">
