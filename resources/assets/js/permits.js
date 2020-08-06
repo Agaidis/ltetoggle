@@ -76,6 +76,8 @@ $(document).ready(function () {
         let id = $(this)[0].id;
         let status = $(this)[0].value;
         let permitId = id.split('_');
+        console.log(status);
+        console.log(permitId[2]);
 
         toggleStatus(permitId[2], status);
 
@@ -647,7 +649,7 @@ $(document).ready(function () {
     }
 
     function toggleStatus( permitId, status ) {
-        console.log(permitId);
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -664,7 +666,7 @@ $(document).ready(function () {
                 status: status
             },
             success: function success(data) {
-
+console.log(data);
                 $('#toggle_status_' + permitId).removeClass('yellow').removeClass('purple').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
 
             },

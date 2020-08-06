@@ -43585,6 +43585,8 @@ $(document).ready(function () {
     var id = $(this)[0].id;
     var status = $(this)[0].value;
     var permitId = id.split('_');
+    console.log(status);
+    console.log(permitId[2]);
     toggleStatus(permitId[2], status);
   }).on('click', '.permit_row', function () {
     var id = $(this)[0].id;
@@ -44050,7 +44052,6 @@ $(document).ready(function () {
   }
 
   function toggleStatus(permitId, status) {
-    console.log(permitId);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44067,6 +44068,7 @@ $(document).ready(function () {
         status: status
       },
       success: function success(data) {
+        console.log(data);
         $('#toggle_status_' + permitId).removeClass('yellow').removeClass('purple').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
       },
       error: function error(data) {
