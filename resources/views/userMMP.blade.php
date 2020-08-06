@@ -90,7 +90,7 @@
                                                             @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td id="id_{{$eaglePermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                                 <td>
-                                                                    @if ($eaglePermit->toggle_status == 'yellow' || $eaglePermit->is_seen == 0)
+                                                                    @if ($eaglePermit->toggle_status == 'yellow')
                                                                         <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status unseen">
                                                                             <option selected value="yellow">Untouched</option>
                                                                             <option value="green">Major Prospect</option>
@@ -202,7 +202,7 @@
                                                             @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td id="id_{{$nvxPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                                 <td>
-                                                                    @if ($nvxPermit->toggle_status == 'yellow' || $nvxPermit->is_seen == 0)
+                                                                    @if ($nvxPermit->toggle_status == 'yellow')
                                                                         <select id="toggle_status_{{$nvxPermit->permit_id}}" class="form-control toggle_status unseen">
                                                                             <option selected value="yellow">Untouched</option>
                                                                             <option value="green">Major Prospect </option>
