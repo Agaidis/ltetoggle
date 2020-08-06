@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php" afterDir="false" />
-    </list>
+    <list default="true" id="f1106561-70a9-426e-addd-ad140ed3cf68" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,8 +56,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="280" column="49" lean-forward="true" selection-start-line="280" selection-start-column="49" selection-end-line="280" selection-end-column="49" />
+            <state relative-caret-position="563">
+              <caret line="208" column="73" lean-forward="true" selection-start-line="208" selection-start-column="73" selection-end-line="208" selection-end-column="73" />
             </state>
           </provider>
         </entry>
@@ -615,15 +613,16 @@
       <workItem from="1596509979096" duration="19000" />
       <workItem from="1596549091058" duration="756000" />
       <workItem from="1596579865532" duration="404000" />
-      <workItem from="1596728273632" duration="6726000" />
+      <workItem from="1596728273632" duration="6948000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="672155000" />
+    <option name="totallyTimeSpent" value="672377000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18742369" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1149,8 +1148,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/nonProducingMineralOwner.blade.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="280" column="49" lean-forward="true" selection-start-line="280" selection-start-column="49" selection-end-line="280" selection-end-column="49" />
+        <state relative-caret-position="563">
+          <caret line="208" column="73" lean-forward="true" selection-start-line="208" selection-start-column="73" selection-end-line="208" selection-end-column="73" />
         </state>
       </provider>
     </entry>
