@@ -72,7 +72,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered permit_table" id="eagle_permit_table">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                         <th class="text-center">Store Lease</th>
                                                         <th class="text-center">Open Lease</th>
                                                         <th class="text-center">Toggle Status</th>
@@ -98,7 +98,7 @@
 
                                                         <tr class="permit_row" id="permit_row_{{$eaglePermit->permit_id}}">
 
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$eaglePermit->permit_id}}_{{$eaglePermit->lease_name}}">Store</button></td>
                                                                 <td id="id_{{$eaglePermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                                 <td>
@@ -200,7 +200,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered non_producing_eagle_permits" id="non_producing_eagle_permits">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                         <th class="text-center">Store Lease</th>
                                                         <th class="text-center">Open Lease</th>
                                                         <th class="text-center">Toggle Status</th>
@@ -226,7 +226,7 @@
 
                                                         <tr class="permit_row" id="permit_row_{{$nonProducingEaglePermit->permit_id}}">
 
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$nonProducingEaglePermit->permit_id}}_{{$nonProducingEaglePermit->lease_name}}">Store</button></td>
 
                                                                 <td id="id_{{$nonProducingEaglePermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
@@ -304,7 +304,7 @@
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingEaglePermit->lease_name . '/' . $nonProducingEaglePermit->reported_operator . '/' . $nonProducingEaglePermit->id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingEaglePermit->lease_name . '/' . $nonProducingEaglePermit->reported_operator . '/' . $nonProducingEaglePermit->id)}}">{{$nonProducingEaglePermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -340,7 +340,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered permit_table" id="wtx_permit_table">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
 
                                                         <th class="text-center">Store Lease</th>
                                                         <th class="text-center">Open Lease</th>
@@ -367,7 +367,7 @@
 
                                                         <tr class="permit_row" id="permit_row_{{$wtxPermit->permit_id}}">
 
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$wtxPermit->permit_id}}_{{$wtxPermit->lease_name}}">Store</button></td>
                                                                 <td id="id_{{$wtxPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                                 <td>
@@ -470,7 +470,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered non_producing_wtx_permits" id="non_producing_wtx_permits">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                         <th class="text-center">Store Lease</th>
                                                         <th class="text-center">Open Lease</th>
                                                         <th class="text-center">Toggle Status</th>
@@ -496,7 +496,7 @@
 
                                                         <tr class="permit_row" id="permit_row_{{$nonProducingWTXPermit->permit_id}}">
 
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$nonProducingWTXPermit->permit_id}}_{{$nonProducingWTXPermit->lease_name}}">Store</button></td>
 
                                                                 <td id="id_{{$nonProducingWTXPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
@@ -619,7 +619,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered permit_table" id="nm_permit_table">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
 
                                                         <th class="text-center">Store Lease</th>
                                                         <th class="text-center">Open Lease</th>
@@ -646,7 +646,7 @@
 
                                                         <tr class="permit_row" id="permit_row_{{$nmPermit->permit_id}}">
 
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$nmPermit->permit_id}}_{{$nmPermit->lease_name}}">Store</button></td>
                                                                 <td id="id_{{$nmPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                                 <td>
@@ -749,7 +749,7 @@
                                             <table class="table table-hover table-responsive-md table-bordered non_producing_nm_permits" id="non_producing_nm_permits">
                                                 <thead>
                                                 <tr>
-                                                    @if (Auth::user()->role === 'admin')
+                                                    @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                         <th class="text-center">Store Lease</th>
                                                         <th class="text-center">Open Lease</th>
                                                         <th class="text-center">Toggle Status</th>
@@ -775,7 +775,7 @@
 
                                                         <tr class="permit_row" id="permit_row_{{$nonProducingNMPermit->permit_id}}">
 
-                                                            @if (Auth::user()->role === 'admin')
+                                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular')
                                                                 <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$nonProducingNMPermit->permit_id}}_{{$nonProducingNMPermit->lease_name}}">Store</button></td>
 
                                                                 <td id="id_{{$nonProducingNMPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
