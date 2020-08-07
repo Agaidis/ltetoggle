@@ -40,39 +40,18 @@ class DetermineProduction extends Command
      */
     public function handle()
     {
-        $newMexicoCounties = array('LEA', 'EDDY');
-
         try {
+            $eagleInterestCountiesArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
+            $wtxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
+            $nmInterestCountiesArray = array('LEA', 'EDDY');
 
-            foreach ($newMexicoCounties as $newMexicoCounty) {
+            $this->determineProduction($eagleInterestCountiesArray);
 
-                $permits = Permit::where('county_parish', $newMexicoCounty)->get();
+            $this->determineProduction($wtxInterestCountiesArray);
 
-                foreach ($permits as $permit) {
-                    $wells = WellRollUp::where('leaseName', $permit->lease_name)->where('WellStatus', 'ACTIVE')->get();
+            $this->determineProduction($nmInterestCountiesArray);
 
-                    if ($wells->isEmpty()) {
-                        if ($permit->selected_lease_name != '' && $permit->selected_lease_name != null) {
-                            $selectedLeaseNameWells = WellRollUp::where('leaseName', $permit->selected_lease_name)->where('WellStatus', 'ACTIVE')->get();
-
-                            if ($selectedLeaseNameWells->isEmpty()) {
-                                Permit::where('id', $permit->id)
-                                    ->update(['is_producing' => 0]);
-                            } else {
-                                Permit::where('id', $permit->id)
-                                    ->update(['is_producing' => 1]);
-                            }
-                        } else {
-                            Permit::where('id', $permit->id)
-                                ->update(['is_producing' => 0]);
-                        }
-                    } else {
-                        Permit::where('id', $permit->id)
-                            ->update(['is_producing' => 1]);
-                    }
-                }
-            }
-            return true;
+            return 'success';
         } catch ( \Exception $e ) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine() . ' File: ' . $e->getFile();
@@ -80,5 +59,39 @@ class DetermineProduction extends Command
             $errorMsg->save();
             return 'error';
         }
+    }
+
+    public function determineProduction($countyArray) {
+
+
+        foreach ($countyArray as $county) {
+
+            $permits = Permit::where('county_parish', $county)->get();
+
+            foreach ($permits as $permit) {
+                $wells = WellRollUp::where('leaseName', $permit->lease_name)->where('WellStatus', 'ACTIVE')->get();
+
+                if ($wells->isEmpty()) {
+                    if ($permit->selected_lease_name != '' && $permit->selected_lease_name != null) {
+                        $selectedLeaseNameWells = WellRollUp::where('leaseName', $permit->selected_lease_name)->where('WellStatus', 'ACTIVE')->get();
+
+                        if ($selectedLeaseNameWells->isEmpty()) {
+                            Permit::where('id', $permit->id)
+                                ->update(['is_producing' => 0]);
+                        } else {
+                            Permit::where('id', $permit->id)
+                                ->update(['is_producing' => 1]);
+                        }
+                    } else {
+                        Permit::where('id', $permit->id)
+                            ->update(['is_producing' => 0]);
+                    }
+                } else {
+                    Permit::where('id', $permit->id)
+                        ->update(['is_producing' => 1]);
+                }
+            }
+        }
+        return 'success';
     }
 }

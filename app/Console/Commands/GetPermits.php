@@ -44,14 +44,14 @@ class GetPermits extends Command
     {
         try {
             $eagleInterestCountiesArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
-            $nvxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
-            $nvxByApprovedDate = array('LEA', 'EDDY');
+            $wtxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
+            $nmInterestCountiesArray = array('LEA', 'EDDY');
 
             $this->getCountyPermitData('2020-01-01', 'eagle', $eagleInterestCountiesArray);
 
-            $this->getCountyPermitData('2020-04-01', 'nvx', $nvxInterestCountiesArray);
+            $this->getCountyPermitData('2020-04-01', 'wtx', $wtxInterestCountiesArray);
 
-            $this->getCountyPermitData('2020-04-01', 'apr', $nvxByApprovedDate);
+            $this->getCountyPermitData('2020-04-01', 'nm', $nmInterestCountiesArray);
 
 
         return 'success';

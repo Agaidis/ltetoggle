@@ -36,12 +36,18 @@ $(document).ready(function () {
 
         let interestHref = location.hash.replace('#!', '');
 
-        if (interestHref === 'wtx_nm_interest_area') {
+        if (interestHref === 'wtx_interest_area') {
             $('#interest_tab_eagle').removeClass('interest_active');
             $('#interest_tab_wtx').addClass('interest_active');
+            $('#interest_tab_nm').removeClass('interest_active');
         } else if (interestHref === 'eagle_interest_area') {
             $('#interest_tab_wtx').removeClass('interest_active');
             $('#interest_tab_eagle').addClass('interest_active');
+            $('#interest_tab_nm').removeClass('interest_active');
+        } else if (interestHref === 'nm_interest_area') {
+            $('#interest_tab_eagle').removeClass('interest_active');
+            $('#interest_tab_nm').addClass('interest_active');
+            $('#interest_tab_wtx').removeClass('interest_active');
         }
 
         $("a[href='#" + location.hash.substr(2) + "']").tab("show");
@@ -121,8 +127,8 @@ $(document).ready(function () {
     });
 
 
-    //NVX PERMIT TABLE
-    let nvxPermitTable = $('#nvx_permit_table').DataTable({
+    //WTX PERMIT TABLE
+    let wtxPermitTable = $('#wtx_permit_table').DataTable({
         "pagingType": "simple",
         "aaSorting": [],
         "stateSave": true,
@@ -133,7 +139,75 @@ $(document).ready(function () {
         let permitId = splitId[1];
         let reportedOperator = $('#reported_operator_' + permitId).val();
         let tr = $(this).closest('tr');
-        let row = nvxPermitTable.row( tr );
+        let row = wtxPermitTable.row( tr );
+
+        moreData(id, tr, permitId, reportedOperator, row, false)
+
+    }).on('change', '.assignee', function() {
+        let assignee = $(this)[0].value;
+
+        updateAssignee(assignee);
+
+    }).on('change', '.toggle_status', function() {
+        let id = $(this)[0].id;
+        let status = $(this)[0].value;
+        let permitId = id.split('_');
+
+        toggleStatus(permitId[2], status );
+    }).on('click', '.permit_row', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        globalPermitId = splitId[2];
+
+    }).on('click', '.update_permit_notes_btn', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[3];
+
+        updateNotes(permitId);
+
+    }).on('mouseover', '.permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[1];
+        let permitId = splitId[2];
+
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_permit_note_'+noteId+'_'+permitId).css('display', 'inherit');
+    }).on('mouseleave', '.permit_note', function() {
+        $('.delete_permit_note').css('display', 'none');
+        $('.permit_note').css('background-color', '#F2EDD7FF');
+    }).on('click', '.delete_permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[3];
+        let permitId = splitId[4];
+        let response = confirm('Are you sure you want to delete this note?');
+
+        deleteNote(permitId, noteId, response);
+    }).on('click', '.store_button', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[2];
+        let leaseName = splitId[3];
+
+        storePermit(permitId, leaseName);
+    });
+
+
+    //NM PERMIT TABLE
+    let nmPermitTable = $('#nm_permit_table').DataTable({
+        "pagingType": "simple",
+        "aaSorting": [],
+        "stateSave": true,
+        "order": [[ 2, "asc" ]]
+    }).on('click', 'td.mmp-details-control', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[1];
+        let reportedOperator = $('#reported_operator_' + permitId).val();
+        let tr = $(this).closest('tr');
+        let row = nmPermitTable.row( tr );
 
         moreData(id, tr, permitId, reportedOperator, row, false)
 
@@ -190,8 +264,8 @@ $(document).ready(function () {
 
 
 
-    //NON Producing TABLE
-    let nonProducingPermits = $('#non_producing_permits').DataTable({
+    // non Producing EAGLE TABLE
+    let nonProducingEaglePermits = $('#non_producing_eagle_permits').DataTable({
         "pagingType": "simple",
         "aaSorting": [],
         "stateSave": true,
@@ -202,7 +276,162 @@ $(document).ready(function () {
         let permitId = splitId[1];
         let reportedOperator = $('#reported_operator_' + permitId).val();
         let tr = $(this).closest('tr');
-        let row = nonProducingPermits.row( tr );
+        let row = nonProducingEaglePermits.row( tr );
+
+        moreData(id, tr, permitId, reportedOperator, row, true)
+
+    }).on('change', '.assignee', function() {
+        let assignee = $(this)[0].value;
+
+        updateAssignee(assignee);
+
+    }).on('change', '.toggle_status', function() {
+        let id = $(this)[0].id;
+        let status = $(this)[0].value;
+        let permitId = id.split('_');
+
+        toggleStatus(permitId[2], status );
+    }).on('click', '.permit_row', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        globalPermitId = splitId[2];
+
+    }).on('click', '.update_permit_notes_btn', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[3];
+
+        updateNotes(permitId);
+
+    }).on('mouseover', '.permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[1];
+        let permitId = splitId[2];
+
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_permit_note_'+noteId+'_'+permitId).css('display', 'inherit');
+    }).on('mouseleave', '.permit_note', function() {
+        $('.delete_permit_note').css('display', 'none');
+        $('.permit_note').css('background-color', '#F2EDD7FF');
+    }).on('click', '.delete_permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[3];
+        let permitId = splitId[4];
+        let response = confirm('Are you sure you want to delete this note?');
+
+        deleteNote(permitId, noteId, response);
+    }).on('change', '.check_lease', function() {
+        let id = $(this)[0].id;
+        let isChecked = $(this)[0].checked;
+        let splitId = id.split('_');
+        let leaseId = splitId[2];
+        let permitId = splitId[3];
+
+
+        stitchLeaseToPermit(leaseId, permitId, isChecked);
+    }).on('click', '.store_button', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[2];
+        let leaseName = splitId[3];
+
+        storePermit(permitId, leaseName);
+    });
+
+
+    // non Producing WTX TABLE
+    let nonProducingWTXPermits = $('#non_producing_wtx_permits').DataTable({
+        "pagingType": "simple",
+        "aaSorting": [],
+        "stateSave": true,
+        "order": [[ 2, "asc" ]]
+    }).on('click', 'td.mmp-details-control', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[1];
+        let reportedOperator = $('#reported_operator_' + permitId).val();
+        let tr = $(this).closest('tr');
+        let row = nonProducingWTXPermits.row( tr );
+
+        moreData(id, tr, permitId, reportedOperator, row, true)
+
+    }).on('change', '.assignee', function() {
+        let assignee = $(this)[0].value;
+
+        updateAssignee(assignee);
+
+    }).on('change', '.toggle_status', function() {
+        let id = $(this)[0].id;
+        let status = $(this)[0].value;
+        let permitId = id.split('_');
+
+        toggleStatus(permitId[2], status );
+    }).on('click', '.permit_row', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        globalPermitId = splitId[2];
+
+    }).on('click', '.update_permit_notes_btn', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[3];
+
+        updateNotes(permitId);
+
+    }).on('mouseover', '.permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[1];
+        let permitId = splitId[2];
+
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_permit_note_'+noteId+'_'+permitId).css('display', 'inherit');
+    }).on('mouseleave', '.permit_note', function() {
+        $('.delete_permit_note').css('display', 'none');
+        $('.permit_note').css('background-color', '#F2EDD7FF');
+    }).on('click', '.delete_permit_note', function() {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let noteId = splitId[3];
+        let permitId = splitId[4];
+        let response = confirm('Are you sure you want to delete this note?');
+
+        deleteNote(permitId, noteId, response);
+    }).on('change', '.check_lease', function() {
+        let id = $(this)[0].id;
+        let isChecked = $(this)[0].checked;
+        let splitId = id.split('_');
+        let leaseId = splitId[2];
+        let permitId = splitId[3];
+
+
+        stitchLeaseToPermit(leaseId, permitId, isChecked);
+    }).on('click', '.store_button', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[2];
+        let leaseName = splitId[3];
+
+        storePermit(permitId, leaseName);
+    });
+
+
+
+    // non Producing NM TABLE
+    let nonProducingNMPermits = $('#non_producing_nm_permits').DataTable({
+        "pagingType": "simple",
+        "aaSorting": [],
+        "stateSave": true,
+        "order": [[ 2, "asc" ]]
+    }).on('click', 'td.mmp-details-control', function () {
+        let id = $(this)[0].id;
+        let splitId = id.split('_');
+        let permitId = splitId[1];
+        let reportedOperator = $('#reported_operator_' + permitId).val();
+        let tr = $(this).closest('tr');
+        let row = nonProducingNMPermits.row( tr );
 
         moreData(id, tr, permitId, reportedOperator, row, true)
 

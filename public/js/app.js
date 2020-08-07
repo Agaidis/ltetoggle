@@ -43609,12 +43609,18 @@ $(document).ready(function () {
   if (location.hash.substr(0, 2) === "#!") {
     var interestHref = location.hash.replace('#!', '');
 
-    if (interestHref === 'wtx_nm_interest_area') {
+    if (interestHref === 'wtx_interest_area') {
       $('#interest_tab_eagle').removeClass('interest_active');
       $('#interest_tab_wtx').addClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
     } else if (interestHref === 'eagle_interest_area') {
       $('#interest_tab_wtx').removeClass('interest_active');
       $('#interest_tab_eagle').addClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
+    } else if (interestHref === 'nm_interest_area') {
+      $('#interest_tab_eagle').removeClass('interest_active');
+      $('#interest_tab_nm').addClass('interest_active');
+      $('#interest_tab_wtx').removeClass('interest_active');
     }
 
     $("a[href='#" + location.hash.substr(2) + "']").tab("show");
@@ -43683,9 +43689,9 @@ $(document).ready(function () {
     var permitId = splitId[2];
     var leaseName = splitId[3];
     storePermit(permitId, leaseName);
-  }); //NVX PERMIT TABLE
+  }); //WTX PERMIT TABLE
 
-  var nvxPermitTable = $('#nvx_permit_table').DataTable({
+  var wtxPermitTable = $('#wtx_permit_table').DataTable({
     "pagingType": "simple",
     "aaSorting": [],
     "stateSave": true,
@@ -43696,7 +43702,7 @@ $(document).ready(function () {
     var permitId = splitId[1];
     var reportedOperator = $('#reported_operator_' + permitId).val();
     var tr = $(this).closest('tr');
-    var row = nvxPermitTable.row(tr);
+    var row = wtxPermitTable.row(tr);
     moreData(id, tr, permitId, reportedOperator, row, false);
   }).on('change', '.assignee', function () {
     var assignee = $(this)[0].value;
@@ -43738,9 +43744,9 @@ $(document).ready(function () {
     var permitId = splitId[2];
     var leaseName = splitId[3];
     storePermit(permitId, leaseName);
-  }); //NON Producing TABLE
+  }); //NM PERMIT TABLE
 
-  var nonProducingPermits = $('#non_producing_permits').DataTable({
+  var nmPermitTable = $('#nm_permit_table').DataTable({
     "pagingType": "simple",
     "aaSorting": [],
     "stateSave": true,
@@ -43751,7 +43757,186 @@ $(document).ready(function () {
     var permitId = splitId[1];
     var reportedOperator = $('#reported_operator_' + permitId).val();
     var tr = $(this).closest('tr');
-    var row = nonProducingPermits.row(tr);
+    var row = nmPermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, false);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing EAGLE TABLE
+
+  var nonProducingEaglePermits = $('#non_producing_eagle_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingEaglePermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, true);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('change', '.check_lease', function () {
+    var id = $(this)[0].id;
+    var isChecked = $(this)[0].checked;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    var permitId = splitId[3];
+    stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing WTX TABLE
+
+  var nonProducingWTXPermits = $('#non_producing_wtx_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingWTXPermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, true);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('change', '.check_lease', function () {
+    var id = $(this)[0].id;
+    var isChecked = $(this)[0].checked;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    var permitId = splitId[3];
+    stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing NM TABLE
+
+  var nonProducingNMPermits = $('#non_producing_nm_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingNMPermits.row(tr);
     moreData(id, tr, permitId, reportedOperator, row, true);
   }).on('change', '.assignee', function () {
     var assignee = $(this)[0].value;

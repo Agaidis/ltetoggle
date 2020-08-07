@@ -13,12 +13,18 @@ class UserMMPController extends Controller
 
     public function index() {
         try {
-            $eaglePermits = DB::table('permits')->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->get();
-            $nvxPermits = DB::table('permits')->where('assignee', Auth::user()->id)->whereIn('interest_area', ['nvx', 'apr'])->get();
+            $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'eagle')->get();
+            $wtxPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'wtx')->get();
+            $nmPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'nm')->get();
+
+            $nonProducingEaglePermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('interest_area', 'eagle')->where('is_producing', 0)->get();
+            $nonProducingWTXPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('interest_area', 'wtx')->where('is_producing', 0)->get();
+            $nonProducingNMPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('interest_area', 'nm')->where('is_producing', 0)->get();
+
             $userRole = Auth::user()->role;
             $users = User::all();
 
-            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users', 'userRole'));
+            return view('userMMP', compact('eaglePermits', 'wtxPermits', 'nmPermits', 'nonProducingEaglePermits', 'nonProducingNMPermits', 'nonProducingWTXPermits', 'users', 'userRole'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());
@@ -30,12 +36,17 @@ class UserMMPController extends Controller
 
     public function justus() {
         try {
-            $eaglePermits = DB::table('permits')->where('assignee', 68)->where('interest_area', 'eagle')->get();
-            $nvxPermits = DB::table('permits')->where('assignee', 68)->whereIn('interest_area', ['nvx', 'apr'])->get();
+            $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('assignee', 68)->where('is_producing', 1)->where('interest_area', 'eagle')->get();
+            $wtxPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', 68)->where('is_producing', 1)->where('interest_area', 'wtx')->get();
+            $nmPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', 68)->where('is_producing', 1)->where('interest_area', 'nm')->get();
+
+            $nonProducingEaglePermits = DB::table('permits')->where('is_stored', 0)->where('assignee', 68)->where('interest_area', 'eagle')->where('is_producing', 0)->get();
+            $nonProducingWTXPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', 68)->where('interest_area', 'wtx')->where('is_producing', 0)->get();
+            $nonProducingNMPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', 68)->where('interest_area', 'nm')->where('is_producing', 0)->get();
             $userRole = Auth::user()->role;
             $users = User::all();
 
-            return view('userMMP', compact('eaglePermits', 'nvxPermits', 'users', 'userRole'));
+            return view('userMMP', compact('eaglePermits', 'wtxPermits', 'nmPermits', 'nonProducingEaglePermits', 'nonProducingNMPermits', 'nonProducingWTXPermits', 'users', 'userRole'));
         } catch( \Exception $e) {
             Log::info($e->getMessage());
             Log::info($e->getCode());
