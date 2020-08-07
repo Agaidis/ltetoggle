@@ -21,6 +21,7 @@ class nonProducingOwnersController extends Controller
         $permitId = $request->id;
 
         $permitValues = Permit::where('id', $permitId)->first();
+        $allRelatedPermits = Permit::where('lease_name', $permitValues->lease_name)->where('SurfaceLatitudeWGS84', '!=', null)->get();
 
         if (Auth()->user()->name === 'Billy Moreaux' && $permitValues->is_seen === 0) {
             Permit::where('id', $permitId)->update(['is_seen' => 1, 'toggle_status' => 'none']);
@@ -114,7 +115,8 @@ class nonProducingOwnersController extends Controller
 
             JavaScript::put(
                 [
-                    'leases' => $leases
+                    'leases' => $leases,
+                    'allRelatedPermits' => $allRelatedPermits
                 ]);
 
             return view('nonProducingMineralOwner', compact(

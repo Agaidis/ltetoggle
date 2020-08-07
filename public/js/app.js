@@ -43339,36 +43339,45 @@ $(document).ready(function () {
   if (location.href.split('/')[3] === 'non-producing-mineral-owner') {
     var map;
     var bounds = new google.maps.LatLngBounds();
-    var surfaceLng = '{"lng":' + $('#surfaceLng').val();
-    var surfaceLat = '"lat":' + $('#surfaceLat').val() + '}';
+    var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+    var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
     var btmGeo = $('#btmGeo').val().replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
     map = new google.maps.Map(document.getElementById('nonMap'), {
       zoom: 13,
       center: JSON.parse(surfaceLng + ',' + surfaceLat),
       mapTypeId: google.maps.MapTypeId.HYBRID
     });
-    var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
-    bounds.extend(position);
-    var permitMarker = new google.maps.Marker({
-      position: position,
-      map: map,
-      label: 'SF'
-    });
-    var btmPosition = new google.maps.LatLng(JSON.parse(btmGeo));
-    bounds.extend(btmPosition);
-    var SurfaceMarker = new google.maps.Marker({
-      position: btmPosition,
-      map: map,
-      label: 'BM'
-    });
-    var flightPath = new google.maps.Polyline({
-      path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(btmGeo)],
-      geodesic: true,
-      strokeColor: "#FF0000",
-      strokeOpacity: 1.0,
-      strokeWeight: 2
-    });
-    flightPath.setMap(map); // Display multiple markers on a map
+
+    if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined') {
+      $.each(toggle.allRelatedPermits, function (key, value) {
+        var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
+        var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
+        var btmGeo = value.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+        var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+        bounds.extend(position);
+        var permitMarker = new google.maps.Marker({
+          position: position,
+          map: map,
+          label: 'SF'
+        });
+        var btmPosition = new google.maps.LatLng(JSON.parse(btmGeo));
+        bounds.extend(btmPosition);
+        var SurfaceMarker = new google.maps.Marker({
+          position: btmPosition,
+          map: map,
+          label: 'BM'
+        });
+        var flightPath = new google.maps.Polyline({
+          path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(btmGeo)],
+          geodesic: true,
+          strokeColor: "#ab0000",
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        flightPath.setMap(map);
+      });
+    } // Display multiple markers on a map
+
 
     var infoWindow = new google.maps.InfoWindow(),
         marker; // Loop through our array of markers & place each one on the map
@@ -43381,7 +43390,8 @@ $(document).ready(function () {
       marker = new google.maps.Marker({
         position: position,
         map: map,
-        title: value.Grantor
+        title: value.Grantor,
+        icon: 'https://quickevict.nyc3.digitaloceanspaces.com/wellIcon.png'
       }); // Allow each marker to have an info window
 
       google.maps.event.addListener(marker, 'click', function (marker) {
