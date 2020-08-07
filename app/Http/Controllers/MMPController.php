@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Console\Commands\DetermineProduction;
 use App\ErrorLog;
 use App\GeneralSetting;
 use App\LegalLease;
@@ -37,33 +38,34 @@ class MMPController extends Controller
     {
 
 
-        $users = User::all();
-        $currentUser = Auth::user()->name;
-        $userRole = Auth::user()->role;
-        $nonProducingEaglePermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'eagle')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
-        $nonProducingWTXPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'wtx')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
-        $nonProducingNMPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'nm')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
+        try {
+            $users = User::all();
+            $currentUser = Auth::user()->name;
+            $userRole = Auth::user()->role;
+            $nonProducingEaglePermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'eagle')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
+            $nonProducingWTXPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'wtx')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
+            $nonProducingNMPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'nm')->where('is_producing', 0)->groupBy('lease_name', 'reported_operator')->get();
 
-        $errorMsg = new ErrorLog();
-        $errorMsg->payload = serialize($nonProducingNMPermits);
+            if ($userRole === 'regular') {
+                $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'eagle')->get();
+                $wtxPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'wtx')->get();
+                $nmPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'nm')->get();
 
-        $errorMsg->save();
+                return view('userMMP', compact('userRole', 'eaglePermits', 'wtxPermits', 'nmPermits', 'users', 'currentUser', 'nonProducingEaglePermits', 'nonProducingWTXPermits', 'nonProducingNMPermits'));
+            } else {
+                $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'eagle')->where('is_producing', 1)->groupBy('abstract', 'lease_name', 'survey')->get();
+                $wtxPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'wtx')->where('is_producing', 1)->groupBy('abstract', 'lease_name', 'survey')->get();
+                $nmPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'nm')->where('is_producing', 1)->where('assignee', Auth::user()->id)->get();
 
-        if ($userRole === 'regular') {
-            $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'eagle')->get();
-            $wtxPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'wtx')->get();
-            $nmPermits = DB::table('permits')->where('is_stored', 0)->where('assignee', Auth::user()->id)->where('is_producing', 1)->where('interest_area', 'nm')->get();
+                return view('dashboard', compact('userRole', 'eaglePermits', 'wtxPermits', 'nmPermits', 'users', 'currentUser', 'nonProducingEaglePermits', 'nonProducingWTXPermits', 'nonProducingNMPermits'));
+            }
 
-            return view('userMMP', compact('userRole', 'eaglePermits', 'wtxPermits', 'nmPermits', 'users', 'currentUser', 'nonProducingEaglePermits', 'nonProducingWTXPermits', 'nonProducingNMPermits'));
-        } else {
-            $eaglePermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'eagle')->where('is_producing', 1)->groupBy('abstract', 'lease_name', 'survey')->get();
-            $wtxPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'wtx')->where('is_producing', 1)->groupBy('abstract', 'lease_name', 'survey')->get();
-            $nmPermits = DB::table('permits')->where('is_stored', 0)->where('interest_area', 'nm')->where('is_producing', 1)->where('assignee', Auth::user()->id)->get();
+        } catch ( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 
-            return view('dashboard', compact('userRole','eaglePermits', 'wtxPermits', 'nmPermits', 'users', 'currentUser', 'nonProducingEaglePermits', 'nonProducingWTXPermits', 'nonProducingNMPermits'));
+            $errorMsg->save();
         }
-
-
     }
 
     public function getPermitDetails(Request $request) {

@@ -76,18 +76,18 @@ class DetermineProduction extends Command
                         $selectedLeaseNameWells = WellRollUp::where('leaseName', $permit->selected_lease_name)->where('WellStatus', 'ACTIVE')->get();
 
                         if ($selectedLeaseNameWells->isEmpty()) {
-                            Permit::where('id', $permit->id)
+                            Permit::where('permit_id', $permit->permit_id)
                                 ->update(['is_producing' => 0]);
                         } else {
-                            Permit::where('id', $permit->id)
+                            Permit::where('permit_id', $permit->permit_id)
                                 ->update(['is_producing' => 1]);
                         }
                     } else {
-                        Permit::where('id', $permit->id)
+                        Permit::where('permit_id', $permit->permit_id)
                             ->update(['is_producing' => 0]);
                     }
                 } else {
-                    Permit::where('id', $permit->id)
+                    Permit::where('permit_id', $permit->permit_id)
                         ->update(['is_producing' => 1]);
                 }
             }
