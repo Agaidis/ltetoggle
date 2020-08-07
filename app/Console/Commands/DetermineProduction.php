@@ -66,28 +66,28 @@ class DetermineProduction extends Command
 
         foreach ($countyArray as $county) {
 
-            $permits = Permit::where('county_parish', $county)->get();
+            $permits = Permit::select('id', 'lease_name', 'selected_lease_name', 'permit_id')->where('county_parish', $county)->get();
 
             foreach ($permits as $permit) {
-                $wells = WellRollUp::where('leaseName', $permit->lease_name)->where('WellStatus', 'ACTIVE')->get();
+                $wells = WellRollUp::select('leaseName')->where('leaseName', $permit->lease_name)->where('WellStatus', 'ACTIVE')->get();
 
                 if ($wells->isEmpty()) {
                     if ($permit->selected_lease_name != '' && $permit->selected_lease_name != null) {
-                        $selectedLeaseNameWells = WellRollUp::where('leaseName', $permit->selected_lease_name)->where('WellStatus', 'ACTIVE')->get();
+                        $selectedLeaseNameWells = WellRollUp::select('leaseName')->where('leaseName', $permit->selected_lease_name)->where('WellStatus', 'ACTIVE')->get();
 
                         if ($selectedLeaseNameWells->isEmpty()) {
-                            Permit::where('permit_id', $permit->permit_id)
+                            Permit::where('permit_id', $permit->permit_id)->where('id', $permit->id)
                                 ->update(['is_producing' => 0]);
                         } else {
-                            Permit::where('permit_id', $permit->permit_id)
+                            Permit::where('permit_id', $permit->permit_id)->where('id', $permit->id)
                                 ->update(['is_producing' => 1]);
                         }
                     } else {
-                        Permit::where('permit_id', $permit->permit_id)
+                        Permit::where('permit_id', $permit->permit_id)->where('id', $permit->id)
                             ->update(['is_producing' => 0]);
                     }
                 } else {
-                    Permit::where('permit_id', $permit->permit_id)
+                    Permit::where('permit_id', $permit->permit_id)->where('id', $permit->id)
                         ->update(['is_producing' => 1]);
                 }
             }
