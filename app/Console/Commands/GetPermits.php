@@ -44,7 +44,7 @@ class GetPermits extends Command
     {
         try {
             $eagleInterestCountiesArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE%20OAK','LAVACA','WILSON');
-            $wtxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
+            $wtxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF%20DAVIS');
             $nmInterestCountiesArray = array('LEA', 'EDDY');
 
             $this->getCountyPermitData('2020-01-01', 'eagle', $eagleInterestCountiesArray);
