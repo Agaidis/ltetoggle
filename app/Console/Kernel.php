@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('process:getLandtracLeases')->dailyAt(3)->timezone('America/New_York');
         $schedule->command('process:getLegalLeases')->dailyAt(6)->timezone('America/New_York');
         $schedule->command('process:stitch')->dailyAt(5)->timezone('America/New_York');
-        $schedule->command('determine:production')->everyMinute()->timezone('America/New_York');
+        $schedule->command('determine:production')->everyFiveMinutes()->timezone('America/New_York');
 
     }
 
