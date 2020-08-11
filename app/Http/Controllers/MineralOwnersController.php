@@ -39,8 +39,7 @@ class MineralOwnersController extends Controller
                 $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
 
             } else {
-                $leaseArray = explode('|', $permitValues->selected_lease_name);
-                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->whereIn('leaseName',  $leaseArray)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->selected_lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
             }
 
             $totalGas = 0;
