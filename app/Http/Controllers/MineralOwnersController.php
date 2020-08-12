@@ -48,6 +48,10 @@ class MineralOwnersController extends Controller
             $totalOilWithComma = 0;
 
             foreach ($wells as $well) {
+                if ($well->WellStatus == 'ACTIVE') {
+                    Permit::where('id', $permitId)->update(['is_producing' => 1]);
+                }
+
                 if ($well->FirstProdDate != null)
                     array_push($onProductionArray, $well->FirstProdDate);
                     array_push($dateArray, $well->LastProdDate);
