@@ -5,6 +5,41 @@ $(document).ready(function () {
         let surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
         let surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
 
+        $('#refresh_well_data_btn').on('click', function() {
+            let wellNamesString = '';
+
+            $.each($('#well_name_select')[0].selectedOptions, function(key,value) {
+                wellNamesString += value.value + '|';
+            });
+            wellNamesString = wellNamesString.slice(0, -1);
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "POST",
+                url: '/mineral-owners/updateWellNames',
+                data: {
+                    permitId: $('#permit_id').val(),
+                    wellNames: wellNamesString
+                },
+                success: function success(data) {
+
+                    if (data === $('#permit_id').val()) {
+                        location.reload();
+                    }
+                },
+                error: function error(data) {
+                    console.log(data);
+                }
+            });
+        });
+
         let btmGeo = $('#btmGeo').val().replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
 
         map = new google.maps.Map(document.getElementById('nonMap'), {
@@ -59,7 +94,7 @@ $(document).ready(function () {
         let infoWindow = new google.maps.InfoWindow(), marker;
 
         // Loop through our array of markers & place each one on the map
-        $.each(toggle.leases, function (key, value) {
+        $.each(toggle.allWells, function (key, value) {
 
             let surfaceLng = '{"lng":' + value.SurfaceHoleLongitudeWGS84;
             let surfaceLat = '"lat":' + value.SurfaceHoleLatitudeWGS84 + '}';

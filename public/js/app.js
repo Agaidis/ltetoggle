@@ -43455,6 +43455,37 @@ $(document).ready(function () {
     var bounds = new google.maps.LatLngBounds();
     var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
     var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+    $('#refresh_well_data_btn').on('click', function () {
+      var wellNamesString = '';
+      $.each($('#well_name_select')[0].selectedOptions, function (key, value) {
+        wellNamesString += value.value + '|';
+      });
+      wellNamesString = wellNamesString.slice(0, -1);
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/mineral-owners/updateWellNames',
+        data: {
+          permitId: $('#permit_id').val(),
+          wellNames: wellNamesString
+        },
+        success: function success(data) {
+          if (data === $('#permit_id').val()) {
+            location.reload();
+          }
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    });
     var btmGeo = $('#btmGeo').val().replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
     map = new google.maps.Map(document.getElementById('nonMap'), {
       zoom: 13,
@@ -43496,7 +43527,7 @@ $(document).ready(function () {
     var infoWindow = new google.maps.InfoWindow(),
         marker; // Loop through our array of markers & place each one on the map
 
-    $.each(toggle.leases, function (key, value) {
+    $.each(toggle.allWells, function (key, value) {
       var surfaceLng = '{"lng":' + value.SurfaceHoleLongitudeWGS84;
       var surfaceLat = '"lat":' + value.SurfaceHoleLatitudeWGS84 + '}';
       var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ErrorLog;
+use App\MineralOwner;
 use App\Permit;
 use App\PermitNote;
 use App\User;
@@ -34,23 +35,25 @@ class nonProducingOwnersController extends Controller
             $onProductionArray = array();
             $oilArray = array();
             $gasArray = array();
-            $leaseArray = array();
+            $wellArray = explode('|', $permitValues->selected_well_name);
 
-            $leases = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
+            array_push($wellArray, $permitValues->lease_name);
+
+          //  $allWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->where('SurfaceHoleLatitudeWGS84', '!=', null)->orderBy('LeaseName', 'ASC')->get();
 
             if ( $permitValues->selected_lease_name != null ) {
+                $selectWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
 
-                $wells = WellRollUp::where('LeaseName', $permitValues->selected_lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName', 'LeaseName', 'WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
 
                 $owners = LegalLease::where('permit_stitch_id',  $permitValues->permit_id)->get();
 
                 $permitNotes = PermitNote::where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
 
-                $leaseArray = explode('|', $permitValues->selected_lease_name);
-
             } else {
+                $selectWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
 
-                $wells = WellRollUp::where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName', 'LeaseName', 'WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->whereIn('LeaseName', $wellArray)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
 
                 $owners = LegalLease::where('permit_stitch_id', $permitValues->permit_id)->get();
 
@@ -115,19 +118,19 @@ class nonProducingOwnersController extends Controller
 
             JavaScript::put(
                 [
-                    'leases' => $leases,
+                    'allWells' => $selectWells,
                     'allRelatedPermits' => $allRelatedPermits
                 ]);
 
             return view('nonProducingMineralOwner', compact(
                     'owners',
                     'permitValues',
-                    'leases',
+                    'selectWells',
                     'leaseName',
-                    'leaseArray',
                     'permitNotes',
                     'users',
                     'wells',
+                    'wellArray',
                     'operator',
                     'count',
                     'oldestDate',

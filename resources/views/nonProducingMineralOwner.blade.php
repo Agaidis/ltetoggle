@@ -23,17 +23,17 @@
                             </div>
                             <input type="hidden" id="user_id" value="{{Auth::user()->id}}" />
                             <div class="col-md-8">
-                                <label class="labels">Lease Name(s)</label>:
-                                <select id="lease_name_select" class="form-control" multiple="multiple">
-                                    @foreach ($leases as $lease)
-                                        @if (in_array($lease->LeaseName, $leaseArray) )
-                                            <option selected value="{{$lease->LeaseName}}">{{$lease->LeaseName}}</option>
+                                <label class="labels">Well Name(s)</label>:
+                                <select id="well_name_select" class="form-control" multiple="multiple">
+                                    @foreach ($selectWells as $selectWell)
+                                        @if (in_array($selectWell->LeaseName, $wellArray) )
+                                            <option selected value="{{$selectWell->LeaseName}}">{{$selectWell->LeaseName}}</option>
                                         @else
-                                            <option value="{{$lease->LeaseName}}">{{$lease->LeaseName}}</option>
+                                            <option value="{{$selectWell->LeaseName}}">{{$selectWell->LeaseName}}</option>
                                         @endif
                                     @endforeach
                                 </select>
-                                <button style="margin-left:10px;" type="button" id="refresh_lease_data_btn" class="btn btn-success">Refresh Lease Data</button><br>
+                                <button type="button" id="refresh_well_data_btn" class="btn btn-success">Refresh Well Data</button><br>
                                 <span style="font-size:20px;">
                                     <label class="labels">Operator Name</label>: {{$permitValues->reported_operator}}
                                 </span>
