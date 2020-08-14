@@ -43194,15 +43194,10 @@ $(document).ready(function () {
   });
   var map;
   var bounds = new google.maps.LatLngBounds();
-  var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
-  var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
-  map = new google.maps.Map(document.getElementById('proMap'), {
-    zoom: 13,
-    center: JSON.parse(surfaceLng + ',' + surfaceLat),
-    mapTypeId: google.maps.MapTypeId.HYBRID
-  });
 
-  if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined') {
+  if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined' && toggle.allRelatedPermits.length !== 0) {
+    var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+    var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
     $.each(toggle.allRelatedPermits, function (key, value) {
       var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
       var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
@@ -43229,6 +43224,23 @@ $(document).ready(function () {
         strokeWeight: 2
       });
       flightPath.setMap(map);
+    });
+    map = new google.maps.Map(document.getElementById('proMap'), {
+      zoom: 13,
+      center: JSON.parse(surfaceLng + ',' + surfaceLat),
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    });
+  } else {
+    console.log(toggle.allWells[0]);
+
+    var _surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
+
+    var _surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
+
+    map = new google.maps.Map(document.getElementById('proMap'), {
+      zoom: 13,
+      center: JSON.parse(_surfaceLng + ',' + _surfaceLat),
+      mapTypeId: google.maps.MapTypeId.HYBRID
     });
   } // Display multiple markers on a map
 

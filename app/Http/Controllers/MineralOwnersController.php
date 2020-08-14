@@ -44,9 +44,8 @@ class MineralOwnersController extends Controller
 
             array_push($leaseArray, $permitValues->lease_name);
             array_push($wellArray, $permitValues->lease_name);
-            Log::info(serialize($wellArray));
 
-            $allWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->orderBy('LeaseName', 'ASC')->get();
+            $allWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->where('SurfaceHoleLatitudeWGS84', '!=', null)->orderBy('LeaseName', 'ASC')->get();
             $allRelatedPermits = Permit::where('lease_name', $permitValues->lease_name)->where('SurfaceLatitudeWGS84', '!=', null)->get();
 
 //
