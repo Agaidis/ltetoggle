@@ -659,13 +659,8 @@ $(document).ready(function () {
     let map;
     let bounds = new google.maps.LatLngBounds();
 
-
-
-
-
     if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined' && toggle.allRelatedPermits.length !== 0) {
-        let surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
-        let surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+
         $.each(toggle.allRelatedPermits, function (key, value) {
             let surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
             let surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
@@ -702,6 +697,9 @@ $(document).ready(function () {
 
             flightPath.setMap(map);
         });
+        let surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+        let surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+
         map = new google.maps.Map(document.getElementById('proMap'), {
             zoom: 13,
             center: JSON.parse(surfaceLng + ',' + surfaceLat),

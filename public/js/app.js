@@ -43196,8 +43196,6 @@ $(document).ready(function () {
   var bounds = new google.maps.LatLngBounds();
 
   if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined' && toggle.allRelatedPermits.length !== 0) {
-    var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
-    var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
     $.each(toggle.allRelatedPermits, function (key, value) {
       var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
       var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
@@ -43225,6 +43223,8 @@ $(document).ready(function () {
       });
       flightPath.setMap(map);
     });
+    var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+    var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
     map = new google.maps.Map(document.getElementById('proMap'), {
       zoom: 13,
       center: JSON.parse(surfaceLng + ',' + surfaceLat),
@@ -43451,10 +43451,6 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   if (location.href.split('/')[3] === 'non-producing-mineral-owner') {
-    var map;
-    var bounds = new google.maps.LatLngBounds();
-    var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
-    var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
     $('#refresh_well_data_btn').on('click', function () {
       var wellNamesString = '';
       $.each($('#well_name_select')[0].selectedOptions, function (key, value) {
@@ -43486,14 +43482,17 @@ $(document).ready(function () {
         }
       });
     });
-    var btmGeo = $('#btmGeo').val().replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
-    map = new google.maps.Map(document.getElementById('nonMap'), {
-      zoom: 13,
-      center: JSON.parse(surfaceLng + ',' + surfaceLat),
-      mapTypeId: google.maps.MapTypeId.HYBRID
-    });
+    var map;
+    var bounds = new google.maps.LatLngBounds();
 
-    if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined') {
+    if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined' && toggle.allRelatedPermits.length !== 0) {
+      var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+      var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+      map = new google.maps.Map(document.getElementById('nonMap'), {
+        zoom: 13,
+        center: JSON.parse(surfaceLng + ',' + surfaceLat),
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      });
       $.each(toggle.allRelatedPermits, function (key, value) {
         var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
         var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
@@ -43520,6 +43519,16 @@ $(document).ready(function () {
           strokeWeight: 2
         });
         flightPath.setMap(map);
+      });
+    } else {
+      var _surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
+
+      var _surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
+
+      map = new google.maps.Map(document.getElementById('nonMap'), {
+        zoom: 13,
+        center: JSON.parse(_surfaceLng + ',' + _surfaceLat),
+        mapTypeId: google.maps.MapTypeId.HYBRID
       });
     } // Display multiple markers on a map
 

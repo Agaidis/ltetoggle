@@ -1,9 +1,6 @@
 $(document).ready(function () {
     if (location.href.split('/')[3] === 'non-producing-mineral-owner') {
-        let map;
-        let bounds = new google.maps.LatLngBounds();
-        let surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
-        let surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+
 
         $('#refresh_well_data_btn').on('click', function() {
             let wellNamesString = '';
@@ -39,17 +36,21 @@ $(document).ready(function () {
                 }
             });
         });
-
-        let btmGeo = $('#btmGeo').val().replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
-
-        map = new google.maps.Map(document.getElementById('nonMap'), {
-            zoom: 13,
-            center: JSON.parse(surfaceLng + ',' + surfaceLat),
-            mapTypeId: google.maps.MapTypeId.HYBRID
-        });
+        let map;
+        let bounds = new google.maps.LatLngBounds();
 
 
-        if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined') {
+
+
+        if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined' && toggle.allRelatedPermits.length !== 0) {
+            let surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+            let surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+            map = new google.maps.Map(document.getElementById('nonMap'), {
+                zoom: 13,
+                center: JSON.parse(surfaceLng + ',' + surfaceLat),
+                mapTypeId: google.maps.MapTypeId.HYBRID
+            });
+
             $.each(toggle.allRelatedPermits, function (key, value) {
                 let surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
                 let surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
@@ -85,6 +86,16 @@ $(document).ready(function () {
                 });
 
                 flightPath.setMap(map);
+            });
+        } else {
+
+            let surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
+            let surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
+
+            map = new google.maps.Map(document.getElementById('nonMap'), {
+                zoom: 13,
+                center: JSON.parse(surfaceLng + ',' + surfaceLat),
+                mapTypeId: google.maps.MapTypeId.HYBRID
             });
         }
 
