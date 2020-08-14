@@ -43192,6 +43192,77 @@ $(document).ready(function () {
       }
     });
   });
+  var map;
+  var bounds = new google.maps.LatLngBounds();
+  var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+  var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+  map = new google.maps.Map(document.getElementById('proMap'), {
+    zoom: 13,
+    center: JSON.parse(surfaceLng + ',' + surfaceLat),
+    mapTypeId: google.maps.MapTypeId.HYBRID
+  });
+
+  if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined') {
+    $.each(toggle.allRelatedPermits, function (key, value) {
+      var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
+      var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
+      var btmGeo = value.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+      var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+      bounds.extend(position);
+      var permitMarker = new google.maps.Marker({
+        position: position,
+        map: map,
+        label: 'SF'
+      });
+      var btmPosition = new google.maps.LatLng(JSON.parse(btmGeo));
+      bounds.extend(btmPosition);
+      var SurfaceMarker = new google.maps.Marker({
+        position: btmPosition,
+        map: map,
+        label: 'BM'
+      });
+      var flightPath = new google.maps.Polyline({
+        path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(btmGeo)],
+        geodesic: true,
+        strokeColor: "#ab0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+      flightPath.setMap(map);
+    });
+  } // Display multiple markers on a map
+
+
+  var infoWindow = new google.maps.InfoWindow(),
+      marker; // Loop through our array of markers & place each one on the map
+
+  $.each(toggle.allWells, function (key, value) {
+    var surfaceLng = '{"lng":' + value.SurfaceHoleLongitudeWGS84;
+    var surfaceLat = '"lat":' + value.SurfaceHoleLatitudeWGS84 + '}';
+    var icon = '';
+
+    if (value.stitched_permit_id === toggle.permitId) {
+      icon = 'https://quickevict.nyc3.digitaloceanspaces.com/background1.jpg';
+    } else {
+      icon = 'https://quickevict.nyc3.digitaloceanspaces.com/wellIcon.png';
+    }
+
+    var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+    bounds.extend(position);
+    marker = new google.maps.Marker({
+      position: position,
+      map: map,
+      title: value.Grantor,
+      icon: icon
+    }); // Allow each marker to have an info window
+
+    google.maps.event.addListener(marker, 'click', function (marker) {
+      return function () {
+        infoWindow.setContent('<div class="info_content">' + '<h4>Well Name: ' + value.WellName + '</h4>' + '<h4>Well Number: ' + value.WellNumber + '</h4>' + '<h5>Status: ' + value.WellStatus + '</h5>' + '<h5>Drill Type: ' + value.DrillType + '</h5>' + '<h5>Depth: ' + value.MeasuredDepth + '</h5>' + '</div>');
+        infoWindow.open(map, marker);
+      };
+    }(marker));
+  });
   $('#refresh_lease_data_btn').on('click', function () {
     var leaseNamesString = '';
     $.each($('#lease_name_select')[0].selectedOptions, function (key, value) {
@@ -43219,6 +43290,37 @@ $(document).ready(function () {
 
         if (data === $('#permit_id').val()) {
           console.log('im in here');
+          location.reload();
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  $('#refresh_well_data_btn').on('click', function () {
+    var wellNamesString = '';
+    $.each($('#well_name_select')[0].selectedOptions, function (key, value) {
+      wellNamesString += value.value + '|';
+    });
+    wellNamesString = wellNamesString.slice(0, -1);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/updateWellNames',
+      data: {
+        permitId: $('#permit_id').val(),
+        wellNames: wellNamesString
+      },
+      success: function success(data) {
+        if (data === $('#permit_id').val()) {
           location.reload();
         }
       },
@@ -43586,6 +43688,9 @@ $(document).ready(function () {
   }
 
   $('#lease_name_select').select2({
+    minimumInputLength: 3
+  });
+  $('#well_name_select').select2({
     minimumInputLength: 3
   });
   var globalPermitId = '';

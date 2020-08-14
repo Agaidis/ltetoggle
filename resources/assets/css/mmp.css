@@ -248,7 +248,7 @@ hr {
     font-size:20px;
 }
 
-#lease_name_select {
+#lease_name_select, #well_name_select {
     width:50%;
 }
 

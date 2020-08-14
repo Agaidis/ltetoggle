@@ -67,6 +67,8 @@ Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo')->middlewar
 
 Route::post('/mineral-owners/updateLeaseNames', 'MineralOwnersController@updateLeaseName')->middleware('auth');
 
+Route::post('/mineral-owners/updateWellNames', 'MineralOwnersController@updateWellName')->middleware('auth');
+
 //GET OWNERS INFO
 Route::get('/non-producing-mineral-owner/{operator?}/{reporter?}/{id?}', 'nonProducingOwnersController@index')->middleware('auth');
 

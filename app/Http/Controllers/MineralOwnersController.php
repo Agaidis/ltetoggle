@@ -13,6 +13,8 @@ use App\WellRollUp;
 use Illuminate\Http\Request;
 use App\Permit;
 use DateTime;
+use Illuminate\Support\Facades\Log;
+use JavaScript;
 
 class MineralOwnersController extends Controller
 {
@@ -35,11 +37,27 @@ class MineralOwnersController extends Controller
             $onProductionArray = array();
             $oilArray = array();
             $gasArray = array();
-            if ($permitValues->selected_lease_name == '' || $permitValues->selected_lease_name == null) {
-                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+
+            $wellArray = explode('|', $permitValues->selected_well_name);
+            $leaseArray = explode('|', $permitValues->selected_lease_name);
+            $leases = MineralOwner::select('lease_name')->groupBy('lease_name')->get();
+
+            array_push($leaseArray, $permitValues->lease_name);
+            array_push($wellArray, $permitValues->lease_name);
+            Log::info(serialize($wellArray));
+
+            $allWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->orderBy('LeaseName', 'ASC')->get();
+            $allRelatedPermits = Permit::where('lease_name', $permitValues->lease_name)->where('SurfaceLatitudeWGS84', '!=', null)->get();
+
+
+            if ($permitValues->selected_well_name == '' || $permitValues->selected_well_name == null) {
+                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName', 'LeaseName', 'WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+                $selectWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
 
             } else {
-                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName','WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->where('LeaseName', $permitValues->selected_lease_name)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+                $wells = WellRollUp::select('id', 'CountyParish','OperatorCompanyName','WellStatus','WellName', 'LeaseName', 'WellNumber', 'FirstProdDate', 'LastProdDate', 'CumOil', 'CumGas')->whereIn('LeaseName', $wellArray)->where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->get();
+                $selectWells = WellRollUp::where('CountyParish', 'LIKE', '%'.$permitValues->county_parish .'%')->whereIn('LeaseName', $wellArray)->groupBy('LeaseName')->orderBy('LeaseName', 'ASC')->get();
+
             }
 
             $totalGas = 0;
@@ -99,16 +117,9 @@ class MineralOwnersController extends Controller
                 $gbblsWithComma = 0;
                 $yearsOfProduction = 0;
             }
-
-            $leases = MineralOwner::select('lease_name')->groupBy('lease_name')->get();
-
-            $leaseArray = array();
-
             $count = count($wells);
+
             if ( $permitValues->selected_lease_name != null ) {
-
-                $leaseArray = explode('|', $permitValues->selected_lease_name);
-
                 $owners = MineralOwner::select('id',
                     'lease_name',
                     'assignee',
@@ -124,18 +135,16 @@ class MineralOwnersController extends Controller
                 $permitNotes = PermitNote::select('notes')->where('lease_name', $permitValues->lease_name)->orderBy('id', 'DESC')->get();
 
             } else {
-
                 $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
-//
                 $permitNotes = PermitNote::select('notes')->where('lease_name', $leaseName)->orderBy('id', 'DESC')->get();
-
-                if ($owners->isEmpty()) {
-                    $leaseName = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D', '-RUPPERT A SA 2'], ['', '', '', ''], $permitValues->lease_name);
-                    $operator = str_replace(['UNIT ', ' UNIT', ' - LANG 01 D'], ['', '', ''], $request->operator);
-                    $owners = MineralOwner::where('lease_name', $leaseName)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
-
-                }
             }
+
+            JavaScript::put(
+                [
+                    'allWells' => $allWells,
+                    'allRelatedPermits' => $allRelatedPermits,
+                    'permitId' => $permitId
+                ]);
 
             return view('mineralOwner', compact(
                 'owners',
@@ -143,7 +152,9 @@ class MineralOwnersController extends Controller
                 'leases',
                 'leaseName',
                 'leaseArray',
+                'wellArray',
                 'permitNotes',
+                'selectWells',
                 'users',
                 'wells',
                 'operator',
@@ -457,6 +468,21 @@ class MineralOwnersController extends Controller
         try {
             Permit::where('id', $request->permitId)
                 ->update(['selected_lease_name' => $request->leaseNames]);
+
+            return $request->permitId;
+        } catch ( Exception $e ) {
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+            $errorMsg->save();
+            return 'error';
+        }
+    }
+
+    public function updateWellName(Request $request) {
+        try {
+            Permit::where('id', $request->permitId)
+                ->update(['selected_well_name' => $request->wellNames]);
 
             return $request->permitId;
         } catch ( Exception $e ) {

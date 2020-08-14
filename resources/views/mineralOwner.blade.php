@@ -21,138 +21,145 @@
                                     <input type="hidden" id="well_count" value="{{$count}}"/>
                                 </div>
                             </div>
+                        </div>
                             <input type="hidden" id="user_id" value="{{Auth::user()->id}}" />
-                            <div class="col-md-8">
-                                <label class="labels">Lease Name(s)</label>:
-                                <select id="lease_name_select" class="form-control" multiple="multiple">
-                                    @foreach ($leases as $lease)
-                                            @if (in_array($lease->lease_name, $leaseArray) )
-                                                <option selected value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
-                                            @else
-                                                <option value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
-                                            @endif
+
+                        <div class="row">
+                            <div class="col-md-5 offset-4">
+                                <label class="labels">Well Name(s)</label>:
+                                <select id="well_name_select" class="form-control" multiple="multiple">
+                                    @foreach ($selectWells as $selectWell)
+                                        @if (in_array($selectWell->LeaseName, $wellArray) )
+                                            <option selected value="{{$selectWell->LeaseName}}">{{$selectWell->LeaseName}}</option>
+                                        @else
+                                            <option value="{{$selectWell->LeaseName}}">{{$selectWell->LeaseName}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
-                                <button style="margin-left:10px;" type="button" id="refresh_lease_data_btn" class="btn btn-success">Refresh Lease Data</button><br>
-                                <span style="font-size:20px;">
+                                <button type="button" id="refresh_well_data_btn" class="btn btn-success">Refresh Well Data</button><br>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="permit_id" value="{{$permitValues->id}}"/>
+                        <div style="margin-top:1.5%;" class="col-md-12">
+                            <div class="row">
+                                <div style="text-align:center;" class="col-md-4">
+                                    <span style="font-size:20px;">
                                     <label class="labels">Operator Name</label>: {{$permitValues->reported_operator}}
                                 </span>
-                                <div class="col-md-4" id="acreage_container">
-                                    <label class="labels">Acreage : </label>
-                                    <input type="text" placeholder="Acreage" class="acreage" id="acreage_{{$permitValues->id}}" name="acreage" value="{{$permitValues->acreage}}">
+                                    <div class="col-md-12" id="acreage_container">
+                                        <label class="labels">Acreage : </label>
+                                        <input type="text" placeholder="Acreage" class="acreage" id="acreage_{{$permitValues->id}}" name="acreage" value="{{$permitValues->acreage}}">
+                                    </div>
+                                    <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
+                                    <div class="previous_notes" id="previous_notes" name="previous_notes" contenteditable="false"></div>
+                                    <?php $notes = '';?>
+                                    @foreach ($permitNotes as $permitNote)
+                                        <?php $notes .= $permitNote->notes ?>
+                                    @endforeach
+
+                                    <input type="hidden" id="hidden_permit_notes" value="{{$notes}}" />
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="map" id="proMap"></div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="county">County: </label>
+                                    <span id="county">{{$permitValues->county_parish}}</span><br>
+
+                                    @if ($permitValues->range != '')
+                                        <label for="Township">Township: </label>
+                                        <span id="Township">{{$permitValues->township}}</span><br>
+                                    @endif
+                                    @if ($permitValues->range != '')
+                                        <label for="Range">Range: </label>
+                                        <span id="Range">{{$permitValues->range}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->section != '')
+                                        <label for="Section">Section: </label>
+                                        <span id="Section">{{$permitValues->section}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->drill_type != '')
+                                        <label for="DrillType">Drill Type: </label>
+                                        <span id="DrillType">{{$permitValues->drill_type}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->permit_type != '')
+                                        <label for="PermitType">Permit Type: </label>
+                                        <span id="PermitType">{{$permitValues->permit_type}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->well_type != '')
+                                        <label for="WellType">Well Type: </label>
+                                        <span id="WellType">{{$permitValues->well_type}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->block != '')
+                                        <label for="Block">Block: </label>
+                                        <span id="Block">{{$permitValues->block}}</span><br>
+                                    @endif
+
+                                    <label for="total_gas">Total Gas Production: </label>
+                                    <span id="total_gas">{{$totalGasWithComma}}</span><br>
+
+                                    <label for="total_oil">Total Oil Production: </label>
+                                    <span id="total_oil">{{$totalOilWithComma}}</span><br>
+
+                                    <label for="bbls">BBLS (OIL): </label>
+                                    <span id="bbls">{{$bblsWithComma}}</span><br>
+
+                                    <label for="gbbls">MNX (GAS): </label>
+                                    <span id="gbbls">{{$gbblsWithComma}}</span><br>
+
+                                    @if ($permitValues->approved_date != '')
+                                        <?php $approvedDate = explode('T', $permitValues->approved_date) ?>
+                                        <label for="approved_date">Approved Date: </label>
+                                        <span id="ApprovedDate">{{$approvedDate[0]}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->submitted_date != '')
+                                        <?php $submittedDate = explode('T', $permitValues->submitted_date) ?>
+                                        <label for="submitted_date">Submitted Date: </label>
+                                        <span id="SubmittedDate">{{$submittedDate[0]}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->expiration_primary_term != '')
+                                        <label for="expiration_primary_term">Expiration Primary Term: </label>
+                                        <span id="expiration_primary_term">{{$permitValues->expiration_primary_term}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->survey != '')
+                                        <label for="Survey">Survey: </label>
+                                        <span id="Survey">{{$permitValues->survey}}</span><br>
+                                    @endif
+
+
+                                    @if ($permitValues->abstract != '')
+                                        <label for="Abstract">Abstract: </label>
+                                        <span id="Abstract">{{$permitValues->abstract}}</span><br>
+                                    @endif
+
+                                    @if ($permitValues->district != '')
+                                        <label for="District">District: </label>
+                                        <span id="District">{{$permitValues->district}}</span><br>
+                                    @endif
+
+                                    <?php $oldestDate = explode('T', $oldestDate) ?>
+                                    <label for="first_month">First month in Production: </label>
+                                    <span id="first_month">{{$oldestDate[0]}}</span><br>
+
+                                    <?php $latestDate = explode('T', $latestDate) ?>
+                                    <label for="last_month">Last month in Production: </label>
+                                    <span id="last_month">{{$latestDate[0]}}</span><br>
+
+                                    <label for="last_month">Years of Production: </label>
+                                    <span id="years_of_prod">{{$yearsOfProduction}}</span>
+
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="permit_id" value="{{$permitValues->id}}"/>
-                            <div style="margin-top:1.5%;" class="offset-3 col-md-9">
-                                <div class="row">
-                                    <div style="text-align:center;" class="col-md-4">
-                                        <label style="font-size:20px; font-weight:bold;" for="notes">Lease Notes</label>
-                                        <div class="previous_notes" id="previous_notes" name="previous_notes" contenteditable="false"></div>
-                                        <?php $notes = '';?>
-                                        @if(isset($permitNotes) && !$permitNotes->isEmpty())
-                                        @foreach ($permitNotes as $permitNote)
-                                            <?php $notes .= $permitNote->notes ?>
-                                        @endforeach
-                                        @endif
-
-                                        <input type="hidden" id="hidden_permit_notes" value="{{$notes}}" />
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="county">County: </label>
-                                        <span id="county">{{$permitValues->county_parish}}</span><br>
-
-                                        @if ($permitValues->range != '')
-                                            <label for="Range">Range: </label>
-                                            <span id="Range">{{$permitValues->range}}</span><br>
-                                        @endif
-
-                                        @if ($permitValues->section != '')
-                                            <label for="Section">Section: </label>
-                                            <span id="Section">{{$permitValues->section}}</span><br>
-                                        @endif
-
-                                        @if ($permitValues->drill_type != '')
-                                            <label for="DrillType">Drill Type: </label>
-                                            <span id="DrillType">{{$permitValues->drill_type}}</span><br>
-                                        @endif
-
-                                        @if ($permitValues->permit_type != '')
-                                            <label for="PermitType">Permit Type: </label>
-                                            <span id="PermitType">{{$permitValues->permit_type}}</span><br>
-                                        @endif
-
-                                        @if ($permitValues->well_type != '')
-                                            <label for="WellType">Well Type: </label>
-                                            <span id="WellType">{{$permitValues->well_type}}</span><br>
-                                        @endif
-
-                                        @if ($permitValues->block != '')
-                                            <label for="Block">Block: </label>
-                                            <span id="Block">{{$permitValues->block}}</span><br>
-                                        @endif
-
-                                        <label for="total_gas">Total Gas Production: </label>
-                                        <span id="total_gas">{{$totalGasWithComma}}</span><br>
-
-                                        <label for="total_oil">Total Oil Production: </label>
-                                        <span id="total_oil">{{$totalOilWithComma}}</span><br>
-
-                                        <label for="bbls">BBLS (OIL): </label>
-                                        <span id="bbls">{{$bblsWithComma}}</span><br>
-
-                                        <label for="gbbls">MNX (GAS): </label>
-                                        <span id="gbbls">{{$gbblsWithComma}}</span>
-
-                                    </div>
-                                    <div class="col-md-4">
-                                        @if ($permitValues->approved_date != '')
-                                            <?php $approvedDate = explode('T', $permitValues->approved_date) ?>
-                                            <label for="approved_date">Approved Date: </label>
-                                            <span id="ApprovedDate">{{$approvedDate[0]}}</span><br>
-                                        @endif
-
-                                        @if ($permitValues->submitted_date != '')
-                                                <?php $submittedDate = explode('T', $permitValues->submitted_date) ?>
-                                            <label for="submitted_date">Submitted Date: </label>
-                                            <span id="SubmittedDate">{{$submittedDate[0]}}</span><br>
-                                        @endif
-
-                                            @if ($permitValues->expiration_primary_term != '')
-                                                <label for="expiration_primary_term">Expiration Primary Term: </label>
-                                                <span id="expiration_primary_term">{{$permitValues->expiration_primary_term}}</span><br>
-                                            @endif
-
-                                            @if ($permitValues->survey != '')
-                                                <label for="Survey">Survey: </label>
-                                                <span id="Survey">{{$permitValues->survey}}</span><br>
-                                            @endif
-
-
-                                            @if ($permitValues->abstract != '')
-                                                <label for="Abstract">Abstract: </label>
-                                                <span id="Abstract">{{$permitValues->abstract}}</span><br>
-                                            @endif
-
-                                            @if ($permitValues->district != '')
-                                                <label for="District">District: </label>
-                                                <span id="District">{{$permitValues->district}}</span><br>
-                                            @endif
-
-                                            <?php $oldestDate = explode('T', $oldestDate) ?>
-                                            <label for="first_month">First month in Production: </label>
-                                            <span id="first_month">{{$oldestDate[0]}}</span><br>
-
-                                            <?php $latestDate = explode('T', $latestDate) ?>
-                                            <label for="last_month">Last month in Production: </label>
-                                            <span id="last_month">{{$latestDate[0]}}</span><br>
-
-                                            <label for="last_month">Years of Production: </label>
-                                            <span id="years_of_prod">{{$yearsOfProduction}}</span>
-
-                                    </div>
-                                    </div>
-                                </div>
                         @endif
                             </div>
                             @if (isset($owners[0]->lease_name))
@@ -161,75 +168,89 @@
                                 <input type="hidden" name="lease_name" id="lease_name" value="{{$operator}}"/>
                             @endif
 
-                                <div class="row">
-                            <div class="col-md-12">
-                                <div style="overflow-x:auto;">
-                                    <table class="table table-hover table-responsive-md table-bordered owner_table" style="width:1475px;">
-                                        <thead>
+                    <div class="row">
+                        <div class="col-md-5 offset-4">
+                            <label class="labels">Mineral Owners</label>:
+                            <select id="lease_name_select" class="form-control" multiple="multiple">
+                                @foreach ($leases as $lease)
+                                    @if (in_array($lease->lease_name, $leaseArray) )
+                                        <option selected value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
+                                    @else
+                                        <option value="{{$lease->lease_name}}">{{$lease->lease_name}}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                            <button type="button" id="refresh_lease_data_btn" class="btn btn-success">Refresh Owners</button><br>
+                        </div>
+                    </div>
 
-                                        <tr>
-                                            @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular' )
-                                                <th class="text-center">More Data</th>
-                                                <th class="text-center">Assignee/Follow-Up</th>
-                                                <th class="text-center">Wellbore Type</th>
-                                                <th class="text-center" style="width:100px;">Contact</th>
-                                                <th class="text-center">Follow-Up</th>
-                                                <th class="text-center">Owner</th>
-                                                <th class="text-center">ODI</th>
-                                                <th class="text-center">% Type</th>
-                                            @else
-                                                <th class="text-center">Col 1</th>
-                                                <th class="text-center">Col 2</th>
-                                                <th class="text-center">Col 3</th>
-                                                <th class="text-center" style="width:100px;">Contact</th>
-                                                <th class="text-center">Col 4</th>
-                                                <th class="text-center">Owner</th>
-                                                <th class="text-center">ODI</th>
-                                                <th class="text-center">Col 7</th>
-                                                <th class="text-center">Col 8</th>
-                                            @endif
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach ($owners as $owner)
-                                            <tr class="owner_row" id="owner_row_{{$owner->id}}">
-                                                @if (Auth::user()->role === 'admin'  || Auth::user()->role === 'regular')
-                                                    <td id="id_{{$owner->id}}" class="text-center owner-details-control view_owner"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
-                                                    <td class="text-center">
-                                                        @if (Auth::user()->name === 'Billy Moreaux' && ($owner->assignee != null || $owner->assignee != 0))
-                                                            <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
-                                                        @elseif (($owner->assignee != null && $owner->assignee != '0'))
-                                                                    <select disabled class="form-control owner_assignee" id="assignee_{{$owner->id}}">
-                                                                        @else
-                                                                            <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
-                                                                        @endif
-                                                                        <option selected value="0">Select a User</option>
-                                                                        @foreach ($users as $user)
-                                                                            @if ($user->id == $owner->assignee)
-                                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
-                                                                            @else
-                                                                                <option value="{{$user->id}}">{{$user->name}}</option>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div style="overflow-x:auto;">
+                                <table class="table table-hover table-responsive-md table-bordered owner_table" style="width:1475px;">
+                                    <thead>
+                                    <tr>
+                                        @if (Auth::user()->role === 'admin' || Auth::user()->role === 'regular' )
+                                            <th class="text-center">More Data</th>
+                                            <th class="text-center">Assignee/Follow-Up</th>
+                                            <th class="text-center">Wellbore Type</th>
+                                            <th class="text-center" style="width:100px;">Contact</th>
+                                            <th class="text-center">Follow-Up</th>
+                                            <th class="text-center">Owner</th>
+                                            <th class="text-center">ODI</th>
+                                            <th class="text-center">% Type</th>
+                                        @else
+                                            <th class="text-center">Col 1</th>
+                                            <th class="text-center">Col 2</th>
+                                            <th class="text-center">Col 3</th>
+                                            <th class="text-center" style="width:100px;">Contact</th>
+                                            <th class="text-center">Col 4</th>
+                                            <th class="text-center">Owner</th>
+                                            <th class="text-center">ODI</th>
+                                            <th class="text-center">Col 7</th>
+                                            <th class="text-center">Col 8</th>
+                                        @endif
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($owners as $owner)
+                                        <tr class="owner_row" id="owner_row_{{$owner->id}}">
+                                            @if (Auth::user()->role === 'admin'  || Auth::user()->role === 'regular')
+                                                <td id="id_{{$owner->id}}" class="text-center owner-details-control view_owner"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                <td class="text-center">
+                                                    @if (Auth::user()->name === 'Billy Moreaux' && ($owner->assignee != null || $owner->assignee != 0))
+                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                            @elseif (($owner->assignee != null && $owner->assignee != '0'))
+                                                                <select disabled class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                                    @else
+                                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">@endif
+                                                                            <option selected value="0">Select a User</option>
+                                                                            @foreach ($users as $user)
+                                                                                @if ($user->id == $owner->assignee)
+                                                                                    <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                                @else
+                                                                                    <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                                @endif
+                                                                            @endforeach
+                                                                        </select>
+                                                                </select>
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (Auth::user()->name === 'Billy Moreaux' && ($owner->wellbore_type != null || $owner->wellbore_type != 0))
+                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                            @elseif (($owner->wellbore_type != null && $owner->wellbore_type != '0'))
+                                                                <select disabled class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                                    @else
+                                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
                                                                             @endif
-                                                                        @endforeach
-                                                                    </select>
-                                                            </select>
-
-                                                    </td>
-                                                    <td class="text-center">
-                                                                @if (Auth::user()->name === 'Billy Moreaux' && ($owner->wellbore_type != null || $owner->wellbore_type != 0))
-                                                            <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
-                                                                @elseif (($owner->wellbore_type != null && $owner->wellbore_type != '0'))
-                                                                    <select disabled class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
-                                                                @else
-                                                                            <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
-                                                                @endif
-                                                                    @if ($owner->wellbore_type == 1)
-                                                                        <option value="0">None</option>
-                                                                        <option selected value="{{$owner->wellbore_type}}">1</option>
-                                                                        <option value="2">2</option>
-                                                                        <option value="3">3</option>
-                                                                        <option value="4">4</option>
-                                                                    @elseif ($owner->wellbore_type == 2)
+                                                                            @if ($owner->wellbore_type == 1)
+                                                                                <option value="0">None</option>
+                                                                                <option selected value="{{$owner->wellbore_type}}">1</option>
+                                                                                <option value="2">2</option>
+                                                                                <option value="3">3</option>
+                                                                                <option value="4">4</option>
+                                                                            @elseif ($owner->wellbore_type == 2)
                                                                         <option value="0">None</option>
                                                                         <option value="1">1</option>
                                                                         <option selected value="{{$owner->wellbore_type}}">2</option>

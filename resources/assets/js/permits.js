@@ -8,6 +8,10 @@ $(document).ready(function () {
         minimumInputLength: 3
     });
 
+    $('#well_name_select').select2({
+        minimumInputLength: 3
+    });
+
     let globalPermitId = '';
 
     $('.interest_tab').on('click', function(){
