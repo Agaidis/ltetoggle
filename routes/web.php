@@ -59,9 +59,40 @@ Route::get('/new-permits/storePermit', 'MMPController@storePermit')->middleware(
 Route::put('/update-prices', 'MMPController@updatePrices');
 
 
-/*                      MINERAL OWNER/LEASE PAGE                        */
+
+/*                      NON PRODUCING LEASE PAGE                        */
+
+Route::put('/non-producing-lease/updateAssignee', 'nonProducingOwnersController@updateAssignee')->middleware('auth');
+
+Route::put('/non-producing-lease/updateFollowUp', 'nonProducingOwnersController@updateFollowUp')->middleware('auth');
+
+Route::get('/non-producing-lease-update/update/update-well-type-update', 'nonProducingOwnersController@updateWellType')->middleware('auth');
+
+Route::post('/non-producing-lease/update/OwnerPrice', 'nonProducingOwnersController@updateOwnerPrice')->middleware('auth');
+
+Route::get('/non-producing-lease/getNotes', 'nonProducingOwnersController@getNotes')->middleware('auth');
+
+Route::put('/non-producing-lease/updateNotes', 'nonProducingOwnersController@updateNotes')->middleware('auth');
+
+Route::post('non-producing-lease/delete/delete-note', 'nonProducingOwnersController@deleteNote')->middleware('auth');
+
+Route::get('/non-producing-lease/getOwnerNumbers', 'nonProducingOwnersController@getOwnerNumbers')->middleware('auth');
+
+Route::post('/non-producing-lease/addPhone', 'nonProducingOwnersController@addPhone')->middleware('auth');
+
+Route::put('/non-producing-lease/pushPhoneNumber', 'nonProducingOwnersController@pushPhoneNumber')->middleware('auth');
+
+Route::post('/non-producing-lease/softDeletePhone', 'nonProducingOwnersController@softDeletePhone')->middleware('auth');
+
+Route::get('/non-producing-mineral-owners', 'nonProducingOwnersController@getOwnerInfo')->middleware('auth');
+
+
+
+
+
+/*                                  LEASE PAGE                        */
 //GET OWNERS INFO
-Route::get('/mineral-owner/{operator?}/{reporter?}/{id?}', 'MineralOwnersController@index')->middleware('auth');
+Route::get('/lease-page/{interestArea?}/{isProducing?}/{id?}', 'LeasePageController@index')->middleware('auth');
 
 Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo')->middleware('auth');
 
@@ -69,8 +100,7 @@ Route::post('/mineral-owners/updateLeaseNames', 'MineralOwnersController@updateL
 
 Route::post('/mineral-owners/updateWellNames', 'MineralOwnersController@updateWellName')->middleware('auth');
 
-//GET OWNERS INFO
-Route::get('/non-producing-mineral-owner/{operator?}/{reporter?}/{id?}', 'nonProducingOwnersController@index')->middleware('auth');
+
 
 
 //Well Details
@@ -96,7 +126,6 @@ Route::get('/mineral-owners/getOwnerNumbers', 'MineralOwnersController@getOwnerN
 
 Route::post('/mineral-owner/addPhone', 'MineralOwnersController@addPhone')->middleware('auth');
 
-Route::put('/mineral-owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers')->middleware('auth');
 
 Route::put('/mineral-owner/pushPhoneNumber', 'MineralOwnersController@pushPhoneNumber')->middleware('auth');
 

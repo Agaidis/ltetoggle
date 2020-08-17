@@ -42772,31 +42772,6 @@ $(document).ready(function () {
     var splitId = id.split('_');
     var ownerId = splitId[2];
     globalOwnerId = ownerId;
-  }).on('click', '.update_phone_numbers', function () {
-    var id = $(this)[0].id;
-    var splitId = id.split('_');
-    var ownerId = splitId[3];
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "PUT",
-      url: '/mineral-owner/updatePhoneNumbers',
-      data: {
-        ownerId: ownerId
-      },
-      success: function success(data) {
-        console.log(data);
-      },
-      error: function error(data) {
-        console.log(data);
-      }
-    });
   }).on('click', 'td.owner-details-control', function () {
     var id = $(this)[0].id;
     var splitId = id.split('_');
@@ -43132,37 +43107,41 @@ $(document).ready(function () {
       }
     });
   });
-  $('.submit_phone_btn').on('click', function () {
-    console.log('haha');
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
+
+  if (location.href.split('/')[3] === 'mineral-owner') {
+    $('.submit_phone_btn').on('click', function () {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/mineral-owner/addPhone',
+        data: {
+          ownerId: globalOwnerId,
+          phoneDesc: $('#new_phone_desc').val(),
+          phoneNumber: $('#new_phone_number').val(),
+          leaseName: $('#lease_name').val()
+        },
+        success: function success(data) {
+          $('#new_phone_desc').val('').text('');
+          $('#new_phone_number').val('').text('');
+          var phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + data.id + '" "></span>' + '</div></span>';
+          $('.phone_container').append($(phoneNumber).html());
+        },
+        error: function error(data) {
+          console.log(data);
+          $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+        }
+      });
     });
-    $.ajax({
-      beforeSend: function beforeSend(xhr) {
-        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-      },
-      type: "POST",
-      url: '/mineral-owner/addPhone',
-      data: {
-        ownerId: globalOwnerId,
-        phoneDesc: $('#new_phone_desc').val(),
-        phoneNumber: $('#new_phone_number').val(),
-        leaseName: $('#lease_name').val()
-      },
-      success: function success(data) {
-        $('#new_phone_desc').val('').text('');
-        $('#new_phone_number').val('').text('');
-        var phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + data.id + '" "></span>' + '</div></span>';
-        $('.phone_container').append($(phoneNumber).html());
-      },
-      error: function error(data) {
-        console.log(data);
-        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
-      }
-    });
-  });
+  }
+
+  ;
   /*              END PHONE CAPABILITIES              */
 
   $('.acreage').on('focusout', function () {
@@ -43451,6 +43430,45 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   if (location.href.split('/')[3] === 'non-producing-mineral-owner') {
+    /*              END PHONE CAPABILITIES              */
+
+    /*                  FUNCTIONS                   */
+    var getOwnerNotes = function getOwnerNotes(leaseId) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "GET",
+        url: '/mineral-owners/getNotes',
+        data: {
+          LeaseId: leaseId,
+          leaseName: $('#lease_name').val()
+        },
+        success: function success(data) {
+          if (data !== undefined && data !== '') {
+            var updatedNotes = '';
+            $.each(data, function (key, value) {
+              updatedNotes += '<span>' + value.notes + '</span>';
+            });
+            updatedNotes = $('<span>' + updatedNotes + '</span>');
+            $('#previous_owner_notes_' + leaseId).empty().append(updatedNotes.html());
+          } else {
+            $('#previous_owner_notes_' + leaseId).empty();
+          }
+        },
+        error: function error(data) {
+          console.log(data);
+          $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+        }
+      });
+    };
+
+    $('.owner_follow_up').datepicker();
     $('#refresh_well_data_btn').on('click', function () {
       var wellNamesString = '';
       $.each($('#well_name_select')[0].selectedOptions, function (key, value) {
@@ -43576,7 +43594,7 @@ $(document).ready(function () {
           xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
         },
         type: "GET",
-        url: '/mineral-owners',
+        url: '/non-producing-mineral-owners',
         data: {
           id: ownerId
         },
@@ -43645,6 +43663,339 @@ $(document).ready(function () {
         },
         error: function error(data) {
           console.log(data);
+        }
+      });
+    }).on('change', '.owner_assignee', function () {
+      var id = $(this)[0].id;
+      var assignee = $(this)[0].value;
+      var leaseId = id.split('_');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "PUT",
+        url: '/non-producing-lease/updateAssignee',
+        data: {
+          LeaseId: leaseId[1],
+          assigneeId: assignee
+        },
+        success: function success(data) {
+          console.log(assignee);
+
+          if (assignee !== "0") {
+            $("#owner_follow_up_" + leaseId[1]).datepicker("setDate", "2");
+          }
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }).on('change', '.owner_follow_up', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var leaseId = splitId[3];
+      var date = $('#owner_follow_up_' + leaseId).val();
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "PUT",
+        url: '/non-producing-lease/updateFollowUp',
+        data: {
+          LeaseId: leaseId,
+          date: date
+        },
+        success: function success(data) {
+          console.log(data);
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }).on('change', '.wellbore_dropdown', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var leaseId = splitId[2];
+      var wellType = $(this)[0].value;
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "GET",
+        url: '/non-producing-lease-update/update/update-well-type-update',
+        data: {
+          LeaseId: leaseId,
+          wellType: wellType
+        },
+        success: function success(data) {
+          if (wellType !== "0") {
+            $("#owner_follow_up_" + leaseId).datepicker("setDate", "2");
+          }
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }).on('focusout', '.owner_price', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var leaseId = splitId[2];
+      var ownerPrice = $('#owner_price_' + leaseId).val();
+      ownerPrice = ownerPrice.replace('$', '');
+      var total = ownerPrice * $('#net_royalty_acres_' + leaseId).val();
+      var totalPriceForInterest = total.toFixed(2);
+      var totalPriceForInterestWithComma = numberWithCommas(totalPriceForInterest);
+      $('#total_price_for_interest_' + leaseId).val('$' + totalPriceForInterestWithComma);
+      var neededIncome = totalPriceForInterest / $('#decimal_interest_' + leaseId).text();
+      var bnp = neededIncome / $('.oil_price').val();
+      bnp = bnp.toFixed(2);
+      var bnpWithComma = numberWithCommas(bnp);
+      $('#bnp_' + leaseId).val(bnpWithComma);
+      var bbls = $('#bbls').text();
+      bbls = bbls.replace(',', '');
+      var ytp = bnp / bbls;
+      ytp = ytp.toFixed(2);
+      var ytpWithComma = numberWithCommas(ytp);
+      $('#ytp_' + leaseId).val(ytpWithComma);
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/non-producing-lease/update/OwnerPrice',
+        data: {
+          LeaseId: leaseId,
+          price: ownerPrice
+        },
+        success: function success(data) {
+          console.log(data);
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }).on('click', '.update_owner_notes_btn', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var leaseId = splitId[4];
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "PUT",
+        url: '/non-producing-lease/updateNotes',
+        data: {
+          LeaseId: leaseId,
+          leaseName: $('#lease_name').val(),
+          notes: $('#owner_notes_' + leaseId).val()
+        },
+        success: function success(data) {
+          $("#owner_follow_up_" + leaseId).datepicker("setDate", "2");
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_owner_notes_' + leaseId).empty().append(updatedNotes.html());
+          $('#owner_notes_' + leaseId).val('').text('');
+          $('#assignee_' + leaseId).val($('#user_id').val());
+        },
+        error: function error(data) {
+          console.log(data);
+          $('#owner_notes_' + leaseId).val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+        }
+      });
+    }).on('mouseover', '.owner_note', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var noteId = splitId[1];
+      var leaseId = splitId[2];
+      $('#' + id).css('background-color', 'lightgrey');
+      $('#delete_owner_note_' + noteId + '_' + leaseId).css('display', 'inherit');
+    }).on('mouseleave', '.owner_note', function () {
+      $('.delete_owner_note').css('display', 'none');
+      $('.owner_note').css('background-color', '#F2EDD7FF');
+    }).on('click', '.delete_owner_note', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var noteId = splitId[3];
+      var leaseId = splitId[4];
+      var response = confirm('Are you sure you want to delete this note?');
+
+      if (response) {
+        $.ajaxSetup({
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+          }
+        });
+        $.ajax({
+          beforeSend: function beforeSend(xhr) {
+            xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+          },
+          type: "POST",
+          url: '/non-producing-lease/delete/delete-note',
+          data: {
+            id: noteId
+          },
+          success: function success(data) {
+            console.log(data);
+            var updatedNotes = '';
+            $.each(data, function (key, value) {
+              updatedNotes += '<span>' + value.notes + '</span>';
+            });
+            updatedNotes = $('<span>' + updatedNotes + '</span>');
+            $('#previous_owner_notes_' + leaseId).empty().append(updatedNotes.html());
+          },
+          error: function error(data) {
+            console.log(data);
+          }
+        });
+      }
+    }).on('click', '.add_phone_btn', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var leaseId = splitId[2];
+      $('#current_lease').val(leaseId);
+      $('#new_phone_desc').val('').text('');
+      $('#new_phone_number').val('').text('');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "GET",
+        url: '/non-producing-lease/getOwnerNumbers',
+        data: {
+          LeaseId: leaseId
+        },
+        success: function success(data) {
+          console.log(data);
+          var phoneNumbers = '<div>';
+          $.each(data, function (key, value) {
+            phoneNumbers += '<span><div id="phone_' + value.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + value.phone_desc + ': </span>' + '<span><a href="tel:' + value.id + '">' + value.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + value.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + value.id + '" "></span>' + '</div></span>';
+          });
+          phoneNumbers += '</div>';
+          $('.phone_container').empty().append($(phoneNumbers).html());
+        },
+        error: function error(data) {
+          console.log(data);
+          $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+        }
+      });
+    });
+    $('.phone_container').on('click', '.soft_delete_phone', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var uniqueId = splitId[2];
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/non-producing-lease/softDeletePhone',
+        data: {
+          id: uniqueId
+        },
+        success: function success(data) {
+          console.log(data);
+          $('#phone_' + uniqueId).remove();
+        },
+        error: function error(data) {
+          console.log(data);
+          $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+        }
+      });
+    }).on('click', '.push_back_phone', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var uniqueId = splitId[3];
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "PUT",
+        url: '/non-producing-lease/pushPhoneNumber',
+        data: {
+          id: uniqueId,
+          reason: ''
+        },
+        success: function success(data) {
+          console.log(data);
+          $('#phone_' + uniqueId).remove();
+        },
+        error: function error(data) {
+          console.log(data);
+          $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+        }
+      });
+    });
+    $('.submit_phone_btn').on('click', function () {
+      console.log('haha');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/non-producing-lease/addPhone',
+        data: {
+          LeaseId: $('#current_lease').val(),
+          phoneDesc: $('#new_phone_desc').val(),
+          phoneNumber: $('#new_phone_number').val(),
+          leaseName: $('#lease_name').val()
+        },
+        success: function success(data) {
+          $('#new_phone_desc').val('').text('');
+          $('#new_phone_number').val('').text('');
+          var phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + data.id + '" "></span>' + '</div></span>';
+          $('.phone_container').append($(phoneNumber).html());
+        },
+        error: function error(data) {
+          console.log(data);
+          $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
         }
       });
     });

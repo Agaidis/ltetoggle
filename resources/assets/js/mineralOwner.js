@@ -1,5 +1,7 @@
 $(document).ready(function () {
-    let globalOwnerId = '';
+
+
+        let globalOwnerId = '';
     let globalOwnerName = '';
 
     $('.previous_notes').html($('#hidden_permit_notes').val());
@@ -79,33 +81,6 @@ $(document).ready(function () {
         globalOwnerId = ownerId;
 
 
-    }).on('click', '.update_phone_numbers', function() {
-        let id = $(this)[0].id;
-        let splitId = id.split('_');
-        let ownerId = splitId[3];
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            beforeSend: function beforeSend(xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-            },
-            type: "PUT",
-            url: '/mineral-owner/updatePhoneNumbers',
-            data: {
-                ownerId: ownerId,
-
-            },
-            success: function success(data) {
-                console.log(data);
-            },
-            error: function error(data) {
-                console.log(data);
-            }
-        });
     }).on('click', 'td.owner-details-control', function () {
         let id = $(this)[0].id;
         let splitId = id.split('_');
@@ -579,48 +554,48 @@ $(document).ready(function () {
 
     });
 
-    $('.submit_phone_btn').on('click', function() {
-        console.log('haha');
+    if (location.href.split('/')[3] === 'mineral-owner') {
+        $('.submit_phone_btn').on('click', function () {
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                beforeSend: function beforeSend(xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+                type: "POST",
+                url: '/mineral-owner/addPhone',
+                data: {
+                    ownerId: globalOwnerId,
+                    phoneDesc: $('#new_phone_desc').val(),
+                    phoneNumber: $('#new_phone_number').val(),
+                    leaseName: $('#lease_name').val()
+                },
+                success: function success(data) {
+
+                    $('#new_phone_desc').val('').text('');
+                    $('#new_phone_number').val('').text('');
+
+                    let phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' +
+                        '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' +
+                        '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' +
+                        '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' +
+                        '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + data.id + '" "></span>' +
+                        '</div></span>';
+
+                    $('.phone_container').append($(phoneNumber).html());
+
+                },
+                error: function error(data) {
+                    console.log(data);
+                    $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+                }
+            });
         });
-        $.ajax({
-            beforeSend: function beforeSend(xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-            },
-            type: "POST",
-            url: '/mineral-owner/addPhone',
-            data: {
-                ownerId: globalOwnerId,
-                phoneDesc: $('#new_phone_desc').val(),
-                phoneNumber: $('#new_phone_number').val(),
-                leaseName: $('#lease_name').val()
-            },
-            success: function success(data) {
-
-                $('#new_phone_desc').val('').text('');
-                $('#new_phone_number').val('').text('');
-
-                let phoneNumber = '<span><div id="phone_'+data.id+'" style="padding: 2%;">'+
-                    '<span style="font-weight: bold;">'+data.phone_desc+': </span>'+
-                    '<span><a href="tel:'+data.id+'">'+data.phone_number+' </a></span>'+
-                    '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_'+data.id+'" "></span>'+
-                    '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_'+data.id+'" "></span>'+
-                    '</div></span>';
-
-            $('.phone_container').append($(phoneNumber).html());
-
-            },
-            error: function error(data) {
-                console.log(data);
-                $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
-            }
-        });
-    });
-
+    };
     /*              END PHONE CAPABILITIES              */
 
 

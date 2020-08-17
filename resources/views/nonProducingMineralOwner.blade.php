@@ -22,6 +22,9 @@
                                     </div>
                             </div>
                             <input type="hidden" id="user_id" value="{{Auth::user()->id}}" />
+                            <input type="hidden" id="current_lease" value="" />
+
+
                             <div class="col-md-8">
                                 <label class="labels">Well Name(s)</label>:
                                 <select id="well_name_select" class="form-control" multiple="multiple">
@@ -200,16 +203,16 @@
                                     </thead>
                                     <tbody>
                                     @foreach ($owners as $owner)
-                                        <tr class="owner_row" id="owner_row_{{$owner->id}}">
+                                        <tr class="owner_row" id="owner_row_{{$owner->LeaseId}}">
                                             @if (Auth::user()->role === 'admin'  || Auth::user()->role === 'regular')
-                                                <td id="id_{{$owner->id}}" class="text-center owner-details-control view_owner"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                <td id="id_{{$owner->LeaseId}}" class="text-center owner-details-control view_owner"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
                                                 <td class="text-center">
                                                     @if (Auth::user()->name === 'Billy Moreaux' && ($owner->assignee != null || $owner->assignee != 0))
-                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->LeaseId}}">
                                                             @elseif (($owner->assignee != null && $owner->assignee != '0'))
-                                                                <select disabled class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                                <select disabled class="form-control owner_assignee" id="assignee_{{$owner->LeaseId}}">
                                                                     @else
-                                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->id}}">
+                                                                        <select class="form-control owner_assignee" id="assignee_{{$owner->LeaseId}}">
                                                                             @endif
                                                                             <option selected value="0">Select a User</option>
                                                                             @foreach ($users as $user)
@@ -224,37 +227,37 @@
 
                                                 </td>
                                                 <td class="text-center">
-                                                    @if (Auth::user()->name === 'Billy Moreaux' && ($owner->wellbore_type != null || $owner->wellbore_type != 0))
-                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
-                                                            @elseif (($owner->wellbore_type != null && $owner->wellbore_type != '0'))
-                                                                <select disabled class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                    @if (Auth::user()->name === 'Billy Moreaux' && ($owner->wellbore != null || $owner->wellbore != 0))
+                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->LeaseId}}">
+                                                            @elseif (($owner->wellbore != null && $owner->wellbore != '0'))
+                                                                <select disabled class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->LeaseId}}">
                                                                     @else
-                                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->id}}">
+                                                                        <select class="form-control wellbore_dropdown" id="wellbore_dropdown_{{$owner->LeaseId}}">
                                                                             @endif
-                                                                            @if ($owner->wellbore_type == 1)
+                                                                            @if ($owner->wellbore == 1)
                                                                                 <option value="0">None</option>
-                                                                                <option selected value="{{$owner->wellbore_type}}">1</option>
+                                                                                <option selected value="{{$owner->wellbore}}">1</option>
                                                                                 <option value="2">2</option>
                                                                                 <option value="3">3</option>
                                                                                 <option value="4">4</option>
-                                                                            @elseif ($owner->wellbore_type == 2)
+                                                                            @elseif ($owner->wellbore == 2)
                                                                                 <option value="0">None</option>
                                                                                 <option value="1">1</option>
-                                                                                <option selected value="{{$owner->wellbore_type}}">2</option>
+                                                                                <option selected value="{{$owner->wellbore}}">2</option>
                                                                                 <option value="3">3</option>
                                                                                 <option value="4">4</option>
-                                                                            @elseif ($owner->wellbore_type == 3)
+                                                                            @elseif ($owner->wellbore == 3)
                                                                                 <option value="0">None</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
-                                                                                <option selected value="{{$owner->wellbore_type}}">3</option>
+                                                                                <option selected value="{{$owner->wellbore}}">3</option>
                                                                                 <option value="4">4</option>
-                                                                            @elseif ($owner->wellbore_type == 4)
+                                                                            @elseif ($owner->wellbore == 4)
                                                                                 <option value="0">None</option>
                                                                                 <option value="1">1</option>
                                                                                 <option value="2">2</option>
                                                                                 <option value="3">3</option>
-                                                                                <option selected value="{{$owner->wellbore_type}}">4</option>
+                                                                                <option selected value="{{$owner->wellbore}}">4</option>
                                                                             @else
                                                                                 <option selected value="0">None</option>
                                                                                 <option value="1">1</option>
@@ -265,13 +268,13 @@
                                                                         </select>
                                                 </td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->id}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
+                                                    <button class="btn btn-primary add_phone_btn" id="add_phone_{{$owner->LeaseId}}" data-target="#modal_add_phone" data-toggle="modal">Contact Info</button>
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($owner->follow_up_date != '')
-                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" value="{{date('M j, Y', strtotime($owner->follow_up_date))}}" />
+                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->LeaseId}}" value="{{date('M j, Y', strtotime($owner->follow_up_date))}}" />
                                                     @else
-                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->id}}" />
+                                                        <i class="fas fa-calendar-alt"></i> <input class="form-control owner_follow_up" id="owner_follow_up_{{$owner->LeaseId}}" />
                                                     @endif
                                                 </td>
                                                 <td class="text-center"><a href="{{url( 'owner/' . $owner->Grantor)}}">{{$owner->Grantor}}</a></td>
