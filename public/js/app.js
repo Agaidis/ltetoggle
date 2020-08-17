@@ -36899,6 +36899,302 @@ module.exports = function(module) {
 
 /***/ }),
 
+/***/ "./resources/assets/js/admin.js":
+/*!**************************************!*\
+  !*** ./resources/assets/js/admin.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var adminPermitTable = ''; //EAGLE PERMIT TABLE
+
+  $('#admin_permit_table').on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = adminPermitTable.row(tr);
+    moreAdminData(id, tr, permitId, reportedOperator, row);
+  });
+  $('#update_permit_btn').on('click', function () {
+    var county = $('#county_select').val();
+
+    if (county === '') {
+      alert('Please select a county');
+    } else {
+      $('.loader').css('display', 'inline-block');
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "GET",
+        url: '/admin/updatePermits',
+        data: {
+          county: county
+        },
+        success: function success(data) {
+          $('.loader').css('display', 'none');
+          console.log(data);
+
+          if (data !== '') {
+            var rows = '';
+            $.each(data, function (key, value) {
+              rows += '<tr>' + '<td id="id_' + value.permit_id + '" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>' + '<td class="text-center">' + value.county_parish + '</td>' + '<td class="text-center">' + value.reported_operator + '</td>' + '<td class="text-center">' + value.lease_name + '</td>' + '</tr>';
+            });
+            console.log(rows);
+            adminPermitTable = $('#admin_permit_table').append(rows).DataTable({
+              paging: true,
+              destroy: true
+            });
+          } else {
+            var messages = $('.alert-danger');
+            var successHtml = '<div class="alert alert-danger">' + '<button type="button" class="close" data-dismiss="alert">&times;</button>' + '<strong><i class="glyphicon glyphicon-ok-sign push-5-r"></</strong> There was a problem Updating Database' + '</div>';
+            $(messages).html(successHtml);
+          }
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
+  });
+
+  function moreAdminData(id, tr, permitId, reportedOperator, row) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/new-permits/getPermitDetails',
+      data: {
+        permitId: permitId,
+        reportedOperator: reportedOperator
+      },
+      success: function success(data) {
+        var permitBody = '<div class="row"><div class="col-md-6">' + '<h3>Location & Contact</h3>' + '<div class="containers">' + '<label for="permit_number_' + permitId + '">Permit Number: </label>' + '<span id="permit_number_' + permitId + '"></span><br>' + '<label for="County/Parish_' + permitId + '">County State: </label>' + '<span id="CountyParish_' + permitId + '"></span><br>' + '<label for="Township_' + permitId + '">Township: </label>' + '<span id="Township_' + permitId + '"></span><br>' + '<label for="OperatorAlias_' + permitId + '">Operator: </label>' + '<span id="OperatorAlias_' + permitId + '"></span><br>' + '<label for="area_acres_' + permitId + '">Acreage: </label>' + '<span id="area_acres_' + permitId + '"></span><br>' + '<label for="Range_' + permitId + '">Range: </label>' + '<span id="Range_' + permitId + '"></span><br>' + '<label for="Section_' + permitId + '">Section: </label>' + '<span id="Section_' + permitId + '"></span><br>' + '<label for="District_' + permitId + '">District: </label>' + '<span id="District_' + permitId + '"></span><br>' + '<label for="Block_' + permitId + '">Block: </label>' + '<span id="Block_' + permitId + '"></span>' + '</div></div>' + '<div class="col-md-6">' + '<h3>Permit Info.</h3>' + '<div class="containers">' + '<label for="permitStatus_' + permitId + '">Permit Status:</label>' + '<span id="permitStatus_' + permitId + '"></span><br>' + '<label for="DrillType_' + permitId + '">Drill Type: </label>' + '<span id="DrillType_' + permitId + '"></span><br>' + '<label for="PermitType_' + permitId + '">Permit Type: </label>' + '<span id="PermitType_' + permitId + '"></span><br>' + '<label for="WellType_' + permitId + '">Well Type: </label>' + '<span id="WellType_' + permitId + '"></span><br>' + '<label for="approved_date_' + permitId + '">Approved Date: </label>' + '<span id="ApprovedDate_' + permitId + '"></span><br>' + '<label for="submitted_date_' + permitId + '">Submitted Date: </label>' + '<span id="SubmittedDate_' + permitId + '"></span><br>' + '<label for="Survey_' + permitId + '">Survey: </label>' + '<span id="Survey_' + permitId + '"></span><br>' + '<label for="Abstract_' + permitId + '">Abstract: </label>' + '<span id="Abstract_' + permitId + '"></span><br>' + '</div></div></div><br>' + '<div class="row"><div class="col-md-4">' + '<div class="map" id="map_' + permitId + '"></div></div>' + '<div class="col-md-6"><div style="margin-top:1.5%;">' + '</div></div></div>';
+
+        if (row.child.isShown()) {
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          row.child(permitBody).show();
+          tr.addClass('shown');
+
+          try {
+            var ResizeMap = function ResizeMap() {
+              google.maps.event.trigger(map, "resize");
+            };
+
+            var geoPoints = data['permit'].btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+            var obj = [];
+            geoPoints.push(data.leaseGeo);
+            var map;
+            var bounds;
+
+            for (var j in geoPoints) {
+              if (j == 0) {
+                map = new google.maps.Map(document.getElementById('map_' + permitId), {
+                  center: JSON.parse(geoPoints[j]),
+                  zoom: 13,
+                  mapTypeId: google.maps.MapTypeId.HYBRID
+                });
+              }
+
+              obj.push(JSON.parse(geoPoints[j]));
+            }
+
+            var locationInfowindow = new google.maps.InfoWindow({
+              content: 'What info do we want in here.'
+            });
+            var marker = new google.maps.Marker({
+              position: JSON.parse(geoPoints[0]),
+              map: map,
+              infowindow: locationInfowindow
+            });
+            google.maps.event.addListener(marker, 'click', function () {
+              this.infowindow.open(map, this);
+            });
+            $("#VehicleMovementModal").on('shown', function () {
+              ResizeMap();
+            });
+            bounds = new google.maps.LatLngBounds();
+            google.maps.event.addListenerOnce(map, 'tilesloaded', function (evt) {
+              bounds = map.getBounds();
+            });
+            var input =
+            /** @type {!HTMLInputElement} */
+            document.getElementById('pac-input');
+            var types = document.getElementById('type-selector');
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+            map.controls[google.maps.ControlPosition.TOP_LEFT].push(types);
+            var polygon = new google.maps.Polygon({
+              path: obj,
+              geodesic: true,
+              strokeColor: '#091096',
+              strokeOpacity: 1.0,
+              strokeWeight: 2,
+              fillColor: '#B1AAA9',
+              fillOpacity: 0.35
+            });
+            polygon.setMap(map);
+          } catch (err) {
+            console.log(err);
+          }
+        }
+
+        var survey = data['permit']['survey'];
+
+        if (data['permit']['survey'] === null) {
+          survey = 'N/A';
+        } else {
+          survey = data['permit']['survey'];
+        }
+
+        var _abstract = data['permit']['abstract'];
+
+        if (data['permit']['abstract'] === null) {
+          _abstract = 'N/A';
+        } else {
+          _abstract = data['permit']['abstract'];
+        }
+
+        var district = data['permit']['district'];
+
+        if (data['permit']['district'] === null) {
+          district = 'N/A';
+        } else {
+          district = data['permit']['district'];
+        }
+
+        var block = data['permit']['block'];
+
+        if (data['permit']['block'] === null) {
+          block = 'N/A';
+        } else {
+          block = data['permit']['block'];
+        }
+
+        var approvedDate = '';
+
+        if (data['permit']['approved_date'] !== null) {
+          approvedDate = data['permit']['approved_date'].split('T');
+        } else {
+          approvedDate = 'N/A';
+        }
+
+        var permitStatus = '';
+
+        if (data['permit']['permit_status'] !== null) {
+          permitStatus = data['permit']['permit_status'].split('T');
+        } else {
+          permitStatus = 'N/A';
+        }
+
+        var submittedDate = '';
+
+        if (data['permit']['submitted_date'] !== null) {
+          submittedDate = data['permit']['submitted_date'].split('T');
+        } else {
+          submittedDate = 'N/A';
+        }
+
+        var township = '';
+
+        if (data['permit']['submitted_date'] !== null) {
+          township = data['permit']['township'];
+        } else {
+          township = 'N/A';
+        }
+
+        var acreage = '';
+
+        if (data['permit']['acreage'] !== null) {
+          acreage = data['permit']['acreage'];
+        } else {
+          acreage = 'N/A';
+        }
+
+        var drillType = '';
+
+        if (data['permit']['drill_type'] !== null) {
+          drillType = data['permit']['drill_type'];
+        } else {
+          drillType = 'N/A';
+        }
+
+        var leaseName = '';
+
+        if (data['permit']['lease_name'] !== null) {
+          leaseName = data['permit']['lease_name'];
+        } else {
+          leaseName = 'N/A';
+        }
+
+        var range = '';
+
+        if (data['permit']['range'] !== null) {
+          range = data['permit']['range'];
+        } else {
+          range = 'N/A';
+        }
+
+        var section = '';
+
+        if (data['permit']['section'] !== null) {
+          section = data['permit']['section'];
+        } else {
+          section = 'N/A';
+        }
+
+        var wellType = '';
+
+        if (data['permit']['well_type'] !== null) {
+          wellType = data['permit']['well_type'];
+        } else {
+          wellType = 'N/A';
+        }
+
+        $('#Abstract_' + permitId).text(' ' + _abstract);
+        $('#ApprovedDate_' + permitId).text(' ' + approvedDate[0]);
+        $('#SubmittedDate_' + permitId).text(' ' + submittedDate[0]);
+        $('#Block_' + permitId).text(' ' + block);
+        $('#permitStatus_' + permitId).text(' ' + permitStatus);
+        $('#CountyParish_' + permitId).text(' ' + data['permit']['county_parish'] + ', ' + data['permit']['state']);
+        $('#DrillType_' + permitId).text(' ' + drillType);
+        $('#LeaseName_' + permitId).text(' ' + leaseName);
+        $('#OperatorAlias_' + permitId).text(' ' + data['permit']['operator_alias']);
+        $('#PermitID_' + permitId).text(' ' + data['permit']['permit_id']);
+        $('#PermitType_' + permitId).text(' ' + data['permit']['permit_type']);
+        $('#permit_number_' + permitId).text(' ' + data['permit']['permit_number']);
+        $('#Range_' + permitId).text(' ' + range);
+        $('#Section_' + permitId).text(' ' + section);
+        $('#Survey_' + permitId).text(' ' + survey);
+        $('#Township_' + permitId).text(' ' + township);
+        $('#WellType_' + permitId).text(' ' + wellType);
+        $('#area_acres_' + permitId).text(' ' + acreage);
+        $('#District_' + permitId).text(' ' + district);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/js/bootstrap.js":
 /*!******************************************!*\
   !*** ./resources/assets/js/bootstrap.js ***!
@@ -36955,29 +37251,6 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
-
-/***/ }),
-
-/***/ "./resources/assets/js/dashboard.js":
-/*!******************************************!*\
-  !*** ./resources/assets/js/dashboard.js ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-$(document).ready(function () {
-  $('#table_one').DataTable({
-    "pagingType": "simple",
-    "aaSorting": []
-  });
-  $('#table_two').DataTable({
-    "pagingType": "simple",
-    "aaSorting": []
-  });
-  $('.btn-danger').on('click', function () {
-    confirm('Are you sure you want do delete this row?');
-  });
-});
 
 /***/ }),
 
@@ -41388,6 +41661,3626 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof
 
 /***/ }),
 
+/***/ "./resources/assets/js/jquery-dp-ui.min.js":
+/*!*************************************************!*\
+  !*** ./resources/assets/js/jquery-dp-ui.min.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/*! jQuery UI - v1.12.1 - 2020-01-13
+* http://jqueryui.com
+* Includes: keycode.js, widgets/datepicker.js
+* Copyright jQuery Foundation and other contributors; Licensed MIT */
+(function (t) {
+   true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (t),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;
+})(function (t) {
+  function e(t) {
+    for (var e, i; t.length && t[0] !== document;) {
+      if (e = t.css("position"), ("absolute" === e || "relative" === e || "fixed" === e) && (i = parseInt(t.css("zIndex"), 10), !isNaN(i) && 0 !== i)) return i;
+      t = t.parent();
+    }
+
+    return 0;
+  }
+
+  function i() {
+    this._curInst = null, this._keyEvent = !1, this._disabledInputs = [], this._datepickerShowing = !1, this._inDialog = !1, this._mainDivId = "ui-datepicker-div", this._inlineClass = "ui-datepicker-inline", this._appendClass = "ui-datepicker-append", this._triggerClass = "ui-datepicker-trigger", this._dialogClass = "ui-datepicker-dialog", this._disableClass = "ui-datepicker-disabled", this._unselectableClass = "ui-datepicker-unselectable", this._currentClass = "ui-datepicker-current-day", this._dayOverClass = "ui-datepicker-days-cell-over", this.regional = [], this.regional[""] = {
+      closeText: "Done",
+      prevText: "Prev",
+      nextText: "Next",
+      currentText: "Today",
+      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      dayNamesShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+      dayNamesMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+      weekHeader: "Wk",
+      dateFormat: "mm/dd/yy",
+      firstDay: 0,
+      isRTL: !1,
+      showMonthAfterYear: !1,
+      yearSuffix: ""
+    }, this._defaults = {
+      showOn: "focus",
+      showAnim: "fadeIn",
+      showOptions: {},
+      defaultDate: null,
+      appendText: "",
+      buttonText: "...",
+      buttonImage: "",
+      buttonImageOnly: !1,
+      hideIfNoPrevNext: !1,
+      navigationAsDateFormat: !1,
+      gotoCurrent: !1,
+      changeMonth: !1,
+      changeYear: !1,
+      yearRange: "c-10:c+10",
+      showOtherMonths: !1,
+      selectOtherMonths: !1,
+      showWeek: !1,
+      calculateWeek: this.iso8601Week,
+      shortYearCutoff: "+10",
+      minDate: null,
+      maxDate: null,
+      duration: "fast",
+      beforeShowDay: null,
+      beforeShow: null,
+      onSelect: null,
+      onChangeMonthYear: null,
+      onClose: null,
+      numberOfMonths: 1,
+      showCurrentAtPos: 0,
+      stepMonths: 1,
+      stepBigMonths: 12,
+      altField: "",
+      altFormat: "",
+      constrainInput: !0,
+      showButtonPanel: !1,
+      autoSize: !1,
+      disabled: !1
+    }, t.extend(this._defaults, this.regional[""]), this.regional.en = t.extend(!0, {}, this.regional[""]), this.regional["en-US"] = t.extend(!0, {}, this.regional.en), this.dpDiv = s(t("<div id='" + this._mainDivId + "' class='ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>"));
+  }
+
+  function s(e) {
+    var i = "button, .ui-datepicker-prev, .ui-datepicker-next, .ui-datepicker-calendar td a";
+    return e.on("mouseout", i, function () {
+      t(this).removeClass("ui-state-hover"), -1 !== this.className.indexOf("ui-datepicker-prev") && t(this).removeClass("ui-datepicker-prev-hover"), -1 !== this.className.indexOf("ui-datepicker-next") && t(this).removeClass("ui-datepicker-next-hover");
+    }).on("mouseover", i, n);
+  }
+
+  function n() {
+    t.datepicker._isDisabledDatepicker(a.inline ? a.dpDiv.parent()[0] : a.input[0]) || (t(this).parents(".ui-datepicker-calendar").find("a").removeClass("ui-state-hover"), t(this).addClass("ui-state-hover"), -1 !== this.className.indexOf("ui-datepicker-prev") && t(this).addClass("ui-datepicker-prev-hover"), -1 !== this.className.indexOf("ui-datepicker-next") && t(this).addClass("ui-datepicker-next-hover"));
+  }
+
+  function o(e, i) {
+    t.extend(e, i);
+
+    for (var s in i) {
+      null == i[s] && (e[s] = i[s]);
+    }
+
+    return e;
+  }
+
+  t.ui = t.ui || {}, t.ui.version = "1.12.1", t.ui.keyCode = {
+    BACKSPACE: 8,
+    COMMA: 188,
+    DELETE: 46,
+    DOWN: 40,
+    END: 35,
+    ENTER: 13,
+    ESCAPE: 27,
+    HOME: 36,
+    LEFT: 37,
+    PAGE_DOWN: 34,
+    PAGE_UP: 33,
+    PERIOD: 190,
+    RIGHT: 39,
+    SPACE: 32,
+    TAB: 9,
+    UP: 38
+  }, t.extend(t.ui, {
+    datepicker: {
+      version: "1.12.1"
+    }
+  });
+  var a;
+  t.extend(i.prototype, {
+    markerClassName: "hasDatepicker",
+    maxRows: 4,
+    _widgetDatepicker: function _widgetDatepicker() {
+      return this.dpDiv;
+    },
+    setDefaults: function setDefaults(t) {
+      return o(this._defaults, t || {}), this;
+    },
+    _attachDatepicker: function _attachDatepicker(e, i) {
+      var s, n, o;
+      s = e.nodeName.toLowerCase(), n = "div" === s || "span" === s, e.id || (this.uuid += 1, e.id = "dp" + this.uuid), o = this._newInst(t(e), n), o.settings = t.extend({}, i || {}), "input" === s ? this._connectDatepicker(e, o) : n && this._inlineDatepicker(e, o);
+    },
+    _newInst: function _newInst(e, i) {
+      var n = e[0].id.replace(/([^A-Za-z0-9_\-])/g, "\\\\$1");
+      return {
+        id: n,
+        input: e,
+        selectedDay: 0,
+        selectedMonth: 0,
+        selectedYear: 0,
+        drawMonth: 0,
+        drawYear: 0,
+        inline: i,
+        dpDiv: i ? s(t("<div class='" + this._inlineClass + " ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all'></div>")) : this.dpDiv
+      };
+    },
+    _connectDatepicker: function _connectDatepicker(e, i) {
+      var s = t(e);
+      i.append = t([]), i.trigger = t([]), s.hasClass(this.markerClassName) || (this._attachments(s, i), s.addClass(this.markerClassName).on("keydown", this._doKeyDown).on("keypress", this._doKeyPress).on("keyup", this._doKeyUp), this._autoSize(i), t.data(e, "datepicker", i), i.settings.disabled && this._disableDatepicker(e));
+    },
+    _attachments: function _attachments(e, i) {
+      var s,
+          n,
+          o,
+          a = this._get(i, "appendText"),
+          r = this._get(i, "isRTL");
+
+      i.append && i.append.remove(), a && (i.append = t("<span class='" + this._appendClass + "'>" + a + "</span>"), e[r ? "before" : "after"](i.append)), e.off("focus", this._showDatepicker), i.trigger && i.trigger.remove(), s = this._get(i, "showOn"), ("focus" === s || "both" === s) && e.on("focus", this._showDatepicker), ("button" === s || "both" === s) && (n = this._get(i, "buttonText"), o = this._get(i, "buttonImage"), i.trigger = t(this._get(i, "buttonImageOnly") ? t("<img/>").addClass(this._triggerClass).attr({
+        src: o,
+        alt: n,
+        title: n
+      }) : t("<button type='button'></button>").addClass(this._triggerClass).html(o ? t("<img/>").attr({
+        src: o,
+        alt: n,
+        title: n
+      }) : n)), e[r ? "before" : "after"](i.trigger), i.trigger.on("click", function () {
+        return t.datepicker._datepickerShowing && t.datepicker._lastInput === e[0] ? t.datepicker._hideDatepicker() : t.datepicker._datepickerShowing && t.datepicker._lastInput !== e[0] ? (t.datepicker._hideDatepicker(), t.datepicker._showDatepicker(e[0])) : t.datepicker._showDatepicker(e[0]), !1;
+      }));
+    },
+    _autoSize: function _autoSize(t) {
+      if (this._get(t, "autoSize") && !t.inline) {
+        var e,
+            i,
+            s,
+            n,
+            o = new Date(2009, 11, 20),
+            a = this._get(t, "dateFormat");
+
+        a.match(/[DM]/) && (e = function e(t) {
+          for (i = 0, s = 0, n = 0; t.length > n; n++) {
+            t[n].length > i && (i = t[n].length, s = n);
+          }
+
+          return s;
+        }, o.setMonth(e(this._get(t, a.match(/MM/) ? "monthNames" : "monthNamesShort"))), o.setDate(e(this._get(t, a.match(/DD/) ? "dayNames" : "dayNamesShort")) + 20 - o.getDay())), t.input.attr("size", this._formatDate(t, o).length);
+      }
+    },
+    _inlineDatepicker: function _inlineDatepicker(e, i) {
+      var s = t(e);
+      s.hasClass(this.markerClassName) || (s.addClass(this.markerClassName).append(i.dpDiv), t.data(e, "datepicker", i), this._setDate(i, this._getDefaultDate(i), !0), this._updateDatepicker(i), this._updateAlternate(i), i.settings.disabled && this._disableDatepicker(e), i.dpDiv.css("display", "block"));
+    },
+    _dialogDatepicker: function _dialogDatepicker(e, i, s, n, a) {
+      var r,
+          h,
+          l,
+          c,
+          u,
+          d = this._dialogInst;
+      return d || (this.uuid += 1, r = "dp" + this.uuid, this._dialogInput = t("<input type='text' id='" + r + "' style='position: absolute; top: -100px; width: 0px;'/>"), this._dialogInput.on("keydown", this._doKeyDown), t("body").append(this._dialogInput), d = this._dialogInst = this._newInst(this._dialogInput, !1), d.settings = {}, t.data(this._dialogInput[0], "datepicker", d)), o(d.settings, n || {}), i = i && i.constructor === Date ? this._formatDate(d, i) : i, this._dialogInput.val(i), this._pos = a ? a.length ? a : [a.pageX, a.pageY] : null, this._pos || (h = document.documentElement.clientWidth, l = document.documentElement.clientHeight, c = document.documentElement.scrollLeft || document.body.scrollLeft, u = document.documentElement.scrollTop || document.body.scrollTop, this._pos = [h / 2 - 100 + c, l / 2 - 150 + u]), this._dialogInput.css("left", this._pos[0] + 20 + "px").css("top", this._pos[1] + "px"), d.settings.onSelect = s, this._inDialog = !0, this.dpDiv.addClass(this._dialogClass), this._showDatepicker(this._dialogInput[0]), t.blockUI && t.blockUI(this.dpDiv), t.data(this._dialogInput[0], "datepicker", d), this;
+    },
+    _destroyDatepicker: function _destroyDatepicker(e) {
+      var i,
+          s = t(e),
+          n = t.data(e, "datepicker");
+      s.hasClass(this.markerClassName) && (i = e.nodeName.toLowerCase(), t.removeData(e, "datepicker"), "input" === i ? (n.append.remove(), n.trigger.remove(), s.removeClass(this.markerClassName).off("focus", this._showDatepicker).off("keydown", this._doKeyDown).off("keypress", this._doKeyPress).off("keyup", this._doKeyUp)) : ("div" === i || "span" === i) && s.removeClass(this.markerClassName).empty(), a === n && (a = null));
+    },
+    _enableDatepicker: function _enableDatepicker(e) {
+      var i,
+          s,
+          n = t(e),
+          o = t.data(e, "datepicker");
+      n.hasClass(this.markerClassName) && (i = e.nodeName.toLowerCase(), "input" === i ? (e.disabled = !1, o.trigger.filter("button").each(function () {
+        this.disabled = !1;
+      }).end().filter("img").css({
+        opacity: "1.0",
+        cursor: ""
+      })) : ("div" === i || "span" === i) && (s = n.children("." + this._inlineClass), s.children().removeClass("ui-state-disabled"), s.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled", !1)), this._disabledInputs = t.map(this._disabledInputs, function (t) {
+        return t === e ? null : t;
+      }));
+    },
+    _disableDatepicker: function _disableDatepicker(e) {
+      var i,
+          s,
+          n = t(e),
+          o = t.data(e, "datepicker");
+      n.hasClass(this.markerClassName) && (i = e.nodeName.toLowerCase(), "input" === i ? (e.disabled = !0, o.trigger.filter("button").each(function () {
+        this.disabled = !0;
+      }).end().filter("img").css({
+        opacity: "0.5",
+        cursor: "default"
+      })) : ("div" === i || "span" === i) && (s = n.children("." + this._inlineClass), s.children().addClass("ui-state-disabled"), s.find("select.ui-datepicker-month, select.ui-datepicker-year").prop("disabled", !0)), this._disabledInputs = t.map(this._disabledInputs, function (t) {
+        return t === e ? null : t;
+      }), this._disabledInputs[this._disabledInputs.length] = e);
+    },
+    _isDisabledDatepicker: function _isDisabledDatepicker(t) {
+      if (!t) return !1;
+
+      for (var e = 0; this._disabledInputs.length > e; e++) {
+        if (this._disabledInputs[e] === t) return !0;
+      }
+
+      return !1;
+    },
+    _getInst: function _getInst(e) {
+      try {
+        return t.data(e, "datepicker");
+      } catch (i) {
+        throw "Missing instance data for this datepicker";
+      }
+    },
+    _optionDatepicker: function _optionDatepicker(e, i, s) {
+      var n,
+          a,
+          r,
+          h,
+          l = this._getInst(e);
+
+      return 2 === arguments.length && "string" == typeof i ? "defaults" === i ? t.extend({}, t.datepicker._defaults) : l ? "all" === i ? t.extend({}, l.settings) : this._get(l, i) : null : (n = i || {}, "string" == typeof i && (n = {}, n[i] = s), l && (this._curInst === l && this._hideDatepicker(), a = this._getDateDatepicker(e, !0), r = this._getMinMaxDate(l, "min"), h = this._getMinMaxDate(l, "max"), o(l.settings, n), null !== r && void 0 !== n.dateFormat && void 0 === n.minDate && (l.settings.minDate = this._formatDate(l, r)), null !== h && void 0 !== n.dateFormat && void 0 === n.maxDate && (l.settings.maxDate = this._formatDate(l, h)), "disabled" in n && (n.disabled ? this._disableDatepicker(e) : this._enableDatepicker(e)), this._attachments(t(e), l), this._autoSize(l), this._setDate(l, a), this._updateAlternate(l), this._updateDatepicker(l)), void 0);
+    },
+    _changeDatepicker: function _changeDatepicker(t, e, i) {
+      this._optionDatepicker(t, e, i);
+    },
+    _refreshDatepicker: function _refreshDatepicker(t) {
+      var e = this._getInst(t);
+
+      e && this._updateDatepicker(e);
+    },
+    _setDateDatepicker: function _setDateDatepicker(t, e) {
+      var i = this._getInst(t);
+
+      i && (this._setDate(i, e), this._updateDatepicker(i), this._updateAlternate(i));
+    },
+    _getDateDatepicker: function _getDateDatepicker(t, e) {
+      var i = this._getInst(t);
+
+      return i && !i.inline && this._setDateFromField(i, e), i ? this._getDate(i) : null;
+    },
+    _doKeyDown: function _doKeyDown(e) {
+      var i,
+          s,
+          n,
+          o = t.datepicker._getInst(e.target),
+          a = !0,
+          r = o.dpDiv.is(".ui-datepicker-rtl");
+
+      if (o._keyEvent = !0, t.datepicker._datepickerShowing) switch (e.keyCode) {
+        case 9:
+          t.datepicker._hideDatepicker(), a = !1;
+          break;
+
+        case 13:
+          return n = t("td." + t.datepicker._dayOverClass + ":not(." + t.datepicker._currentClass + ")", o.dpDiv), n[0] && t.datepicker._selectDay(e.target, o.selectedMonth, o.selectedYear, n[0]), i = t.datepicker._get(o, "onSelect"), i ? (s = t.datepicker._formatDate(o), i.apply(o.input ? o.input[0] : null, [s, o])) : t.datepicker._hideDatepicker(), !1;
+
+        case 27:
+          t.datepicker._hideDatepicker();
+
+          break;
+
+        case 33:
+          t.datepicker._adjustDate(e.target, e.ctrlKey ? -t.datepicker._get(o, "stepBigMonths") : -t.datepicker._get(o, "stepMonths"), "M");
+
+          break;
+
+        case 34:
+          t.datepicker._adjustDate(e.target, e.ctrlKey ? +t.datepicker._get(o, "stepBigMonths") : +t.datepicker._get(o, "stepMonths"), "M");
+
+          break;
+
+        case 35:
+          (e.ctrlKey || e.metaKey) && t.datepicker._clearDate(e.target), a = e.ctrlKey || e.metaKey;
+          break;
+
+        case 36:
+          (e.ctrlKey || e.metaKey) && t.datepicker._gotoToday(e.target), a = e.ctrlKey || e.metaKey;
+          break;
+
+        case 37:
+          (e.ctrlKey || e.metaKey) && t.datepicker._adjustDate(e.target, r ? 1 : -1, "D"), a = e.ctrlKey || e.metaKey, e.originalEvent.altKey && t.datepicker._adjustDate(e.target, e.ctrlKey ? -t.datepicker._get(o, "stepBigMonths") : -t.datepicker._get(o, "stepMonths"), "M");
+          break;
+
+        case 38:
+          (e.ctrlKey || e.metaKey) && t.datepicker._adjustDate(e.target, -7, "D"), a = e.ctrlKey || e.metaKey;
+          break;
+
+        case 39:
+          (e.ctrlKey || e.metaKey) && t.datepicker._adjustDate(e.target, r ? -1 : 1, "D"), a = e.ctrlKey || e.metaKey, e.originalEvent.altKey && t.datepicker._adjustDate(e.target, e.ctrlKey ? +t.datepicker._get(o, "stepBigMonths") : +t.datepicker._get(o, "stepMonths"), "M");
+          break;
+
+        case 40:
+          (e.ctrlKey || e.metaKey) && t.datepicker._adjustDate(e.target, 7, "D"), a = e.ctrlKey || e.metaKey;
+          break;
+
+        default:
+          a = !1;
+      } else 36 === e.keyCode && e.ctrlKey ? t.datepicker._showDatepicker(this) : a = !1;
+      a && (e.preventDefault(), e.stopPropagation());
+    },
+    _doKeyPress: function _doKeyPress(e) {
+      var i,
+          s,
+          n = t.datepicker._getInst(e.target);
+
+      return t.datepicker._get(n, "constrainInput") ? (i = t.datepicker._possibleChars(t.datepicker._get(n, "dateFormat")), s = String.fromCharCode(null == e.charCode ? e.keyCode : e.charCode), e.ctrlKey || e.metaKey || " " > s || !i || i.indexOf(s) > -1) : void 0;
+    },
+    _doKeyUp: function _doKeyUp(e) {
+      var i,
+          s = t.datepicker._getInst(e.target);
+
+      if (s.input.val() !== s.lastVal) try {
+        i = t.datepicker.parseDate(t.datepicker._get(s, "dateFormat"), s.input ? s.input.val() : null, t.datepicker._getFormatConfig(s)), i && (t.datepicker._setDateFromField(s), t.datepicker._updateAlternate(s), t.datepicker._updateDatepicker(s));
+      } catch (n) {}
+      return !0;
+    },
+    _showDatepicker: function _showDatepicker(i) {
+      if (i = i.target || i, "input" !== i.nodeName.toLowerCase() && (i = t("input", i.parentNode)[0]), !t.datepicker._isDisabledDatepicker(i) && t.datepicker._lastInput !== i) {
+        var s, n, a, r, h, l, c;
+        s = t.datepicker._getInst(i), t.datepicker._curInst && t.datepicker._curInst !== s && (t.datepicker._curInst.dpDiv.stop(!0, !0), s && t.datepicker._datepickerShowing && t.datepicker._hideDatepicker(t.datepicker._curInst.input[0])), n = t.datepicker._get(s, "beforeShow"), a = n ? n.apply(i, [i, s]) : {}, a !== !1 && (o(s.settings, a), s.lastVal = null, t.datepicker._lastInput = i, t.datepicker._setDateFromField(s), t.datepicker._inDialog && (i.value = ""), t.datepicker._pos || (t.datepicker._pos = t.datepicker._findPos(i), t.datepicker._pos[1] += i.offsetHeight), r = !1, t(i).parents().each(function () {
+          return r |= "fixed" === t(this).css("position"), !r;
+        }), h = {
+          left: t.datepicker._pos[0],
+          top: t.datepicker._pos[1]
+        }, t.datepicker._pos = null, s.dpDiv.empty(), s.dpDiv.css({
+          position: "absolute",
+          display: "block",
+          top: "-1000px"
+        }), t.datepicker._updateDatepicker(s), h = t.datepicker._checkOffset(s, h, r), s.dpDiv.css({
+          position: t.datepicker._inDialog && t.blockUI ? "static" : r ? "fixed" : "absolute",
+          display: "none",
+          left: h.left + "px",
+          top: h.top + "px"
+        }), s.inline || (l = t.datepicker._get(s, "showAnim"), c = t.datepicker._get(s, "duration"), s.dpDiv.css("z-index", e(t(i)) + 1), t.datepicker._datepickerShowing = !0, t.effects && t.effects.effect[l] ? s.dpDiv.show(l, t.datepicker._get(s, "showOptions"), c) : s.dpDiv[l || "show"](l ? c : null), t.datepicker._shouldFocusInput(s) && s.input.trigger("focus"), t.datepicker._curInst = s));
+      }
+    },
+    _updateDatepicker: function _updateDatepicker(e) {
+      this.maxRows = 4, a = e, e.dpDiv.empty().append(this._generateHTML(e)), this._attachHandlers(e);
+
+      var i,
+          s = this._getNumberOfMonths(e),
+          o = s[1],
+          r = 17,
+          h = e.dpDiv.find("." + this._dayOverClass + " a");
+
+      h.length > 0 && n.apply(h.get(0)), e.dpDiv.removeClass("ui-datepicker-multi-2 ui-datepicker-multi-3 ui-datepicker-multi-4").width(""), o > 1 && e.dpDiv.addClass("ui-datepicker-multi-" + o).css("width", r * o + "em"), e.dpDiv[(1 !== s[0] || 1 !== s[1] ? "add" : "remove") + "Class"]("ui-datepicker-multi"), e.dpDiv[(this._get(e, "isRTL") ? "add" : "remove") + "Class"]("ui-datepicker-rtl"), e === t.datepicker._curInst && t.datepicker._datepickerShowing && t.datepicker._shouldFocusInput(e) && e.input.trigger("focus"), e.yearshtml && (i = e.yearshtml, setTimeout(function () {
+        i === e.yearshtml && e.yearshtml && e.dpDiv.find("select.ui-datepicker-year:first").replaceWith(e.yearshtml), i = e.yearshtml = null;
+      }, 0));
+    },
+    _shouldFocusInput: function _shouldFocusInput(t) {
+      return t.input && t.input.is(":visible") && !t.input.is(":disabled") && !t.input.is(":focus");
+    },
+    _checkOffset: function _checkOffset(e, i, s) {
+      var n = e.dpDiv.outerWidth(),
+          o = e.dpDiv.outerHeight(),
+          a = e.input ? e.input.outerWidth() : 0,
+          r = e.input ? e.input.outerHeight() : 0,
+          h = document.documentElement.clientWidth + (s ? 0 : t(document).scrollLeft()),
+          l = document.documentElement.clientHeight + (s ? 0 : t(document).scrollTop());
+      return i.left -= this._get(e, "isRTL") ? n - a : 0, i.left -= s && i.left === e.input.offset().left ? t(document).scrollLeft() : 0, i.top -= s && i.top === e.input.offset().top + r ? t(document).scrollTop() : 0, i.left -= Math.min(i.left, i.left + n > h && h > n ? Math.abs(i.left + n - h) : 0), i.top -= Math.min(i.top, i.top + o > l && l > o ? Math.abs(o + r) : 0), i;
+    },
+    _findPos: function _findPos(e) {
+      for (var i, s = this._getInst(e), n = this._get(s, "isRTL"); e && ("hidden" === e.type || 1 !== e.nodeType || t.expr.filters.hidden(e));) {
+        e = e[n ? "previousSibling" : "nextSibling"];
+      }
+
+      return i = t(e).offset(), [i.left, i.top];
+    },
+    _hideDatepicker: function _hideDatepicker(e) {
+      var i,
+          s,
+          n,
+          o,
+          a = this._curInst;
+      !a || e && a !== t.data(e, "datepicker") || this._datepickerShowing && (i = this._get(a, "showAnim"), s = this._get(a, "duration"), n = function n() {
+        t.datepicker._tidyDialog(a);
+      }, t.effects && (t.effects.effect[i] || t.effects[i]) ? a.dpDiv.hide(i, t.datepicker._get(a, "showOptions"), s, n) : a.dpDiv["slideDown" === i ? "slideUp" : "fadeIn" === i ? "fadeOut" : "hide"](i ? s : null, n), i || n(), this._datepickerShowing = !1, o = this._get(a, "onClose"), o && o.apply(a.input ? a.input[0] : null, [a.input ? a.input.val() : "", a]), this._lastInput = null, this._inDialog && (this._dialogInput.css({
+        position: "absolute",
+        left: "0",
+        top: "-100px"
+      }), t.blockUI && (t.unblockUI(), t("body").append(this.dpDiv))), this._inDialog = !1);
+    },
+    _tidyDialog: function _tidyDialog(t) {
+      t.dpDiv.removeClass(this._dialogClass).off(".ui-datepicker-calendar");
+    },
+    _checkExternalClick: function _checkExternalClick(e) {
+      if (t.datepicker._curInst) {
+        var i = t(e.target),
+            s = t.datepicker._getInst(i[0]);
+
+        (i[0].id !== t.datepicker._mainDivId && 0 === i.parents("#" + t.datepicker._mainDivId).length && !i.hasClass(t.datepicker.markerClassName) && !i.closest("." + t.datepicker._triggerClass).length && t.datepicker._datepickerShowing && (!t.datepicker._inDialog || !t.blockUI) || i.hasClass(t.datepicker.markerClassName) && t.datepicker._curInst !== s) && t.datepicker._hideDatepicker();
+      }
+    },
+    _adjustDate: function _adjustDate(e, i, s) {
+      var n = t(e),
+          o = this._getInst(n[0]);
+
+      this._isDisabledDatepicker(n[0]) || (this._adjustInstDate(o, i + ("M" === s ? this._get(o, "showCurrentAtPos") : 0), s), this._updateDatepicker(o));
+    },
+    _gotoToday: function _gotoToday(e) {
+      var i,
+          s = t(e),
+          n = this._getInst(s[0]);
+
+      this._get(n, "gotoCurrent") && n.currentDay ? (n.selectedDay = n.currentDay, n.drawMonth = n.selectedMonth = n.currentMonth, n.drawYear = n.selectedYear = n.currentYear) : (i = new Date(), n.selectedDay = i.getDate(), n.drawMonth = n.selectedMonth = i.getMonth(), n.drawYear = n.selectedYear = i.getFullYear()), this._notifyChange(n), this._adjustDate(s);
+    },
+    _selectMonthYear: function _selectMonthYear(e, i, s) {
+      var n = t(e),
+          o = this._getInst(n[0]);
+
+      o["selected" + ("M" === s ? "Month" : "Year")] = o["draw" + ("M" === s ? "Month" : "Year")] = parseInt(i.options[i.selectedIndex].value, 10), this._notifyChange(o), this._adjustDate(n);
+    },
+    _selectDay: function _selectDay(e, i, s, n) {
+      var o,
+          a = t(e);
+      t(n).hasClass(this._unselectableClass) || this._isDisabledDatepicker(a[0]) || (o = this._getInst(a[0]), o.selectedDay = o.currentDay = t("a", n).html(), o.selectedMonth = o.currentMonth = i, o.selectedYear = o.currentYear = s, this._selectDate(e, this._formatDate(o, o.currentDay, o.currentMonth, o.currentYear)));
+    },
+    _clearDate: function _clearDate(e) {
+      var i = t(e);
+
+      this._selectDate(i, "");
+    },
+    _selectDate: function _selectDate(e, i) {
+      var s,
+          n = t(e),
+          o = this._getInst(n[0]);
+
+      i = null != i ? i : this._formatDate(o), o.input && o.input.val(i), this._updateAlternate(o), s = this._get(o, "onSelect"), s ? s.apply(o.input ? o.input[0] : null, [i, o]) : o.input && o.input.trigger("change"), o.inline ? this._updateDatepicker(o) : (this._hideDatepicker(), this._lastInput = o.input[0], "object" != _typeof(o.input[0]) && o.input.trigger("focus"), this._lastInput = null);
+    },
+    _updateAlternate: function _updateAlternate(e) {
+      var i,
+          s,
+          n,
+          o = this._get(e, "altField");
+
+      o && (i = this._get(e, "altFormat") || this._get(e, "dateFormat"), s = this._getDate(e), n = this.formatDate(i, s, this._getFormatConfig(e)), t(o).val(n));
+    },
+    noWeekends: function noWeekends(t) {
+      var e = t.getDay();
+      return [e > 0 && 6 > e, ""];
+    },
+    iso8601Week: function iso8601Week(t) {
+      var e,
+          i = new Date(t.getTime());
+      return i.setDate(i.getDate() + 4 - (i.getDay() || 7)), e = i.getTime(), i.setMonth(0), i.setDate(1), Math.floor(Math.round((e - i) / 864e5) / 7) + 1;
+    },
+    parseDate: function parseDate(e, i, s) {
+      if (null == e || null == i) throw "Invalid arguments";
+      if (i = "object" == _typeof(i) ? "" + i : i + "", "" === i) return null;
+
+      var n,
+          o,
+          a,
+          r,
+          h = 0,
+          l = (s ? s.shortYearCutoff : null) || this._defaults.shortYearCutoff,
+          c = "string" != typeof l ? l : new Date().getFullYear() % 100 + parseInt(l, 10),
+          u = (s ? s.dayNamesShort : null) || this._defaults.dayNamesShort,
+          d = (s ? s.dayNames : null) || this._defaults.dayNames,
+          p = (s ? s.monthNamesShort : null) || this._defaults.monthNamesShort,
+          f = (s ? s.monthNames : null) || this._defaults.monthNames,
+          g = -1,
+          m = -1,
+          _ = -1,
+          v = -1,
+          b = !1,
+          y = function y(t) {
+        var i = e.length > n + 1 && e.charAt(n + 1) === t;
+        return i && n++, i;
+      },
+          w = function w(t) {
+        var e = y(t),
+            s = "@" === t ? 14 : "!" === t ? 20 : "y" === t && e ? 4 : "o" === t ? 3 : 2,
+            n = "y" === t ? s : 1,
+            o = RegExp("^\\d{" + n + "," + s + "}"),
+            a = i.substring(h).match(o);
+        if (!a) throw "Missing number at position " + h;
+        return h += a[0].length, parseInt(a[0], 10);
+      },
+          k = function k(e, s, n) {
+        var o = -1,
+            a = t.map(y(e) ? n : s, function (t, e) {
+          return [[e, t]];
+        }).sort(function (t, e) {
+          return -(t[1].length - e[1].length);
+        });
+        if (t.each(a, function (t, e) {
+          var s = e[1];
+          return i.substr(h, s.length).toLowerCase() === s.toLowerCase() ? (o = e[0], h += s.length, !1) : void 0;
+        }), -1 !== o) return o + 1;
+        throw "Unknown name at position " + h;
+      },
+          D = function D() {
+        if (i.charAt(h) !== e.charAt(n)) throw "Unexpected literal at position " + h;
+        h++;
+      };
+
+      for (n = 0; e.length > n; n++) {
+        if (b) "'" !== e.charAt(n) || y("'") ? D() : b = !1;else switch (e.charAt(n)) {
+          case "d":
+            _ = w("d");
+            break;
+
+          case "D":
+            k("D", u, d);
+            break;
+
+          case "o":
+            v = w("o");
+            break;
+
+          case "m":
+            m = w("m");
+            break;
+
+          case "M":
+            m = k("M", p, f);
+            break;
+
+          case "y":
+            g = w("y");
+            break;
+
+          case "@":
+            r = new Date(w("@")), g = r.getFullYear(), m = r.getMonth() + 1, _ = r.getDate();
+            break;
+
+          case "!":
+            r = new Date((w("!") - this._ticksTo1970) / 1e4), g = r.getFullYear(), m = r.getMonth() + 1, _ = r.getDate();
+            break;
+
+          case "'":
+            y("'") ? D() : b = !0;
+            break;
+
+          default:
+            D();
+        }
+      }
+
+      if (i.length > h && (a = i.substr(h), !/^\s+/.test(a))) throw "Extra/unparsed characters found in date: " + a;
+      if (-1 === g ? g = new Date().getFullYear() : 100 > g && (g += new Date().getFullYear() - new Date().getFullYear() % 100 + (c >= g ? 0 : -100)), v > -1) for (m = 1, _ = v;;) {
+        if (o = this._getDaysInMonth(g, m - 1), o >= _) break;
+        m++, _ -= o;
+      }
+      if (r = this._daylightSavingAdjust(new Date(g, m - 1, _)), r.getFullYear() !== g || r.getMonth() + 1 !== m || r.getDate() !== _) throw "Invalid date";
+      return r;
+    },
+    ATOM: "yy-mm-dd",
+    COOKIE: "D, dd M yy",
+    ISO_8601: "yy-mm-dd",
+    RFC_822: "D, d M y",
+    RFC_850: "DD, dd-M-y",
+    RFC_1036: "D, d M y",
+    RFC_1123: "D, d M yy",
+    RFC_2822: "D, d M yy",
+    RSS: "D, d M y",
+    TICKS: "!",
+    TIMESTAMP: "@",
+    W3C: "yy-mm-dd",
+    _ticksTo1970: 1e7 * 60 * 60 * 24 * (718685 + Math.floor(492.5) - Math.floor(19.7) + Math.floor(4.925)),
+    formatDate: function formatDate(t, e, i) {
+      if (!e) return "";
+
+      var s,
+          n = (i ? i.dayNamesShort : null) || this._defaults.dayNamesShort,
+          o = (i ? i.dayNames : null) || this._defaults.dayNames,
+          a = (i ? i.monthNamesShort : null) || this._defaults.monthNamesShort,
+          r = (i ? i.monthNames : null) || this._defaults.monthNames,
+          h = function h(e) {
+        var i = t.length > s + 1 && t.charAt(s + 1) === e;
+        return i && s++, i;
+      },
+          l = function l(t, e, i) {
+        var s = "" + e;
+        if (h(t)) for (; i > s.length;) {
+          s = "0" + s;
+        }
+        return s;
+      },
+          c = function c(t, e, i, s) {
+        return h(t) ? s[e] : i[e];
+      },
+          u = "",
+          d = !1;
+
+      if (e) for (s = 0; t.length > s; s++) {
+        if (d) "'" !== t.charAt(s) || h("'") ? u += t.charAt(s) : d = !1;else switch (t.charAt(s)) {
+          case "d":
+            u += l("d", e.getDate(), 2);
+            break;
+
+          case "D":
+            u += c("D", e.getDay(), n, o);
+            break;
+
+          case "o":
+            u += l("o", Math.round((new Date(e.getFullYear(), e.getMonth(), e.getDate()).getTime() - new Date(e.getFullYear(), 0, 0).getTime()) / 864e5), 3);
+            break;
+
+          case "m":
+            u += l("m", e.getMonth() + 1, 2);
+            break;
+
+          case "M":
+            u += c("M", e.getMonth(), a, r);
+            break;
+
+          case "y":
+            u += h("y") ? e.getFullYear() : (10 > e.getFullYear() % 100 ? "0" : "") + e.getFullYear() % 100;
+            break;
+
+          case "@":
+            u += e.getTime();
+            break;
+
+          case "!":
+            u += 1e4 * e.getTime() + this._ticksTo1970;
+            break;
+
+          case "'":
+            h("'") ? u += "'" : d = !0;
+            break;
+
+          default:
+            u += t.charAt(s);
+        }
+      }
+      return u;
+    },
+    _possibleChars: function _possibleChars(t) {
+      var e,
+          i = "",
+          s = !1,
+          n = function n(i) {
+        var s = t.length > e + 1 && t.charAt(e + 1) === i;
+        return s && e++, s;
+      };
+
+      for (e = 0; t.length > e; e++) {
+        if (s) "'" !== t.charAt(e) || n("'") ? i += t.charAt(e) : s = !1;else switch (t.charAt(e)) {
+          case "d":
+          case "m":
+          case "y":
+          case "@":
+            i += "0123456789";
+            break;
+
+          case "D":
+          case "M":
+            return null;
+
+          case "'":
+            n("'") ? i += "'" : s = !0;
+            break;
+
+          default:
+            i += t.charAt(e);
+        }
+      }
+
+      return i;
+    },
+    _get: function _get(t, e) {
+      return void 0 !== t.settings[e] ? t.settings[e] : this._defaults[e];
+    },
+    _setDateFromField: function _setDateFromField(t, e) {
+      if (t.input.val() !== t.lastVal) {
+        var i = this._get(t, "dateFormat"),
+            s = t.lastVal = t.input ? t.input.val() : null,
+            n = this._getDefaultDate(t),
+            o = n,
+            a = this._getFormatConfig(t);
+
+        try {
+          o = this.parseDate(i, s, a) || n;
+        } catch (r) {
+          s = e ? "" : s;
+        }
+
+        t.selectedDay = o.getDate(), t.drawMonth = t.selectedMonth = o.getMonth(), t.drawYear = t.selectedYear = o.getFullYear(), t.currentDay = s ? o.getDate() : 0, t.currentMonth = s ? o.getMonth() : 0, t.currentYear = s ? o.getFullYear() : 0, this._adjustInstDate(t);
+      }
+    },
+    _getDefaultDate: function _getDefaultDate(t) {
+      return this._restrictMinMax(t, this._determineDate(t, this._get(t, "defaultDate"), new Date()));
+    },
+    _determineDate: function _determineDate(e, i, s) {
+      var n = function n(t) {
+        var e = new Date();
+        return e.setDate(e.getDate() + t), e;
+      },
+          o = function o(i) {
+        try {
+          return t.datepicker.parseDate(t.datepicker._get(e, "dateFormat"), i, t.datepicker._getFormatConfig(e));
+        } catch (s) {}
+
+        for (var n = (i.toLowerCase().match(/^c/) ? t.datepicker._getDate(e) : null) || new Date(), o = n.getFullYear(), a = n.getMonth(), r = n.getDate(), h = /([+\-]?[0-9]+)\s*(d|D|w|W|m|M|y|Y)?/g, l = h.exec(i); l;) {
+          switch (l[2] || "d") {
+            case "d":
+            case "D":
+              r += parseInt(l[1], 10);
+              break;
+
+            case "w":
+            case "W":
+              r += 7 * parseInt(l[1], 10);
+              break;
+
+            case "m":
+            case "M":
+              a += parseInt(l[1], 10), r = Math.min(r, t.datepicker._getDaysInMonth(o, a));
+              break;
+
+            case "y":
+            case "Y":
+              o += parseInt(l[1], 10), r = Math.min(r, t.datepicker._getDaysInMonth(o, a));
+          }
+
+          l = h.exec(i);
+        }
+
+        return new Date(o, a, r);
+      },
+          a = null == i || "" === i ? s : "string" == typeof i ? o(i) : "number" == typeof i ? isNaN(i) ? s : n(i) : new Date(i.getTime());
+
+      return a = a && "Invalid Date" == "" + a ? s : a, a && (a.setHours(0), a.setMinutes(0), a.setSeconds(0), a.setMilliseconds(0)), this._daylightSavingAdjust(a);
+    },
+    _daylightSavingAdjust: function _daylightSavingAdjust(t) {
+      return t ? (t.setHours(t.getHours() > 12 ? t.getHours() + 2 : 0), t) : null;
+    },
+    _setDate: function _setDate(t, e, i) {
+      var s = !e,
+          n = t.selectedMonth,
+          o = t.selectedYear,
+          a = this._restrictMinMax(t, this._determineDate(t, e, new Date()));
+
+      t.selectedDay = t.currentDay = a.getDate(), t.drawMonth = t.selectedMonth = t.currentMonth = a.getMonth(), t.drawYear = t.selectedYear = t.currentYear = a.getFullYear(), n === t.selectedMonth && o === t.selectedYear || i || this._notifyChange(t), this._adjustInstDate(t), t.input && t.input.val(s ? "" : this._formatDate(t));
+    },
+    _getDate: function _getDate(t) {
+      var e = !t.currentYear || t.input && "" === t.input.val() ? null : this._daylightSavingAdjust(new Date(t.currentYear, t.currentMonth, t.currentDay));
+      return e;
+    },
+    _attachHandlers: function _attachHandlers(e) {
+      var i = this._get(e, "stepMonths"),
+          s = "#" + e.id.replace(/\\\\/g, "\\");
+
+      e.dpDiv.find("[data-handler]").map(function () {
+        var e = {
+          prev: function prev() {
+            t.datepicker._adjustDate(s, -i, "M");
+          },
+          next: function next() {
+            t.datepicker._adjustDate(s, +i, "M");
+          },
+          hide: function hide() {
+            t.datepicker._hideDatepicker();
+          },
+          today: function today() {
+            t.datepicker._gotoToday(s);
+          },
+          selectDay: function selectDay() {
+            return t.datepicker._selectDay(s, +this.getAttribute("data-month"), +this.getAttribute("data-year"), this), !1;
+          },
+          selectMonth: function selectMonth() {
+            return t.datepicker._selectMonthYear(s, this, "M"), !1;
+          },
+          selectYear: function selectYear() {
+            return t.datepicker._selectMonthYear(s, this, "Y"), !1;
+          }
+        };
+        t(this).on(this.getAttribute("data-event"), e[this.getAttribute("data-handler")]);
+      });
+    },
+    _generateHTML: function _generateHTML(t) {
+      var e,
+          i,
+          s,
+          n,
+          o,
+          a,
+          r,
+          h,
+          l,
+          c,
+          u,
+          d,
+          p,
+          f,
+          g,
+          m,
+          _,
+          v,
+          b,
+          y,
+          w,
+          k,
+          D,
+          x,
+          C,
+          I,
+          P,
+          T,
+          M,
+          S,
+          z,
+          H,
+          N,
+          O,
+          A,
+          E,
+          W,
+          F,
+          L,
+          R = new Date(),
+          Y = this._daylightSavingAdjust(new Date(R.getFullYear(), R.getMonth(), R.getDate())),
+          B = this._get(t, "isRTL"),
+          j = this._get(t, "showButtonPanel"),
+          K = this._get(t, "hideIfNoPrevNext"),
+          q = this._get(t, "navigationAsDateFormat"),
+          U = this._getNumberOfMonths(t),
+          V = this._get(t, "showCurrentAtPos"),
+          X = this._get(t, "stepMonths"),
+          $ = 1 !== U[0] || 1 !== U[1],
+          G = this._daylightSavingAdjust(t.currentDay ? new Date(t.currentYear, t.currentMonth, t.currentDay) : new Date(9999, 9, 9)),
+          Q = this._getMinMaxDate(t, "min"),
+          J = this._getMinMaxDate(t, "max"),
+          Z = t.drawMonth - V,
+          te = t.drawYear;
+
+      if (0 > Z && (Z += 12, te--), J) for (e = this._daylightSavingAdjust(new Date(J.getFullYear(), J.getMonth() - U[0] * U[1] + 1, J.getDate())), e = Q && Q > e ? Q : e; this._daylightSavingAdjust(new Date(te, Z, 1)) > e;) {
+        Z--, 0 > Z && (Z = 11, te--);
+      }
+
+      for (t.drawMonth = Z, t.drawYear = te, i = this._get(t, "prevText"), i = q ? this.formatDate(i, this._daylightSavingAdjust(new Date(te, Z - X, 1)), this._getFormatConfig(t)) : i, s = this._canAdjustMonth(t, -1, te, Z) ? "<a class='ui-datepicker-prev ui-corner-all' data-handler='prev' data-event='click' title='" + i + "'><span class='ui-icon ui-icon-circle-triangle-" + (B ? "e" : "w") + "'>" + i + "</span></a>" : K ? "" : "<a class='ui-datepicker-prev ui-corner-all ui-state-disabled' title='" + i + "'><span class='ui-icon ui-icon-circle-triangle-" + (B ? "e" : "w") + "'>" + i + "</span></a>", n = this._get(t, "nextText"), n = q ? this.formatDate(n, this._daylightSavingAdjust(new Date(te, Z + X, 1)), this._getFormatConfig(t)) : n, o = this._canAdjustMonth(t, 1, te, Z) ? "<a class='ui-datepicker-next ui-corner-all' data-handler='next' data-event='click' title='" + n + "'><span class='ui-icon ui-icon-circle-triangle-" + (B ? "w" : "e") + "'>" + n + "</span></a>" : K ? "" : "<a class='ui-datepicker-next ui-corner-all ui-state-disabled' title='" + n + "'><span class='ui-icon ui-icon-circle-triangle-" + (B ? "w" : "e") + "'>" + n + "</span></a>", a = this._get(t, "currentText"), r = this._get(t, "gotoCurrent") && t.currentDay ? G : Y, a = q ? this.formatDate(a, r, this._getFormatConfig(t)) : a, h = t.inline ? "" : "<button type='button' class='ui-datepicker-close ui-state-default ui-priority-primary ui-corner-all' data-handler='hide' data-event='click'>" + this._get(t, "closeText") + "</button>", l = j ? "<div class='ui-datepicker-buttonpane ui-widget-content'>" + (B ? h : "") + (this._isInRange(t, r) ? "<button type='button' class='ui-datepicker-current ui-state-default ui-priority-secondary ui-corner-all' data-handler='today' data-event='click'>" + a + "</button>" : "") + (B ? "" : h) + "</div>" : "", c = parseInt(this._get(t, "firstDay"), 10), c = isNaN(c) ? 0 : c, u = this._get(t, "showWeek"), d = this._get(t, "dayNames"), p = this._get(t, "dayNamesMin"), f = this._get(t, "monthNames"), g = this._get(t, "monthNamesShort"), m = this._get(t, "beforeShowDay"), _ = this._get(t, "showOtherMonths"), v = this._get(t, "selectOtherMonths"), b = this._getDefaultDate(t), y = "", k = 0; U[0] > k; k++) {
+        for (D = "", this.maxRows = 4, x = 0; U[1] > x; x++) {
+          if (C = this._daylightSavingAdjust(new Date(te, Z, t.selectedDay)), I = " ui-corner-all", P = "", $) {
+            if (P += "<div class='ui-datepicker-group", U[1] > 1) switch (x) {
+              case 0:
+                P += " ui-datepicker-group-first", I = " ui-corner-" + (B ? "right" : "left");
+                break;
+
+              case U[1] - 1:
+                P += " ui-datepicker-group-last", I = " ui-corner-" + (B ? "left" : "right");
+                break;
+
+              default:
+                P += " ui-datepicker-group-middle", I = "";
+            }
+            P += "'>";
+          }
+
+          for (P += "<div class='ui-datepicker-header ui-widget-header ui-helper-clearfix" + I + "'>" + (/all|left/.test(I) && 0 === k ? B ? o : s : "") + (/all|right/.test(I) && 0 === k ? B ? s : o : "") + this._generateMonthYearHeader(t, Z, te, Q, J, k > 0 || x > 0, f, g) + "</div><table class='ui-datepicker-calendar'><thead>" + "<tr>", T = u ? "<th class='ui-datepicker-week-col'>" + this._get(t, "weekHeader") + "</th>" : "", w = 0; 7 > w; w++) {
+            M = (w + c) % 7, T += "<th scope='col'" + ((w + c + 6) % 7 >= 5 ? " class='ui-datepicker-week-end'" : "") + ">" + "<span title='" + d[M] + "'>" + p[M] + "</span></th>";
+          }
+
+          for (P += T + "</tr></thead><tbody>", S = this._getDaysInMonth(te, Z), te === t.selectedYear && Z === t.selectedMonth && (t.selectedDay = Math.min(t.selectedDay, S)), z = (this._getFirstDayOfMonth(te, Z) - c + 7) % 7, H = Math.ceil((z + S) / 7), N = $ ? this.maxRows > H ? this.maxRows : H : H, this.maxRows = N, O = this._daylightSavingAdjust(new Date(te, Z, 1 - z)), A = 0; N > A; A++) {
+            for (P += "<tr>", E = u ? "<td class='ui-datepicker-week-col'>" + this._get(t, "calculateWeek")(O) + "</td>" : "", w = 0; 7 > w; w++) {
+              W = m ? m.apply(t.input ? t.input[0] : null, [O]) : [!0, ""], F = O.getMonth() !== Z, L = F && !v || !W[0] || Q && Q > O || J && O > J, E += "<td class='" + ((w + c + 6) % 7 >= 5 ? " ui-datepicker-week-end" : "") + (F ? " ui-datepicker-other-month" : "") + (O.getTime() === C.getTime() && Z === t.selectedMonth && t._keyEvent || b.getTime() === O.getTime() && b.getTime() === C.getTime() ? " " + this._dayOverClass : "") + (L ? " " + this._unselectableClass + " ui-state-disabled" : "") + (F && !_ ? "" : " " + W[1] + (O.getTime() === G.getTime() ? " " + this._currentClass : "") + (O.getTime() === Y.getTime() ? " ui-datepicker-today" : "")) + "'" + (F && !_ || !W[2] ? "" : " title='" + W[2].replace(/'/g, "&#39;") + "'") + (L ? "" : " data-handler='selectDay' data-event='click' data-month='" + O.getMonth() + "' data-year='" + O.getFullYear() + "'") + ">" + (F && !_ ? "&#xa0;" : L ? "<span class='ui-state-default'>" + O.getDate() + "</span>" : "<a class='ui-state-default" + (O.getTime() === Y.getTime() ? " ui-state-highlight" : "") + (O.getTime() === G.getTime() ? " ui-state-active" : "") + (F ? " ui-priority-secondary" : "") + "' href='#'>" + O.getDate() + "</a>") + "</td>", O.setDate(O.getDate() + 1), O = this._daylightSavingAdjust(O);
+            }
+
+            P += E + "</tr>";
+          }
+
+          Z++, Z > 11 && (Z = 0, te++), P += "</tbody></table>" + ($ ? "</div>" + (U[0] > 0 && x === U[1] - 1 ? "<div class='ui-datepicker-row-break'></div>" : "") : ""), D += P;
+        }
+
+        y += D;
+      }
+
+      return y += l, t._keyEvent = !1, y;
+    },
+    _generateMonthYearHeader: function _generateMonthYearHeader(t, e, i, s, n, o, a, r) {
+      var h,
+          l,
+          c,
+          u,
+          d,
+          p,
+          f,
+          g,
+          m = this._get(t, "changeMonth"),
+          _ = this._get(t, "changeYear"),
+          v = this._get(t, "showMonthAfterYear"),
+          b = "<div class='ui-datepicker-title'>",
+          y = "";
+
+      if (o || !m) y += "<span class='ui-datepicker-month'>" + a[e] + "</span>";else {
+        for (h = s && s.getFullYear() === i, l = n && n.getFullYear() === i, y += "<select class='ui-datepicker-month' data-handler='selectMonth' data-event='change'>", c = 0; 12 > c; c++) {
+          (!h || c >= s.getMonth()) && (!l || n.getMonth() >= c) && (y += "<option value='" + c + "'" + (c === e ? " selected='selected'" : "") + ">" + r[c] + "</option>");
+        }
+
+        y += "</select>";
+      }
+      if (v || (b += y + (!o && m && _ ? "" : "&#xa0;")), !t.yearshtml) if (t.yearshtml = "", o || !_) b += "<span class='ui-datepicker-year'>" + i + "</span>";else {
+        for (u = this._get(t, "yearRange").split(":"), d = new Date().getFullYear(), p = function p(t) {
+          var e = t.match(/c[+\-].*/) ? i + parseInt(t.substring(1), 10) : t.match(/[+\-].*/) ? d + parseInt(t, 10) : parseInt(t, 10);
+          return isNaN(e) ? d : e;
+        }, f = p(u[0]), g = Math.max(f, p(u[1] || "")), f = s ? Math.max(f, s.getFullYear()) : f, g = n ? Math.min(g, n.getFullYear()) : g, t.yearshtml += "<select class='ui-datepicker-year' data-handler='selectYear' data-event='change'>"; g >= f; f++) {
+          t.yearshtml += "<option value='" + f + "'" + (f === i ? " selected='selected'" : "") + ">" + f + "</option>";
+        }
+
+        t.yearshtml += "</select>", b += t.yearshtml, t.yearshtml = null;
+      }
+      return b += this._get(t, "yearSuffix"), v && (b += (!o && m && _ ? "" : "&#xa0;") + y), b += "</div>";
+    },
+    _adjustInstDate: function _adjustInstDate(t, e, i) {
+      var s = t.selectedYear + ("Y" === i ? e : 0),
+          n = t.selectedMonth + ("M" === i ? e : 0),
+          o = Math.min(t.selectedDay, this._getDaysInMonth(s, n)) + ("D" === i ? e : 0),
+          a = this._restrictMinMax(t, this._daylightSavingAdjust(new Date(s, n, o)));
+
+      t.selectedDay = a.getDate(), t.drawMonth = t.selectedMonth = a.getMonth(), t.drawYear = t.selectedYear = a.getFullYear(), ("M" === i || "Y" === i) && this._notifyChange(t);
+    },
+    _restrictMinMax: function _restrictMinMax(t, e) {
+      var i = this._getMinMaxDate(t, "min"),
+          s = this._getMinMaxDate(t, "max"),
+          n = i && i > e ? i : e;
+
+      return s && n > s ? s : n;
+    },
+    _notifyChange: function _notifyChange(t) {
+      var e = this._get(t, "onChangeMonthYear");
+
+      e && e.apply(t.input ? t.input[0] : null, [t.selectedYear, t.selectedMonth + 1, t]);
+    },
+    _getNumberOfMonths: function _getNumberOfMonths(t) {
+      var e = this._get(t, "numberOfMonths");
+
+      return null == e ? [1, 1] : "number" == typeof e ? [1, e] : e;
+    },
+    _getMinMaxDate: function _getMinMaxDate(t, e) {
+      return this._determineDate(t, this._get(t, e + "Date"), null);
+    },
+    _getDaysInMonth: function _getDaysInMonth(t, e) {
+      return 32 - this._daylightSavingAdjust(new Date(t, e, 32)).getDate();
+    },
+    _getFirstDayOfMonth: function _getFirstDayOfMonth(t, e) {
+      return new Date(t, e, 1).getDay();
+    },
+    _canAdjustMonth: function _canAdjustMonth(t, e, i, s) {
+      var n = this._getNumberOfMonths(t),
+          o = this._daylightSavingAdjust(new Date(i, s + (0 > e ? e : n[0] * n[1]), 1));
+
+      return 0 > e && o.setDate(this._getDaysInMonth(o.getFullYear(), o.getMonth())), this._isInRange(t, o);
+    },
+    _isInRange: function _isInRange(t, e) {
+      var i,
+          s,
+          n = this._getMinMaxDate(t, "min"),
+          o = this._getMinMaxDate(t, "max"),
+          a = null,
+          r = null,
+          h = this._get(t, "yearRange");
+
+      return h && (i = h.split(":"), s = new Date().getFullYear(), a = parseInt(i[0], 10), r = parseInt(i[1], 10), i[0].match(/[+\-].*/) && (a += s), i[1].match(/[+\-].*/) && (r += s)), (!n || e.getTime() >= n.getTime()) && (!o || e.getTime() <= o.getTime()) && (!a || e.getFullYear() >= a) && (!r || r >= e.getFullYear());
+    },
+    _getFormatConfig: function _getFormatConfig(t) {
+      var e = this._get(t, "shortYearCutoff");
+
+      return e = "string" != typeof e ? e : new Date().getFullYear() % 100 + parseInt(e, 10), {
+        shortYearCutoff: e,
+        dayNamesShort: this._get(t, "dayNamesShort"),
+        dayNames: this._get(t, "dayNames"),
+        monthNamesShort: this._get(t, "monthNamesShort"),
+        monthNames: this._get(t, "monthNames")
+      };
+    },
+    _formatDate: function _formatDate(t, e, i, s) {
+      e || (t.currentDay = t.selectedDay, t.currentMonth = t.selectedMonth, t.currentYear = t.selectedYear);
+      var n = e ? "object" == _typeof(e) ? e : this._daylightSavingAdjust(new Date(s, i, e)) : this._daylightSavingAdjust(new Date(t.currentYear, t.currentMonth, t.currentDay));
+      return this.formatDate(this._get(t, "dateFormat"), n, this._getFormatConfig(t));
+    }
+  }), t.fn.datepicker = function (e) {
+    if (!this.length) return this;
+    t.datepicker.initialized || (t(document).on("mousedown", t.datepicker._checkExternalClick), t.datepicker.initialized = !0), 0 === t("#" + t.datepicker._mainDivId).length && t("body").append(t.datepicker.dpDiv);
+    var i = Array.prototype.slice.call(arguments, 1);
+    return "string" != typeof e || "isDisabled" !== e && "getDate" !== e && "widget" !== e ? "option" === e && 2 === arguments.length && "string" == typeof arguments[1] ? t.datepicker["_" + e + "Datepicker"].apply(t.datepicker, [this[0]].concat(i)) : this.each(function () {
+      "string" == typeof e ? t.datepicker["_" + e + "Datepicker"].apply(t.datepicker, [this].concat(i)) : t.datepicker._attachDatepicker(this, e);
+    }) : t.datepicker["_" + e + "Datepicker"].apply(t.datepicker, [this[0]].concat(i));
+  }, t.datepicker = new i(), t.datepicker.initialized = !1, t.datepicker.uuid = new Date().getTime(), t.datepicker.version = "1.12.1", t.datepicker;
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/mineralOwner.js":
+/*!*********************************************!*\
+  !*** ./resources/assets/js/mineralOwner.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var globalOwnerId = '';
+  var globalOwnerName = '';
+  $('.previous_notes').html($('#hidden_permit_notes').val());
+  $('.owner_follow_up').datepicker().on('change', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    var date = $('#owner_follow_up_' + uniqueId).val();
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateFollowUp',
+      data: {
+        id: uniqueId,
+        date: date
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  var ownerTable = $('.owner_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 25,
+    "aaSorting": [],
+    "order": [[6, "desc"]]
+  }).on('change', '.owner_assignee', function () {
+    var id = $(this)[0].id;
+    var assignee = $(this)[0].value;
+    var ownerId = id.split('_');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateAssignee',
+      data: {
+        ownerId: ownerId[1],
+        assigneeId: assignee
+      },
+      success: function success(data) {
+        console.log(assignee);
+
+        if (assignee !== "0") {
+          $("#owner_follow_up_" + ownerId[1]).datepicker("setDate", "2");
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', '.owner_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    globalOwnerId = ownerId;
+  }).on('click', '.update_phone_numbers', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[3];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updatePhoneNumbers',
+      data: {
+        ownerId: ownerId
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', 'td.owner-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[1];
+    globalOwnerId = ownerId;
+    var tr = $(this).closest('tr');
+    var row = ownerTable.row(tr);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners',
+      data: {
+        id: ownerId
+      },
+      success: function success(data) {
+        var ownerBody = '<div class="row">' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Lease Info</h3>' + '<div class="containers">' + '<label for="lease_name_display_' + ownerId + '">Lease Name: </label>' + '<span id="lease_name_display_' + ownerId + '"></span><br>' + '<label for="lease_description_' + ownerId + '">Lease Description: </label>' + '<span id="lease_description_' + ownerId + '"></span><br><br>' + '<label for="rrc_lease_number_' + ownerId + '">RRC Lease Number: </label>' + '<span id="rrc_lease_number_' + ownerId + '"></span><br>' + '</div></div>' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Well Production</h3>' + '<div class="containers">' + '<label class="addit_labels" for="active_well_count_' + ownerId + '">Well Count: </label>' + '<span id="active_well_count_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="first_prod_' + ownerId + '">First Prod Date: </label>' + '<span id="first_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="last_prod_' + ownerId + '">Last Prod Date: </label>' + '<span id="last_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="years_of_prod_' + ownerId + '">Years of Production: </label>' + '<span id="years_of_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_oil_' + ownerId + '">Total Oil Production: </label>' + '<span id="cum_prod_oil_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_gas_' + ownerId + '">Total Gas Production: </label>' + '<span id="cum_prod_gas_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="bbls_' + ownerId + '">BBLS (OIL): </label>' + '<span id="bbls_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="gbbls_' + ownerId + '">MNX (GAS): </label>' + '<span id="gbbls_' + ownerId + '"></span><br>' + '' + '</div>' + '</div></div>' + '<div class="row"><div class="col-md-6">' + '<h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>' + '<div class="containers">' + '<div class="row">' + '<div class="offset-2 col-md-5">' + '<label class="addit_labels" for="decimal_interest_' + ownerId + '">Decimal Interest: </label>' + '<span id="decimal_interest_' + ownerId + '"></span>' + '</div>' + '<div class="col-md-4">' + '<label class="addit_labels" style="margin-left:-15%;" for="interest_type_' + ownerId + '">Interest Type: </label>' + '<span id="interest_type_' + ownerId + '"></span>' + '</div></div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="interest_type_' + ownerId + '">Monthly Revenue: </label>' + '<input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue_' + ownerId + '" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="owner_price_' + ownerId + '">Pricing per NRA: </label>' + '<input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price_' + ownerId + '" placeholder="$" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="net_royalty_acres_' + ownerId + '">Net Royalty Acres: </label>' + '<input type="text" style="margin-left:7.5%;" class="form-control net_royalty_acres" disabled id="net_royalty_acres_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="total_price_for_interest_' + ownerId + '">Total Price For Interest: </label>' + '<input type="text" style="margin-left:2%;" class="form-control total_price_for_interest" disabled id="total_price_for_interest_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="oil_price">Oil Price: </label>' + '<input type="text" style="margin-left:18.5%;" class="form-control oil_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="gas_price">Gas Price: </label>' + '<input type="text" style="margin-left:17%;" class="form-control gas_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="bnp_' + ownerId + '">BNP: </label>' + '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="ytp">Years to PayOff: </label>' + '<input type="text" style="margin-left:10%;" class="form-control ytp" id="ytp_' + ownerId + '" disabled />' + '</div>' + '</div></div>' + '<div class="col-md-6">' + '<div style="text-align:center;" class="col-md-12">' + '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' + '<div class="previous_owner_notes" id="previous_owner_notes_' + ownerId + '" name="previous_owner_notes" contenteditable="false"></div>' + '</div>' + '<div style="text-align:center;" class="col-md-12">' + '<label style="font-size:20px; font-weight:bold;" for="owner_notes_' + ownerId + '">Enter Owner Notes</label>' + '<textarea rows="4" class="owner_notes" id="owner_notes_' + ownerId + '" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' + '<div class="col-md-12">' + '<button type="button" id="update_owner_notes_btn_' + ownerId + '" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' + '</div></div></div>';
+
+        if (row.child.isShown()) {
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          row.child(ownerBody).show();
+          tr.addClass('shown');
+        }
+
+        var price = 0.0;
+
+        if (data.price !== null) {
+          price = data.price;
+        }
+
+        $('#lease_name_display_' + ownerId).text(' ' + data.lease_name);
+        $('#owner_price_' + ownerId).val(' $' + price);
+        $('#lease_description_' + ownerId).text(' ' + data.lease_description);
+        $('#rrc_lease_number_' + ownerId).text(' ' + data.rrc_lease_number);
+        $('#decimal_interest_' + ownerId).text(' ' + data.owner_decimal_interest);
+        $('#interest_type_' + ownerId).text(' ' + data.owner_interest_type);
+        var monthlyRevenue = data.tax_value / 12;
+        monthlyRevenue = monthlyRevenue.toFixed(2);
+        monthlyRevenue = numberWithCommas(monthlyRevenue);
+        $('#monthly_revenue_' + ownerId).val(monthlyRevenue);
+        $('#active_well_count_' + ownerId).text(' ' + $('#well_count').val());
+        $('#first_prod_' + ownerId).text(' ' + $('#first_month').text());
+        $('#last_prod_' + ownerId).text(' ' + $('#last_month').text());
+        $('#cum_prod_oil_' + ownerId).text(' ' + $('#total_oil').text());
+        $('#cum_prod_gas_' + ownerId).text(' ' + $('#total_gas').text());
+        $('#years_of_prod_' + ownerId).text(' ' + $('#years_of_prod').text());
+        $('#bbls_' + ownerId).text(' ' + $('#bbls').text());
+        $('#gbbls_' + ownerId).text(' ' + $('#gbbls').text());
+        var ownerPrice = $('#owner_price_' + ownerId).val();
+
+        if (ownerPrice !== undefined) {
+          ownerPrice = ownerPrice.replace('$', '');
+        } else {
+          ownerPrice = 0;
+        }
+
+        var netRoyaltyAcres = data.owner_decimal_interest / .125 * $('.acreage').val();
+        netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
+        $('#net_royalty_acres_' + ownerId).val(netRoyaltyAcres);
+        var total = ownerPrice * $('#net_royalty_acres_' + ownerId).val();
+        var totalPriceForInterest = total.toFixed(2);
+        var totalPriceForInterestWithCommas = numberWithCommas(totalPriceForInterest);
+        $('#total_price_for_interest_' + ownerId).val('$' + totalPriceForInterestWithCommas);
+        var neededIncome = totalPriceForInterest / data.owner_decimal_interest;
+        var bnp = neededIncome / data.oilPrice;
+        bnp = bnp.toFixed(2);
+        var bnpWithComma = numberWithCommas(bnp);
+        $('.oil_price').val(data.oilPrice);
+        $('.gas_price').val(data.gasPrice);
+        $('#bnp_' + ownerId).val(bnpWithComma);
+        var bbls = $('#bbls').text();
+        bbls = bbls.replace(',', '');
+        var ytp = bnp / bbls;
+        ytp = ytp.toFixed(2);
+        var ytpWithComma = numberWithCommas(ytp);
+        $('#ytp_' + ownerId).val(ytpWithComma);
+        getOwnerNotes(ownerId);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('change', '.wellbore_dropdown', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    var wellType = $(this)[0].value;
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateWellType',
+      data: {
+        ownerId: ownerId,
+        wellType: wellType
+      },
+      success: function success(data) {
+        if (wellType !== "0") {
+          $("#owner_follow_up_" + ownerId).datepicker("setDate", "2");
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('focusout', '.owner_price', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    var ownerPrice = $('#owner_price_' + ownerId).val();
+    ownerPrice = ownerPrice.replace('$', '');
+    var total = ownerPrice * $('#net_royalty_acres_' + ownerId).val();
+    var totalPriceForInterest = total.toFixed(2);
+    var totalPriceForInterestWithComma = numberWithCommas(totalPriceForInterest);
+    $('#total_price_for_interest_' + ownerId).val('$' + totalPriceForInterestWithComma);
+    var neededIncome = totalPriceForInterest / $('#decimal_interest_' + ownerId).text();
+    var bnp = neededIncome / $('.oil_price').val();
+    bnp = bnp.toFixed(2);
+    var bnpWithComma = numberWithCommas(bnp);
+    $('#bnp_' + ownerId).val(bnpWithComma);
+    var bbls = $('#bbls').text();
+    bbls = bbls.replace(',', '');
+    var ytp = bnp / bbls;
+    ytp = ytp.toFixed(2);
+    var ytpWithComma = numberWithCommas(ytp);
+    $('#ytp_' + ownerId).val(ytpWithComma);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/update/OwnerPrice',
+      data: {
+        id: ownerId,
+        price: ownerPrice
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', '.update_owner_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[4];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateNotes',
+      data: {
+        ownerId: ownerId,
+        leaseName: $('#lease_name').val(),
+        notes: $('#owner_notes_' + ownerId).val()
+      },
+      success: function success(data) {
+        $("#owner_follow_up_" + globalOwnerId).datepicker("setDate", "2");
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
+        $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        $('#owner_notes_' + ownerId).val('').text('');
+        $('#assignee_' + ownerId).val($('#user_id').val());
+      },
+      error: function error(data) {
+        console.log(data);
+        $('#owner_notes_' + ownerId).val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  }).on('mouseover', '.owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var ownerId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_owner_note_' + noteId + '_' + ownerId).css('display', 'inherit');
+  }).on('mouseleave', '.owner_note', function () {
+    $('.delete_owner_note').css('display', 'none');
+    $('.owner_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var ownerId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/mineral-owners/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
+  }).on('click', '.add_phone_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[2];
+    $('#new_phone_desc').val('').text('');
+    $('#new_phone_number').val('').text('');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners/getOwnerNumbers',
+      data: {
+        ownerId: ownerId
+      },
+      success: function success(data) {
+        console.log(data);
+        var phoneNumbers = '<div>';
+        $.each(data, function (key, value) {
+          phoneNumbers += '<span><div id="phone_' + value.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + value.phone_desc + ': </span>' + '<span><a href="tel:' + value.id + '">' + value.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + value.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + value.id + '" "></span>' + '</div></span>';
+        });
+        phoneNumbers += '</div>';
+        $('.phone_container').empty().append($(phoneNumbers).html());
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  });
+  $('.phone_container').on('click', '.soft_delete_phone', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[2];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owner/softDeletePhone',
+      data: {
+        id: uniqueId
+      },
+      success: function success(data) {
+        console.log(data);
+        $('#phone_' + uniqueId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  }).on('click', '.push_back_phone', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/pushPhoneNumber',
+      data: {
+        id: uniqueId,
+        reason: ''
+      },
+      success: function success(data) {
+        console.log(data);
+        $('#phone_' + uniqueId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  });
+  $('.submit_phone_btn').on('click', function () {
+    console.log('haha');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owner/addPhone',
+      data: {
+        ownerId: globalOwnerId,
+        phoneDesc: $('#new_phone_desc').val(),
+        phoneNumber: $('#new_phone_number').val(),
+        leaseName: $('#lease_name').val()
+      },
+      success: function success(data) {
+        $('#new_phone_desc').val('').text('');
+        $('#new_phone_number').val('').text('');
+        var phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + data.id + '" "></span>' + '</div></span>';
+        $('.phone_container').append($(phoneNumber).html());
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  });
+  /*              END PHONE CAPABILITIES              */
+
+  $('.acreage').on('focusout', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[1];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/updateAcreage',
+      data: {
+        id: uniqueId,
+        acreage: $('.acreage').val()
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  var map;
+  var bounds = new google.maps.LatLngBounds();
+
+  if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined' && toggle.allRelatedPermits.length !== 0) {
+    $.each(toggle.allRelatedPermits, function (key, value) {
+      var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
+      var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
+      var btmGeo = value.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+      var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+      bounds.extend(position);
+      var permitMarker = new google.maps.Marker({
+        position: position,
+        map: map,
+        label: 'SF'
+      });
+      var btmPosition = new google.maps.LatLng(JSON.parse(btmGeo));
+      bounds.extend(btmPosition);
+      var SurfaceMarker = new google.maps.Marker({
+        position: btmPosition,
+        map: map,
+        label: 'BM'
+      });
+      var flightPath = new google.maps.Polyline({
+        path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(btmGeo)],
+        geodesic: true,
+        strokeColor: "#ab0000",
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+      flightPath.setMap(map);
+    });
+    var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+    var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+    map = new google.maps.Map(document.getElementById('proMap'), {
+      zoom: 13,
+      center: JSON.parse(surfaceLng + ',' + surfaceLat),
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    });
+  } else {
+    console.log(toggle.allWells[0]);
+
+    var _surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
+
+    var _surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
+
+    map = new google.maps.Map(document.getElementById('proMap'), {
+      zoom: 13,
+      center: JSON.parse(_surfaceLng + ',' + _surfaceLat),
+      mapTypeId: google.maps.MapTypeId.HYBRID
+    });
+  } // Display multiple markers on a map
+
+
+  var infoWindow = new google.maps.InfoWindow(),
+      marker; // Loop through our array of markers & place each one on the map
+
+  $.each(toggle.allWells, function (key, value) {
+    var surfaceLng = '{"lng":' + value.SurfaceHoleLongitudeWGS84;
+    var surfaceLat = '"lat":' + value.SurfaceHoleLatitudeWGS84 + '}';
+    var icon = '';
+
+    if (value.stitched_permit_id === toggle.permitId) {
+      icon = 'https://quickevict.nyc3.digitaloceanspaces.com/background1.jpg';
+    } else {
+      icon = 'https://quickevict.nyc3.digitaloceanspaces.com/wellIcon.png';
+    }
+
+    var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+    bounds.extend(position);
+    marker = new google.maps.Marker({
+      position: position,
+      map: map,
+      title: value.Grantor,
+      icon: icon
+    }); // Allow each marker to have an info window
+
+    google.maps.event.addListener(marker, 'click', function (marker) {
+      return function () {
+        infoWindow.setContent('<div class="info_content">' + '<h4>Well Name: ' + value.WellName + '</h4>' + '<h4>Well Number: ' + value.WellNumber + '</h4>' + '<h5>Status: ' + value.WellStatus + '</h5>' + '<h5>Drill Type: ' + value.DrillType + '</h5>' + '<h5>Depth: ' + value.MeasuredDepth + '</h5>' + '</div>');
+        infoWindow.open(map, marker);
+      };
+    }(marker));
+  });
+  $('#refresh_lease_data_btn').on('click', function () {
+    var leaseNamesString = '';
+    $.each($('#lease_name_select')[0].selectedOptions, function (key, value) {
+      leaseNamesString += value.value + '|';
+    });
+    leaseNamesString = leaseNamesString.slice(0, -1);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/updateLeaseNames',
+      data: {
+        permitId: $('#permit_id').val(),
+        leaseNames: leaseNamesString
+      },
+      success: function success(data) {
+        console.log(data);
+        console.log($('#permit_id').val());
+
+        if (data === $('#permit_id').val()) {
+          console.log('im in here');
+          location.reload();
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  $('#refresh_well_data_btn').on('click', function () {
+    var wellNamesString = '';
+    $.each($('#well_name_select')[0].selectedOptions, function (key, value) {
+      wellNamesString += value.value + '|';
+    });
+    wellNamesString = wellNamesString.slice(0, -1);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/updateWellNames',
+      data: {
+        permitId: $('#permit_id').val(),
+        wellNames: wellNamesString
+      },
+      success: function success(data) {
+        if (data === $('#permit_id').val()) {
+          location.reload();
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  /*              WELLS PRODUCTION DETAILS              */
+
+  var table = $('.wells_table').DataTable(); // Add event listener for opening and closing details
+
+  $('.wells_table tbody').on('click', 'td.details-control', function () {
+    var tr = $(this).closest('tr');
+    var row = table.row(tr);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owners/get/getWellDetails',
+      data: {
+        id: $(this)[0].id,
+        leaseName: $('#lease_name').val()
+      },
+      success: function success(data) {
+        console.log(data);
+        var tableBody = '<table class="table table-bordered table-hover" style="padding-left:50px;"><thead>' + '<tr>' + '<th class="text-center">Cum Gas</th>' + '<th class="text-center">Cum Oil</th>' + '<th class="text-center">Measured Depth</th>' + '<th class="text-center">Abstract</th>' + '<th class="text-center">Range</th>' + '<th class="text-center">District</th>' + '<th class="text-center">Section</th>' + '<th class="text-center">Prod Date</th>' + '</tr>' + '</thead>';
+        var tableRows = '';
+        $.each(data, function (key, value) {
+          var firstProdDate = '';
+          var prodDate = '';
+
+          if (value.FirstProdDate !== null) {
+            prodDate = value.FirstProdDate;
+            var prodDateArray = prodDate.split('T');
+            firstProdDate = prodDateArray[0];
+          } else {
+            firstProdDate = 'N/A';
+          }
+
+          tableRows += '<tr>' + '<td class="text-center">' + value.CumGas + '</td>' + '<td class="text-center">' + value.CumOil + '</td>' + '<td class="text-center">' + value.MeasuredDepth + '</td>' + '<td class="text-center">' + value.Abstract + '</td>' + '<td class="text-center">' + value.Range + '</td>' + '<td class="text-center">' + value.District + '</td>' + '<td class="text-center">' + value.Section + '</td>' + '<td class="text-center">' + firstProdDate + '</td>' + '</tr>';
+        });
+        tableBody += tableRows + '</table>';
+
+        if (row.child.isShown()) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          // Open this row
+          row.child(tableBody).show();
+          tr.addClass('shown');
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+  /*                  FUNCTIONS                   */
+
+  function getOwnerNotes(ownerId) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners/getNotes',
+      data: {
+        ownerId: ownerId,
+        leaseName: $('#lease_name').val()
+      },
+      success: function success(data) {
+        if (data !== undefined && data !== '') {
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        } else {
+          $('#previous_owner_notes_' + ownerId).empty();
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  }
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/nonProducingLeasePage.js":
+/*!******************************************************!*\
+  !*** ./resources/assets/js/nonProducingLeasePage.js ***!
+  \******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  if (location.href.split('/')[3] === 'non-producing-mineral-owner') {
+    $('#refresh_well_data_btn').on('click', function () {
+      var wellNamesString = '';
+      $.each($('#well_name_select')[0].selectedOptions, function (key, value) {
+        wellNamesString += value.value + '|';
+      });
+      wellNamesString = wellNamesString.slice(0, -1);
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/mineral-owners/updateWellNames',
+        data: {
+          permitId: $('#permit_id').val(),
+          wellNames: wellNamesString
+        },
+        success: function success(data) {
+          if (data === $('#permit_id').val()) {
+            location.reload();
+          }
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    });
+    var map;
+    var bounds = new google.maps.LatLngBounds();
+
+    if (toggle.allRelatedPermits !== undefined && toggle.allRelatedPermits !== 'undefined' && toggle.allRelatedPermits.length !== 0) {
+      var surfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+      var surfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+      map = new google.maps.Map(document.getElementById('nonMap'), {
+        zoom: 13,
+        center: JSON.parse(surfaceLng + ',' + surfaceLat),
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      });
+      $.each(toggle.allRelatedPermits, function (key, value) {
+        var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
+        var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
+        var btmGeo = value.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+        var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+        bounds.extend(position);
+        var permitMarker = new google.maps.Marker({
+          position: position,
+          map: map,
+          label: 'SF'
+        });
+        var btmPosition = new google.maps.LatLng(JSON.parse(btmGeo));
+        bounds.extend(btmPosition);
+        var SurfaceMarker = new google.maps.Marker({
+          position: btmPosition,
+          map: map,
+          label: 'BM'
+        });
+        var flightPath = new google.maps.Polyline({
+          path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(btmGeo)],
+          geodesic: true,
+          strokeColor: "#ab0000",
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        });
+        flightPath.setMap(map);
+      });
+    } else {
+      var _surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
+
+      var _surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
+
+      map = new google.maps.Map(document.getElementById('nonMap'), {
+        zoom: 13,
+        center: JSON.parse(_surfaceLng + ',' + _surfaceLat),
+        mapTypeId: google.maps.MapTypeId.HYBRID
+      });
+    } // Display multiple markers on a map
+
+
+    var infoWindow = new google.maps.InfoWindow(),
+        marker; // Loop through our array of markers & place each one on the map
+
+    $.each(toggle.allWells, function (key, value) {
+      var surfaceLng = '{"lng":' + value.SurfaceHoleLongitudeWGS84;
+      var surfaceLat = '"lat":' + value.SurfaceHoleLatitudeWGS84 + '}';
+      var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+      bounds.extend(position);
+      marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        title: value.Grantor,
+        icon: 'https://quickevict.nyc3.digitaloceanspaces.com/wellIcon.png'
+      }); // Allow each marker to have an info window
+
+      google.maps.event.addListener(marker, 'click', function (marker) {
+        return function () {
+          infoWindow.setContent('<div class="info_content">' + '<h4>Lease Name: ' + value.LeaseName + '</h4>' + '<h4>Well Status: ' + value.WellStatus + '</h4>' + '<h5>Range: ' + value.Range + '</h5>' + '<h5>Section: ' + value.Section + '</h5>' + '<h5>Township: ' + value.Township + '</h5>' + '</div>');
+          infoWindow.open(map, marker);
+        };
+      }(marker));
+    });
+    var ownerTable = $('.non_producing_owner_table').DataTable({
+      "pagingType": "simple",
+      "pageLength": 25,
+      "aaSorting": [],
+      "order": [[6, "desc"]]
+    }).on('click', 'td.owner-details-control', function () {
+      var id = $(this)[0].id;
+      var splitId = id.split('_');
+      var ownerId = splitId[1];
+      var tr = $(this).closest('tr');
+      var row = ownerTable.row(tr);
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "GET",
+        url: '/mineral-owners',
+        data: {
+          id: ownerId
+        },
+        success: function success(data) {
+          var ownerBody = '<div class="row">' + '<div class="col-md-6">' + '<h3 style="text-align: center;">Well Production</h3>' + '<div class="containers">' + '<label class="addit_labels" for="active_well_count_' + ownerId + '">Well Count: </label>' + '<span id="active_well_count_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="first_prod_' + ownerId + '">First Prod Date: </label>' + '<span id="first_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="last_prod_' + ownerId + '">Last Prod Date: </label>' + '<span id="last_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="years_of_prod_' + ownerId + '">Years of Production: </label>' + '<span id="years_of_prod_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_oil_' + ownerId + '">Total Oil Production: </label>' + '<span id="cum_prod_oil_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="cum_prod_gas_' + ownerId + '">Total Gas Production: </label>' + '<span id="cum_prod_gas_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="bbls_' + ownerId + '">BBLS (OIL): </label>' + '<span id="bbls_' + ownerId + '"></span><br>' + '<label class="addit_labels" for="gbbls_' + ownerId + '">MNX (GAS): </label>' + '<span id="gbbls_' + ownerId + '"></span><br>' + '' + '</div>' + '</div></div>' + '<div class="row"><div class="col-md-6">' + '<h3 style="text-align: center;">Mineral Interest & Pricing Info.  </h3>' + '<div class="containers">' + '<div class="row">' + '<div class="offset-2 col-md-5">' + '<label class="addit_labels" for="decimal_interest_' + ownerId + '">Decimal Interest: </label>' + '<span id="decimal_interest_' + ownerId + '"></span>' + '</div>' + '<div class="col-md-4">' + '<label class="addit_labels" style="margin-left:-15%;" for="interest_type_' + ownerId + '">Interest Type: </label>' + '<span id="interest_type_' + ownerId + '"></span>' + '</div></div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="interest_type_' + ownerId + '">Monthly Revenue: </label>' + '<input type="text" style="margin-left:8.5%;" class="form-control monthly_revenue" id="monthly_revenue_' + ownerId + '" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="owner_price_' + ownerId + '">Pricing per NRA: </label>' + '<input type="text" style="margin-left:10%;" class="form-control owner_price" name="owner_price" id="owner_price_' + ownerId + '" placeholder="$" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="net_royalty_acres_' + ownerId + '">Net Royalty Acres: </label>' + '<input type="text" style="margin-left:7.5%;" class="form-control net_royalty_acres" disabled id="net_royalty_acres_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="total_price_for_interest_' + ownerId + '">Total Price For Interest: </label>' + '<input type="text" style="margin-left:2%;" class="form-control total_price_for_interest" disabled id="total_price_for_interest_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="oil_price">Oil Price: </label>' + '<input type="text" style="margin-left:18.5%;" class="form-control oil_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="gas_price">Gas Price: </label>' + '<input type="text" style="margin-left:17%;" class="form-control gas_price" disabled />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="bnp_' + ownerId + '">BNP: </label>' + '<input type="text" style="margin-left:22.8%;" class="form-control bnp" disabled id="bnp_' + ownerId + '" />' + '</div>' + '<div class="form-group form-inline">' + '<label class="addit_labels" for="ytp">Years to PayOff: </label>' + '<input type="text" style="margin-left:10%;" class="form-control ytp" id="ytp_' + ownerId + '" disabled />' + '</div>' + '</div></div>' + '<div class="col-md-6">' + '<div style="text-align:center;" class="col-md-12">' + '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' + '<div class="previous_owner_notes" id="previous_owner_notes_' + ownerId + '" name="previous_owner_notes" contenteditable="false"></div>' + '</div>' + '<div style="text-align:center;" class="col-md-12">' + '<label style="font-size:20px; font-weight:bold;" for="owner_notes_' + ownerId + '">Enter Owner Notes</label>' + '<textarea rows="4" class="owner_notes" id="owner_notes_' + ownerId + '" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' + '<div class="col-md-12">' + '<button type="button" id="update_owner_notes_btn_' + ownerId + '" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' + '</div></div></div>';
+
+          if (row.child.isShown()) {
+            row.child.hide();
+            tr.removeClass('shown');
+          } else {
+            row.child(ownerBody).show();
+            tr.addClass('shown');
+          }
+
+          var price = 0.0;
+
+          if (data.price !== null) {
+            price = data.price;
+          }
+
+          $('#owner_price_' + ownerId).val(' $' + price);
+          $('#lease_description_' + ownerId).text(' ' + data.lease_description);
+          $('#decimal_interest_' + ownerId).text(' ' + data.owner_decimal_interest);
+          $('#interest_type_' + ownerId).text(' ' + data.owner_interest_type);
+          var monthlyRevenue = data.tax_value / 12;
+          monthlyRevenue = monthlyRevenue.toFixed(2);
+          monthlyRevenue = numberWithCommas(monthlyRevenue);
+          $('#monthly_revenue_' + ownerId).val(monthlyRevenue);
+          $('#active_well_count_' + ownerId).text(' ' + $('#well_count').val());
+          $('#first_prod_' + ownerId).text(' ' + $('#first_month').text());
+          $('#last_prod_' + ownerId).text(' ' + $('#last_month').text());
+          $('#cum_prod_oil_' + ownerId).text(' ' + $('#total_oil').text());
+          $('#cum_prod_gas_' + ownerId).text(' ' + $('#total_gas').text());
+          $('#years_of_prod_' + ownerId).text(' ' + $('#years_of_prod').text());
+          $('#bbls_' + ownerId).text(' ' + $('#bbls').text());
+          $('#gbbls_' + ownerId).text(' ' + $('#gbbls').text());
+          var ownerPrice = $('#owner_price_' + ownerId).val();
+
+          if (ownerPrice !== undefined) {
+            ownerPrice = ownerPrice.replace('$', '');
+          } else {
+            ownerPrice = 0;
+          }
+
+          var netRoyaltyAcres = data.owner_decimal_interest / .125 * $('.acreage').val();
+          netRoyaltyAcres = netRoyaltyAcres.toFixed(4);
+          $('#net_royalty_acres_' + ownerId).val(netRoyaltyAcres);
+          var total = ownerPrice * $('#net_royalty_acres_' + ownerId).val();
+          var totalPriceForInterest = total.toFixed(2);
+          var totalPriceForInterestWithCommas = numberWithCommas(totalPriceForInterest);
+          $('#total_price_for_interest_' + ownerId).val('$' + totalPriceForInterestWithCommas);
+          var neededIncome = totalPriceForInterest / data.owner_decimal_interest;
+          var bnp = neededIncome / data.oilPrice;
+          bnp = bnp.toFixed(2);
+          var bnpWithComma = numberWithCommas(bnp);
+          $('.oil_price').val(data.oilPrice);
+          $('.gas_price').val(data.gasPrice);
+          $('#bnp_' + ownerId).val(bnpWithComma);
+          var bbls = $('#bbls').text();
+          bbls = bbls.replace(',', '');
+          var ytp = bnp / bbls;
+          ytp = ytp.toFixed(2);
+          var ytpWithComma = numberWithCommas(ytp);
+          $('#ytp_' + ownerId).val(ytpWithComma);
+          getOwnerNotes(ownerId);
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/owner.js":
+/*!**************************************!*\
+  !*** ./resources/assets/js/owner.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var phoneTable = $('#owner_phone_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 10,
+    "aaSorting": []
+  });
+  var ownerLeaseTable = $('#owner_lease_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 5,
+    "aaSorting": []
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/permitStorage.js":
+/*!**********************************************!*\
+  !*** ./resources/assets/js/permitStorage.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var storedPermitsTable = $('#stored_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    sendPermitBack(permitId, leaseName);
+  });
+
+  function sendPermitBack(permitId, leaseName) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/permit-storage/sendBack',
+      data: {
+        permitId: permitId,
+        leaseName: leaseName
+      },
+      success: function success(data) {
+        console.log(data);
+        console.log(permitId);
+        $('#permit_row_' + permitId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.notes').val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
+      }
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/permits.js":
+/*!****************************************!*\
+  !*** ./resources/assets/js/permits.js ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  if (location.href.split('/')[3] === 'mm-platform') {
+    getOilGasPrices();
+  }
+
+  $('#lease_name_select').select2({
+    minimumInputLength: 3
+  });
+  $('#well_name_select').select2({
+    minimumInputLength: 3
+  });
+  var globalPermitId = '';
+  $('.interest_tab').on('click', function () {
+    $('.interest_tab').removeClass('interest_active');
+    var interestId = $(this)[0].id;
+    $('#' + interestId).addClass('interest_active');
+  });
+  $('a[data-toggle="tab"]').on('click', function (e) {
+    window.localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+  var activeTab = window.localStorage.getItem('activeTab');
+
+  if (activeTab) {
+    $('#myTab a[href="' + activeTab + '"]').tab('show');
+    window.localStorage.removeItem("activeTab");
+  } else {
+    $('#interest_tab_eagle').addClass('interest_active');
+  }
+
+  if (location.hash.substr(0, 2) === "#!") {
+    var interestHref = location.hash.replace('#!', '');
+
+    if (interestHref === 'wtx_interest_area') {
+      $('#interest_tab_eagle').removeClass('interest_active');
+      $('#interest_tab_wtx').addClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
+    } else if (interestHref === 'eagle_interest_area') {
+      $('#interest_tab_wtx').removeClass('interest_active');
+      $('#interest_tab_eagle').addClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
+    } else if (interestHref === 'nm_interest_area') {
+      $('#interest_tab_eagle').removeClass('interest_active');
+      $('#interest_tab_nm').addClass('interest_active');
+      $('#interest_tab_wtx').removeClass('interest_active');
+    }
+
+    $("a[href='#" + location.hash.substr(2) + "']").tab("show");
+  }
+
+  $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
+    var hash = $(e.target).attr("href");
+
+    if (hash.substr(0, 1) === "#") {
+      location.replace("#!" + hash.substr(1));
+    }
+  }); //EAGLE PERMIT TABLE
+
+  var eaglePermitTable = $('#eagle_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = eaglePermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, false);
+  }).on('change', '.assignee', function () {
+    updateAssignee($(this)[0].value);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    console.log(status);
+    console.log(permitId[2]);
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    globalPermitId = permitId;
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); //WTX PERMIT TABLE
+
+  var wtxPermitTable = $('#wtx_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = wtxPermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, false);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); //NM PERMIT TABLE
+
+  var nmPermitTable = $('#nm_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nmPermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, false);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing EAGLE TABLE
+
+  var nonProducingEaglePermits = $('#non_producing_eagle_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingEaglePermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, true);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('change', '.check_lease', function () {
+    var id = $(this)[0].id;
+    var isChecked = $(this)[0].checked;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    var permitId = splitId[3];
+    stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing WTX TABLE
+
+  var nonProducingWTXPermits = $('#non_producing_wtx_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingWTXPermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, true);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('change', '.check_lease', function () {
+    var id = $(this)[0].id;
+    var isChecked = $(this)[0].checked;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    var permitId = splitId[3];
+    stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing NM TABLE
+
+  var nonProducingNMPermits = $('#non_producing_nm_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingNMPermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, true);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('change', '.check_lease', function () {
+    var id = $(this)[0].id;
+    var isChecked = $(this)[0].checked;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    var permitId = splitId[3];
+    stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  });
+
+  function moreData(id, tr, permitId, reportedOperator, row, isNonProducing) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/new-permits/getPermitDetails',
+      data: {
+        permitId: permitId,
+        reportedOperator: reportedOperator,
+        isNonProducing: isNonProducing
+      },
+      success: function success(data) {
+        var permitBody = '<div class="row"><div class="col-md-6">' + '<h3>Location & Contact</h3>' + '<div class="containers">' + '<label for="permit_number_' + permitId + '">Permit Number: </label>' + '<span id="permit_number_' + permitId + '"></span><br>' + '<label for="County/Parish_' + permitId + '">County State: </label>' + '<span id="CountyParish_' + permitId + '"></span><br>' + '<label for="Township_' + permitId + '">Township: </label>' + '<span id="Township_' + permitId + '"></span><br>' + '<label for="OperatorAlias_' + permitId + '">Operator: </label>' + '<span id="OperatorAlias_' + permitId + '"></span><br>' + '<label for="area_acres_' + permitId + '">Acreage: </label>' + '<span id="area_acres_' + permitId + '"></span><br>' + '<label for="Range_' + permitId + '">Range: </label>' + '<span id="Range_' + permitId + '"></span><br>' + '<label for="Section_' + permitId + '">Section: </label>' + '<span id="Section_' + permitId + '"></span><br>' + '<label for="District_' + permitId + '">District: </label>' + '<span id="District_' + permitId + '"></span><br>' + '<label for="Block_' + permitId + '">Block: </label>' + '<span id="Block_' + permitId + '"></span>' + '</div></div>' + '<div class="col-md-6">' + '<h3>Permit Info.</h3>' + '<div class="containers">' + '<label for="permitStatus_' + permitId + '">Permit Status:</label>' + '<span id="permitStatus_' + permitId + '"></span><br>' + '<label for="DrillType_' + permitId + '">Drill Type: </label>' + '<span id="DrillType_' + permitId + '"></span><br>' + '<label for="PermitType_' + permitId + '">Permit Type: </label>' + '<span id="PermitType_' + permitId + '"></span><br>' + '<label for="WellType_' + permitId + '">Well Type: </label>' + '<span id="WellType_' + permitId + '"></span><br>' + '<label for="approved_date_' + permitId + '">Approved Date: </label>' + '<span id="ApprovedDate_' + permitId + '"></span><br>' + '<label for="submitted_date_' + permitId + '">Submitted Date: </label>' + '<span id="SubmittedDate_' + permitId + '"></span><br>' + '<label for="Survey_' + permitId + '">Survey: </label>' + '<span id="Survey_' + permitId + '"></span><br>' + '<label for="Abstract_' + permitId + '">Abstract: </label>' + '<span id="Abstract_' + permitId + '"></span><br>' + '</div></div></div><br>' + '<div class="row"><div class="col-md-6">' + '<div class="map" id="map_' + permitId + '"></div></div>' + '<div class="col-md-6"><div style="margin-top:1.5%;">' + '<label style="font-size:20px; font-weight:bold;" for="previous_notes">Previous Landtrac Notes</label>' + '<div class="previous_notes" name="previous_notes" id="previous_notes_' + permitId + '" contenteditable="false"></div><br>' + '<label style="font-size:20px; font-weight:bold;" for="notes_' + permitId + '">Submit Landtrac Notes</label><br>' + '<textarea rows="5" class="notes" name="notes" id="notes_' + permitId + '" style="width:300px;" placeholder="Enter Notes: "></textarea><br>' + '<button type="button" id="update_notes_btn_' + permitId + '" class="btn btn-primary update_permit_notes_btn">Update Notes</button>' + '</div></div></div>';
+        getNotes(id, permitId);
+
+        if (row.child.isShown()) {
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          row.child(permitBody).show();
+          tr.addClass('shown');
+
+          try {
+            var permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+            var surfaceLng = '{"lng":' + data.permit.SurfaceLongitudeWGS84;
+            var surfaceLat = '"lat":' + data.permit.SurfaceLatitudeWGS84 + '}';
+            var map;
+            var bounds = new google.maps.LatLngBounds(); // Display a map on the page
+
+            map = new google.maps.Map(document.getElementById('map_' + permitId), {
+              zoom: 13,
+              center: JSON.parse(surfaceLng + ',' + surfaceLat),
+              mapTypeId: google.maps.MapTypeId.HYBRID
+            });
+            var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+            bounds.extend(position);
+            var permitMarker = new google.maps.Marker({
+              position: position,
+              map: map,
+              label: 'BM',
+              title: data.permit.lease_name
+            });
+            var btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+            bounds.extend(btmPosition);
+            var SurfaceMarker = new google.maps.Marker({
+              position: btmPosition,
+              map: map,
+              label: 'SF',
+              title: data.permit.lease_name
+            });
+            var flightPath = new google.maps.Polyline({
+              path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(permitPoint[0])],
+              geodesic: true,
+              strokeColor: "#FF0000",
+              strokeOpacity: 1.0,
+              strokeWeight: 2
+            });
+            flightPath.setMap(map);
+            google.maps.event.addListener(SurfaceMarker, 'click', function (SurfaceMarker) {
+              return function () {
+                infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + data.permit.lease_name + '</h4>' + '<h5>Range: ' + data.permit.range + '</h5>' + '<h5>Section: ' + data.permit.section + '</h5>' + '<h5>Township: ' + data.permit.township + '</h5>' + '</div>');
+                infoWindow.open(map, SurfaceMarker);
+              };
+            }(SurfaceMarker));
+            google.maps.event.addListener(permitMarker, 'click', function (permitMarker) {
+              return function () {
+                infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + data.permit.lease_name + '</h4>' + '<h5>Range: ' + data.permit.range + '</h5>' + '<h5>Section: ' + data.permit.section + '</h5>' + '<h5>Township: ' + data.permit.township + '</h5>' + '</div>');
+                infoWindow.open(map, permitMarker);
+              };
+            }(permitMarker)); // Display multiple markers on a map
+
+            var infoWindow = new google.maps.InfoWindow(),
+                marker; // Loop through our array of markers & place each one on the map
+
+            $.each(data.leaseGeo, function (key, value) {
+              var position = new google.maps.LatLng(JSON.parse(value.Geometry));
+              bounds.extend(position);
+              marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: value.Grantor
+              });
+              var checkbox = '';
+
+              if (value.permit_stitch_id === permitId) {
+                checkbox = '<input type="checkbox" checked class="form-control check_lease" id="check_lease_' + value.LeaseId + '_' + permitId + '"/>';
+              } else {
+                checkbox = '<input type="checkbox" class="form-control check_lease" id="check_lease_' + value.LeaseId + '_' + permitId + '"/>';
+              } // Allow each marker to have an info window
+
+
+              google.maps.event.addListener(marker, 'click', function (marker) {
+                return function () {
+                  infoWindow.setContent('<div class="info_content">' + '<h4>Grantor: ' + value.Grantor + '</h4>' + '<h5>Range: ' + value.Range + '</h5>' + '<h5>Section: ' + value.Section + '</h5>' + '<h5>Township: ' + value.Township + '</h5>' + '</div><div> <label style="margin-left:40%;" for="check_lease">Add Lease to Permit: </label>' + checkbox + '</div>');
+                  infoWindow.open(map, marker);
+                };
+              }(marker));
+            });
+          } catch (err) {
+            console.log(err);
+          }
+        }
+
+        var survey = data['permit']['survey'];
+
+        if (data['permit']['survey'] === null) {
+          survey = 'N/A';
+        } else {
+          survey = data['permit']['survey'];
+        }
+
+        var _abstract = data['permit']['abstract'];
+
+        if (data['permit']['abstract'] === null) {
+          _abstract = 'N/A';
+        } else {
+          _abstract = data['permit']['abstract'];
+        }
+
+        var district = data['permit']['district'];
+
+        if (data['permit']['district'] === null) {
+          district = 'N/A';
+        } else {
+          district = data['permit']['district'];
+        }
+
+        var block = data['permit']['block'];
+
+        if (data['permit']['block'] === null) {
+          block = 'N/A';
+        } else {
+          block = data['permit']['block'];
+        }
+
+        var approvedDate = '';
+
+        if (data['permit']['approved_date'] !== null) {
+          approvedDate = data['permit']['approved_date'].split('T');
+        } else {
+          approvedDate = 'N/A';
+        }
+
+        var permitStatus = '';
+
+        if (data['permit']['permit_status'] !== null) {
+          permitStatus = data['permit']['permit_status'].split('T');
+        } else {
+          permitStatus = 'N/A';
+        }
+
+        var submittedDate = '';
+
+        if (data['permit']['submitted_date'] !== null) {
+          submittedDate = data['permit']['submitted_date'].split('T');
+        } else {
+          submittedDate = 'N/A';
+        }
+
+        var township = '';
+
+        if (data['permit']['submitted_date'] !== null) {
+          township = data['permit']['township'];
+        } else {
+          township = 'N/A';
+        }
+
+        var acreage = '';
+
+        if (data['permit']['acreage'] !== null) {
+          acreage = data['permit']['acreage'];
+        } else {
+          acreage = 'N/A';
+        }
+
+        var drillType = '';
+
+        if (data['permit']['drill_type'] !== null) {
+          drillType = data['permit']['drill_type'];
+        } else {
+          drillType = 'N/A';
+        }
+
+        var leaseName = '';
+
+        if (data['permit']['lease_name'] !== null) {
+          leaseName = data['permit']['lease_name'];
+        } else {
+          leaseName = 'N/A';
+        }
+
+        var range = '';
+
+        if (data['permit']['range'] !== null) {
+          range = data['permit']['range'];
+        } else {
+          range = 'N/A';
+        }
+
+        var section = '';
+
+        if (data['permit']['section'] !== null) {
+          section = data['permit']['section'];
+        } else {
+          section = 'N/A';
+        }
+
+        var wellType = '';
+
+        if (data['permit']['well_type'] !== null) {
+          wellType = data['permit']['well_type'];
+        } else {
+          wellType = 'N/A';
+        }
+
+        $('#Abstract_' + permitId).text(' ' + _abstract);
+        $('#ApprovedDate_' + permitId).text(' ' + approvedDate[0]);
+        $('#SubmittedDate_' + permitId).text(' ' + submittedDate[0]);
+        $('#Block_' + permitId).text(' ' + block);
+        $('#permitStatus_' + permitId).text(' ' + permitStatus);
+        $('#CountyParish_' + permitId).text(' ' + data['permit']['county_parish'] + ', ' + data['permit']['state']);
+        $('#DrillType_' + permitId).text(' ' + drillType);
+        $('#LeaseName_' + permitId).text(' ' + leaseName);
+        $('#OperatorAlias_' + permitId).text(' ' + data['permit']['operator_alias']);
+        $('#PermitID_' + permitId).text(' ' + data['permit']['permit_id']);
+        $('#PermitType_' + permitId).text(' ' + data['permit']['permit_type']);
+        $('#permit_number_' + permitId).text(' ' + data['permit']['permit_number']);
+        $('#Range_' + permitId).text(' ' + range);
+        $('#Section_' + permitId).text(' ' + section);
+        $('#Survey_' + permitId).text(' ' + survey);
+        $('#Township_' + permitId).text(' ' + township);
+        $('#WellType_' + permitId).text(' ' + wellType);
+        $('#area_acres_' + permitId).text(' ' + acreage);
+        $('#District_' + permitId).text(' ' + district);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function stitchLeaseToPermit(leaseId, permitId, isChecked) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/stitchLeaseToPermit',
+      data: {
+        permitId: permitId,
+        leaseId: leaseId,
+        isChecked: isChecked
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function updateAssignee(assignee) {
+    if (assignee === '') {
+      $(this).removeClass('assigned_style');
+    } else {
+      $(this).addClass('assigned_style');
+    }
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/updateAssignee',
+      data: {
+        permitId: globalPermitId,
+        assigneeId: assignee
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function getOilGasPrices() {
+    var oilPrice = $('#price_container')[0].children[0].children[0].children[2].firstElementChild.innerText;
+    var gasPrice = $('#price_container')[0].children[0].children[1].children[2].firstElementChild.innerText;
+    oilPrice = oilPrice.replace('$', '');
+    gasPrice = gasPrice.replace('$', '');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/update-prices',
+      data: {
+        oilPrice: oilPrice,
+        gasPrice: gasPrice
+      },
+      success: function success(data) {},
+      error: function error(data) {}
+    });
+  }
+
+  function toggleStatus(permitId, status) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/new-permits/updateStatus',
+      data: {
+        permitId: permitId,
+        status: status
+      },
+      success: function success(data) {
+        console.log(data);
+        $('#toggle_status_' + permitId).removeClass('yellow').removeClass('purple').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function getNotes(id, permitId) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/new-permits/getNotes',
+      data: {
+        permitId: permitId
+      },
+      success: function success(data) {
+        if (data !== undefined && data !== '') {
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+        } else {
+          $('#previous_notes_' + permitId).empty();
+        }
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.notes').val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
+      }
+    });
+  }
+
+  function storePermit(permitId, leaseName) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/new-permits/storePermit',
+      data: {
+        permitId: permitId,
+        leaseName: leaseName
+      },
+      success: function success(data) {
+        console.log(data);
+        console.log(permitId);
+        $('#permit_row_' + permitId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function updateNotes(permitId) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/updateNotes',
+      data: {
+        permitId: permitId,
+        notes: $('#notes_' + permitId).val()
+      },
+      success: function success(data) {
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
+        $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+        $('#notes_' + permitId).val('').text('');
+      },
+      error: function error(data) {
+        $('#notes_' + permitId).val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
+      }
+    });
+  }
+
+  function deleteNote(permitId, noteId, response) {
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/new-permits/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/phoneNumberPush.js":
+/*!************************************************!*\
+  !*** ./resources/assets/js/phoneNumberPush.js ***!
+  \************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  var table = $('#phone_numbers_table').DataTable({
+    "ordering": false,
+    "pageLength": 50
+  }).on('click', '.send_back', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var phoneId = splitId[2];
+    var phoneNumber = $('#phone_number_' + phoneId).val();
+    var phoneDesc = $('#phone_desc_' + phoneId).val();
+    var ownerName = $('#owner_name_' + phoneId).val();
+    var leaseName = $('#lease_name_' + phoneId).val();
+    console.log(phoneId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/pushed-phone-numbers/updatePhoneNumber',
+      data: {
+        id: phoneId,
+        phoneNumber: phoneNumber,
+        phoneDesc: phoneDesc,
+        ownerName: ownerName,
+        leaseName: leaseName
+      },
+      success: function success(data) {
+        var rows = table.rows('.' + phoneId).remove().draw();
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }).on('click', '.insert_number', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var phoneId = splitId[2];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/pushed-phone-numbers/insertPhoneNumber',
+      data: {
+        id: phoneId,
+        phoneNumber: $('#insert_phone_number_' + phoneId).val(),
+        phoneDesc: $('#insert_phone_desc_' + phoneId).val(),
+        ownerId: $('#owner_id_' + phoneId).val()
+      },
+      success: function success() {
+        $('#insert_phone_number_' + phoneId).val('');
+        $('#insert_phone_desc_' + phoneId).val('');
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  });
+});
+
+/***/ }),
+
+/***/ "./resources/assets/js/wellbore.js":
+/*!*****************************************!*\
+  !*** ./resources/assets/js/wellbore.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+$(document).ready(function () {
+  /* HIGH PRIORITY WELLBORE TABLE */
+  $('.wellbore_owner_follow_up').datepicker();
+  var highPriorityTable = $('.high_priority_wellbore_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 25,
+    "aaSorting": [],
+    "order": [[1, "desc"]]
+  }).on('change', '.owner_assignee', function () {
+    var id = $(this)[0].id;
+    var assignee = $(this)[0].value;
+    var ownerId = id.split('_');
+    changeAssignee(assignee, ownerId[1]);
+  }).on('click', '.owner_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    $('#owner_id').val(splitId[2]);
+  }).on('change', '.wellbore_dropdown', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var wellType = $(this)[0].value;
+    $('#owner_id').val(splitId[2]);
+    changeWellbore(splitId[2], wellType);
+  }).on('click', '.add_phone_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    $('#owner_id').val(splitId[2]);
+    openPhoneModal(splitId[2]);
+  }).on('change', '.wellbore_owner_follow_up', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    ownerFollowupDateChange(uniqueId);
+  }).on('click', 'td.wellbore-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[1];
+    var tr = $(this).closest('tr');
+    var row = highPriorityTable.row(tr);
+    getNotes(ownerId, tr, row);
+  }).on('click', '.update_owner_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[4];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateNotes',
+      data: {
+        ownerId: ownerId,
+        leaseName: $('#lease_name_' + ownerId).val(),
+        notes: $('#owner_notes_' + ownerId).val()
+      },
+      success: function success(data) {
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
+        $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        $('#owner_notes_' + ownerId).val('').text('');
+        $('#assignee_' + ownerId).val($('#user_id').val());
+      },
+      error: function error(data) {
+        console.log(data);
+        $('#owner_notes_' + ownerId).val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  }).on('mouseover', '.owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var ownerId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_owner_note_' + noteId + '_' + ownerId).css('display', 'inherit');
+  }).on('mouseleave', '.owner_note', function () {
+    $('.delete_owner_note').css('display', 'none');
+    $('.owner_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var ownerId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/mineral-owners/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
+  });
+  /* LOWER PRIORITY WELLBORE TABLE */
+
+  var lowPriorityTable = $('.low_priority_wellbore_table').DataTable({
+    "pagingType": "simple",
+    "pageLength": 25,
+    "aaSorting": [],
+    "order": [[1, "desc"]]
+  }).on('change', '.owner_assignee', function () {
+    var id = $(this)[0].id;
+    var assignee = $(this)[0].value;
+    var ownerId = id.split('_');
+    changeAssignee(assignee, ownerId[1]);
+  }).on('click', '.owner_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    $('#owner_id').val(splitId[2]);
+  }).on('change', '.wellbore_dropdown', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var wellType = $(this)[0].value;
+    $('#owner_id').val(splitId[2]);
+    changeWellbore(splitId[2], wellType);
+  }).on('click', '.add_phone_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    $('#owner_id').val(splitId[2]);
+    openPhoneModal(splitId[2]);
+  }).on('change', '.wellbore_owner_follow_up', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    ownerFollowupDateChange(uniqueId);
+  }).on('click', 'td.wellbore-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[1];
+    var tr = $(this).closest('tr');
+    var row = lowPriorityTable.row(tr);
+    getNotes(ownerId, tr, row);
+  }).on('click', '.update_owner_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var ownerId = splitId[4];
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateNotes',
+      data: {
+        ownerId: ownerId,
+        leaseName: $('#lease_name_' + ownerId).val(),
+        notes: $('#owner_notes_' + ownerId).val()
+      },
+      success: function success(data) {
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
+        $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        $('#owner_notes_' + ownerId).val('').text('');
+        $('#assignee_' + ownerId).val($('#user_id').val());
+      },
+      error: function error(data) {
+        console.log(data);
+        $('#owner_notes_' + ownerId).val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  }).on('mouseover', '.owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var ownerId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_owner_note_' + noteId + '_' + ownerId).css('display', 'inherit');
+  }).on('mouseleave', '.owner_note', function () {
+    $('.delete_owner_note').css('display', 'none');
+    $('.owner_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_owner_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var ownerId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/mineral-owners/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
+  });
+  $('.phone_container').on('click', '.soft_delete_phone', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[2];
+    softDeletePhone(uniqueId);
+  }).on('click', '.push_back_phone', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var uniqueId = splitId[3];
+    pushBackPhone(uniqueId);
+  });
+  $('.current_phones').on('click', '.wellbore_submit_phone_btn', function () {
+    console.log('hahaha');
+    submitPhone();
+  });
+  /*              FUNCTIONS               */
+
+  function changeAssignee(assignee, ownerId) {
+    if (assignee === '0') {
+      $(this).removeClass('assigned_style');
+    } else {
+      $(this).addClass('assigned_style');
+    }
+
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateAssignee',
+      data: {
+        ownerId: ownerId,
+        assigneeId: assignee
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function getNotes(ownerId, tr, row) {
+    console.log($('#lease_name_' + ownerId).val());
+    console.log(ownerId);
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners/getNotes',
+      data: {
+        ownerId: ownerId,
+        leaseName: $('#lease_name_' + ownerId).val()
+      },
+      success: function success(data) {
+        console.log(data);
+        var noteContainer = '<div class="col-md-6">' + '<div style="text-align:center;" class="col-md-12">' + '<label style="font-size:20px; font-weight:bold;" for="notes">Owner Notes</label>' + '<div class="previous_owner_notes" id="previous_owner_notes_' + ownerId + '" name="previous_owner_notes" contenteditable="false"></div>' + '</div>' + '<div style="text-align:center;" class="col-md-12">' + '<label style="font-size:20px; font-weight:bold;" for="owner_notes_' + ownerId + '">Enter Owner Notes</label>' + '<textarea rows="4" class="owner_notes" id="owner_notes_' + ownerId + '" name="notes" style="width:100%;" placeholder="Enter Notes: "></textarea>' + '<div class="col-md-12">' + '<button type="button" id="update_owner_notes_btn_' + ownerId + '" class="btn btn-primary update_owner_notes_btn">Update Notes</button>' + '</div></div></div>';
+
+        if (row.child.isShown()) {
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          row.child(noteContainer).show();
+          tr.addClass('shown');
+        }
+
+        if (data !== undefined && data !== '') {
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_owner_notes_' + ownerId).empty().append(updatedNotes.html());
+        } else {
+          $('#previous_owner_notes_' + ownerId).empty();
+        }
+      },
+      error: function error(data) {
+        $('.owner_notes').val('Note Submission Error. Make sure You Selected an Owner').text('Note Submission Error. Make sure You Selected an Owner');
+      }
+    });
+  }
+
+  function updateNotes(permitId) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/new-permits/updateNotes',
+      data: {
+        permitId: permitId,
+        notes: $('#notes_' + permitId).val()
+      },
+      success: function success(data) {
+        var updatedNotes = '';
+        $.each(data, function (key, value) {
+          updatedNotes += '<span>' + value.notes + '</span>';
+        });
+        updatedNotes = $('<span>' + updatedNotes + '</span>');
+        $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+        $('#notes_' + permitId).val('').text('');
+      },
+      error: function error(data) {
+        $('#notes_' + permitId).val('Note Submission Error. Make sure You Selected a Permit').text('Note Submission Error. Make sure You Selected a Permit');
+      }
+    });
+  }
+
+  function deleteNote(permitId, noteId, response) {
+    if (response) {
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        beforeSend: function beforeSend(xhr) {
+          xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+        },
+        type: "POST",
+        url: '/new-permits/delete/delete-note',
+        data: {
+          id: noteId
+        },
+        success: function success(data) {
+          console.log(data);
+          var updatedNotes = '';
+          $.each(data, function (key, value) {
+            updatedNotes += '<span>' + value.notes + '</span>';
+          });
+          updatedNotes = $('<span>' + updatedNotes + '</span>');
+          $('#previous_notes_' + permitId).empty().append(updatedNotes.html());
+        },
+        error: function error(data) {
+          console.log(data);
+        }
+      });
+    }
+  }
+
+  function changeWellbore(ownerId, wellType) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateWellType',
+      data: {
+        ownerId: ownerId,
+        wellType: wellType
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+
+  function openPhoneModal(ownerId) {
+    $('#new_phone_desc').val('').text('');
+    $('#new_phone_number').val('').text('');
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "GET",
+      url: '/mineral-owners/getOwnerNumbers',
+      data: {
+        ownerId: ownerId
+      },
+      success: function success(data) {
+        var phoneNumbers = '<div>';
+        $.each(data, function (key, value) {
+          phoneNumbers += '<span><div id="phone_' + value.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + value.phone_desc + ': </span>' + '<span><a href="tel:' + value.id + '">' + value.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + value.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + value.id + '" "></span>' + '</div></span>';
+        });
+        phoneNumbers += '</div>';
+        $('.phone_container').empty().append($(phoneNumbers).html());
+      },
+      error: function error(data) {
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  }
+
+  function softDeletePhone(uniqueId) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owner/softDeletePhone',
+      data: {
+        id: uniqueId
+      },
+      success: function success(data) {
+        $('#phone_' + uniqueId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  }
+
+  function pushBackPhone(uniqueId) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/pushPhoneNumber',
+      data: {
+        id: uniqueId,
+        reason: ''
+      },
+      success: function success(data) {
+        console.log(data);
+        $('#phone_' + uniqueId).remove();
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  }
+
+  function submitPhone() {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "POST",
+      url: '/mineral-owner/addPhone',
+      data: {
+        ownerId: $('#owner_id').val(),
+        phoneDesc: $('#new_phone_desc').val(),
+        phoneNumber: $('#new_phone_number').val(),
+        leaseName: $('#lease_name_' + $('#owner_id').val()).val()
+      },
+      success: function success(data) {
+        $('#new_phone_desc').val('').text('');
+        $('#new_phone_number').val('').text('');
+        var phoneNumber = '<span><div id="phone_' + data.id + '" style="padding: 2%;">' + '<span style="font-weight: bold;">' + data.phone_desc + ': </span>' + '<span><a href="tel:' + data.id + '">' + data.phone_number + ' </a></span>' + '<span style="cursor:pointer; color:red; margin-left:5%;" class="soft_delete_phone fas fa-trash" id="soft_delete_' + data.id + '" "></span>' + '<span style="cursor:pointer; color:darkorange; margin-left:5%;" class="push_back_phone fas fa-hand-point-right" id="push_back_phone_' + data.id + '" "></span>' + '</div></span>';
+        $('.phone_container').append($(phoneNumber).html());
+      },
+      error: function error(data) {
+        console.log(data);
+        $('.owner_notes').val('Note Submission Error. Contact Dev Team').text('Note Submission Error. Contact Dev Team');
+      }
+    });
+  }
+
+  function ownerFollowupDateChange(uniqueId) {
+    var date = $('#owner_follow_up_' + uniqueId).val();
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      beforeSend: function beforeSend(xhr) {
+        xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+      },
+      type: "PUT",
+      url: '/mineral-owner/updateFollowUp',
+      data: {
+        id: uniqueId,
+        date: date
+      },
+      success: function success(data) {
+        console.log(data);
+      },
+      error: function error(data) {
+        console.log(data);
+      }
+    });
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/assets/sass/app.scss":
 /*!****************************************!*\
   !*** ./resources/assets/sass/app.scss ***!
@@ -41399,16 +45292,2846 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof
 
 /***/ }),
 
+/***/ "./vendor/select2/select2/dist/js/select2.min.js":
+/*!*******************************************************!*\
+  !*** ./vendor/select2/select2/dist/js/select2.min.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+/*! Select2 4.0.13 | https://github.com/select2/select2/blob/master/LICENSE.md */
+!function (n) {
+   true ? !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_FACTORY__ = (n),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : undefined;
+}(function (u) {
+  var e = function () {
+    if (u && u.fn && u.fn.select2 && u.fn.select2.amd) var e = u.fn.select2.amd;
+
+    var t, n, r, h, o, _s, f, g, m, v, y, _, i, a, b;
+
+    function w(e, t) {
+      return i.call(e, t);
+    }
+
+    function l(e, t) {
+      var n,
+          r,
+          i,
+          o,
+          s,
+          a,
+          l,
+          c,
+          u,
+          d,
+          p,
+          h = t && t.split("/"),
+          f = y.map,
+          g = f && f["*"] || {};
+
+      if (e) {
+        for (s = (e = e.split("/")).length - 1, y.nodeIdCompat && b.test(e[s]) && (e[s] = e[s].replace(b, "")), "." === e[0].charAt(0) && h && (e = h.slice(0, h.length - 1).concat(e)), u = 0; u < e.length; u++) {
+          if ("." === (p = e[u])) e.splice(u, 1), u -= 1;else if (".." === p) {
+            if (0 === u || 1 === u && ".." === e[2] || ".." === e[u - 1]) continue;
+            0 < u && (e.splice(u - 1, 2), u -= 2);
+          }
+        }
+
+        e = e.join("/");
+      }
+
+      if ((h || g) && f) {
+        for (u = (n = e.split("/")).length; 0 < u; u -= 1) {
+          if (r = n.slice(0, u).join("/"), h) for (d = h.length; 0 < d; d -= 1) {
+            if (i = (i = f[h.slice(0, d).join("/")]) && i[r]) {
+              o = i, a = u;
+              break;
+            }
+          }
+          if (o) break;
+          !l && g && g[r] && (l = g[r], c = u);
+        }
+
+        !o && l && (o = l, a = c), o && (n.splice(0, a, o), e = n.join("/"));
+      }
+
+      return e;
+    }
+
+    function A(t, n) {
+      return function () {
+        var e = a.call(arguments, 0);
+        return "string" != typeof e[0] && 1 === e.length && e.push(null), _s.apply(h, e.concat([t, n]));
+      };
+    }
+
+    function x(t) {
+      return function (e) {
+        m[t] = e;
+      };
+    }
+
+    function D(e) {
+      if (w(v, e)) {
+        var t = v[e];
+        delete v[e], _[e] = !0, o.apply(h, t);
+      }
+
+      if (!w(m, e) && !w(_, e)) throw new Error("No " + e);
+      return m[e];
+    }
+
+    function c(e) {
+      var t,
+          n = e ? e.indexOf("!") : -1;
+      return -1 < n && (t = e.substring(0, n), e = e.substring(n + 1, e.length)), [t, e];
+    }
+
+    function S(e) {
+      return e ? c(e) : [];
+    }
+
+    return e && e.requirejs || (e ? n = e : e = {}, m = {}, v = {}, y = {}, _ = {}, i = Object.prototype.hasOwnProperty, a = [].slice, b = /\.js$/, f = function f(e, t) {
+      var n,
+          r = c(e),
+          i = r[0],
+          o = t[1];
+      return e = r[1], i && (n = D(i = l(i, o))), i ? e = n && n.normalize ? n.normalize(e, function (t) {
+        return function (e) {
+          return l(e, t);
+        };
+      }(o)) : l(e, o) : (i = (r = c(e = l(e, o)))[0], e = r[1], i && (n = D(i))), {
+        f: i ? i + "!" + e : e,
+        n: e,
+        pr: i,
+        p: n
+      };
+    }, g = {
+      require: function require(e) {
+        return A(e);
+      },
+      exports: function exports(e) {
+        var t = m[e];
+        return void 0 !== t ? t : m[e] = {};
+      },
+      module: function module(e) {
+        return {
+          id: e,
+          uri: "",
+          exports: m[e],
+          config: function (e) {
+            return function () {
+              return y && y.config && y.config[e] || {};
+            };
+          }(e)
+        };
+      }
+    }, o = function o(e, t, n, r) {
+      var i,
+          o,
+          s,
+          a,
+          l,
+          c,
+          u,
+          d = [],
+          p = _typeof(n);
+
+      if (c = S(r = r || e), "undefined" == p || "function" == p) {
+        for (t = !t.length && n.length ? ["require", "exports", "module"] : t, l = 0; l < t.length; l += 1) {
+          if ("require" === (o = (a = f(t[l], c)).f)) d[l] = g.require(e);else if ("exports" === o) d[l] = g.exports(e), u = !0;else if ("module" === o) i = d[l] = g.module(e);else if (w(m, o) || w(v, o) || w(_, o)) d[l] = D(o);else {
+            if (!a.p) throw new Error(e + " missing " + o);
+            a.p.load(a.n, A(r, !0), x(o), {}), d[l] = m[o];
+          }
+        }
+
+        s = n ? n.apply(m[e], d) : void 0, e && (i && i.exports !== h && i.exports !== m[e] ? m[e] = i.exports : s === h && u || (m[e] = s));
+      } else e && (m[e] = n);
+    }, t = n = _s = function s(e, t, n, r, i) {
+      if ("string" == typeof e) return g[e] ? g[e](t) : D(f(e, S(t)).f);
+
+      if (!e.splice) {
+        if ((y = e).deps && _s(y.deps, y.callback), !t) return;
+        t.splice ? (e = t, t = n, n = null) : e = h;
+      }
+
+      return t = t || function () {}, "function" == typeof n && (n = r, r = i), r ? o(h, e, t, n) : setTimeout(function () {
+        o(h, e, t, n);
+      }, 4), _s;
+    }, _s.config = function (e) {
+      return _s(e);
+    }, t._defined = m, (r = function r(e, t, n) {
+      if ("string" != typeof e) throw new Error("See almond README: incorrect module build, no module name");
+      t.splice || (n = t, t = []), w(m, e) || w(v, e) || (v[e] = [e, t, n]);
+    }).amd = {
+      jQuery: !0
+    }, e.requirejs = t, e.require = n, e.define = r), e.define("almond", function () {}), e.define("jquery", [], function () {
+      var e = u || $;
+      return null == e && console && console.error && console.error("Select2: An instance of jQuery or a jQuery-compatible library was not found. Make sure that you are including jQuery before Select2 on your web page."), e;
+    }), e.define("select2/utils", ["jquery"], function (o) {
+      var i = {};
+
+      function u(e) {
+        var t = e.prototype,
+            n = [];
+
+        for (var r in t) {
+          "function" == typeof t[r] && "constructor" !== r && n.push(r);
+        }
+
+        return n;
+      }
+
+      i.Extend = function (e, t) {
+        var n = {}.hasOwnProperty;
+
+        function r() {
+          this.constructor = e;
+        }
+
+        for (var i in t) {
+          n.call(t, i) && (e[i] = t[i]);
+        }
+
+        return r.prototype = t.prototype, e.prototype = new r(), e.__super__ = t.prototype, e;
+      }, i.Decorate = function (r, i) {
+        var e = u(i),
+            t = u(r);
+
+        function o() {
+          var e = Array.prototype.unshift,
+              t = i.prototype.constructor.length,
+              n = r.prototype.constructor;
+          0 < t && (e.call(arguments, r.prototype.constructor), n = i.prototype.constructor), n.apply(this, arguments);
+        }
+
+        i.displayName = r.displayName, o.prototype = new function () {
+          this.constructor = o;
+        }();
+
+        for (var n = 0; n < t.length; n++) {
+          var s = t[n];
+          o.prototype[s] = r.prototype[s];
+        }
+
+        function a(e) {
+          var t = function t() {};
+
+          e in o.prototype && (t = o.prototype[e]);
+          var n = i.prototype[e];
+          return function () {
+            return Array.prototype.unshift.call(arguments, t), n.apply(this, arguments);
+          };
+        }
+
+        for (var l = 0; l < e.length; l++) {
+          var c = e[l];
+          o.prototype[c] = a(c);
+        }
+
+        return o;
+      };
+
+      function e() {
+        this.listeners = {};
+      }
+
+      e.prototype.on = function (e, t) {
+        this.listeners = this.listeners || {}, e in this.listeners ? this.listeners[e].push(t) : this.listeners[e] = [t];
+      }, e.prototype.trigger = function (e) {
+        var t = Array.prototype.slice,
+            n = t.call(arguments, 1);
+        this.listeners = this.listeners || {}, null == n && (n = []), 0 === n.length && n.push({}), (n[0]._type = e) in this.listeners && this.invoke(this.listeners[e], t.call(arguments, 1)), "*" in this.listeners && this.invoke(this.listeners["*"], arguments);
+      }, e.prototype.invoke = function (e, t) {
+        for (var n = 0, r = e.length; n < r; n++) {
+          e[n].apply(this, t);
+        }
+      }, i.Observable = e, i.generateChars = function (e) {
+        for (var t = "", n = 0; n < e; n++) {
+          t += Math.floor(36 * Math.random()).toString(36);
+        }
+
+        return t;
+      }, i.bind = function (e, t) {
+        return function () {
+          e.apply(t, arguments);
+        };
+      }, i._convertData = function (e) {
+        for (var t in e) {
+          var n = t.split("-"),
+              r = e;
+
+          if (1 !== n.length) {
+            for (var i = 0; i < n.length; i++) {
+              var o = n[i];
+              (o = o.substring(0, 1).toLowerCase() + o.substring(1)) in r || (r[o] = {}), i == n.length - 1 && (r[o] = e[t]), r = r[o];
+            }
+
+            delete e[t];
+          }
+        }
+
+        return e;
+      }, i.hasScroll = function (e, t) {
+        var n = o(t),
+            r = t.style.overflowX,
+            i = t.style.overflowY;
+        return (r !== i || "hidden" !== i && "visible" !== i) && ("scroll" === r || "scroll" === i || n.innerHeight() < t.scrollHeight || n.innerWidth() < t.scrollWidth);
+      }, i.escapeMarkup = function (e) {
+        var t = {
+          "\\": "&#92;",
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+          "/": "&#47;"
+        };
+        return "string" != typeof e ? e : String(e).replace(/[&<>"'\/\\]/g, function (e) {
+          return t[e];
+        });
+      }, i.appendMany = function (e, t) {
+        if ("1.7" === o.fn.jquery.substr(0, 3)) {
+          var n = o();
+          o.map(t, function (e) {
+            n = n.add(e);
+          }), t = n;
+        }
+
+        e.append(t);
+      }, i.__cache = {};
+      var n = 0;
+      return i.GetUniqueElementId = function (e) {
+        var t = e.getAttribute("data-select2-id");
+        return null == t && (e.id ? (t = e.id, e.setAttribute("data-select2-id", t)) : (e.setAttribute("data-select2-id", ++n), t = n.toString())), t;
+      }, i.StoreData = function (e, t, n) {
+        var r = i.GetUniqueElementId(e);
+        i.__cache[r] || (i.__cache[r] = {}), i.__cache[r][t] = n;
+      }, i.GetData = function (e, t) {
+        var n = i.GetUniqueElementId(e);
+        return t ? i.__cache[n] && null != i.__cache[n][t] ? i.__cache[n][t] : o(e).data(t) : i.__cache[n];
+      }, i.RemoveData = function (e) {
+        var t = i.GetUniqueElementId(e);
+        null != i.__cache[t] && delete i.__cache[t], e.removeAttribute("data-select2-id");
+      }, i;
+    }), e.define("select2/results", ["jquery", "./utils"], function (h, f) {
+      function r(e, t, n) {
+        this.$element = e, this.data = n, this.options = t, r.__super__.constructor.call(this);
+      }
+
+      return f.Extend(r, f.Observable), r.prototype.render = function () {
+        var e = h('<ul class="select2-results__options" role="listbox"></ul>');
+        return this.options.get("multiple") && e.attr("aria-multiselectable", "true"), this.$results = e;
+      }, r.prototype.clear = function () {
+        this.$results.empty();
+      }, r.prototype.displayMessage = function (e) {
+        var t = this.options.get("escapeMarkup");
+        this.clear(), this.hideLoading();
+        var n = h('<li role="alert" aria-live="assertive" class="select2-results__option"></li>'),
+            r = this.options.get("translations").get(e.message);
+        n.append(t(r(e.args))), n[0].className += " select2-results__message", this.$results.append(n);
+      }, r.prototype.hideMessages = function () {
+        this.$results.find(".select2-results__message").remove();
+      }, r.prototype.append = function (e) {
+        this.hideLoading();
+        var t = [];
+
+        if (null != e.results && 0 !== e.results.length) {
+          e.results = this.sort(e.results);
+
+          for (var n = 0; n < e.results.length; n++) {
+            var r = e.results[n],
+                i = this.option(r);
+            t.push(i);
+          }
+
+          this.$results.append(t);
+        } else 0 === this.$results.children().length && this.trigger("results:message", {
+          message: "noResults"
+        });
+      }, r.prototype.position = function (e, t) {
+        t.find(".select2-results").append(e);
+      }, r.prototype.sort = function (e) {
+        return this.options.get("sorter")(e);
+      }, r.prototype.highlightFirstItem = function () {
+        var e = this.$results.find(".select2-results__option[aria-selected]"),
+            t = e.filter("[aria-selected=true]");
+        0 < t.length ? t.first().trigger("mouseenter") : e.first().trigger("mouseenter"), this.ensureHighlightVisible();
+      }, r.prototype.setClasses = function () {
+        var t = this;
+        this.data.current(function (e) {
+          var r = h.map(e, function (e) {
+            return e.id.toString();
+          });
+          t.$results.find(".select2-results__option[aria-selected]").each(function () {
+            var e = h(this),
+                t = f.GetData(this, "data"),
+                n = "" + t.id;
+            null != t.element && t.element.selected || null == t.element && -1 < h.inArray(n, r) ? e.attr("aria-selected", "true") : e.attr("aria-selected", "false");
+          });
+        });
+      }, r.prototype.showLoading = function (e) {
+        this.hideLoading();
+        var t = {
+          disabled: !0,
+          loading: !0,
+          text: this.options.get("translations").get("searching")(e)
+        },
+            n = this.option(t);
+        n.className += " loading-results", this.$results.prepend(n);
+      }, r.prototype.hideLoading = function () {
+        this.$results.find(".loading-results").remove();
+      }, r.prototype.option = function (e) {
+        var t = document.createElement("li");
+        t.className = "select2-results__option";
+        var n = {
+          role: "option",
+          "aria-selected": "false"
+        },
+            r = window.Element.prototype.matches || window.Element.prototype.msMatchesSelector || window.Element.prototype.webkitMatchesSelector;
+
+        for (var i in (null != e.element && r.call(e.element, ":disabled") || null == e.element && e.disabled) && (delete n["aria-selected"], n["aria-disabled"] = "true"), null == e.id && delete n["aria-selected"], null != e._resultId && (t.id = e._resultId), e.title && (t.title = e.title), e.children && (n.role = "group", n["aria-label"] = e.text, delete n["aria-selected"]), n) {
+          var o = n[i];
+          t.setAttribute(i, o);
+        }
+
+        if (e.children) {
+          var s = h(t),
+              a = document.createElement("strong");
+          a.className = "select2-results__group";
+          h(a);
+          this.template(e, a);
+
+          for (var l = [], c = 0; c < e.children.length; c++) {
+            var u = e.children[c],
+                d = this.option(u);
+            l.push(d);
+          }
+
+          var p = h("<ul></ul>", {
+            "class": "select2-results__options select2-results__options--nested"
+          });
+          p.append(l), s.append(a), s.append(p);
+        } else this.template(e, t);
+
+        return f.StoreData(t, "data", e), t;
+      }, r.prototype.bind = function (t, e) {
+        var l = this,
+            n = t.id + "-results";
+        this.$results.attr("id", n), t.on("results:all", function (e) {
+          l.clear(), l.append(e.data), t.isOpen() && (l.setClasses(), l.highlightFirstItem());
+        }), t.on("results:append", function (e) {
+          l.append(e.data), t.isOpen() && l.setClasses();
+        }), t.on("query", function (e) {
+          l.hideMessages(), l.showLoading(e);
+        }), t.on("select", function () {
+          t.isOpen() && (l.setClasses(), l.options.get("scrollAfterSelect") && l.highlightFirstItem());
+        }), t.on("unselect", function () {
+          t.isOpen() && (l.setClasses(), l.options.get("scrollAfterSelect") && l.highlightFirstItem());
+        }), t.on("open", function () {
+          l.$results.attr("aria-expanded", "true"), l.$results.attr("aria-hidden", "false"), l.setClasses(), l.ensureHighlightVisible();
+        }), t.on("close", function () {
+          l.$results.attr("aria-expanded", "false"), l.$results.attr("aria-hidden", "true"), l.$results.removeAttr("aria-activedescendant");
+        }), t.on("results:toggle", function () {
+          var e = l.getHighlightedResults();
+          0 !== e.length && e.trigger("mouseup");
+        }), t.on("results:select", function () {
+          var e = l.getHighlightedResults();
+
+          if (0 !== e.length) {
+            var t = f.GetData(e[0], "data");
+            "true" == e.attr("aria-selected") ? l.trigger("close", {}) : l.trigger("select", {
+              data: t
+            });
+          }
+        }), t.on("results:previous", function () {
+          var e = l.getHighlightedResults(),
+              t = l.$results.find("[aria-selected]"),
+              n = t.index(e);
+
+          if (!(n <= 0)) {
+            var r = n - 1;
+            0 === e.length && (r = 0);
+            var i = t.eq(r);
+            i.trigger("mouseenter");
+            var o = l.$results.offset().top,
+                s = i.offset().top,
+                a = l.$results.scrollTop() + (s - o);
+            0 === r ? l.$results.scrollTop(0) : s - o < 0 && l.$results.scrollTop(a);
+          }
+        }), t.on("results:next", function () {
+          var e = l.getHighlightedResults(),
+              t = l.$results.find("[aria-selected]"),
+              n = t.index(e) + 1;
+
+          if (!(n >= t.length)) {
+            var r = t.eq(n);
+            r.trigger("mouseenter");
+            var i = l.$results.offset().top + l.$results.outerHeight(!1),
+                o = r.offset().top + r.outerHeight(!1),
+                s = l.$results.scrollTop() + o - i;
+            0 === n ? l.$results.scrollTop(0) : i < o && l.$results.scrollTop(s);
+          }
+        }), t.on("results:focus", function (e) {
+          e.element.addClass("select2-results__option--highlighted");
+        }), t.on("results:message", function (e) {
+          l.displayMessage(e);
+        }), h.fn.mousewheel && this.$results.on("mousewheel", function (e) {
+          var t = l.$results.scrollTop(),
+              n = l.$results.get(0).scrollHeight - t + e.deltaY,
+              r = 0 < e.deltaY && t - e.deltaY <= 0,
+              i = e.deltaY < 0 && n <= l.$results.height();
+          r ? (l.$results.scrollTop(0), e.preventDefault(), e.stopPropagation()) : i && (l.$results.scrollTop(l.$results.get(0).scrollHeight - l.$results.height()), e.preventDefault(), e.stopPropagation());
+        }), this.$results.on("mouseup", ".select2-results__option[aria-selected]", function (e) {
+          var t = h(this),
+              n = f.GetData(this, "data");
+          "true" !== t.attr("aria-selected") ? l.trigger("select", {
+            originalEvent: e,
+            data: n
+          }) : l.options.get("multiple") ? l.trigger("unselect", {
+            originalEvent: e,
+            data: n
+          }) : l.trigger("close", {});
+        }), this.$results.on("mouseenter", ".select2-results__option[aria-selected]", function (e) {
+          var t = f.GetData(this, "data");
+          l.getHighlightedResults().removeClass("select2-results__option--highlighted"), l.trigger("results:focus", {
+            data: t,
+            element: h(this)
+          });
+        });
+      }, r.prototype.getHighlightedResults = function () {
+        return this.$results.find(".select2-results__option--highlighted");
+      }, r.prototype.destroy = function () {
+        this.$results.remove();
+      }, r.prototype.ensureHighlightVisible = function () {
+        var e = this.getHighlightedResults();
+
+        if (0 !== e.length) {
+          var t = this.$results.find("[aria-selected]").index(e),
+              n = this.$results.offset().top,
+              r = e.offset().top,
+              i = this.$results.scrollTop() + (r - n),
+              o = r - n;
+          i -= 2 * e.outerHeight(!1), t <= 2 ? this.$results.scrollTop(0) : (o > this.$results.outerHeight() || o < 0) && this.$results.scrollTop(i);
+        }
+      }, r.prototype.template = function (e, t) {
+        var n = this.options.get("templateResult"),
+            r = this.options.get("escapeMarkup"),
+            i = n(e, t);
+        null == i ? t.style.display = "none" : "string" == typeof i ? t.innerHTML = r(i) : h(t).append(i);
+      }, r;
+    }), e.define("select2/keys", [], function () {
+      return {
+        BACKSPACE: 8,
+        TAB: 9,
+        ENTER: 13,
+        SHIFT: 16,
+        CTRL: 17,
+        ALT: 18,
+        ESC: 27,
+        SPACE: 32,
+        PAGE_UP: 33,
+        PAGE_DOWN: 34,
+        END: 35,
+        HOME: 36,
+        LEFT: 37,
+        UP: 38,
+        RIGHT: 39,
+        DOWN: 40,
+        DELETE: 46
+      };
+    }), e.define("select2/selection/base", ["jquery", "../utils", "../keys"], function (n, r, i) {
+      function o(e, t) {
+        this.$element = e, this.options = t, o.__super__.constructor.call(this);
+      }
+
+      return r.Extend(o, r.Observable), o.prototype.render = function () {
+        var e = n('<span class="select2-selection" role="combobox"  aria-haspopup="true" aria-expanded="false"></span>');
+        return this._tabindex = 0, null != r.GetData(this.$element[0], "old-tabindex") ? this._tabindex = r.GetData(this.$element[0], "old-tabindex") : null != this.$element.attr("tabindex") && (this._tabindex = this.$element.attr("tabindex")), e.attr("title", this.$element.attr("title")), e.attr("tabindex", this._tabindex), e.attr("aria-disabled", "false"), this.$selection = e;
+      }, o.prototype.bind = function (e, t) {
+        var n = this,
+            r = e.id + "-results";
+        this.container = e, this.$selection.on("focus", function (e) {
+          n.trigger("focus", e);
+        }), this.$selection.on("blur", function (e) {
+          n._handleBlur(e);
+        }), this.$selection.on("keydown", function (e) {
+          n.trigger("keypress", e), e.which === i.SPACE && e.preventDefault();
+        }), e.on("results:focus", function (e) {
+          n.$selection.attr("aria-activedescendant", e.data._resultId);
+        }), e.on("selection:update", function (e) {
+          n.update(e.data);
+        }), e.on("open", function () {
+          n.$selection.attr("aria-expanded", "true"), n.$selection.attr("aria-owns", r), n._attachCloseHandler(e);
+        }), e.on("close", function () {
+          n.$selection.attr("aria-expanded", "false"), n.$selection.removeAttr("aria-activedescendant"), n.$selection.removeAttr("aria-owns"), n.$selection.trigger("focus"), n._detachCloseHandler(e);
+        }), e.on("enable", function () {
+          n.$selection.attr("tabindex", n._tabindex), n.$selection.attr("aria-disabled", "false");
+        }), e.on("disable", function () {
+          n.$selection.attr("tabindex", "-1"), n.$selection.attr("aria-disabled", "true");
+        });
+      }, o.prototype._handleBlur = function (e) {
+        var t = this;
+        window.setTimeout(function () {
+          document.activeElement == t.$selection[0] || n.contains(t.$selection[0], document.activeElement) || t.trigger("blur", e);
+        }, 1);
+      }, o.prototype._attachCloseHandler = function (e) {
+        n(document.body).on("mousedown.select2." + e.id, function (e) {
+          var t = n(e.target).closest(".select2");
+          n(".select2.select2-container--open").each(function () {
+            this != t[0] && r.GetData(this, "element").select2("close");
+          });
+        });
+      }, o.prototype._detachCloseHandler = function (e) {
+        n(document.body).off("mousedown.select2." + e.id);
+      }, o.prototype.position = function (e, t) {
+        t.find(".selection").append(e);
+      }, o.prototype.destroy = function () {
+        this._detachCloseHandler(this.container);
+      }, o.prototype.update = function (e) {
+        throw new Error("The `update` method must be defined in child classes.");
+      }, o.prototype.isEnabled = function () {
+        return !this.isDisabled();
+      }, o.prototype.isDisabled = function () {
+        return this.options.get("disabled");
+      }, o;
+    }), e.define("select2/selection/single", ["jquery", "./base", "../utils", "../keys"], function (e, t, n, r) {
+      function i() {
+        i.__super__.constructor.apply(this, arguments);
+      }
+
+      return n.Extend(i, t), i.prototype.render = function () {
+        var e = i.__super__.render.call(this);
+
+        return e.addClass("select2-selection--single"), e.html('<span class="select2-selection__rendered"></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>'), e;
+      }, i.prototype.bind = function (t, e) {
+        var n = this;
+
+        i.__super__.bind.apply(this, arguments);
+
+        var r = t.id + "-container";
+        this.$selection.find(".select2-selection__rendered").attr("id", r).attr("role", "textbox").attr("aria-readonly", "true"), this.$selection.attr("aria-labelledby", r), this.$selection.on("mousedown", function (e) {
+          1 === e.which && n.trigger("toggle", {
+            originalEvent: e
+          });
+        }), this.$selection.on("focus", function (e) {}), this.$selection.on("blur", function (e) {}), t.on("focus", function (e) {
+          t.isOpen() || n.$selection.trigger("focus");
+        });
+      }, i.prototype.clear = function () {
+        var e = this.$selection.find(".select2-selection__rendered");
+        e.empty(), e.removeAttr("title");
+      }, i.prototype.display = function (e, t) {
+        var n = this.options.get("templateSelection");
+        return this.options.get("escapeMarkup")(n(e, t));
+      }, i.prototype.selectionContainer = function () {
+        return e("<span></span>");
+      }, i.prototype.update = function (e) {
+        if (0 !== e.length) {
+          var t = e[0],
+              n = this.$selection.find(".select2-selection__rendered"),
+              r = this.display(t, n);
+          n.empty().append(r);
+          var i = t.title || t.text;
+          i ? n.attr("title", i) : n.removeAttr("title");
+        } else this.clear();
+      }, i;
+    }), e.define("select2/selection/multiple", ["jquery", "./base", "../utils"], function (i, e, l) {
+      function n(e, t) {
+        n.__super__.constructor.apply(this, arguments);
+      }
+
+      return l.Extend(n, e), n.prototype.render = function () {
+        var e = n.__super__.render.call(this);
+
+        return e.addClass("select2-selection--multiple"), e.html('<ul class="select2-selection__rendered"></ul>'), e;
+      }, n.prototype.bind = function (e, t) {
+        var r = this;
+        n.__super__.bind.apply(this, arguments), this.$selection.on("click", function (e) {
+          r.trigger("toggle", {
+            originalEvent: e
+          });
+        }), this.$selection.on("click", ".select2-selection__choice__remove", function (e) {
+          if (!r.isDisabled()) {
+            var t = i(this).parent(),
+                n = l.GetData(t[0], "data");
+            r.trigger("unselect", {
+              originalEvent: e,
+              data: n
+            });
+          }
+        });
+      }, n.prototype.clear = function () {
+        var e = this.$selection.find(".select2-selection__rendered");
+        e.empty(), e.removeAttr("title");
+      }, n.prototype.display = function (e, t) {
+        var n = this.options.get("templateSelection");
+        return this.options.get("escapeMarkup")(n(e, t));
+      }, n.prototype.selectionContainer = function () {
+        return i('<li class="select2-selection__choice"><span class="select2-selection__choice__remove" role="presentation">&times;</span></li>');
+      }, n.prototype.update = function (e) {
+        if (this.clear(), 0 !== e.length) {
+          for (var t = [], n = 0; n < e.length; n++) {
+            var r = e[n],
+                i = this.selectionContainer(),
+                o = this.display(r, i);
+            i.append(o);
+            var s = r.title || r.text;
+            s && i.attr("title", s), l.StoreData(i[0], "data", r), t.push(i);
+          }
+
+          var a = this.$selection.find(".select2-selection__rendered");
+          l.appendMany(a, t);
+        }
+      }, n;
+    }), e.define("select2/selection/placeholder", ["../utils"], function (e) {
+      function t(e, t, n) {
+        this.placeholder = this.normalizePlaceholder(n.get("placeholder")), e.call(this, t, n);
+      }
+
+      return t.prototype.normalizePlaceholder = function (e, t) {
+        return "string" == typeof t && (t = {
+          id: "",
+          text: t
+        }), t;
+      }, t.prototype.createPlaceholder = function (e, t) {
+        var n = this.selectionContainer();
+        return n.html(this.display(t)), n.addClass("select2-selection__placeholder").removeClass("select2-selection__choice"), n;
+      }, t.prototype.update = function (e, t) {
+        var n = 1 == t.length && t[0].id != this.placeholder.id;
+        if (1 < t.length || n) return e.call(this, t);
+        this.clear();
+        var r = this.createPlaceholder(this.placeholder);
+        this.$selection.find(".select2-selection__rendered").append(r);
+      }, t;
+    }), e.define("select2/selection/allowClear", ["jquery", "../keys", "../utils"], function (i, r, a) {
+      function e() {}
+
+      return e.prototype.bind = function (e, t, n) {
+        var r = this;
+        e.call(this, t, n), null == this.placeholder && this.options.get("debug") && window.console && console.error && console.error("Select2: The `allowClear` option should be used in combination with the `placeholder` option."), this.$selection.on("mousedown", ".select2-selection__clear", function (e) {
+          r._handleClear(e);
+        }), t.on("keypress", function (e) {
+          r._handleKeyboardClear(e, t);
+        });
+      }, e.prototype._handleClear = function (e, t) {
+        if (!this.isDisabled()) {
+          var n = this.$selection.find(".select2-selection__clear");
+
+          if (0 !== n.length) {
+            t.stopPropagation();
+            var r = a.GetData(n[0], "data"),
+                i = this.$element.val();
+            this.$element.val(this.placeholder.id);
+            var o = {
+              data: r
+            };
+            if (this.trigger("clear", o), o.prevented) this.$element.val(i);else {
+              for (var s = 0; s < r.length; s++) {
+                if (o = {
+                  data: r[s]
+                }, this.trigger("unselect", o), o.prevented) return void this.$element.val(i);
+              }
+
+              this.$element.trigger("input").trigger("change"), this.trigger("toggle", {});
+            }
+          }
+        }
+      }, e.prototype._handleKeyboardClear = function (e, t, n) {
+        n.isOpen() || t.which != r.DELETE && t.which != r.BACKSPACE || this._handleClear(t);
+      }, e.prototype.update = function (e, t) {
+        if (e.call(this, t), !(0 < this.$selection.find(".select2-selection__placeholder").length || 0 === t.length)) {
+          var n = this.options.get("translations").get("removeAllItems"),
+              r = i('<span class="select2-selection__clear" title="' + n() + '">&times;</span>');
+          a.StoreData(r[0], "data", t), this.$selection.find(".select2-selection__rendered").prepend(r);
+        }
+      }, e;
+    }), e.define("select2/selection/search", ["jquery", "../utils", "../keys"], function (r, a, l) {
+      function e(e, t, n) {
+        e.call(this, t, n);
+      }
+
+      return e.prototype.render = function (e) {
+        var t = r('<li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="-1" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" /></li>');
+        this.$searchContainer = t, this.$search = t.find("input");
+        var n = e.call(this);
+        return this._transferTabIndex(), n;
+      }, e.prototype.bind = function (e, t, n) {
+        var r = this,
+            i = t.id + "-results";
+        e.call(this, t, n), t.on("open", function () {
+          r.$search.attr("aria-controls", i), r.$search.trigger("focus");
+        }), t.on("close", function () {
+          r.$search.val(""), r.$search.removeAttr("aria-controls"), r.$search.removeAttr("aria-activedescendant"), r.$search.trigger("focus");
+        }), t.on("enable", function () {
+          r.$search.prop("disabled", !1), r._transferTabIndex();
+        }), t.on("disable", function () {
+          r.$search.prop("disabled", !0);
+        }), t.on("focus", function (e) {
+          r.$search.trigger("focus");
+        }), t.on("results:focus", function (e) {
+          e.data._resultId ? r.$search.attr("aria-activedescendant", e.data._resultId) : r.$search.removeAttr("aria-activedescendant");
+        }), this.$selection.on("focusin", ".select2-search--inline", function (e) {
+          r.trigger("focus", e);
+        }), this.$selection.on("focusout", ".select2-search--inline", function (e) {
+          r._handleBlur(e);
+        }), this.$selection.on("keydown", ".select2-search--inline", function (e) {
+          if (e.stopPropagation(), r.trigger("keypress", e), r._keyUpPrevented = e.isDefaultPrevented(), e.which === l.BACKSPACE && "" === r.$search.val()) {
+            var t = r.$searchContainer.prev(".select2-selection__choice");
+
+            if (0 < t.length) {
+              var n = a.GetData(t[0], "data");
+              r.searchRemoveChoice(n), e.preventDefault();
+            }
+          }
+        }), this.$selection.on("click", ".select2-search--inline", function (e) {
+          r.$search.val() && e.stopPropagation();
+        });
+        var o = document.documentMode,
+            s = o && o <= 11;
+        this.$selection.on("input.searchcheck", ".select2-search--inline", function (e) {
+          s ? r.$selection.off("input.search input.searchcheck") : r.$selection.off("keyup.search");
+        }), this.$selection.on("keyup.search input.search", ".select2-search--inline", function (e) {
+          if (s && "input" === e.type) r.$selection.off("input.search input.searchcheck");else {
+            var t = e.which;
+            t != l.SHIFT && t != l.CTRL && t != l.ALT && t != l.TAB && r.handleSearch(e);
+          }
+        });
+      }, e.prototype._transferTabIndex = function (e) {
+        this.$search.attr("tabindex", this.$selection.attr("tabindex")), this.$selection.attr("tabindex", "-1");
+      }, e.prototype.createPlaceholder = function (e, t) {
+        this.$search.attr("placeholder", t.text);
+      }, e.prototype.update = function (e, t) {
+        var n = this.$search[0] == document.activeElement;
+        this.$search.attr("placeholder", ""), e.call(this, t), this.$selection.find(".select2-selection__rendered").append(this.$searchContainer), this.resizeSearch(), n && this.$search.trigger("focus");
+      }, e.prototype.handleSearch = function () {
+        if (this.resizeSearch(), !this._keyUpPrevented) {
+          var e = this.$search.val();
+          this.trigger("query", {
+            term: e
+          });
+        }
+
+        this._keyUpPrevented = !1;
+      }, e.prototype.searchRemoveChoice = function (e, t) {
+        this.trigger("unselect", {
+          data: t
+        }), this.$search.val(t.text), this.handleSearch();
+      }, e.prototype.resizeSearch = function () {
+        this.$search.css("width", "25px");
+        var e = "";
+        "" !== this.$search.attr("placeholder") ? e = this.$selection.find(".select2-selection__rendered").width() : e = .75 * (this.$search.val().length + 1) + "em";
+        this.$search.css("width", e);
+      }, e;
+    }), e.define("select2/selection/eventRelay", ["jquery"], function (s) {
+      function e() {}
+
+      return e.prototype.bind = function (e, t, n) {
+        var r = this,
+            i = ["open", "opening", "close", "closing", "select", "selecting", "unselect", "unselecting", "clear", "clearing"],
+            o = ["opening", "closing", "selecting", "unselecting", "clearing"];
+        e.call(this, t, n), t.on("*", function (e, t) {
+          if (-1 !== s.inArray(e, i)) {
+            t = t || {};
+            var n = s.Event("select2:" + e, {
+              params: t
+            });
+            r.$element.trigger(n), -1 !== s.inArray(e, o) && (t.prevented = n.isDefaultPrevented());
+          }
+        });
+      }, e;
+    }), e.define("select2/translation", ["jquery", "require"], function (t, n) {
+      function r(e) {
+        this.dict = e || {};
+      }
+
+      return r.prototype.all = function () {
+        return this.dict;
+      }, r.prototype.get = function (e) {
+        return this.dict[e];
+      }, r.prototype.extend = function (e) {
+        this.dict = t.extend({}, e.all(), this.dict);
+      }, r._cache = {}, r.loadPath = function (e) {
+        if (!(e in r._cache)) {
+          var t = n(e);
+          r._cache[e] = t;
+        }
+
+        return new r(r._cache[e]);
+      }, r;
+    }), e.define("select2/diacritics", [], function () {
+      return {
+        "Ⓐ": "A",
+        "Ａ": "A",
+        "À": "A",
+        "Á": "A",
+        "Â": "A",
+        "Ầ": "A",
+        "Ấ": "A",
+        "Ẫ": "A",
+        "Ẩ": "A",
+        "Ã": "A",
+        "Ā": "A",
+        "Ă": "A",
+        "Ằ": "A",
+        "Ắ": "A",
+        "Ẵ": "A",
+        "Ẳ": "A",
+        "Ȧ": "A",
+        "Ǡ": "A",
+        "Ä": "A",
+        "Ǟ": "A",
+        "Ả": "A",
+        "Å": "A",
+        "Ǻ": "A",
+        "Ǎ": "A",
+        "Ȁ": "A",
+        "Ȃ": "A",
+        "Ạ": "A",
+        "Ậ": "A",
+        "Ặ": "A",
+        "Ḁ": "A",
+        "Ą": "A",
+        "Ⱥ": "A",
+        "Ɐ": "A",
+        "Ꜳ": "AA",
+        "Æ": "AE",
+        "Ǽ": "AE",
+        "Ǣ": "AE",
+        "Ꜵ": "AO",
+        "Ꜷ": "AU",
+        "Ꜹ": "AV",
+        "Ꜻ": "AV",
+        "Ꜽ": "AY",
+        "Ⓑ": "B",
+        "Ｂ": "B",
+        "Ḃ": "B",
+        "Ḅ": "B",
+        "Ḇ": "B",
+        "Ƀ": "B",
+        "Ƃ": "B",
+        "Ɓ": "B",
+        "Ⓒ": "C",
+        "Ｃ": "C",
+        "Ć": "C",
+        "Ĉ": "C",
+        "Ċ": "C",
+        "Č": "C",
+        "Ç": "C",
+        "Ḉ": "C",
+        "Ƈ": "C",
+        "Ȼ": "C",
+        "Ꜿ": "C",
+        "Ⓓ": "D",
+        "Ｄ": "D",
+        "Ḋ": "D",
+        "Ď": "D",
+        "Ḍ": "D",
+        "Ḑ": "D",
+        "Ḓ": "D",
+        "Ḏ": "D",
+        "Đ": "D",
+        "Ƌ": "D",
+        "Ɗ": "D",
+        "Ɖ": "D",
+        "Ꝺ": "D",
+        "Ǳ": "DZ",
+        "Ǆ": "DZ",
+        "ǲ": "Dz",
+        "ǅ": "Dz",
+        "Ⓔ": "E",
+        "Ｅ": "E",
+        "È": "E",
+        "É": "E",
+        "Ê": "E",
+        "Ề": "E",
+        "Ế": "E",
+        "Ễ": "E",
+        "Ể": "E",
+        "Ẽ": "E",
+        "Ē": "E",
+        "Ḕ": "E",
+        "Ḗ": "E",
+        "Ĕ": "E",
+        "Ė": "E",
+        "Ë": "E",
+        "Ẻ": "E",
+        "Ě": "E",
+        "Ȅ": "E",
+        "Ȇ": "E",
+        "Ẹ": "E",
+        "Ệ": "E",
+        "Ȩ": "E",
+        "Ḝ": "E",
+        "Ę": "E",
+        "Ḙ": "E",
+        "Ḛ": "E",
+        "Ɛ": "E",
+        "Ǝ": "E",
+        "Ⓕ": "F",
+        "Ｆ": "F",
+        "Ḟ": "F",
+        "Ƒ": "F",
+        "Ꝼ": "F",
+        "Ⓖ": "G",
+        "Ｇ": "G",
+        "Ǵ": "G",
+        "Ĝ": "G",
+        "Ḡ": "G",
+        "Ğ": "G",
+        "Ġ": "G",
+        "Ǧ": "G",
+        "Ģ": "G",
+        "Ǥ": "G",
+        "Ɠ": "G",
+        "Ꞡ": "G",
+        "Ᵹ": "G",
+        "Ꝿ": "G",
+        "Ⓗ": "H",
+        "Ｈ": "H",
+        "Ĥ": "H",
+        "Ḣ": "H",
+        "Ḧ": "H",
+        "Ȟ": "H",
+        "Ḥ": "H",
+        "Ḩ": "H",
+        "Ḫ": "H",
+        "Ħ": "H",
+        "Ⱨ": "H",
+        "Ⱶ": "H",
+        "Ɥ": "H",
+        "Ⓘ": "I",
+        "Ｉ": "I",
+        "Ì": "I",
+        "Í": "I",
+        "Î": "I",
+        "Ĩ": "I",
+        "Ī": "I",
+        "Ĭ": "I",
+        "İ": "I",
+        "Ï": "I",
+        "Ḯ": "I",
+        "Ỉ": "I",
+        "Ǐ": "I",
+        "Ȉ": "I",
+        "Ȋ": "I",
+        "Ị": "I",
+        "Į": "I",
+        "Ḭ": "I",
+        "Ɨ": "I",
+        "Ⓙ": "J",
+        "Ｊ": "J",
+        "Ĵ": "J",
+        "Ɉ": "J",
+        "Ⓚ": "K",
+        "Ｋ": "K",
+        "Ḱ": "K",
+        "Ǩ": "K",
+        "Ḳ": "K",
+        "Ķ": "K",
+        "Ḵ": "K",
+        "Ƙ": "K",
+        "Ⱪ": "K",
+        "Ꝁ": "K",
+        "Ꝃ": "K",
+        "Ꝅ": "K",
+        "Ꞣ": "K",
+        "Ⓛ": "L",
+        "Ｌ": "L",
+        "Ŀ": "L",
+        "Ĺ": "L",
+        "Ľ": "L",
+        "Ḷ": "L",
+        "Ḹ": "L",
+        "Ļ": "L",
+        "Ḽ": "L",
+        "Ḻ": "L",
+        "Ł": "L",
+        "Ƚ": "L",
+        "Ɫ": "L",
+        "Ⱡ": "L",
+        "Ꝉ": "L",
+        "Ꝇ": "L",
+        "Ꞁ": "L",
+        "Ǉ": "LJ",
+        "ǈ": "Lj",
+        "Ⓜ": "M",
+        "Ｍ": "M",
+        "Ḿ": "M",
+        "Ṁ": "M",
+        "Ṃ": "M",
+        "Ɱ": "M",
+        "Ɯ": "M",
+        "Ⓝ": "N",
+        "Ｎ": "N",
+        "Ǹ": "N",
+        "Ń": "N",
+        "Ñ": "N",
+        "Ṅ": "N",
+        "Ň": "N",
+        "Ṇ": "N",
+        "Ņ": "N",
+        "Ṋ": "N",
+        "Ṉ": "N",
+        "Ƞ": "N",
+        "Ɲ": "N",
+        "Ꞑ": "N",
+        "Ꞥ": "N",
+        "Ǌ": "NJ",
+        "ǋ": "Nj",
+        "Ⓞ": "O",
+        "Ｏ": "O",
+        "Ò": "O",
+        "Ó": "O",
+        "Ô": "O",
+        "Ồ": "O",
+        "Ố": "O",
+        "Ỗ": "O",
+        "Ổ": "O",
+        "Õ": "O",
+        "Ṍ": "O",
+        "Ȭ": "O",
+        "Ṏ": "O",
+        "Ō": "O",
+        "Ṑ": "O",
+        "Ṓ": "O",
+        "Ŏ": "O",
+        "Ȯ": "O",
+        "Ȱ": "O",
+        "Ö": "O",
+        "Ȫ": "O",
+        "Ỏ": "O",
+        "Ő": "O",
+        "Ǒ": "O",
+        "Ȍ": "O",
+        "Ȏ": "O",
+        "Ơ": "O",
+        "Ờ": "O",
+        "Ớ": "O",
+        "Ỡ": "O",
+        "Ở": "O",
+        "Ợ": "O",
+        "Ọ": "O",
+        "Ộ": "O",
+        "Ǫ": "O",
+        "Ǭ": "O",
+        "Ø": "O",
+        "Ǿ": "O",
+        "Ɔ": "O",
+        "Ɵ": "O",
+        "Ꝋ": "O",
+        "Ꝍ": "O",
+        "Œ": "OE",
+        "Ƣ": "OI",
+        "Ꝏ": "OO",
+        "Ȣ": "OU",
+        "Ⓟ": "P",
+        "Ｐ": "P",
+        "Ṕ": "P",
+        "Ṗ": "P",
+        "Ƥ": "P",
+        "Ᵽ": "P",
+        "Ꝑ": "P",
+        "Ꝓ": "P",
+        "Ꝕ": "P",
+        "Ⓠ": "Q",
+        "Ｑ": "Q",
+        "Ꝗ": "Q",
+        "Ꝙ": "Q",
+        "Ɋ": "Q",
+        "Ⓡ": "R",
+        "Ｒ": "R",
+        "Ŕ": "R",
+        "Ṙ": "R",
+        "Ř": "R",
+        "Ȑ": "R",
+        "Ȓ": "R",
+        "Ṛ": "R",
+        "Ṝ": "R",
+        "Ŗ": "R",
+        "Ṟ": "R",
+        "Ɍ": "R",
+        "Ɽ": "R",
+        "Ꝛ": "R",
+        "Ꞧ": "R",
+        "Ꞃ": "R",
+        "Ⓢ": "S",
+        "Ｓ": "S",
+        "ẞ": "S",
+        "Ś": "S",
+        "Ṥ": "S",
+        "Ŝ": "S",
+        "Ṡ": "S",
+        "Š": "S",
+        "Ṧ": "S",
+        "Ṣ": "S",
+        "Ṩ": "S",
+        "Ș": "S",
+        "Ş": "S",
+        "Ȿ": "S",
+        "Ꞩ": "S",
+        "Ꞅ": "S",
+        "Ⓣ": "T",
+        "Ｔ": "T",
+        "Ṫ": "T",
+        "Ť": "T",
+        "Ṭ": "T",
+        "Ț": "T",
+        "Ţ": "T",
+        "Ṱ": "T",
+        "Ṯ": "T",
+        "Ŧ": "T",
+        "Ƭ": "T",
+        "Ʈ": "T",
+        "Ⱦ": "T",
+        "Ꞇ": "T",
+        "Ꜩ": "TZ",
+        "Ⓤ": "U",
+        "Ｕ": "U",
+        "Ù": "U",
+        "Ú": "U",
+        "Û": "U",
+        "Ũ": "U",
+        "Ṹ": "U",
+        "Ū": "U",
+        "Ṻ": "U",
+        "Ŭ": "U",
+        "Ü": "U",
+        "Ǜ": "U",
+        "Ǘ": "U",
+        "Ǖ": "U",
+        "Ǚ": "U",
+        "Ủ": "U",
+        "Ů": "U",
+        "Ű": "U",
+        "Ǔ": "U",
+        "Ȕ": "U",
+        "Ȗ": "U",
+        "Ư": "U",
+        "Ừ": "U",
+        "Ứ": "U",
+        "Ữ": "U",
+        "Ử": "U",
+        "Ự": "U",
+        "Ụ": "U",
+        "Ṳ": "U",
+        "Ų": "U",
+        "Ṷ": "U",
+        "Ṵ": "U",
+        "Ʉ": "U",
+        "Ⓥ": "V",
+        "Ｖ": "V",
+        "Ṽ": "V",
+        "Ṿ": "V",
+        "Ʋ": "V",
+        "Ꝟ": "V",
+        "Ʌ": "V",
+        "Ꝡ": "VY",
+        "Ⓦ": "W",
+        "Ｗ": "W",
+        "Ẁ": "W",
+        "Ẃ": "W",
+        "Ŵ": "W",
+        "Ẇ": "W",
+        "Ẅ": "W",
+        "Ẉ": "W",
+        "Ⱳ": "W",
+        "Ⓧ": "X",
+        "Ｘ": "X",
+        "Ẋ": "X",
+        "Ẍ": "X",
+        "Ⓨ": "Y",
+        "Ｙ": "Y",
+        "Ỳ": "Y",
+        "Ý": "Y",
+        "Ŷ": "Y",
+        "Ỹ": "Y",
+        "Ȳ": "Y",
+        "Ẏ": "Y",
+        "Ÿ": "Y",
+        "Ỷ": "Y",
+        "Ỵ": "Y",
+        "Ƴ": "Y",
+        "Ɏ": "Y",
+        "Ỿ": "Y",
+        "Ⓩ": "Z",
+        "Ｚ": "Z",
+        "Ź": "Z",
+        "Ẑ": "Z",
+        "Ż": "Z",
+        "Ž": "Z",
+        "Ẓ": "Z",
+        "Ẕ": "Z",
+        "Ƶ": "Z",
+        "Ȥ": "Z",
+        "Ɀ": "Z",
+        "Ⱬ": "Z",
+        "Ꝣ": "Z",
+        "ⓐ": "a",
+        "ａ": "a",
+        "ẚ": "a",
+        "à": "a",
+        "á": "a",
+        "â": "a",
+        "ầ": "a",
+        "ấ": "a",
+        "ẫ": "a",
+        "ẩ": "a",
+        "ã": "a",
+        "ā": "a",
+        "ă": "a",
+        "ằ": "a",
+        "ắ": "a",
+        "ẵ": "a",
+        "ẳ": "a",
+        "ȧ": "a",
+        "ǡ": "a",
+        "ä": "a",
+        "ǟ": "a",
+        "ả": "a",
+        "å": "a",
+        "ǻ": "a",
+        "ǎ": "a",
+        "ȁ": "a",
+        "ȃ": "a",
+        "ạ": "a",
+        "ậ": "a",
+        "ặ": "a",
+        "ḁ": "a",
+        "ą": "a",
+        "ⱥ": "a",
+        "ɐ": "a",
+        "ꜳ": "aa",
+        "æ": "ae",
+        "ǽ": "ae",
+        "ǣ": "ae",
+        "ꜵ": "ao",
+        "ꜷ": "au",
+        "ꜹ": "av",
+        "ꜻ": "av",
+        "ꜽ": "ay",
+        "ⓑ": "b",
+        "ｂ": "b",
+        "ḃ": "b",
+        "ḅ": "b",
+        "ḇ": "b",
+        "ƀ": "b",
+        "ƃ": "b",
+        "ɓ": "b",
+        "ⓒ": "c",
+        "ｃ": "c",
+        "ć": "c",
+        "ĉ": "c",
+        "ċ": "c",
+        "č": "c",
+        "ç": "c",
+        "ḉ": "c",
+        "ƈ": "c",
+        "ȼ": "c",
+        "ꜿ": "c",
+        "ↄ": "c",
+        "ⓓ": "d",
+        "ｄ": "d",
+        "ḋ": "d",
+        "ď": "d",
+        "ḍ": "d",
+        "ḑ": "d",
+        "ḓ": "d",
+        "ḏ": "d",
+        "đ": "d",
+        "ƌ": "d",
+        "ɖ": "d",
+        "ɗ": "d",
+        "ꝺ": "d",
+        "ǳ": "dz",
+        "ǆ": "dz",
+        "ⓔ": "e",
+        "ｅ": "e",
+        "è": "e",
+        "é": "e",
+        "ê": "e",
+        "ề": "e",
+        "ế": "e",
+        "ễ": "e",
+        "ể": "e",
+        "ẽ": "e",
+        "ē": "e",
+        "ḕ": "e",
+        "ḗ": "e",
+        "ĕ": "e",
+        "ė": "e",
+        "ë": "e",
+        "ẻ": "e",
+        "ě": "e",
+        "ȅ": "e",
+        "ȇ": "e",
+        "ẹ": "e",
+        "ệ": "e",
+        "ȩ": "e",
+        "ḝ": "e",
+        "ę": "e",
+        "ḙ": "e",
+        "ḛ": "e",
+        "ɇ": "e",
+        "ɛ": "e",
+        "ǝ": "e",
+        "ⓕ": "f",
+        "ｆ": "f",
+        "ḟ": "f",
+        "ƒ": "f",
+        "ꝼ": "f",
+        "ⓖ": "g",
+        "ｇ": "g",
+        "ǵ": "g",
+        "ĝ": "g",
+        "ḡ": "g",
+        "ğ": "g",
+        "ġ": "g",
+        "ǧ": "g",
+        "ģ": "g",
+        "ǥ": "g",
+        "ɠ": "g",
+        "ꞡ": "g",
+        "ᵹ": "g",
+        "ꝿ": "g",
+        "ⓗ": "h",
+        "ｈ": "h",
+        "ĥ": "h",
+        "ḣ": "h",
+        "ḧ": "h",
+        "ȟ": "h",
+        "ḥ": "h",
+        "ḩ": "h",
+        "ḫ": "h",
+        "ẖ": "h",
+        "ħ": "h",
+        "ⱨ": "h",
+        "ⱶ": "h",
+        "ɥ": "h",
+        "ƕ": "hv",
+        "ⓘ": "i",
+        "ｉ": "i",
+        "ì": "i",
+        "í": "i",
+        "î": "i",
+        "ĩ": "i",
+        "ī": "i",
+        "ĭ": "i",
+        "ï": "i",
+        "ḯ": "i",
+        "ỉ": "i",
+        "ǐ": "i",
+        "ȉ": "i",
+        "ȋ": "i",
+        "ị": "i",
+        "į": "i",
+        "ḭ": "i",
+        "ɨ": "i",
+        "ı": "i",
+        "ⓙ": "j",
+        "ｊ": "j",
+        "ĵ": "j",
+        "ǰ": "j",
+        "ɉ": "j",
+        "ⓚ": "k",
+        "ｋ": "k",
+        "ḱ": "k",
+        "ǩ": "k",
+        "ḳ": "k",
+        "ķ": "k",
+        "ḵ": "k",
+        "ƙ": "k",
+        "ⱪ": "k",
+        "ꝁ": "k",
+        "ꝃ": "k",
+        "ꝅ": "k",
+        "ꞣ": "k",
+        "ⓛ": "l",
+        "ｌ": "l",
+        "ŀ": "l",
+        "ĺ": "l",
+        "ľ": "l",
+        "ḷ": "l",
+        "ḹ": "l",
+        "ļ": "l",
+        "ḽ": "l",
+        "ḻ": "l",
+        "ſ": "l",
+        "ł": "l",
+        "ƚ": "l",
+        "ɫ": "l",
+        "ⱡ": "l",
+        "ꝉ": "l",
+        "ꞁ": "l",
+        "ꝇ": "l",
+        "ǉ": "lj",
+        "ⓜ": "m",
+        "ｍ": "m",
+        "ḿ": "m",
+        "ṁ": "m",
+        "ṃ": "m",
+        "ɱ": "m",
+        "ɯ": "m",
+        "ⓝ": "n",
+        "ｎ": "n",
+        "ǹ": "n",
+        "ń": "n",
+        "ñ": "n",
+        "ṅ": "n",
+        "ň": "n",
+        "ṇ": "n",
+        "ņ": "n",
+        "ṋ": "n",
+        "ṉ": "n",
+        "ƞ": "n",
+        "ɲ": "n",
+        "ŉ": "n",
+        "ꞑ": "n",
+        "ꞥ": "n",
+        "ǌ": "nj",
+        "ⓞ": "o",
+        "ｏ": "o",
+        "ò": "o",
+        "ó": "o",
+        "ô": "o",
+        "ồ": "o",
+        "ố": "o",
+        "ỗ": "o",
+        "ổ": "o",
+        "õ": "o",
+        "ṍ": "o",
+        "ȭ": "o",
+        "ṏ": "o",
+        "ō": "o",
+        "ṑ": "o",
+        "ṓ": "o",
+        "ŏ": "o",
+        "ȯ": "o",
+        "ȱ": "o",
+        "ö": "o",
+        "ȫ": "o",
+        "ỏ": "o",
+        "ő": "o",
+        "ǒ": "o",
+        "ȍ": "o",
+        "ȏ": "o",
+        "ơ": "o",
+        "ờ": "o",
+        "ớ": "o",
+        "ỡ": "o",
+        "ở": "o",
+        "ợ": "o",
+        "ọ": "o",
+        "ộ": "o",
+        "ǫ": "o",
+        "ǭ": "o",
+        "ø": "o",
+        "ǿ": "o",
+        "ɔ": "o",
+        "ꝋ": "o",
+        "ꝍ": "o",
+        "ɵ": "o",
+        "œ": "oe",
+        "ƣ": "oi",
+        "ȣ": "ou",
+        "ꝏ": "oo",
+        "ⓟ": "p",
+        "ｐ": "p",
+        "ṕ": "p",
+        "ṗ": "p",
+        "ƥ": "p",
+        "ᵽ": "p",
+        "ꝑ": "p",
+        "ꝓ": "p",
+        "ꝕ": "p",
+        "ⓠ": "q",
+        "ｑ": "q",
+        "ɋ": "q",
+        "ꝗ": "q",
+        "ꝙ": "q",
+        "ⓡ": "r",
+        "ｒ": "r",
+        "ŕ": "r",
+        "ṙ": "r",
+        "ř": "r",
+        "ȑ": "r",
+        "ȓ": "r",
+        "ṛ": "r",
+        "ṝ": "r",
+        "ŗ": "r",
+        "ṟ": "r",
+        "ɍ": "r",
+        "ɽ": "r",
+        "ꝛ": "r",
+        "ꞧ": "r",
+        "ꞃ": "r",
+        "ⓢ": "s",
+        "ｓ": "s",
+        "ß": "s",
+        "ś": "s",
+        "ṥ": "s",
+        "ŝ": "s",
+        "ṡ": "s",
+        "š": "s",
+        "ṧ": "s",
+        "ṣ": "s",
+        "ṩ": "s",
+        "ș": "s",
+        "ş": "s",
+        "ȿ": "s",
+        "ꞩ": "s",
+        "ꞅ": "s",
+        "ẛ": "s",
+        "ⓣ": "t",
+        "ｔ": "t",
+        "ṫ": "t",
+        "ẗ": "t",
+        "ť": "t",
+        "ṭ": "t",
+        "ț": "t",
+        "ţ": "t",
+        "ṱ": "t",
+        "ṯ": "t",
+        "ŧ": "t",
+        "ƭ": "t",
+        "ʈ": "t",
+        "ⱦ": "t",
+        "ꞇ": "t",
+        "ꜩ": "tz",
+        "ⓤ": "u",
+        "ｕ": "u",
+        "ù": "u",
+        "ú": "u",
+        "û": "u",
+        "ũ": "u",
+        "ṹ": "u",
+        "ū": "u",
+        "ṻ": "u",
+        "ŭ": "u",
+        "ü": "u",
+        "ǜ": "u",
+        "ǘ": "u",
+        "ǖ": "u",
+        "ǚ": "u",
+        "ủ": "u",
+        "ů": "u",
+        "ű": "u",
+        "ǔ": "u",
+        "ȕ": "u",
+        "ȗ": "u",
+        "ư": "u",
+        "ừ": "u",
+        "ứ": "u",
+        "ữ": "u",
+        "ử": "u",
+        "ự": "u",
+        "ụ": "u",
+        "ṳ": "u",
+        "ų": "u",
+        "ṷ": "u",
+        "ṵ": "u",
+        "ʉ": "u",
+        "ⓥ": "v",
+        "ｖ": "v",
+        "ṽ": "v",
+        "ṿ": "v",
+        "ʋ": "v",
+        "ꝟ": "v",
+        "ʌ": "v",
+        "ꝡ": "vy",
+        "ⓦ": "w",
+        "ｗ": "w",
+        "ẁ": "w",
+        "ẃ": "w",
+        "ŵ": "w",
+        "ẇ": "w",
+        "ẅ": "w",
+        "ẘ": "w",
+        "ẉ": "w",
+        "ⱳ": "w",
+        "ⓧ": "x",
+        "ｘ": "x",
+        "ẋ": "x",
+        "ẍ": "x",
+        "ⓨ": "y",
+        "ｙ": "y",
+        "ỳ": "y",
+        "ý": "y",
+        "ŷ": "y",
+        "ỹ": "y",
+        "ȳ": "y",
+        "ẏ": "y",
+        "ÿ": "y",
+        "ỷ": "y",
+        "ẙ": "y",
+        "ỵ": "y",
+        "ƴ": "y",
+        "ɏ": "y",
+        "ỿ": "y",
+        "ⓩ": "z",
+        "ｚ": "z",
+        "ź": "z",
+        "ẑ": "z",
+        "ż": "z",
+        "ž": "z",
+        "ẓ": "z",
+        "ẕ": "z",
+        "ƶ": "z",
+        "ȥ": "z",
+        "ɀ": "z",
+        "ⱬ": "z",
+        "ꝣ": "z",
+        "Ά": "Α",
+        "Έ": "Ε",
+        "Ή": "Η",
+        "Ί": "Ι",
+        "Ϊ": "Ι",
+        "Ό": "Ο",
+        "Ύ": "Υ",
+        "Ϋ": "Υ",
+        "Ώ": "Ω",
+        "ά": "α",
+        "έ": "ε",
+        "ή": "η",
+        "ί": "ι",
+        "ϊ": "ι",
+        "ΐ": "ι",
+        "ό": "ο",
+        "ύ": "υ",
+        "ϋ": "υ",
+        "ΰ": "υ",
+        "ώ": "ω",
+        "ς": "σ",
+        "’": "'"
+      };
+    }), e.define("select2/data/base", ["../utils"], function (r) {
+      function n(e, t) {
+        n.__super__.constructor.call(this);
+      }
+
+      return r.Extend(n, r.Observable), n.prototype.current = function (e) {
+        throw new Error("The `current` method must be defined in child classes.");
+      }, n.prototype.query = function (e, t) {
+        throw new Error("The `query` method must be defined in child classes.");
+      }, n.prototype.bind = function (e, t) {}, n.prototype.destroy = function () {}, n.prototype.generateResultId = function (e, t) {
+        var n = e.id + "-result-";
+        return n += r.generateChars(4), null != t.id ? n += "-" + t.id.toString() : n += "-" + r.generateChars(4), n;
+      }, n;
+    }), e.define("select2/data/select", ["./base", "../utils", "jquery"], function (e, a, l) {
+      function n(e, t) {
+        this.$element = e, this.options = t, n.__super__.constructor.call(this);
+      }
+
+      return a.Extend(n, e), n.prototype.current = function (e) {
+        var n = [],
+            r = this;
+        this.$element.find(":selected").each(function () {
+          var e = l(this),
+              t = r.item(e);
+          n.push(t);
+        }), e(n);
+      }, n.prototype.select = function (i) {
+        var o = this;
+        if (i.selected = !0, l(i.element).is("option")) return i.element.selected = !0, void this.$element.trigger("input").trigger("change");
+        if (this.$element.prop("multiple")) this.current(function (e) {
+          var t = [];
+          (i = [i]).push.apply(i, e);
+
+          for (var n = 0; n < i.length; n++) {
+            var r = i[n].id;
+            -1 === l.inArray(r, t) && t.push(r);
+          }
+
+          o.$element.val(t), o.$element.trigger("input").trigger("change");
+        });else {
+          var e = i.id;
+          this.$element.val(e), this.$element.trigger("input").trigger("change");
+        }
+      }, n.prototype.unselect = function (i) {
+        var o = this;
+
+        if (this.$element.prop("multiple")) {
+          if (i.selected = !1, l(i.element).is("option")) return i.element.selected = !1, void this.$element.trigger("input").trigger("change");
+          this.current(function (e) {
+            for (var t = [], n = 0; n < e.length; n++) {
+              var r = e[n].id;
+              r !== i.id && -1 === l.inArray(r, t) && t.push(r);
+            }
+
+            o.$element.val(t), o.$element.trigger("input").trigger("change");
+          });
+        }
+      }, n.prototype.bind = function (e, t) {
+        var n = this;
+        (this.container = e).on("select", function (e) {
+          n.select(e.data);
+        }), e.on("unselect", function (e) {
+          n.unselect(e.data);
+        });
+      }, n.prototype.destroy = function () {
+        this.$element.find("*").each(function () {
+          a.RemoveData(this);
+        });
+      }, n.prototype.query = function (r, e) {
+        var i = [],
+            o = this;
+        this.$element.children().each(function () {
+          var e = l(this);
+
+          if (e.is("option") || e.is("optgroup")) {
+            var t = o.item(e),
+                n = o.matches(r, t);
+            null !== n && i.push(n);
+          }
+        }), e({
+          results: i
+        });
+      }, n.prototype.addOptions = function (e) {
+        a.appendMany(this.$element, e);
+      }, n.prototype.option = function (e) {
+        var t;
+        e.children ? (t = document.createElement("optgroup")).label = e.text : void 0 !== (t = document.createElement("option")).textContent ? t.textContent = e.text : t.innerText = e.text, void 0 !== e.id && (t.value = e.id), e.disabled && (t.disabled = !0), e.selected && (t.selected = !0), e.title && (t.title = e.title);
+
+        var n = l(t),
+            r = this._normalizeItem(e);
+
+        return r.element = t, a.StoreData(t, "data", r), n;
+      }, n.prototype.item = function (e) {
+        var t = {};
+        if (null != (t = a.GetData(e[0], "data"))) return t;
+        if (e.is("option")) t = {
+          id: e.val(),
+          text: e.text(),
+          disabled: e.prop("disabled"),
+          selected: e.prop("selected"),
+          title: e.prop("title")
+        };else if (e.is("optgroup")) {
+          t = {
+            text: e.prop("label"),
+            children: [],
+            title: e.prop("title")
+          };
+
+          for (var n = e.children("option"), r = [], i = 0; i < n.length; i++) {
+            var o = l(n[i]),
+                s = this.item(o);
+            r.push(s);
+          }
+
+          t.children = r;
+        }
+        return (t = this._normalizeItem(t)).element = e[0], a.StoreData(e[0], "data", t), t;
+      }, n.prototype._normalizeItem = function (e) {
+        e !== Object(e) && (e = {
+          id: e,
+          text: e
+        });
+        return null != (e = l.extend({}, {
+          text: ""
+        }, e)).id && (e.id = e.id.toString()), null != e.text && (e.text = e.text.toString()), null == e._resultId && e.id && null != this.container && (e._resultId = this.generateResultId(this.container, e)), l.extend({}, {
+          selected: !1,
+          disabled: !1
+        }, e);
+      }, n.prototype.matches = function (e, t) {
+        return this.options.get("matcher")(e, t);
+      }, n;
+    }), e.define("select2/data/array", ["./select", "../utils", "jquery"], function (e, f, g) {
+      function r(e, t) {
+        this._dataToConvert = t.get("data") || [], r.__super__.constructor.call(this, e, t);
+      }
+
+      return f.Extend(r, e), r.prototype.bind = function (e, t) {
+        r.__super__.bind.call(this, e, t), this.addOptions(this.convertToOptions(this._dataToConvert));
+      }, r.prototype.select = function (n) {
+        var e = this.$element.find("option").filter(function (e, t) {
+          return t.value == n.id.toString();
+        });
+        0 === e.length && (e = this.option(n), this.addOptions(e)), r.__super__.select.call(this, n);
+      }, r.prototype.convertToOptions = function (e) {
+        var t = this,
+            n = this.$element.find("option"),
+            r = n.map(function () {
+          return t.item(g(this)).id;
+        }).get(),
+            i = [];
+
+        function o(e) {
+          return function () {
+            return g(this).val() == e.id;
+          };
+        }
+
+        for (var s = 0; s < e.length; s++) {
+          var a = this._normalizeItem(e[s]);
+
+          if (0 <= g.inArray(a.id, r)) {
+            var l = n.filter(o(a)),
+                c = this.item(l),
+                u = g.extend(!0, {}, a, c),
+                d = this.option(u);
+            l.replaceWith(d);
+          } else {
+            var p = this.option(a);
+
+            if (a.children) {
+              var h = this.convertToOptions(a.children);
+              f.appendMany(p, h);
+            }
+
+            i.push(p);
+          }
+        }
+
+        return i;
+      }, r;
+    }), e.define("select2/data/ajax", ["./array", "../utils", "jquery"], function (e, t, o) {
+      function n(e, t) {
+        this.ajaxOptions = this._applyDefaults(t.get("ajax")), null != this.ajaxOptions.processResults && (this.processResults = this.ajaxOptions.processResults), n.__super__.constructor.call(this, e, t);
+      }
+
+      return t.Extend(n, e), n.prototype._applyDefaults = function (e) {
+        var t = {
+          data: function data(e) {
+            return o.extend({}, e, {
+              q: e.term
+            });
+          },
+          transport: function transport(e, t, n) {
+            var r = o.ajax(e);
+            return r.then(t), r.fail(n), r;
+          }
+        };
+        return o.extend({}, t, e, !0);
+      }, n.prototype.processResults = function (e) {
+        return e;
+      }, n.prototype.query = function (n, r) {
+        var i = this;
+        null != this._request && (o.isFunction(this._request.abort) && this._request.abort(), this._request = null);
+        var t = o.extend({
+          type: "GET"
+        }, this.ajaxOptions);
+
+        function e() {
+          var e = t.transport(t, function (e) {
+            var t = i.processResults(e, n);
+            i.options.get("debug") && window.console && console.error && (t && t.results && o.isArray(t.results) || console.error("Select2: The AJAX results did not return an array in the `results` key of the response.")), r(t);
+          }, function () {
+            "status" in e && (0 === e.status || "0" === e.status) || i.trigger("results:message", {
+              message: "errorLoading"
+            });
+          });
+          i._request = e;
+        }
+
+        "function" == typeof t.url && (t.url = t.url.call(this.$element, n)), "function" == typeof t.data && (t.data = t.data.call(this.$element, n)), this.ajaxOptions.delay && null != n.term ? (this._queryTimeout && window.clearTimeout(this._queryTimeout), this._queryTimeout = window.setTimeout(e, this.ajaxOptions.delay)) : e();
+      }, n;
+    }), e.define("select2/data/tags", ["jquery"], function (u) {
+      function e(e, t, n) {
+        var r = n.get("tags"),
+            i = n.get("createTag");
+        void 0 !== i && (this.createTag = i);
+        var o = n.get("insertTag");
+        if (void 0 !== o && (this.insertTag = o), e.call(this, t, n), u.isArray(r)) for (var s = 0; s < r.length; s++) {
+          var a = r[s],
+              l = this._normalizeItem(a),
+              c = this.option(l);
+
+          this.$element.append(c);
+        }
+      }
+
+      return e.prototype.query = function (e, c, u) {
+        var d = this;
+        this._removeOldTags(), null != c.term && null == c.page ? e.call(this, c, function e(t, n) {
+          for (var r = t.results, i = 0; i < r.length; i++) {
+            var o = r[i],
+                s = null != o.children && !e({
+              results: o.children
+            }, !0);
+            if ((o.text || "").toUpperCase() === (c.term || "").toUpperCase() || s) return !n && (t.data = r, void u(t));
+          }
+
+          if (n) return !0;
+          var a = d.createTag(c);
+
+          if (null != a) {
+            var l = d.option(a);
+            l.attr("data-select2-tag", !0), d.addOptions([l]), d.insertTag(r, a);
+          }
+
+          t.results = r, u(t);
+        }) : e.call(this, c, u);
+      }, e.prototype.createTag = function (e, t) {
+        var n = u.trim(t.term);
+        return "" === n ? null : {
+          id: n,
+          text: n
+        };
+      }, e.prototype.insertTag = function (e, t, n) {
+        t.unshift(n);
+      }, e.prototype._removeOldTags = function (e) {
+        this.$element.find("option[data-select2-tag]").each(function () {
+          this.selected || u(this).remove();
+        });
+      }, e;
+    }), e.define("select2/data/tokenizer", ["jquery"], function (d) {
+      function e(e, t, n) {
+        var r = n.get("tokenizer");
+        void 0 !== r && (this.tokenizer = r), e.call(this, t, n);
+      }
+
+      return e.prototype.bind = function (e, t, n) {
+        e.call(this, t, n), this.$search = t.dropdown.$search || t.selection.$search || n.find(".select2-search__field");
+      }, e.prototype.query = function (e, t, n) {
+        var r = this;
+        t.term = t.term || "";
+        var i = this.tokenizer(t, this.options, function (e) {
+          var t = r._normalizeItem(e);
+
+          if (!r.$element.find("option").filter(function () {
+            return d(this).val() === t.id;
+          }).length) {
+            var n = r.option(t);
+            n.attr("data-select2-tag", !0), r._removeOldTags(), r.addOptions([n]);
+          }
+
+          !function (e) {
+            r.trigger("select", {
+              data: e
+            });
+          }(t);
+        });
+        i.term !== t.term && (this.$search.length && (this.$search.val(i.term), this.$search.trigger("focus")), t.term = i.term), e.call(this, t, n);
+      }, e.prototype.tokenizer = function (e, t, n, r) {
+        for (var i = n.get("tokenSeparators") || [], o = t.term, s = 0, a = this.createTag || function (e) {
+          return {
+            id: e.term,
+            text: e.term
+          };
+        }; s < o.length;) {
+          var l = o[s];
+
+          if (-1 !== d.inArray(l, i)) {
+            var c = o.substr(0, s),
+                u = a(d.extend({}, t, {
+              term: c
+            }));
+            null != u ? (r(u), o = o.substr(s + 1) || "", s = 0) : s++;
+          } else s++;
+        }
+
+        return {
+          term: o
+        };
+      }, e;
+    }), e.define("select2/data/minimumInputLength", [], function () {
+      function e(e, t, n) {
+        this.minimumInputLength = n.get("minimumInputLength"), e.call(this, t, n);
+      }
+
+      return e.prototype.query = function (e, t, n) {
+        t.term = t.term || "", t.term.length < this.minimumInputLength ? this.trigger("results:message", {
+          message: "inputTooShort",
+          args: {
+            minimum: this.minimumInputLength,
+            input: t.term,
+            params: t
+          }
+        }) : e.call(this, t, n);
+      }, e;
+    }), e.define("select2/data/maximumInputLength", [], function () {
+      function e(e, t, n) {
+        this.maximumInputLength = n.get("maximumInputLength"), e.call(this, t, n);
+      }
+
+      return e.prototype.query = function (e, t, n) {
+        t.term = t.term || "", 0 < this.maximumInputLength && t.term.length > this.maximumInputLength ? this.trigger("results:message", {
+          message: "inputTooLong",
+          args: {
+            maximum: this.maximumInputLength,
+            input: t.term,
+            params: t
+          }
+        }) : e.call(this, t, n);
+      }, e;
+    }), e.define("select2/data/maximumSelectionLength", [], function () {
+      function e(e, t, n) {
+        this.maximumSelectionLength = n.get("maximumSelectionLength"), e.call(this, t, n);
+      }
+
+      return e.prototype.bind = function (e, t, n) {
+        var r = this;
+        e.call(this, t, n), t.on("select", function () {
+          r._checkIfMaximumSelected();
+        });
+      }, e.prototype.query = function (e, t, n) {
+        var r = this;
+
+        this._checkIfMaximumSelected(function () {
+          e.call(r, t, n);
+        });
+      }, e.prototype._checkIfMaximumSelected = function (e, n) {
+        var r = this;
+        this.current(function (e) {
+          var t = null != e ? e.length : 0;
+          0 < r.maximumSelectionLength && t >= r.maximumSelectionLength ? r.trigger("results:message", {
+            message: "maximumSelected",
+            args: {
+              maximum: r.maximumSelectionLength
+            }
+          }) : n && n();
+        });
+      }, e;
+    }), e.define("select2/dropdown", ["jquery", "./utils"], function (t, e) {
+      function n(e, t) {
+        this.$element = e, this.options = t, n.__super__.constructor.call(this);
+      }
+
+      return e.Extend(n, e.Observable), n.prototype.render = function () {
+        var e = t('<span class="select2-dropdown"><span class="select2-results"></span></span>');
+        return e.attr("dir", this.options.get("dir")), this.$dropdown = e;
+      }, n.prototype.bind = function () {}, n.prototype.position = function (e, t) {}, n.prototype.destroy = function () {
+        this.$dropdown.remove();
+      }, n;
+    }), e.define("select2/dropdown/search", ["jquery", "../utils"], function (o, e) {
+      function t() {}
+
+      return t.prototype.render = function (e) {
+        var t = e.call(this),
+            n = o('<span class="select2-search select2-search--dropdown"><input class="select2-search__field" type="search" tabindex="-1" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" role="searchbox" aria-autocomplete="list" /></span>');
+        return this.$searchContainer = n, this.$search = n.find("input"), t.prepend(n), t;
+      }, t.prototype.bind = function (e, t, n) {
+        var r = this,
+            i = t.id + "-results";
+        e.call(this, t, n), this.$search.on("keydown", function (e) {
+          r.trigger("keypress", e), r._keyUpPrevented = e.isDefaultPrevented();
+        }), this.$search.on("input", function (e) {
+          o(this).off("keyup");
+        }), this.$search.on("keyup input", function (e) {
+          r.handleSearch(e);
+        }), t.on("open", function () {
+          r.$search.attr("tabindex", 0), r.$search.attr("aria-controls", i), r.$search.trigger("focus"), window.setTimeout(function () {
+            r.$search.trigger("focus");
+          }, 0);
+        }), t.on("close", function () {
+          r.$search.attr("tabindex", -1), r.$search.removeAttr("aria-controls"), r.$search.removeAttr("aria-activedescendant"), r.$search.val(""), r.$search.trigger("blur");
+        }), t.on("focus", function () {
+          t.isOpen() || r.$search.trigger("focus");
+        }), t.on("results:all", function (e) {
+          null != e.query.term && "" !== e.query.term || (r.showSearch(e) ? r.$searchContainer.removeClass("select2-search--hide") : r.$searchContainer.addClass("select2-search--hide"));
+        }), t.on("results:focus", function (e) {
+          e.data._resultId ? r.$search.attr("aria-activedescendant", e.data._resultId) : r.$search.removeAttr("aria-activedescendant");
+        });
+      }, t.prototype.handleSearch = function (e) {
+        if (!this._keyUpPrevented) {
+          var t = this.$search.val();
+          this.trigger("query", {
+            term: t
+          });
+        }
+
+        this._keyUpPrevented = !1;
+      }, t.prototype.showSearch = function (e, t) {
+        return !0;
+      }, t;
+    }), e.define("select2/dropdown/hidePlaceholder", [], function () {
+      function e(e, t, n, r) {
+        this.placeholder = this.normalizePlaceholder(n.get("placeholder")), e.call(this, t, n, r);
+      }
+
+      return e.prototype.append = function (e, t) {
+        t.results = this.removePlaceholder(t.results), e.call(this, t);
+      }, e.prototype.normalizePlaceholder = function (e, t) {
+        return "string" == typeof t && (t = {
+          id: "",
+          text: t
+        }), t;
+      }, e.prototype.removePlaceholder = function (e, t) {
+        for (var n = t.slice(0), r = t.length - 1; 0 <= r; r--) {
+          var i = t[r];
+          this.placeholder.id === i.id && n.splice(r, 1);
+        }
+
+        return n;
+      }, e;
+    }), e.define("select2/dropdown/infiniteScroll", ["jquery"], function (n) {
+      function e(e, t, n, r) {
+        this.lastParams = {}, e.call(this, t, n, r), this.$loadingMore = this.createLoadingMore(), this.loading = !1;
+      }
+
+      return e.prototype.append = function (e, t) {
+        this.$loadingMore.remove(), this.loading = !1, e.call(this, t), this.showLoadingMore(t) && (this.$results.append(this.$loadingMore), this.loadMoreIfNeeded());
+      }, e.prototype.bind = function (e, t, n) {
+        var r = this;
+        e.call(this, t, n), t.on("query", function (e) {
+          r.lastParams = e, r.loading = !0;
+        }), t.on("query:append", function (e) {
+          r.lastParams = e, r.loading = !0;
+        }), this.$results.on("scroll", this.loadMoreIfNeeded.bind(this));
+      }, e.prototype.loadMoreIfNeeded = function () {
+        var e = n.contains(document.documentElement, this.$loadingMore[0]);
+
+        if (!this.loading && e) {
+          var t = this.$results.offset().top + this.$results.outerHeight(!1);
+          this.$loadingMore.offset().top + this.$loadingMore.outerHeight(!1) <= t + 50 && this.loadMore();
+        }
+      }, e.prototype.loadMore = function () {
+        this.loading = !0;
+        var e = n.extend({}, {
+          page: 1
+        }, this.lastParams);
+        e.page++, this.trigger("query:append", e);
+      }, e.prototype.showLoadingMore = function (e, t) {
+        return t.pagination && t.pagination.more;
+      }, e.prototype.createLoadingMore = function () {
+        var e = n('<li class="select2-results__option select2-results__option--load-more"role="option" aria-disabled="true"></li>'),
+            t = this.options.get("translations").get("loadingMore");
+        return e.html(t(this.lastParams)), e;
+      }, e;
+    }), e.define("select2/dropdown/attachBody", ["jquery", "../utils"], function (f, a) {
+      function e(e, t, n) {
+        this.$dropdownParent = f(n.get("dropdownParent") || document.body), e.call(this, t, n);
+      }
+
+      return e.prototype.bind = function (e, t, n) {
+        var r = this;
+        e.call(this, t, n), t.on("open", function () {
+          r._showDropdown(), r._attachPositioningHandler(t), r._bindContainerResultHandlers(t);
+        }), t.on("close", function () {
+          r._hideDropdown(), r._detachPositioningHandler(t);
+        }), this.$dropdownContainer.on("mousedown", function (e) {
+          e.stopPropagation();
+        });
+      }, e.prototype.destroy = function (e) {
+        e.call(this), this.$dropdownContainer.remove();
+      }, e.prototype.position = function (e, t, n) {
+        t.attr("class", n.attr("class")), t.removeClass("select2"), t.addClass("select2-container--open"), t.css({
+          position: "absolute",
+          top: -999999
+        }), this.$container = n;
+      }, e.prototype.render = function (e) {
+        var t = f("<span></span>"),
+            n = e.call(this);
+        return t.append(n), this.$dropdownContainer = t;
+      }, e.prototype._hideDropdown = function (e) {
+        this.$dropdownContainer.detach();
+      }, e.prototype._bindContainerResultHandlers = function (e, t) {
+        if (!this._containerResultsHandlersBound) {
+          var n = this;
+          t.on("results:all", function () {
+            n._positionDropdown(), n._resizeDropdown();
+          }), t.on("results:append", function () {
+            n._positionDropdown(), n._resizeDropdown();
+          }), t.on("results:message", function () {
+            n._positionDropdown(), n._resizeDropdown();
+          }), t.on("select", function () {
+            n._positionDropdown(), n._resizeDropdown();
+          }), t.on("unselect", function () {
+            n._positionDropdown(), n._resizeDropdown();
+          }), this._containerResultsHandlersBound = !0;
+        }
+      }, e.prototype._attachPositioningHandler = function (e, t) {
+        var n = this,
+            r = "scroll.select2." + t.id,
+            i = "resize.select2." + t.id,
+            o = "orientationchange.select2." + t.id,
+            s = this.$container.parents().filter(a.hasScroll);
+        s.each(function () {
+          a.StoreData(this, "select2-scroll-position", {
+            x: f(this).scrollLeft(),
+            y: f(this).scrollTop()
+          });
+        }), s.on(r, function (e) {
+          var t = a.GetData(this, "select2-scroll-position");
+          f(this).scrollTop(t.y);
+        }), f(window).on(r + " " + i + " " + o, function (e) {
+          n._positionDropdown(), n._resizeDropdown();
+        });
+      }, e.prototype._detachPositioningHandler = function (e, t) {
+        var n = "scroll.select2." + t.id,
+            r = "resize.select2." + t.id,
+            i = "orientationchange.select2." + t.id;
+        this.$container.parents().filter(a.hasScroll).off(n), f(window).off(n + " " + r + " " + i);
+      }, e.prototype._positionDropdown = function () {
+        var e = f(window),
+            t = this.$dropdown.hasClass("select2-dropdown--above"),
+            n = this.$dropdown.hasClass("select2-dropdown--below"),
+            r = null,
+            i = this.$container.offset();
+        i.bottom = i.top + this.$container.outerHeight(!1);
+        var o = {
+          height: this.$container.outerHeight(!1)
+        };
+        o.top = i.top, o.bottom = i.top + o.height;
+        var s = this.$dropdown.outerHeight(!1),
+            a = e.scrollTop(),
+            l = e.scrollTop() + e.height(),
+            c = a < i.top - s,
+            u = l > i.bottom + s,
+            d = {
+          left: i.left,
+          top: o.bottom
+        },
+            p = this.$dropdownParent;
+        "static" === p.css("position") && (p = p.offsetParent());
+        var h = {
+          top: 0,
+          left: 0
+        };
+        (f.contains(document.body, p[0]) || p[0].isConnected) && (h = p.offset()), d.top -= h.top, d.left -= h.left, t || n || (r = "below"), u || !c || t ? !c && u && t && (r = "below") : r = "above", ("above" == r || t && "below" !== r) && (d.top = o.top - h.top - s), null != r && (this.$dropdown.removeClass("select2-dropdown--below select2-dropdown--above").addClass("select2-dropdown--" + r), this.$container.removeClass("select2-container--below select2-container--above").addClass("select2-container--" + r)), this.$dropdownContainer.css(d);
+      }, e.prototype._resizeDropdown = function () {
+        var e = {
+          width: this.$container.outerWidth(!1) + "px"
+        };
+        this.options.get("dropdownAutoWidth") && (e.minWidth = e.width, e.position = "relative", e.width = "auto"), this.$dropdown.css(e);
+      }, e.prototype._showDropdown = function (e) {
+        this.$dropdownContainer.appendTo(this.$dropdownParent), this._positionDropdown(), this._resizeDropdown();
+      }, e;
+    }), e.define("select2/dropdown/minimumResultsForSearch", [], function () {
+      function e(e, t, n, r) {
+        this.minimumResultsForSearch = n.get("minimumResultsForSearch"), this.minimumResultsForSearch < 0 && (this.minimumResultsForSearch = 1 / 0), e.call(this, t, n, r);
+      }
+
+      return e.prototype.showSearch = function (e, t) {
+        return !(function e(t) {
+          for (var n = 0, r = 0; r < t.length; r++) {
+            var i = t[r];
+            i.children ? n += e(i.children) : n++;
+          }
+
+          return n;
+        }(t.data.results) < this.minimumResultsForSearch) && e.call(this, t);
+      }, e;
+    }), e.define("select2/dropdown/selectOnClose", ["../utils"], function (o) {
+      function e() {}
+
+      return e.prototype.bind = function (e, t, n) {
+        var r = this;
+        e.call(this, t, n), t.on("close", function (e) {
+          r._handleSelectOnClose(e);
+        });
+      }, e.prototype._handleSelectOnClose = function (e, t) {
+        if (t && null != t.originalSelect2Event) {
+          var n = t.originalSelect2Event;
+          if ("select" === n._type || "unselect" === n._type) return;
+        }
+
+        var r = this.getHighlightedResults();
+
+        if (!(r.length < 1)) {
+          var i = o.GetData(r[0], "data");
+          null != i.element && i.element.selected || null == i.element && i.selected || this.trigger("select", {
+            data: i
+          });
+        }
+      }, e;
+    }), e.define("select2/dropdown/closeOnSelect", [], function () {
+      function e() {}
+
+      return e.prototype.bind = function (e, t, n) {
+        var r = this;
+        e.call(this, t, n), t.on("select", function (e) {
+          r._selectTriggered(e);
+        }), t.on("unselect", function (e) {
+          r._selectTriggered(e);
+        });
+      }, e.prototype._selectTriggered = function (e, t) {
+        var n = t.originalEvent;
+        n && (n.ctrlKey || n.metaKey) || this.trigger("close", {
+          originalEvent: n,
+          originalSelect2Event: t
+        });
+      }, e;
+    }), e.define("select2/i18n/en", [], function () {
+      return {
+        errorLoading: function errorLoading() {
+          return "The results could not be loaded.";
+        },
+        inputTooLong: function inputTooLong(e) {
+          var t = e.input.length - e.maximum,
+              n = "Please delete " + t + " character";
+          return 1 != t && (n += "s"), n;
+        },
+        inputTooShort: function inputTooShort(e) {
+          return "Please enter " + (e.minimum - e.input.length) + " or more characters";
+        },
+        loadingMore: function loadingMore() {
+          return "Loading more results…";
+        },
+        maximumSelected: function maximumSelected(e) {
+          var t = "You can only select " + e.maximum + " item";
+          return 1 != e.maximum && (t += "s"), t;
+        },
+        noResults: function noResults() {
+          return "No results found";
+        },
+        searching: function searching() {
+          return "Searching…";
+        },
+        removeAllItems: function removeAllItems() {
+          return "Remove all items";
+        }
+      };
+    }), e.define("select2/defaults", ["jquery", "require", "./results", "./selection/single", "./selection/multiple", "./selection/placeholder", "./selection/allowClear", "./selection/search", "./selection/eventRelay", "./utils", "./translation", "./diacritics", "./data/select", "./data/array", "./data/ajax", "./data/tags", "./data/tokenizer", "./data/minimumInputLength", "./data/maximumInputLength", "./data/maximumSelectionLength", "./dropdown", "./dropdown/search", "./dropdown/hidePlaceholder", "./dropdown/infiniteScroll", "./dropdown/attachBody", "./dropdown/minimumResultsForSearch", "./dropdown/selectOnClose", "./dropdown/closeOnSelect", "./i18n/en"], function (c, u, d, p, h, f, g, m, v, y, s, t, _, $, b, w, A, x, D, S, E, C, O, T, q, L, I, j, e) {
+      function n() {
+        this.reset();
+      }
+
+      return n.prototype.apply = function (e) {
+        if (null == (e = c.extend(!0, {}, this.defaults, e)).dataAdapter) {
+          if (null != e.ajax ? e.dataAdapter = b : null != e.data ? e.dataAdapter = $ : e.dataAdapter = _, 0 < e.minimumInputLength && (e.dataAdapter = y.Decorate(e.dataAdapter, x)), 0 < e.maximumInputLength && (e.dataAdapter = y.Decorate(e.dataAdapter, D)), 0 < e.maximumSelectionLength && (e.dataAdapter = y.Decorate(e.dataAdapter, S)), e.tags && (e.dataAdapter = y.Decorate(e.dataAdapter, w)), null == e.tokenSeparators && null == e.tokenizer || (e.dataAdapter = y.Decorate(e.dataAdapter, A)), null != e.query) {
+            var t = u(e.amdBase + "compat/query");
+            e.dataAdapter = y.Decorate(e.dataAdapter, t);
+          }
+
+          if (null != e.initSelection) {
+            var n = u(e.amdBase + "compat/initSelection");
+            e.dataAdapter = y.Decorate(e.dataAdapter, n);
+          }
+        }
+
+        if (null == e.resultsAdapter && (e.resultsAdapter = d, null != e.ajax && (e.resultsAdapter = y.Decorate(e.resultsAdapter, T)), null != e.placeholder && (e.resultsAdapter = y.Decorate(e.resultsAdapter, O)), e.selectOnClose && (e.resultsAdapter = y.Decorate(e.resultsAdapter, I))), null == e.dropdownAdapter) {
+          if (e.multiple) e.dropdownAdapter = E;else {
+            var r = y.Decorate(E, C);
+            e.dropdownAdapter = r;
+          }
+
+          if (0 !== e.minimumResultsForSearch && (e.dropdownAdapter = y.Decorate(e.dropdownAdapter, L)), e.closeOnSelect && (e.dropdownAdapter = y.Decorate(e.dropdownAdapter, j)), null != e.dropdownCssClass || null != e.dropdownCss || null != e.adaptDropdownCssClass) {
+            var i = u(e.amdBase + "compat/dropdownCss");
+            e.dropdownAdapter = y.Decorate(e.dropdownAdapter, i);
+          }
+
+          e.dropdownAdapter = y.Decorate(e.dropdownAdapter, q);
+        }
+
+        if (null == e.selectionAdapter) {
+          if (e.multiple ? e.selectionAdapter = h : e.selectionAdapter = p, null != e.placeholder && (e.selectionAdapter = y.Decorate(e.selectionAdapter, f)), e.allowClear && (e.selectionAdapter = y.Decorate(e.selectionAdapter, g)), e.multiple && (e.selectionAdapter = y.Decorate(e.selectionAdapter, m)), null != e.containerCssClass || null != e.containerCss || null != e.adaptContainerCssClass) {
+            var o = u(e.amdBase + "compat/containerCss");
+            e.selectionAdapter = y.Decorate(e.selectionAdapter, o);
+          }
+
+          e.selectionAdapter = y.Decorate(e.selectionAdapter, v);
+        }
+
+        e.language = this._resolveLanguage(e.language), e.language.push("en");
+
+        for (var s = [], a = 0; a < e.language.length; a++) {
+          var l = e.language[a];
+          -1 === s.indexOf(l) && s.push(l);
+        }
+
+        return e.language = s, e.translations = this._processTranslations(e.language, e.debug), e;
+      }, n.prototype.reset = function () {
+        function a(e) {
+          return e.replace(/[^\u0000-\u007E]/g, function (e) {
+            return t[e] || e;
+          });
+        }
+
+        this.defaults = {
+          amdBase: "./",
+          amdLanguageBase: "./i18n/",
+          closeOnSelect: !0,
+          debug: !1,
+          dropdownAutoWidth: !1,
+          escapeMarkup: y.escapeMarkup,
+          language: {},
+          matcher: function e(t, n) {
+            if ("" === c.trim(t.term)) return n;
+
+            if (n.children && 0 < n.children.length) {
+              for (var r = c.extend(!0, {}, n), i = n.children.length - 1; 0 <= i; i--) {
+                null == e(t, n.children[i]) && r.children.splice(i, 1);
+              }
+
+              return 0 < r.children.length ? r : e(t, r);
+            }
+
+            var o = a(n.text).toUpperCase(),
+                s = a(t.term).toUpperCase();
+            return -1 < o.indexOf(s) ? n : null;
+          },
+          minimumInputLength: 0,
+          maximumInputLength: 0,
+          maximumSelectionLength: 0,
+          minimumResultsForSearch: 0,
+          selectOnClose: !1,
+          scrollAfterSelect: !1,
+          sorter: function sorter(e) {
+            return e;
+          },
+          templateResult: function templateResult(e) {
+            return e.text;
+          },
+          templateSelection: function templateSelection(e) {
+            return e.text;
+          },
+          theme: "default",
+          width: "resolve"
+        };
+      }, n.prototype.applyFromElement = function (e, t) {
+        var n = e.language,
+            r = this.defaults.language,
+            i = t.prop("lang"),
+            o = t.closest("[lang]").prop("lang"),
+            s = Array.prototype.concat.call(this._resolveLanguage(i), this._resolveLanguage(n), this._resolveLanguage(r), this._resolveLanguage(o));
+        return e.language = s, e;
+      }, n.prototype._resolveLanguage = function (e) {
+        if (!e) return [];
+        if (c.isEmptyObject(e)) return [];
+        if (c.isPlainObject(e)) return [e];
+        var t;
+        t = c.isArray(e) ? e : [e];
+
+        for (var n = [], r = 0; r < t.length; r++) {
+          if (n.push(t[r]), "string" == typeof t[r] && 0 < t[r].indexOf("-")) {
+            var i = t[r].split("-")[0];
+            n.push(i);
+          }
+        }
+
+        return n;
+      }, n.prototype._processTranslations = function (e, t) {
+        for (var n = new s(), r = 0; r < e.length; r++) {
+          var i = new s(),
+              o = e[r];
+          if ("string" == typeof o) try {
+            i = s.loadPath(o);
+          } catch (e) {
+            try {
+              o = this.defaults.amdLanguageBase + o, i = s.loadPath(o);
+            } catch (e) {
+              t && window.console && console.warn && console.warn('Select2: The language file for "' + o + '" could not be automatically loaded. A fallback will be used instead.');
+            }
+          } else i = c.isPlainObject(o) ? new s(o) : o;
+          n.extend(i);
+        }
+
+        return n;
+      }, n.prototype.set = function (e, t) {
+        var n = {};
+        n[c.camelCase(e)] = t;
+
+        var r = y._convertData(n);
+
+        c.extend(!0, this.defaults, r);
+      }, new n();
+    }), e.define("select2/options", ["require", "jquery", "./defaults", "./utils"], function (r, d, i, p) {
+      function e(e, t) {
+        if (this.options = e, null != t && this.fromElement(t), null != t && (this.options = i.applyFromElement(this.options, t)), this.options = i.apply(this.options), t && t.is("input")) {
+          var n = r(this.get("amdBase") + "compat/inputData");
+          this.options.dataAdapter = p.Decorate(this.options.dataAdapter, n);
+        }
+      }
+
+      return e.prototype.fromElement = function (e) {
+        var t = ["select2"];
+        null == this.options.multiple && (this.options.multiple = e.prop("multiple")), null == this.options.disabled && (this.options.disabled = e.prop("disabled")), null == this.options.dir && (e.prop("dir") ? this.options.dir = e.prop("dir") : e.closest("[dir]").prop("dir") ? this.options.dir = e.closest("[dir]").prop("dir") : this.options.dir = "ltr"), e.prop("disabled", this.options.disabled), e.prop("multiple", this.options.multiple), p.GetData(e[0], "select2Tags") && (this.options.debug && window.console && console.warn && console.warn('Select2: The `data-select2-tags` attribute has been changed to use the `data-data` and `data-tags="true"` attributes and will be removed in future versions of Select2.'), p.StoreData(e[0], "data", p.GetData(e[0], "select2Tags")), p.StoreData(e[0], "tags", !0)), p.GetData(e[0], "ajaxUrl") && (this.options.debug && window.console && console.warn && console.warn("Select2: The `data-ajax-url` attribute has been changed to `data-ajax--url` and support for the old attribute will be removed in future versions of Select2."), e.attr("ajax--url", p.GetData(e[0], "ajaxUrl")), p.StoreData(e[0], "ajax-Url", p.GetData(e[0], "ajaxUrl")));
+        var n = {};
+
+        function r(e, t) {
+          return t.toUpperCase();
+        }
+
+        for (var i = 0; i < e[0].attributes.length; i++) {
+          var o = e[0].attributes[i].name,
+              s = "data-";
+
+          if (o.substr(0, s.length) == s) {
+            var a = o.substring(s.length),
+                l = p.GetData(e[0], a);
+            n[a.replace(/-([a-z])/g, r)] = l;
+          }
+        }
+
+        d.fn.jquery && "1." == d.fn.jquery.substr(0, 2) && e[0].dataset && (n = d.extend(!0, {}, e[0].dataset, n));
+        var c = d.extend(!0, {}, p.GetData(e[0]), n);
+
+        for (var u in c = p._convertData(c)) {
+          -1 < d.inArray(u, t) || (d.isPlainObject(this.options[u]) ? d.extend(this.options[u], c[u]) : this.options[u] = c[u]);
+        }
+
+        return this;
+      }, e.prototype.get = function (e) {
+        return this.options[e];
+      }, e.prototype.set = function (e, t) {
+        this.options[e] = t;
+      }, e;
+    }), e.define("select2/core", ["jquery", "./options", "./utils", "./keys"], function (o, c, u, r) {
+      var d = function d(e, t) {
+        null != u.GetData(e[0], "select2") && u.GetData(e[0], "select2").destroy(), this.$element = e, this.id = this._generateId(e), t = t || {}, this.options = new c(t, e), d.__super__.constructor.call(this);
+        var n = e.attr("tabindex") || 0;
+        u.StoreData(e[0], "old-tabindex", n), e.attr("tabindex", "-1");
+        var r = this.options.get("dataAdapter");
+        this.dataAdapter = new r(e, this.options);
+        var i = this.render();
+
+        this._placeContainer(i);
+
+        var o = this.options.get("selectionAdapter");
+        this.selection = new o(e, this.options), this.$selection = this.selection.render(), this.selection.position(this.$selection, i);
+        var s = this.options.get("dropdownAdapter");
+        this.dropdown = new s(e, this.options), this.$dropdown = this.dropdown.render(), this.dropdown.position(this.$dropdown, i);
+        var a = this.options.get("resultsAdapter");
+        this.results = new a(e, this.options, this.dataAdapter), this.$results = this.results.render(), this.results.position(this.$results, this.$dropdown);
+        var l = this;
+        this._bindAdapters(), this._registerDomEvents(), this._registerDataEvents(), this._registerSelectionEvents(), this._registerDropdownEvents(), this._registerResultsEvents(), this._registerEvents(), this.dataAdapter.current(function (e) {
+          l.trigger("selection:update", {
+            data: e
+          });
+        }), e.addClass("select2-hidden-accessible"), e.attr("aria-hidden", "true"), this._syncAttributes(), u.StoreData(e[0], "select2", this), e.data("select2", this);
+      };
+
+      return u.Extend(d, u.Observable), d.prototype._generateId = function (e) {
+        return "select2-" + (null != e.attr("id") ? e.attr("id") : null != e.attr("name") ? e.attr("name") + "-" + u.generateChars(2) : u.generateChars(4)).replace(/(:|\.|\[|\]|,)/g, "");
+      }, d.prototype._placeContainer = function (e) {
+        e.insertAfter(this.$element);
+
+        var t = this._resolveWidth(this.$element, this.options.get("width"));
+
+        null != t && e.css("width", t);
+      }, d.prototype._resolveWidth = function (e, t) {
+        var n = /^width:(([-+]?([0-9]*\.)?[0-9]+)(px|em|ex|%|in|cm|mm|pt|pc))/i;
+
+        if ("resolve" == t) {
+          var r = this._resolveWidth(e, "style");
+
+          return null != r ? r : this._resolveWidth(e, "element");
+        }
+
+        if ("element" == t) {
+          var i = e.outerWidth(!1);
+          return i <= 0 ? "auto" : i + "px";
+        }
+
+        if ("style" != t) return "computedstyle" != t ? t : window.getComputedStyle(e[0]).width;
+        var o = e.attr("style");
+        if ("string" != typeof o) return null;
+
+        for (var s = o.split(";"), a = 0, l = s.length; a < l; a += 1) {
+          var c = s[a].replace(/\s/g, "").match(n);
+          if (null !== c && 1 <= c.length) return c[1];
+        }
+
+        return null;
+      }, d.prototype._bindAdapters = function () {
+        this.dataAdapter.bind(this, this.$container), this.selection.bind(this, this.$container), this.dropdown.bind(this, this.$container), this.results.bind(this, this.$container);
+      }, d.prototype._registerDomEvents = function () {
+        var t = this;
+        this.$element.on("change.select2", function () {
+          t.dataAdapter.current(function (e) {
+            t.trigger("selection:update", {
+              data: e
+            });
+          });
+        }), this.$element.on("focus.select2", function (e) {
+          t.trigger("focus", e);
+        }), this._syncA = u.bind(this._syncAttributes, this), this._syncS = u.bind(this._syncSubtree, this), this.$element[0].attachEvent && this.$element[0].attachEvent("onpropertychange", this._syncA);
+        var e = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver;
+        null != e ? (this._observer = new e(function (e) {
+          t._syncA(), t._syncS(null, e);
+        }), this._observer.observe(this.$element[0], {
+          attributes: !0,
+          childList: !0,
+          subtree: !1
+        })) : this.$element[0].addEventListener && (this.$element[0].addEventListener("DOMAttrModified", t._syncA, !1), this.$element[0].addEventListener("DOMNodeInserted", t._syncS, !1), this.$element[0].addEventListener("DOMNodeRemoved", t._syncS, !1));
+      }, d.prototype._registerDataEvents = function () {
+        var n = this;
+        this.dataAdapter.on("*", function (e, t) {
+          n.trigger(e, t);
+        });
+      }, d.prototype._registerSelectionEvents = function () {
+        var n = this,
+            r = ["toggle", "focus"];
+        this.selection.on("toggle", function () {
+          n.toggleDropdown();
+        }), this.selection.on("focus", function (e) {
+          n.focus(e);
+        }), this.selection.on("*", function (e, t) {
+          -1 === o.inArray(e, r) && n.trigger(e, t);
+        });
+      }, d.prototype._registerDropdownEvents = function () {
+        var n = this;
+        this.dropdown.on("*", function (e, t) {
+          n.trigger(e, t);
+        });
+      }, d.prototype._registerResultsEvents = function () {
+        var n = this;
+        this.results.on("*", function (e, t) {
+          n.trigger(e, t);
+        });
+      }, d.prototype._registerEvents = function () {
+        var n = this;
+        this.on("open", function () {
+          n.$container.addClass("select2-container--open");
+        }), this.on("close", function () {
+          n.$container.removeClass("select2-container--open");
+        }), this.on("enable", function () {
+          n.$container.removeClass("select2-container--disabled");
+        }), this.on("disable", function () {
+          n.$container.addClass("select2-container--disabled");
+        }), this.on("blur", function () {
+          n.$container.removeClass("select2-container--focus");
+        }), this.on("query", function (t) {
+          n.isOpen() || n.trigger("open", {}), this.dataAdapter.query(t, function (e) {
+            n.trigger("results:all", {
+              data: e,
+              query: t
+            });
+          });
+        }), this.on("query:append", function (t) {
+          this.dataAdapter.query(t, function (e) {
+            n.trigger("results:append", {
+              data: e,
+              query: t
+            });
+          });
+        }), this.on("keypress", function (e) {
+          var t = e.which;
+          n.isOpen() ? t === r.ESC || t === r.TAB || t === r.UP && e.altKey ? (n.close(e), e.preventDefault()) : t === r.ENTER ? (n.trigger("results:select", {}), e.preventDefault()) : t === r.SPACE && e.ctrlKey ? (n.trigger("results:toggle", {}), e.preventDefault()) : t === r.UP ? (n.trigger("results:previous", {}), e.preventDefault()) : t === r.DOWN && (n.trigger("results:next", {}), e.preventDefault()) : (t === r.ENTER || t === r.SPACE || t === r.DOWN && e.altKey) && (n.open(), e.preventDefault());
+        });
+      }, d.prototype._syncAttributes = function () {
+        this.options.set("disabled", this.$element.prop("disabled")), this.isDisabled() ? (this.isOpen() && this.close(), this.trigger("disable", {})) : this.trigger("enable", {});
+      }, d.prototype._isChangeMutation = function (e, t) {
+        var n = !1,
+            r = this;
+
+        if (!e || !e.target || "OPTION" === e.target.nodeName || "OPTGROUP" === e.target.nodeName) {
+          if (t) {
+            if (t.addedNodes && 0 < t.addedNodes.length) for (var i = 0; i < t.addedNodes.length; i++) {
+              t.addedNodes[i].selected && (n = !0);
+            } else t.removedNodes && 0 < t.removedNodes.length ? n = !0 : o.isArray(t) && o.each(t, function (e, t) {
+              if (r._isChangeMutation(e, t)) return !(n = !0);
+            });
+          } else n = !0;
+          return n;
+        }
+      }, d.prototype._syncSubtree = function (e, t) {
+        var n = this._isChangeMutation(e, t),
+            r = this;
+
+        n && this.dataAdapter.current(function (e) {
+          r.trigger("selection:update", {
+            data: e
+          });
+        });
+      }, d.prototype.trigger = function (e, t) {
+        var n = d.__super__.trigger,
+            r = {
+          open: "opening",
+          close: "closing",
+          select: "selecting",
+          unselect: "unselecting",
+          clear: "clearing"
+        };
+
+        if (void 0 === t && (t = {}), e in r) {
+          var i = r[e],
+              o = {
+            prevented: !1,
+            name: e,
+            args: t
+          };
+          if (n.call(this, i, o), o.prevented) return void (t.prevented = !0);
+        }
+
+        n.call(this, e, t);
+      }, d.prototype.toggleDropdown = function () {
+        this.isDisabled() || (this.isOpen() ? this.close() : this.open());
+      }, d.prototype.open = function () {
+        this.isOpen() || this.isDisabled() || this.trigger("query", {});
+      }, d.prototype.close = function (e) {
+        this.isOpen() && this.trigger("close", {
+          originalEvent: e
+        });
+      }, d.prototype.isEnabled = function () {
+        return !this.isDisabled();
+      }, d.prototype.isDisabled = function () {
+        return this.options.get("disabled");
+      }, d.prototype.isOpen = function () {
+        return this.$container.hasClass("select2-container--open");
+      }, d.prototype.hasFocus = function () {
+        return this.$container.hasClass("select2-container--focus");
+      }, d.prototype.focus = function (e) {
+        this.hasFocus() || (this.$container.addClass("select2-container--focus"), this.trigger("focus", {}));
+      }, d.prototype.enable = function (e) {
+        this.options.get("debug") && window.console && console.warn && console.warn('Select2: The `select2("enable")` method has been deprecated and will be removed in later Select2 versions. Use $element.prop("disabled") instead.'), null != e && 0 !== e.length || (e = [!0]);
+        var t = !e[0];
+        this.$element.prop("disabled", t);
+      }, d.prototype.data = function () {
+        this.options.get("debug") && 0 < arguments.length && window.console && console.warn && console.warn('Select2: Data can no longer be set using `select2("data")`. You should consider setting the value instead using `$element.val()`.');
+        var t = [];
+        return this.dataAdapter.current(function (e) {
+          t = e;
+        }), t;
+      }, d.prototype.val = function (e) {
+        if (this.options.get("debug") && window.console && console.warn && console.warn('Select2: The `select2("val")` method has been deprecated and will be removed in later Select2 versions. Use $element.val() instead.'), null == e || 0 === e.length) return this.$element.val();
+        var t = e[0];
+        o.isArray(t) && (t = o.map(t, function (e) {
+          return e.toString();
+        })), this.$element.val(t).trigger("input").trigger("change");
+      }, d.prototype.destroy = function () {
+        this.$container.remove(), this.$element[0].detachEvent && this.$element[0].detachEvent("onpropertychange", this._syncA), null != this._observer ? (this._observer.disconnect(), this._observer = null) : this.$element[0].removeEventListener && (this.$element[0].removeEventListener("DOMAttrModified", this._syncA, !1), this.$element[0].removeEventListener("DOMNodeInserted", this._syncS, !1), this.$element[0].removeEventListener("DOMNodeRemoved", this._syncS, !1)), this._syncA = null, this._syncS = null, this.$element.off(".select2"), this.$element.attr("tabindex", u.GetData(this.$element[0], "old-tabindex")), this.$element.removeClass("select2-hidden-accessible"), this.$element.attr("aria-hidden", "false"), u.RemoveData(this.$element[0]), this.$element.removeData("select2"), this.dataAdapter.destroy(), this.selection.destroy(), this.dropdown.destroy(), this.results.destroy(), this.dataAdapter = null, this.selection = null, this.dropdown = null, this.results = null;
+      }, d.prototype.render = function () {
+        var e = o('<span class="select2 select2-container"><span class="selection"></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>');
+        return e.attr("dir", this.options.get("dir")), this.$container = e, this.$container.addClass("select2-container--" + this.options.get("theme")), u.StoreData(e[0], "element", this.$element), e;
+      }, d;
+    }), e.define("jquery-mousewheel", ["jquery"], function (e) {
+      return e;
+    }), e.define("jquery.select2", ["jquery", "jquery-mousewheel", "./select2/core", "./select2/defaults", "./select2/utils"], function (i, e, o, t, s) {
+      if (null == i.fn.select2) {
+        var a = ["open", "close", "destroy"];
+
+        i.fn.select2 = function (t) {
+          if ("object" == _typeof(t = t || {})) return this.each(function () {
+            var e = i.extend(!0, {}, t);
+            new o(i(this), e);
+          }), this;
+          if ("string" != typeof t) throw new Error("Invalid arguments for Select2: " + t);
+          var n,
+              r = Array.prototype.slice.call(arguments, 1);
+          return this.each(function () {
+            var e = s.GetData(this, "select2");
+            null == e && window.console && console.error && console.error("The select2('" + t + "') method was called on an element that is not using Select2."), n = e[t].apply(e, r);
+          }), -1 < i.inArray(t, a) ? this : n;
+        };
+      }
+
+      return null == i.fn.select2.defaults && (i.fn.select2.defaults = t), o;
+    }), {
+      define: e.define,
+      require: e.require
+    };
+  }(),
+      t = e.require("jquery.select2");
+
+  return u.fn.select2.amd = e, t;
+});
+
+/***/ }),
+
 /***/ 0:
-/*!************************************************************************************************************************************************************!*\
-  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/dashboard.js ./resources/assets/js/datatables.min.js ./resources/assets/sass/app.scss ***!
-  \************************************************************************************************************************************************************/
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/js/bootstrap.js ./resources/assets/js/permits.js ./resources/assets/js/permitStorage.js ./resources/assets/js/mineralOwner.js ./resources/assets/js/nonProducingLeasePage.js ./resources/assets/js/wellbore.js ./resources/assets/js/datatables.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./resources/assets/js/owner.js ./vendor/select2/select2/dist/js/select2.min.js ./resources/assets/sass/app.scss ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/bootstrap.js */"./resources/assets/js/bootstrap.js");
-__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/dashboard.js */"./resources/assets/js/dashboard.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/permits.js */"./resources/assets/js/permits.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/permitStorage.js */"./resources/assets/js/permitStorage.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/mineralOwner.js */"./resources/assets/js/mineralOwner.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/nonProducingLeasePage.js */"./resources/assets/js/nonProducingLeasePage.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/wellbore.js */"./resources/assets/js/wellbore.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/datatables.min.js */"./resources/assets/js/datatables.min.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/jquery-dp-ui.min.js */"./resources/assets/js/jquery-dp-ui.min.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/admin.js */"./resources/assets/js/admin.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/phoneNumberPush.js */"./resources/assets/js/phoneNumberPush.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/owner.js */"./resources/assets/js/owner.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/vendor/select2/select2/dist/js/select2.min.js */"./vendor/select2/select2/dist/js/select2.min.js");
 module.exports = __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/sass/app.scss */"./resources/assets/sass/app.scss");
 
 

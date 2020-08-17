@@ -13,15 +13,29 @@ let mix = require('laravel-mix');
 
 mix.js([
     'resources/assets/js/bootstrap.js',
-    'resources/assets/js/dashboard.js',
+    'resources/assets/js/permits.js',
+    'resources/assets/js/permitStorage.js',
+    'resources/assets/js/mineralOwner.js',
+    'resources/assets/js/nonProducingLeasePage.js',
+    'resources/assets/js/wellbore.js',
     'resources/assets/js/datatables.min.js',
+    'resources/assets/js/jquery-dp-ui.min.js',
+    'resources/assets/js/admin.js',
+    'resources/assets/js/phoneNumberPush.js',
+    'resources/assets/js/owner.js',
+    'vendor/select2/select2/dist/js/select2.min.js'
 
 
 ], 'public/js/app.js').version()
     .sass('resources/assets/sass/app.scss', 'public/css')
     .styles([
         'public/css/app.css',
-        'resources/assets/css/dashboard.css',
+        'resources/assets/css/mmp.css',
         'resources/assets/css/datatables.min.css',
+        'resources/assets/css/jquery-dp-ui.min.css',
+        'resources/assets/css/jquery-dp-ui.structure.min.css',
+        'resources/assets/css/jquery-dp-ui.theme.min.css',
+        'vendor/select2/select2/dist/css/select2.min.css'
+
 
     ], 'public/css/app.css').version();

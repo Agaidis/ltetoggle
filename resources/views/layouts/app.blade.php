@@ -15,8 +15,6 @@
     <script src="{{ mix('js/app.js') }}" defer></script>
 
 
-
-
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -30,7 +28,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container-fluid">
-                <a class="navbar-brand" id="dashboard_logo" href="{{ url('/dashboard') }}">
+                <a class="navbar-brand" id="dashboard_logo" href="{{ url('/mm-platform') }}">
                     <img height="50px" width="100px" src="https://quickevict.nyc3.digitaloceanspaces.com/lexathonenergy.jpg"/><span id="left_logo">Tog</span><span id="right_logo">gle</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -43,15 +41,19 @@
                     <!-- Right Side Of Navbar -->
 
                     <ul class="nav navbar-nav navbar-right">
-                        @if (Auth::check())
+                        @if (Auth::check() && (Auth::user()->role === 'admin'))
 
-                            <li><a href="{{ url('dashboard') }}" id="dashboard_btn">Dashboard</a></li>
-                            <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
-                            <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
-                        @else
-                            <li><a href="{{ url('FAQ') }}" id="faq_btn">FAQ</a></li>
-                            <li><a href="{{ url('about-us') }}" id="about_us_btn">About Us</a></li>
-                    @endif<!-- Authentication Links today -->
+                            <li><a href="{{ url('mm-platform') }}" id="dashboard_btn">Mineral Management Platform</a></li>
+                            <li><a href="{{ url('admin') }}" id="admin_btn">Admin Area</a></li>
+                            <li><a href="{{ url('pushed-phone-numbers') }}" id="pushed_phone_number_btn">Numbers to Update</a></li>
+                            <li><a href="{{ url('permit-storage') }}" id="pushed_phone_number_btn">Permit Storage</a></li>
+                        @elseif (Auth::check())
+                            <li><a href="{{ url('mm-platform') }}" id="dashboard_btn">Mineral Management Platform</a></li>
+                            <li><a href="{{ url('pushed-phone-numbers') }}" id="pushed_phone_number_btn">Numbers to Update</a></li>
+
+                            @else
+                        @endif<!-- Authentication Links today -->
+
 
                     </ul>
                     <ul class="navbar-nav ml-auto">
@@ -60,11 +62,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+
+
+
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -83,6 +83,12 @@
                                     </form>
                                 </div>
                             </li>
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                </li>
+                            @endif
+
                         @endguest
                     </ul>
                 </div>
@@ -93,5 +99,6 @@
             @yield('content')
         </main>
     </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA8Wbxv0pzs6vtLQB7Mp9_BrWHmRvSUNgg"></script>
 </body>
 </html>
