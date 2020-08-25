@@ -43,6 +43,11 @@ class WelboreController extends Controller
                 $highPriorityProspect->interest_area = 'tx';
             }
 
+            $errorMsg = new ErrorLog();
+            $errorMsg->payload = serialize($highPriorityProspects);
+
+            $errorMsg->save();
+
             foreach ($highPriorityProspectsNM as $highPriorityProspectNM) {
                 $leaseName = Permit::where('permit_id', $highPriorityProspectNM->permit_stitch_id)->value('lease_name');
                 $highPriorityProspectNM->lease_name = $leaseName;
@@ -70,10 +75,10 @@ class WelboreController extends Controller
                 $owner->interest_area = 'tx';
             }
 
-            foreach ($ownersNM as $owner) {
+            foreach ($ownersNM as $ownerNM) {
                 $leaseName = Permit::where('permit_id', $owner->permit_stitch_id)->value('lease_name');
-                $owner->lease_name = $leaseName;
-                $owner->interest_area = 'nm';
+                $ownerNM->lease_name = $leaseName;
+                $ownerNM->interest_area = 'nm';
 
 
             }
