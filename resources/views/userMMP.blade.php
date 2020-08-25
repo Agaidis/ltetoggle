@@ -171,14 +171,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$eaglePermit->county_parish}}</td>
                                                                 <td class="text-center">{{$eaglePermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $eaglePermit->lease_name . '/' . $eaglePermit->reported_operator . '/' . $eaglePermit->id)}}">{{$eaglePermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $eaglePermit->interest_area . '/' . $eaglePermit->lease_name . '/producing/' . $eaglePermit->permit_id)}}">{{$eaglePermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $eaglePermit->lease_name . '/' . $eaglePermit->reported_operator . '/' . $eaglePermit->id)}}">{{$eaglePermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $eaglePermit->interest_area . '/' . $eaglePermit->lease_name . '/producing/' . $eaglePermit->permit_id)}}">{{$eaglePermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -297,14 +297,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$nonProducingEaglePermit->county_parish}}</td>
                                                                 <td class="text-center">{{$nonProducingEaglePermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingEaglePermit->lease_name . '/' . $nonProducingEaglePermit->reported_operator . '/' . $nonProducingEaglePermit->id)}}">{{$nonProducingEaglePermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingEaglePermit->interest_area . '/' . $nonProducingEaglePermit->lease_name . '/non-producing/' . $nonProducingEaglePermit->permit_id)}}">{{$nonProducingEaglePermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingEaglePermit->lease_name . '/' . $nonProducingEaglePermit->reported_operator . '/' . $nonProducingEaglePermit->id)}}">{{$nonProducingEaglePermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingEaglePermit->interest_area . '/' . $nonProducingEaglePermit->lease_name . '/non-producing/' . $nonProducingEaglePermit->permit_id)}}">{{$nonProducingEaglePermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -439,14 +439,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$wtxPermit->county_parish}}</td>
                                                                 <td class="text-center">{{$wtxPermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $wtxPermit->lease_name . '/' . $wtxPermit->reported_operator . '/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $wtxPermit->interest_area . '/' . $wtxPermit->lease_name . '/producing/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $wtxPermit->lease_name . '/' . $wtxPermit->reported_operator . '/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $wtxPermit->interest_area . '/' . $wtxPermit->lease_name . '/producing/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -567,14 +567,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$nonProducingWTXPermit->county_parish}}</td>
                                                                 <td class="text-center">{{$nonProducingWTXPermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingWTXPermit->lease_name . '/' . $nonProducingWTXPermit->reported_operator . '/' . $nonProducingWTXPermit->id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingWTXPermit->interest_area . '/' . $nonProducingWTXPermit->lease_name . '/non-producing/' . $nonProducingWTXPermit->permit_id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingWTXPermit->lease_name . '/' . $nonProducingWTXPermit->reported_operator . '/' . $nonProducingWTXPermit->id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingWTXPermit->interest_area . '/' . $nonProducingWTXPermit->lease_name . '/non-producing/' . $nonProducingWTXPermit->permit_id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -718,14 +718,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$nmPermit->county_parish}}</td>
                                                                 <td class="text-center">{{$nmPermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nmPermit->lease_name . '/' . $nmPermit->reported_operator . '/' . $nmPermit->id)}}">{{$nmPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nmPermit->interest_area . '/' . $nmPermit->lease_name . '/producing/' . $nmPermit->permit_id)}}">{{$nmPermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nmPermit->lease_name . '/' . $nmPermit->reported_operator . '/' . $nmPermit->id)}}">{{$nmPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nmPermit->interest_area . '/' . $nmPermit->lease_name . '/producing/' . $nmPermit->permit_id)}}">{{$nmPermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -846,14 +846,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$nonProducingNMPermit->county_parish}}</td>
                                                                 <td class="text-center">{{$nonProducingNMPermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingNMPermit->lease_name . '/' . $nonProducingNMPermit->reported_operator . '/' . $nonProducingNMPermit->id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingNMPermit->interest_area . '/' . $nonProducingNMPermit->lease_name . '/non-producing/' . $nonProducingNMPermit->permit_id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingNMPermit->lease_name . '/' . $nonProducingNMPermit->reported_operator . '/' . $nonProducingNMPermit->id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingNMPermit->interest_area . '/' . $nonProducingNMPermit->lease_name . '/non-producing/' . $nonProducingNMPermit->permit_id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
