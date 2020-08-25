@@ -58,6 +58,7 @@ class LeasePageController extends Controller
                 } else {
                     $owners = MineralOwner::where('lease_name', $permitValues->lease_name)->groupBy('owner')->orderBy('owner_decimal_interest', 'DESC')->get();
                 }
+                $leaseString = implode( '|', $leaseArray);
 
             } else {
                 if ( $permitValues->selected_well_name != null ) {
@@ -163,6 +164,7 @@ class LeasePageController extends Controller
                     'permitValues',
                     'mineralOwnerLeases',
                     'leaseName',
+                    'leaseString',
                     'leaseArray',
                     'wellArray',
                     'notes',
@@ -391,22 +393,28 @@ class LeasePageController extends Controller
 
 
     public function getNotes(Request $request) {
-        try {
-            if (in_array($request->interestArea, $this->txInterestAreas )) {
+    try {
+        if (in_array($request->interestArea, $this->txInterestAreas )) {
+            if (isset($request->leaseNames)) {
+                $leaseArray = explode('|', $request->leaseNames);
+                $ownerInfo = MineralOwner::where('id', $request->ownerId)->first();
+                return OwnerNote::where('owner_name', $ownerInfo->owner)->whereIn('lease_name', $leaseArray)->orderBy('id', 'DESC')->get();
+            } else {
                 $ownerInfo = MineralOwner::where('id', $request->ownerId)->first();
                 return OwnerNote::where('owner_name', $ownerInfo->owner)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
-
-            } else if (in_array($request->interestArea, $this->nmInterestAreas )) {
-                $ownerInfo = LegalLease::where('LeaseId', $request->ownerId)->first();
-                return OwnerNote::where('owner_name', $ownerInfo->Grantor)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
             }
-        } catch( \Exception $e ) {
-            $errorMsg = new ErrorLog();
-            $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 
-            $errorMsg->save();
+        } else if (in_array($request->interestArea, $this->nmInterestAreas )) {
+            $ownerInfo = LegalLease::where('LeaseId', $request->ownerId)->first();
+            return OwnerNote::where('owner_name', $ownerInfo->Grantor)->where('lease_name', $request->leaseName)->orderBy('id', 'DESC')->get();
         }
+    } catch( \Exception $e ) {
+        $errorMsg = new ErrorLog();
+        $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
+
+        $errorMsg->save();
     }
+}
 
     public function updateNotes(Request $request) {
         try {

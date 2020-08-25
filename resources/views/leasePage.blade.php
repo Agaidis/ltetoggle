@@ -27,6 +27,7 @@
 
                                     </div>
                             </div>
+                            <input type="hidden" id="lease_string" value="{{$leaseString}}" />
                             <div class="col-md-5">
                                 <label style="margin-top:20px;" class="labels">Well Name(s)</label>:
                                 <select id="well_name_select" class="form-control" multiple="multiple">
