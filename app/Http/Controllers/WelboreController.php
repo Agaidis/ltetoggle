@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\ErrorLog;
 use App\MineralOwner;
+use App\Permit;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,7 @@ class WelboreController extends Controller
 {
 
     private $apiManager;
+
     /**
      * Create a new controller instance.
      *
@@ -34,25 +36,54 @@ class WelboreController extends Controller
     {
         try {
             $users = User::all();
-            $highPriorityProspects = DB::select('select * from mineral_owners WHERE assignee = '. Auth::user()->id .' AND wellbore_type != "0" ORDER BY FIELD(wellbore_type, "4", "3", "2", "1" ), wellbore_type DESC');
+            $highPriorityProspects = DB::select('select id, follow_up_date, lease_name, assignee, wellbore_type, owner, owner_address, owner_city, owner_zip, owner_decimal_interest, owner_interest_type  from mineral_owners WHERE assignee = ' . Auth::user()->id . ' AND wellbore_type != "0" ORDER BY FIELD(wellbore_type, "4", "3", "2", "1" ), wellbore_type DESC');
+            $highPriorityProspectsNM = DB::select('select LeaseId, follow_up_date, permit_stitch_id, assignee, wellbore, Grantor, GrantorAddress  from legal_leases WHERE assignee = ' . Auth::user()->id . ' AND wellbore != "0" ORDER BY FIELD(wellbore, "4", "3", "2", "1" ), wellbore DESC');
+
+            foreach ($highPriorityProspects as $highPriorityProspect) {
+                $highPriorityProspect->interest_area = 'tx';
+            }
+
+            foreach ($highPriorityProspectsNM as $highPriorityProspect) {
+                $leaseName = Permit::where('permit_id', $highPriorityProspect->permit_stitch_id)->value('lease_name');
+                $highPriorityProspect->lease_name = $leaseName;
+                $highPriorityProspect->interest_area = 'nm';
+            }
 
             $owners = DB::table('mineral_owners')
-                ->where('follow_up_date', '!=', NULL )
+                ->where('follow_up_date', '!=', NULL)
                 ->where('assignee', Auth::user()->id)
                 ->where(function ($query) {
                     $query->where('wellbore_type', '=', NULL)
                         ->orWhere('wellbore_type', '=', '0');
                 })->orderBy('follow_up_date', 'ASC')->get();
 
-            return view('welbore', compact('owners','highPriorityProspects', 'users'));
-        } catch( \Exception $e) {
+            $ownersNM = DB::table('legal_leases')
+                ->where('follow_up_date', '!=', NULL)
+                ->where('assignee', Auth::user()->id)
+                ->where(function ($query) {
+                    $query->where('wellbore', '=', NULL)
+                        ->orWhere('wellbore', '=', '0');
+                })->orderBy('follow_up_date', 'ASC')->get();
+
+
+            foreach ($owners as $owner) {
+                $owner->interest_area = 'tx';
+            }
+
+            foreach ($ownersNM as $owner) {
+                $leaseName = Permit::where('permit_id', $owner->permit_stitch_id)->value('lease_name');
+                $owner->lease_name = $leaseName;
+                $owner->interest_area = 'nm';
+
+
+            }
+
+            return view('wellbore', compact('owners', 'ownersNM', 'highPriorityProspects', 'highPriorityProspectsNM', 'users'));
+        } catch (\Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
 
             $errorMsg->save();
         }
-
-
-
     }
 }

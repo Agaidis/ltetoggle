@@ -47,7 +47,7 @@ class GetPermits extends Command
             $wtxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF%20DAVIS');
             $nmInterestCountiesArray = array('LEA', 'EDDY');
 
-            $this->getCountyPermitData('2020-01-01', 'eagle', $eagleInterestCountiesArray);
+            $this->getCountyPermitData('2020-01-01', 'eagleford', $eagleInterestCountiesArray);
 
             $this->getCountyPermitData('2020-04-01', 'wtx', $wtxInterestCountiesArray);
 
@@ -115,7 +115,6 @@ class GetPermits extends Command
                             $newPermit->district = $decodedPermits[$i]->District;
                             $newPermit->created_date = $decodedPermits[$i]->CreatedDate;
                             $newPermit->submitted_date = $decodedPermits[$i]->SubmittedDate;
-                            $newPermit->is_seen = 0;
                             $newPermit->toggle_status = 'yellow';
                             $newPermit->interest_area = $interestArea;
                             $newPermit->SurfaceLatitudeWGS84 = $decodedPermits[$i]->SurfaceLatitudeWGS84;

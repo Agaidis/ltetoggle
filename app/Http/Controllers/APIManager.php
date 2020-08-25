@@ -99,7 +99,7 @@ class APIManager
         try {
 
             if ($linkUrl == '') {
-                $url = "https://di-api.drillinginfo.com/v2/direct-access/well-rollups?CountyParish=".$county."&pagesize=2000";
+                $url = "https://di-api.drillinginfo.com/v2/direct-access/well-rollups?CountyParish=".$county."&pagesize=1500";
             } else {
                 $url = "https://di-api.drillinginfo.com/v2/direct-access/well-rollups" . $linkUrl;
             }

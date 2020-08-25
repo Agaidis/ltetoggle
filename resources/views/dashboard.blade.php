@@ -14,7 +14,7 @@
                                 <div class="button_panel">
 
                                     @if ($userRole == 'admin')
-                                        <a href="{{ url('welbore') }}">
+                                        <a href="{{ url('wellbore') }}">
                                             <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                         </a>
                                         <a href="{{ url('user-mmp') }}">
@@ -24,12 +24,9 @@
                                             <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
                                         </a>
                                         @elseif ($userRole == 'regular')
-                                        <a href="{{ url('welbore') }}">
+                                        <a href="{{ url('wellbore') }}">
                                             <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                         </a>
-{{--                                        <a href="{{ url('justus-mmp') }}">--}}
-{{--                                            <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">{{Auth::user()->name}}</button>--}}
-{{--                                        </a>--}}
                                         @endif
                                 </div>
                             </div>
@@ -142,14 +139,7 @@
                                                                 <option value="red">Active but paused </option>
                                                                 <option selected value="purple">Completed</option>
                                                             </select>
-                                                                @else
-                                                            <select id="toggle_status_{{$eaglePermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                <option selected value="yellow">Untouched</option>
-                                                                <option value="green">Major Prospect </option>
-                                                                <option value="blue">Quality Prospect </option>
-                                                                <option value="red">Active but paused </option>
-                                                                <option value="purple">Completed</option>
-                                                            </select>
+
                                                             @endif
 
                                                     </td>
@@ -171,14 +161,14 @@
                                                 </td>
                                                 <td class="text-center">{{$eaglePermit->county_parish}}</td>
                                                 <td class="text-center">{{$eaglePermit->reported_operator}}</td>
-                                                <td class="text-center"><a href="{{url( 'mineral-owner/' . $eaglePermit->lease_name . '/' . $eaglePermit->reported_operator . '/' . $eaglePermit->id)}}">{{$eaglePermit->lease_name}}</a></td>
+                                                <td class="text-center"><a href="{{url( 'lease-page/' . $eaglePermit->interest_area . '/' . $eaglePermit->lease_name . '/producing/' . $eaglePermit->permit_id)}}">{{$eaglePermit->lease_name}}</a></td>
                                                 @else
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
                                                 <td class="text-center"></td>
-                                                <td class="text-center"><a href="{{url( 'mineral-owner/' . $eaglePermit->lease_name . '/' . $eaglePermit->reported_operator . '/' . $eaglePermit->id)}}">{{$eaglePermit->lease_name}}</a></td>
+                                                <td class="text-center"><a href="{{url( 'lease-page/' . $eaglePermit->interest_area . '/' . $eaglePermit->lease_name . '/producing/' . $eaglePermit->permit_id)}}">{{$eaglePermit->lease_name}}</a></td>
 
                                             @endif
                                         </tr>
@@ -240,7 +230,7 @@
                                                                             <option value="purple">Completed</option>
                                                                         </select>
                                                                     @elseif ($nonProducingEaglePermit->toggle_status == 'green')
-                                                                        <select id="toggle_status_{{$nonProducingEaglePermit->permit_id}}" class="form-control toggle_status blue">
+                                                                        <select id="toggle_status_{{$nonProducingEaglePermit->permit_id}}" class="form-control toggle_status green">
                                                                             <option value="yellow">Untouched </option>
                                                                             <option selected value="green">Major Prospect </option>
                                                                             <option value="blue">Quality Prospect </option>
@@ -248,7 +238,7 @@
                                                                             <option value="purple">Completed</option>
                                                                         </select>
                                                                     @elseif ($nonProducingEaglePermit->toggle_status == 'blue')
-                                                                        <select id="toggle_status_{{$nonProducingEaglePermit->permit_id}}" class="form-control toggle_status green">
+                                                                        <select id="toggle_status_{{$nonProducingEaglePermit->permit_id}}" class="form-control toggle_status blue">
                                                                             <option value="yellow">Untouched </option>
                                                                             <option value="green">Major Prospect </option>
                                                                             <option selected value="blue">Quality Prospect </option>
@@ -271,15 +261,6 @@
                                                                             <option value="red">Active but paused </option>
                                                                             <option selected value="purple">Completed</option>
                                                                         </select>
-
-                                                                    @else
-                                                                        <select id="toggle_status_{{$nonProducingEaglePermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                            <option selected value="yellow">Untouched</option>
-                                                                            <option value="green">Major Prospect </option>
-                                                                            <option value="blue">Quality Prospect </option>
-                                                                            <option value="red">Active but paused </option>
-                                                                            <option value="purple">Completed</option>
-                                                                        </select>
                                                                     @endif
 
                                                                 </td>
@@ -297,14 +278,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$nonProducingEaglePermit->county_parish}}</td>
                                                                 <td class="text-center">{{$nonProducingEaglePermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingEaglePermit->lease_name . '/' . $nonProducingEaglePermit->reported_operator . '/' . $nonProducingEaglePermit->id)}}">{{$nonProducingEaglePermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingEaglePermit->interest_area . '/' . $nonProducingEaglePermit->lease_name . '/non-producing/' . $nonProducingEaglePermit->permit_id)}}">{{$nonProducingEaglePermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingEaglePermit->lease_name . '/' . $nonProducingEaglePermit->reported_operator . '/' . $nonProducingEaglePermit->id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingEaglePermit->interest_area . '/' . $nonProducingEaglePermit->lease_name . '/non-producing/' . $nonProducingEaglePermit->permit_id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -381,7 +362,7 @@
 
                                                                 </select>
                                                             @elseif ($wtxPermit->toggle_status == 'green')
-                                                                <select id="toggle_status_{{$wtxPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                <select id="toggle_status_{{$wtxPermit->permit_id}}" class="form-control toggle_status green">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option selected value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
@@ -389,7 +370,7 @@
                                                                     <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($wtxPermit->toggle_status == 'blue')
-                                                                <select id="toggle_status_{{$wtxPermit->permit_id}}" class="form-control toggle_status green">
+                                                                <select id="toggle_status_{{$wtxPermit->permit_id}}" class="form-control toggle_status blue">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option selected value="blue">Quality Prospect </option>
@@ -412,16 +393,6 @@
                                                                     <option value="red">Active but paused </option>
                                                                     <option selected value="purple">Completed</option>
                                                                 </select>
-
-                                                                @else
-                                                                <select id="toggle_status_{{$wtxPermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                    <option selected value="yellow">Untouched</option>
-                                                                    <option value="green">Major Prospect </option>
-                                                                    <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Active but paused </option>
-                                                                    <option value="purple">Completed</option>
-
-                                                                </select>
                                                             @endif
 
                                                         </td>
@@ -439,14 +410,14 @@
                                                         </td>
                                                         <td class="text-center">{{$wtxPermit->county_parish}}</td>
                                                         <td class="text-center">{{$wtxPermit->reported_operator}}</td>
-                                                        <td class="text-center"><a href="{{url( 'mineral-owner/' . $wtxPermit->lease_name . '/' . $wtxPermit->reported_operator . '/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
+                                                        <td class="text-center"><a href="{{url( 'lease-page/' . $wtxPermit->interest_area . '/' . $wtxPermit->lease_name . '/producing/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
                                                     @else
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
-                                                        <td class="text-center"><a href="{{url( 'mineral-owner/' . $wtxPermit->lease_name . '/' . $wtxPermit->reported_operator . '/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
+                                                        <td class="text-center"><a href="{{url( 'lease-page/' . $wtxPermit->interest_area . '/' . $wtxPermit->lease_name . '/producing/' . $wtxPermit->id)}}">{{$wtxPermit->lease_name}}</a></td>
 
                                                     @endif
                                                 </tr>
@@ -510,7 +481,7 @@
                                                                     <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nonProducingWTXPermit->toggle_status == 'green')
-                                                                <select id="toggle_status_{{$nonProducingWTXPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                <select id="toggle_status_{{$nonProducingWTXPermit->permit_id}}" class="form-control toggle_status green">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option selected value="green">Major Prospect </option>
                                                                     <option value="blue">Quality Prospect </option>
@@ -518,7 +489,7 @@
                                                                     <option value="purple">Completed</option>
                                                                 </select>
                                                             @elseif ($nonProducingWTXPermit->toggle_status == 'blue')
-                                                                <select id="toggle_status_{{$nonProducingWTXPermit->permit_id}}" class="form-control toggle_status green">
+                                                                <select id="toggle_status_{{$nonProducingWTXPermit->permit_id}}" class="form-control toggle_status blue">
                                                                     <option value="yellow">Untouched </option>
                                                                     <option value="green">Major Prospect </option>
                                                                     <option selected value="blue">Quality Prospect </option>
@@ -541,15 +512,6 @@
                                                                     <option value="red">Active but paused </option>
                                                                     <option selected value="purple">Completed</option>
                                                                 </select>
-
-                                                            @else
-                                                                <select id="toggle_status_{{$nonProducingWTXPermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                    <option selected value="yellow">Untouched</option>
-                                                                    <option value="green">Major Prospect </option>
-                                                                    <option value="blue">Quality Prospect </option>
-                                                                    <option value="red">Active but paused </option>
-                                                                    <option value="purple">Completed</option>
-                                                                </select>
                                                             @endif
 
                                                         </td>
@@ -567,14 +529,14 @@
                                                         </td>
                                                         <td class="text-center">{{$nonProducingWTXPermit->county_parish}}</td>
                                                         <td class="text-center">{{$nonProducingWTXPermit->reported_operator}}</td>
-                                                        <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingWTXPermit->lease_name . '/' . $nonProducingWTXPermit->reported_operator . '/' . $nonProducingWTXPermit->id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
+                                                        <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingWTXPermit->interest_area . '/' . $nonProducingWTXPermit->lease_name . '/non-producing/' . $nonProducingWTXPermit->permit_id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
                                                     @else
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"></td>
-                                                        <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingWTXPermit->lease_name . '/' . $nonProducingWTXPermit->reported_operator . '/' . $nonProducingWTXPermit->id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
+                                                        <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingWTXPermit->interest_area . '/' . $nonProducingWTXPermit->lease_name . '/non-producing/' . $nonProducingWTXPermit->permit_id)}}">{{$nonProducingWTXPermit->lease_name}}</a></td>
 
                                                     @endif
                                                 </tr>
@@ -660,7 +622,7 @@
 
                                                                         </select>
                                                                     @elseif ($nmPermit->toggle_status == 'green')
-                                                                        <select id="toggle_status_{{$nmPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                        <select id="toggle_status_{{$nmPermit->permit_id}}" class="form-control toggle_status green">
                                                                             <option value="yellow">Untouched </option>
                                                                             <option selected value="green">Major Prospect </option>
                                                                             <option value="blue">Quality Prospect </option>
@@ -668,7 +630,7 @@
                                                                             <option value="purple">Completed</option>
                                                                         </select>
                                                                     @elseif ($nmPermit->toggle_status == 'blue')
-                                                                        <select id="toggle_status_{{$nmPermit->permit_id}}" class="form-control toggle_status green">
+                                                                        <select id="toggle_status_{{$nmPermit->permit_id}}" class="form-control toggle_status blue">
                                                                             <option value="yellow">Untouched </option>
                                                                             <option value="green">Major Prospect </option>
                                                                             <option selected value="blue">Quality Prospect </option>
@@ -691,16 +653,6 @@
                                                                             <option value="red">Active but paused </option>
                                                                             <option selected value="purple">Completed</option>
                                                                         </select>
-
-                                                                    @else
-                                                                        <select id="toggle_status_{{$nmPermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                            <option selected value="yellow">Untouched</option>
-                                                                            <option value="green">Major Prospect </option>
-                                                                            <option value="blue">Quality Prospect </option>
-                                                                            <option value="red">Active but paused </option>
-                                                                            <option value="purple">Completed</option>
-
-                                                                        </select>
                                                                     @endif
 
                                                                 </td>
@@ -718,14 +670,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$nmPermit->county_parish}}</td>
                                                                 <td class="text-center">{{$nmPermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'mineral-owner/' . $nmPermit->lease_name . '/' . $nmPermit->reported_operator . '/' . $nmPermit->id)}}">{{$nmPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nmPermit->interest_area . '/' . $nmPermit->lease_name . '/producing/' . $nmPermit->permit_id)}}">{{$nmPermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'mineral-owner/' . $nmPermit->lease_name . '/' . $nmPermit->reported_operator . '/' . $nmPermit->id)}}">{{$nmPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nmPermit->interest_area . '/' . $nmPermit->lease_name . '/producing/' . $nmPermit->permit_id)}}">{{$nmPermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
@@ -789,7 +741,7 @@
                                                                             <option value="purple">Completed</option>
                                                                         </select>
                                                                     @elseif ($nonProducingNMPermit->toggle_status == 'green')
-                                                                        <select id="toggle_status_{{$nonProducingNMPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                        <select id="toggle_status_{{$nonProducingNMPermit->permit_id}}" class="form-control toggle_status green">
                                                                             <option value="yellow">Untouched </option>
                                                                             <option selected value="green">Major Prospect </option>
                                                                             <option value="blue">Quality Prospect </option>
@@ -797,7 +749,7 @@
                                                                             <option value="purple">Completed</option>
                                                                         </select>
                                                                     @elseif ($nonProducingNMPermit->toggle_status == 'blue')
-                                                                        <select id="toggle_status_{{$nonProducingNMPermit->permit_id}}" class="form-control toggle_status green">
+                                                                        <select id="toggle_status_{{$nonProducingNMPermit->permit_id}}" class="form-control toggle_status blue">
                                                                             <option value="yellow">Untouched </option>
                                                                             <option value="green">Major Prospect </option>
                                                                             <option selected value="blue">Quality Prospect </option>
@@ -820,15 +772,6 @@
                                                                             <option value="red">Active but paused </option>
                                                                             <option selected value="purple">Completed</option>
                                                                         </select>
-
-                                                                    @else
-                                                                        <select id="toggle_status_{{$nonProducingNMPermit->permit_id}}" class="form-control toggle_status unseen">
-                                                                            <option selected value="yellow">Untouched</option>
-                                                                            <option value="green">Major Prospect </option>
-                                                                            <option value="blue">Quality Prospect </option>
-                                                                            <option value="red">Active but paused </option>
-                                                                            <option value="purple">Completed</option>
-                                                                        </select>
                                                                     @endif
 
                                                                 </td>
@@ -846,14 +789,14 @@
                                                                 </td>
                                                                 <td class="text-center">{{$nonProducingNMPermit->county_parish}}</td>
                                                                 <td class="text-center">{{$nonProducingNMPermit->reported_operator}}</td>
-                                                                <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingNMPermit->lease_name . '/' . $nonProducingNMPermit->reported_operator . '/' . $nonProducingNMPermit->id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingNMPermit->interest_area . '/' . $nonProducingNMPermit->lease_name . '/non-producing/' . $nonProducingNMPermit->permit_id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
                                                             @else
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
                                                                 <td class="text-center"></td>
-                                                                <td class="text-center"><a href="{{url( 'non-producing-mineral-owner/' . $nonProducingNMPermit->lease_name . '/' . $nonProducingNMPermit->reported_operator . '/' . $nonProducingNMPermit->id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingNMPermit->interest_area . '/' . $nonProducingNMPermit->lease_name . '/non-producing/' . $nonProducingNMPermit->permit_id)}}">{{$nonProducingNMPermit->lease_name}}</a></td>
 
                                                             @endif
                                                         </tr>
