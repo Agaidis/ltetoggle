@@ -344,123 +344,123 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    @foreach ($highPriorityProspectsNM as $highPriorityProspectNM)
-                                                        <input type="hidden" id="nm_high_interest_area" value="{{$highPriorityProspectNM->interest_area}}" />
-                                                        @if ($highPriorityProspectNM->follow_up_date == date('Y-m-d') || $highPriorityProspectNM->follow_up_date > date('Y-m-d') || $highPriorityProspectNM->follow_up_date === NULL)
-                                                            <tr class="owner_row"
-                                                                id="owner_row_{{$highPriorityProspectNM->LeaseId}}">
-                                                        @else
-                                                            <tr class="owner_row" style="background-color: #f59278;"
-                                                                id="owner_row_{{$highPriorityProspectNM->LeaseId}}">
-                                                                @endif
+{{--                                                    @foreach ($highPriorityProspectsNM as $highPriorityProspectNM)--}}
+{{--                                                        <input type="hidden" id="nm_high_interest_area" value="{{$highPriorityProspectNM->interest_area}}" />--}}
+{{--                                                        @if ($highPriorityProspectNM->follow_up_date == date('Y-m-d') || $highPriorityProspectNM->follow_up_date > date('Y-m-d') || $highPriorityProspectNM->follow_up_date === NULL)--}}
+{{--                                                            <tr class="owner_row"--}}
+{{--                                                                id="owner_row_{{$highPriorityProspectNM->LeaseId}}">--}}
+{{--                                                        @else--}}
+{{--                                                            <tr class="owner_row" style="background-color: #f59278;"--}}
+{{--                                                                id="owner_row_{{$highPriorityProspectNM->LeaseId}}">--}}
+{{--                                                                @endif--}}
 
-                                                                <input type="hidden"
-                                                                       id="lease_name_{{$highPriorityProspectNM->LeaseId}}"
-                                                                       value="{{$highPriorityProspectNM->lease_name}}"/>
-                                                                <input type="hidden"
-                                                                       value="{{$highPriorityProspectNM->interest_area}}"
-                                                                       id="interest_area_{{$highPriorityProspectNM->interest_area}}"/>
+{{--                                                                <input type="hidden"--}}
+{{--                                                                       id="lease_name_{{$highPriorityProspectNM->LeaseId}}"--}}
+{{--                                                                       value="{{$highPriorityProspectNM->lease_name}}"/>--}}
+{{--                                                                <input type="hidden"--}}
+{{--                                                                       value="{{$highPriorityProspectNM->interest_area}}"--}}
+{{--                                                                       id="interest_area_{{$highPriorityProspectNM->interest_area}}"/>--}}
 
 
-                                                                <td id="id_{{$highPriorityProspectNM->LeaseId}}"
-                                                                    class="text-center wellbore-details-control"><i
-                                                                            style="cursor:pointer;"
-                                                                            class="far fa-dot-circle"></i></td>
-                                                                <td class="text-center">
-                                                                    @if ($highPriorityProspectNM->assignee == '')
-                                                                        <select class="form-control owner_assignee"
-                                                                                id="assignee_{{$highPriorityProspectNM->LeaseId}}">
-                                                                            @else
-                                                                                <select class="form-control owner_assignee assigned_style"
-                                                                                        id="assignee_{{$highPriorityProspectNM->LeaseId}}">
-                                                                                    @endif
+{{--                                                                <td id="id_{{$highPriorityProspectNM->LeaseId}}"--}}
+{{--                                                                    class="text-center wellbore-details-control"><i--}}
+{{--                                                                            style="cursor:pointer;"--}}
+{{--                                                                            class="far fa-dot-circle"></i></td>--}}
+{{--                                                                <td class="text-center">--}}
+{{--                                                                    @if ($highPriorityProspectNM->assignee == '')--}}
+{{--                                                                        <select class="form-control owner_assignee"--}}
+{{--                                                                                id="assignee_{{$highPriorityProspectNM->LeaseId}}">--}}
+{{--                                                                            @else--}}
+{{--                                                                                <select class="form-control owner_assignee assigned_style"--}}
+{{--                                                                                        id="assignee_{{$highPriorityProspectNM->LeaseId}}">--}}
+{{--                                                                                    @endif--}}
 
-                                                                                    <option value="0" selected>Select a
-                                                                                        User
-                                                                                    </option>
-                                                                                    @foreach ($users as $user)
-                                                                                        @if ($highPriorityProspectNM->assignee == $user->id)
-                                                                                            <option selected
-                                                                                                    value="{{$user->id}}">{{$user->name}}</option>
-                                                                                        @else
-                                                                                            <option value="{{$user->id}}">{{$user->name}}</option>
-                                                                                        @endif
-                                                                                    @endforeach
-                                                                                </select>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <select class="form-control wellbore_dropdown"
-                                                                            id="wellbore_dropdown_{{$highPriorityProspectNM->LeaseId}}">
-                                                                        @if ($highPriorityProspectNM->wellbore == 1)
-                                                                            <option value="0">None</option>
-                                                                            <option selected
-                                                                                    value="{{$highPriorityProspectNM->wellbore}}">
-                                                                                1
-                                                                            </option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        @elseif ($highPriorityProspectNM->wellbore == 2)
-                                                                            <option value="0">None</option>
-                                                                            <option value="1">1</option>
-                                                                            <option selected
-                                                                                    value="{{$highPriorityProspectNM->wellbore}}">
-                                                                                2
-                                                                            </option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        @elseif ($highPriorityProspectNM->wellbore == 3)
-                                                                            <option value="0">None</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option selected
-                                                                                    value="{{$highPriorityProspectNM->wellbore}}">
-                                                                                3
-                                                                            </option>
-                                                                            <option value="4">4</option>
-                                                                        @elseif ($highPriorityProspectNM->wellbore == 4)
-                                                                            <option value="0">None</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option selected
-                                                                                    value="{{$highPriorityProspectNM->wellbore}}">
-                                                                                4
-                                                                            </option>
-                                                                        @else
-                                                                            <option selected value="0">None</option>
-                                                                            <option value="1">1</option>
-                                                                            <option value="2">2</option>
-                                                                            <option value="3">3</option>
-                                                                            <option value="4">4</option>
-                                                                        @endif
-                                                                    </select>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    <button class="btn btn-primary add_phone_btn"
-                                                                            id="add_phone_{{$highPriorityProspectNM->LeaseId}}"
-                                                                            data-target="#modal_add_phone"
-                                                                            data-toggle="modal">Contact Info
-                                                                    </button>
-                                                                </td>
-                                                                <td class="text-center">
-                                                                    @if ($highPriorityProspectNM->follow_up_date != '')
-                                                                        <i class="fas fa-calendar-alt"></i> <input
-                                                                                class="form-control wellbore_owner_follow_up"
-                                                                                id="owner_follow_up_{{$highPriorityProspectNM->LeaseId}}"
-                                                                                value="{{date('M j, Y', strtotime($highPriorityProspectNM->follow_up_date))}}"/>
-                                                                    @else
-                                                                        <i class="fas fa-calendar-alt"></i> <input
-                                                                                class="form-control wellbore_owner_follow_up"
-                                                                                id="owner_follow_up_{{$highPriorityProspectNM->LeaseId}}"/>
-                                                                    @endif
-                                                                </td>
-                                                                <td class="text-center"><a
-                                                                            href="{{url( 'owner/' . $highPriorityProspectNM->interest_area . '/' . $highPriorityProspectNM->Grantor . '/' . 'non-producing')}}">{{$highPriorityProspectNM->Grantor}}</a>
-                                                                </td>
+{{--                                                                                    <option value="0" selected>Select a--}}
+{{--                                                                                        User--}}
+{{--                                                                                    </option>--}}
+{{--                                                                                    @foreach ($users as $user)--}}
+{{--                                                                                        @if ($highPriorityProspectNM->assignee == $user->id)--}}
+{{--                                                                                            <option selected--}}
+{{--                                                                                                    value="{{$user->id}}">{{$user->name}}</option>--}}
+{{--                                                                                        @else--}}
+{{--                                                                                            <option value="{{$user->id}}">{{$user->name}}</option>--}}
+{{--                                                                                        @endif--}}
+{{--                                                                                    @endforeach--}}
+{{--                                                                                </select>--}}
+{{--                                                                </td>--}}
+{{--                                                                <td class="text-center">--}}
+{{--                                                                    <select class="form-control wellbore_dropdown"--}}
+{{--                                                                            id="wellbore_dropdown_{{$highPriorityProspectNM->LeaseId}}">--}}
+{{--                                                                        @if ($highPriorityProspectNM->wellbore == 1)--}}
+{{--                                                                            <option value="0">None</option>--}}
+{{--                                                                            <option selected--}}
+{{--                                                                                    value="{{$highPriorityProspectNM->wellbore}}">--}}
+{{--                                                                                1--}}
+{{--                                                                            </option>--}}
+{{--                                                                            <option value="2">2</option>--}}
+{{--                                                                            <option value="3">3</option>--}}
+{{--                                                                            <option value="4">4</option>--}}
+{{--                                                                        @elseif ($highPriorityProspectNM->wellbore == 2)--}}
+{{--                                                                            <option value="0">None</option>--}}
+{{--                                                                            <option value="1">1</option>--}}
+{{--                                                                            <option selected--}}
+{{--                                                                                    value="{{$highPriorityProspectNM->wellbore}}">--}}
+{{--                                                                                2--}}
+{{--                                                                            </option>--}}
+{{--                                                                            <option value="3">3</option>--}}
+{{--                                                                            <option value="4">4</option>--}}
+{{--                                                                        @elseif ($highPriorityProspectNM->wellbore == 3)--}}
+{{--                                                                            <option value="0">None</option>--}}
+{{--                                                                            <option value="1">1</option>--}}
+{{--                                                                            <option value="2">2</option>--}}
+{{--                                                                            <option selected--}}
+{{--                                                                                    value="{{$highPriorityProspectNM->wellbore}}">--}}
+{{--                                                                                3--}}
+{{--                                                                            </option>--}}
+{{--                                                                            <option value="4">4</option>--}}
+{{--                                                                        @elseif ($highPriorityProspectNM->wellbore == 4)--}}
+{{--                                                                            <option value="0">None</option>--}}
+{{--                                                                            <option value="1">1</option>--}}
+{{--                                                                            <option value="2">2</option>--}}
+{{--                                                                            <option value="3">3</option>--}}
+{{--                                                                            <option selected--}}
+{{--                                                                                    value="{{$highPriorityProspectNM->wellbore}}">--}}
+{{--                                                                                4--}}
+{{--                                                                            </option>--}}
+{{--                                                                        @else--}}
+{{--                                                                            <option selected value="0">None</option>--}}
+{{--                                                                            <option value="1">1</option>--}}
+{{--                                                                            <option value="2">2</option>--}}
+{{--                                                                            <option value="3">3</option>--}}
+{{--                                                                            <option value="4">4</option>--}}
+{{--                                                                        @endif--}}
+{{--                                                                    </select>--}}
+{{--                                                                </td>--}}
+{{--                                                                <td class="text-center">--}}
+{{--                                                                    <button class="btn btn-primary add_phone_btn"--}}
+{{--                                                                            id="add_phone_{{$highPriorityProspectNM->LeaseId}}"--}}
+{{--                                                                            data-target="#modal_add_phone"--}}
+{{--                                                                            data-toggle="modal">Contact Info--}}
+{{--                                                                    </button>--}}
+{{--                                                                </td>--}}
+{{--                                                                <td class="text-center">--}}
+{{--                                                                    @if ($highPriorityProspectNM->follow_up_date != '')--}}
+{{--                                                                        <i class="fas fa-calendar-alt"></i> <input--}}
+{{--                                                                                class="form-control wellbore_owner_follow_up"--}}
+{{--                                                                                id="owner_follow_up_{{$highPriorityProspectNM->LeaseId}}"--}}
+{{--                                                                                value="{{date('M j, Y', strtotime($highPriorityProspectNM->follow_up_date))}}"/>--}}
+{{--                                                                    @else--}}
+{{--                                                                        <i class="fas fa-calendar-alt"></i> <input--}}
+{{--                                                                                class="form-control wellbore_owner_follow_up"--}}
+{{--                                                                                id="owner_follow_up_{{$highPriorityProspectNM->LeaseId}}"/>--}}
+{{--                                                                    @endif--}}
+{{--                                                                </td>--}}
+{{--                                                                <td class="text-center"><a--}}
+{{--                                                                            href="{{url( 'owner/' . $highPriorityProspectNM->interest_area . '/' . $highPriorityProspectNM->Grantor . '/' . 'non-producing')}}">{{$highPriorityProspectNM->Grantor}}</a>--}}
+{{--                                                                </td>--}}
 
-                                                            </tr>
-                                                            @endforeach
+{{--                                                            </tr>--}}
+{{--                                                            @endforeach--}}
                                                     </tbody>
                                                     <tfoot>
                                                     <caption class="lease_table_caption">High Priority Prospects
