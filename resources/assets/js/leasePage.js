@@ -985,7 +985,7 @@
              data: {
                  ownerId: ownerId,
                  interestArea: $('#interest_area').val(),
-                 leaseName: $('#lease_name').val()
+                 leaseNames: $('#lease_string').val()
              },
              success: function success(data) {
                  if (data !== undefined && data !== '') {
