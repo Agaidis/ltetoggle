@@ -42870,7 +42870,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       var id = $(this)[0].id;
       var splitId = id.split('_');
       var ownerId = splitId[2];
-      openPhoneModal(ownerId);
+      openPhoneModal(ownerId, $('#interest_area').val());
     }).on('change', '.change_product', function () {
       var id = $(this)[0].id;
       var splitId = id.split('_');
