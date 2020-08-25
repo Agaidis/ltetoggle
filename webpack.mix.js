@@ -1,5 +1,7 @@
 let mix = require('laravel-mix');
-
+mix.autoload({
+    jquery: ['$', 'window.jQuery',"jQuery","window.$","jquery","window.jquery"]
+});
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -13,18 +15,15 @@ let mix = require('laravel-mix');
 
 mix.js([
     'resources/assets/js/bootstrap.js',
-    'resources/assets/js/permits.js',
-    'resources/assets/js/permitStorage.js',
-    'resources/assets/js/mineralOwner.js',
-    'resources/assets/js/nonProducingLeasePage.js',
-    'resources/assets/js/wellbore.js',
-    'resources/assets/js/datatables.min.js',
+    'vendor/select2/select2/dist/js/select2.min.js',
     'resources/assets/js/jquery-dp-ui.min.js',
+    'resources/assets/js/leasePage.js',
+    'resources/assets/js/permits.js',
     'resources/assets/js/admin.js',
     'resources/assets/js/phoneNumberPush.js',
     'resources/assets/js/owner.js',
-    'vendor/select2/select2/dist/js/select2.min.js'
-
+    'resources/assets/js/datatables.min.js',
+    'resources/assets/js/permitStorage.js'
 
 ], 'public/js/app.js').version()
     .sass('resources/assets/sass/app.scss', 'public/css')

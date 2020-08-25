@@ -17,102 +17,88 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home',                             'HomeController@index')->name('home');
 
-Route::get('/welbore', 'WelboreController@index')->middleware('auth');
+Route::get('/wellbore',                          'WelboreController@index')->middleware('auth');
 
-Route::get('/user-mmp', 'UserMMPController@index')->middleware('auth');
+Route::get('/user-mmp',                         'UserMMPController@index')->middleware('auth');
 
-Route::get('/justus-mmp', 'UserMMPController@justus')->middleware('auth');
+Route::get('/justus-mmp',                       'UserMMPController@justus')->middleware('auth');
 
+                        /*                   ADMIN AREA                  */
+Route::get('/admin',                            'AdminController@index')->middleware('auth');
 
-/*                              ADMIN AREA                  */
-Route::get('/admin', 'AdminController@index')->middleware('auth');
+Route::get('/admin/updatePermits',              'AdminController@updatePermits')->middleware('auth');
 
-Route::get('/admin/updatePermits', 'AdminController@updatePermits')->middleware('auth');
+                        /*                  PERMIT STORAGE               */
+Route::get('/permit-storage',                   'PermitStorageController@index')->middleware('auth');
 
-/*                  PERMIT STORAGE              */
-Route::get('/permit-storage', 'PermitStorageController@index')->middleware('auth');
-Route::get('/permit-storage/sendBack', 'PermitStorageController@sendBack')->middleware('auth');
+Route::get('/permit-storage/sendBack',          'PermitStorageController@sendBack')->middleware('auth');
 
+                        /*                  MMP PAGE                     */
+Route::get('/mm-platform',                      'MMPController@index')->middleware('auth');
 
-/*              PERMITS/MM-PLATFORM                     */
-Route::get('/mm-platform', 'MMPController@index')->middleware('auth');
+Route::get('/new-permits/getNotes',             'MMPController@getNotes')->middleware('auth');
 
-Route::get('/new-permits/getNotes', 'MMPController@getNotes')->middleware('auth');
+Route::put('/new-permits/updateNotes',          'MMPController@updateNotes')->middleware('auth');
 
-Route::put('/new-permits/updateNotes', 'MMPController@updateNotes')->middleware('auth');
+Route::post('/new-permits/updateStatus',        'MMPController@updateStatus')->middleware('auth');
 
-Route::put('/new-permits/updateAssignee', 'MMPController@updateAssignee')->middleware('auth');
+Route::put('/new-permits/updateAssignee',       'MMPController@updateAssignee')->middleware('auth');
 
-Route::post('/new-permits/updateStatus', 'MMPController@updateStatus')->middleware('auth');
+Route::put('/new-permits/stitchLeaseToPermit',  'MMPController@stitchLeaseToPermit')->middleware('auth');
 
-Route::put('/new-permits/stitchLeaseToPermit', 'MMPController@stitchLeaseToPermit')->middleware('auth');
+Route::get('/new-permits/getPermitDetails',     'MMPController@getPermitDetails')->middleware('auth');
 
+Route::post('/new-permits/delete/delete-note',  'MMPController@deleteNote')->middleware('auth');
 
-Route::get('/new-permits/getPermitDetails', 'MMPController@getPermitDetails')->middleware('auth');
+Route::get('/new-permits/storePermit',          'MMPController@storePermit')->middleware('auth');
 
-Route::post('/new-permits/delete/delete-note', 'MMPController@deleteNote')->middleware('auth');
+Route::put('/update-prices',                    'MMPController@updatePrices');
 
-Route::get('/new-permits/storePermit', 'MMPController@storePermit')->middleware('auth');
+                    /*                                  LEASE/WELLBORE PAGE                        */
+Route::get('/lease-page/{interestArea?}/{leaseName}/{isProducing?}/{permitId?}', 'LeasePageController@index')->middleware('auth');
 
-Route::put('/update-prices', 'MMPController@updatePrices');
+Route::post('/lease-page/updateAcreage',        'LeasePageController@updateAcreage')->middleware('auth');
 
+Route::post('/lease-page/updateLeaseNames',     'LeasePageController@updateLeaseNames')->middleware('auth');
 
-/*                      MINERAL OWNER/LEASE PAGE                        */
-//GET OWNERS INFO
-Route::get('/mineral-owner/{operator?}/{reporter?}/{id?}', 'MineralOwnersController@index')->middleware('auth');
+Route::post('/lease-page/updateWellNames',      'LeasePageController@updateWellNames')->middleware('auth');
 
-Route::get('/mineral-owners', 'MineralOwnersController@getOwnerInfo')->middleware('auth');
+Route::put('/lease-page/updateAssignee',        'LeasePageController@updateAssignee')->middleware('auth');
 
-Route::post('/mineral-owners/updateLeaseNames', 'MineralOwnersController@updateLeaseName')->middleware('auth');
+Route::put('/lease-page/updateWellType',        'LeasePageController@updateWellType')->middleware('auth');
 
-Route::post('/mineral-owners/updateWellNames', 'MineralOwnersController@updateWellName')->middleware('auth');
+Route::put('/lease-page/updateFollowUp',        'LeasePageController@updateFollowUp')->middleware('auth');
 
-//GET OWNERS INFO
-Route::get('/non-producing-mineral-owner/{operator?}/{reporter?}/{id?}', 'nonProducingOwnersController@index')->middleware('auth');
+Route::get('/lease-page/getOwnerInfo',          'LeasePageController@getOwnerInfo')->middleware('auth');
 
+Route::post('/lease-page/update/OwnerPrice',    'LeasePageController@updateOwnerPrice')->middleware('auth');
 
-//Well Details
-Route::post('/mineral-owners/get/getWellDetails', 'MineralOwnersController@getWellInfo')->middleware('auth');
+Route::get('/lease-page/getWellDetails',        'LeasePageController@getWellInfo')->middleware('auth');
 
-//NOTES
-Route::get('/mineral-owners/getNotes', 'MineralOwnersController@getNotes')->middleware('auth');
+Route::get('/lease-page/getNotes',              'LeasePageController@getNotes')->middleware('auth');
 
-Route::put('/mineral-owner/updateNotes', 'MineralOwnersController@updateNotes')->middleware('auth');
+Route::put('/lease-page/updateNotes',           'LeasePageController@updateNotes')->middleware('auth');
 
-Route::post('mineral-owners/delete/delete-note', 'MineralOwnersController@deleteNote')->middleware('auth');
+Route::post('/lease-page/delete-note',          'LeasePageController@deleteNote')->middleware('auth');
 
-//ASSIGNEE WELLTYPE AND FOLLOWUP
-Route::put('/mineral-owner/updateAssignee', 'MineralOwnersController@updateAssignee')->middleware('auth');
+Route::get('/lease-page/getOwnerNumbers',       'LeasePageController@getOwnerNumbers')->middleware('auth');
 
-Route::put('/mineral-owner/updateWellType', 'MineralOwnersController@updateWellType')->middleware('auth');
+Route::post('/lease-page/addPhone',             'LeasePageController@addPhone')->middleware('auth');
 
-Route::put('/mineral-owner/updateFollowUp', 'MineralOwnersController@updateFollowUp')->middleware('auth');
+Route::put('/lease-page/pushPhoneNumber',       'LeasePageController@pushPhoneNumber')->middleware('auth');
 
+Route::post('/lease-page/softDeletePhone',      'LeasePageController@softDeletePhone')->middleware('auth');
 
-//PHONE NUMBERS
-Route::get('/mineral-owners/getOwnerNumbers', 'MineralOwnersController@getOwnerNumbers')->middleware('auth');
+                        /*                  PUSHED PHONE NUMBER PAGE            */
+Route::get('/pushed-phone-numbers',                     'PushedPhoneNumbersController@index')->middleware('auth');
 
-Route::post('/mineral-owner/addPhone', 'MineralOwnersController@addPhone')->middleware('auth');
+Route::put('/pushed-phone-numbers/updatePhoneNumber',   'PushedPhoneNumbersController@updatePhoneNumber')->middleware('auth');
 
-Route::put('/mineral-owner/updatePhoneNumbers', 'MineralOwnersController@updatePhoneNumbers')->middleware('auth');
+Route::post('/pushed-phone-numbers/insertPhoneNumber',  'PushedPhoneNumbersController@insertPhoneNumber')->middleware('auth');
 
-Route::put('/mineral-owner/pushPhoneNumber', 'MineralOwnersController@pushPhoneNumber')->middleware('auth');
+                        /*                      OWNER PAGE                     */
+Route::get('/owner/{interestArea?}/{ownerName?}/{isProducing?}',       'OwnersController@index')->middleware('auth');
 
-Route::post('/mineral-owner/softDeletePhone', 'MineralOwnersController@softDeletePhone')->middleware('auth');
-
-Route::get('/pushed-phone-numbers', 'PushedPhoneNumbersController@index')->middleware('auth');
-
-Route::put('/pushed-phone-numbers/updatePhoneNumber', 'PushedPhoneNumbersController@updatePhoneNumber')->middleware('auth');
-
-Route::post('/pushed-phone-numbers/insertPhoneNumber', 'PushedPhoneNumbersController@insertPhoneNumber')->middleware('auth');
-
-// ACREAGE
-Route::post('/mineral-owners/updateAcreage', 'MineralOwnersController@updateAcreage')->middleware('auth');
-
-//PRICE
-Route::post('/mineral-owners/update/OwnerPrice', 'MineralOwnersController@updateOwnerPrice')->middleware('auth');
-
-/*                      OWNER PAGE                     */
-Route::get('/owner/{ownerName?}', 'OwnersController@index')->middleware('auth');
+Route::put('/owner/updateEmail',                        'OwnersController@updateEmail')->middleware('auth');
