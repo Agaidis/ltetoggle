@@ -210,7 +210,7 @@
             let splitId = id.split('_');
             let ownerId = splitId[2];
 
-            openPhoneModal(ownerId);
+            openPhoneModal(ownerId, $('#interest_area').val());
         }).on('change', '.change_product', function() {
             let id = $(this)[0].id;
             let splitId = id.split('_');
