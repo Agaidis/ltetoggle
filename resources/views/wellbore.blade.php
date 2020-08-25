@@ -199,6 +199,7 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
+                                                    @if (isset($owners))
                                                     @foreach ($owners as $owner)
                                                         <input type="hidden" id="texas_low_interest_area" value="{{$owner->interest_area}}" />
                                                         @if ($owner->follow_up_date == date('Y-m-d') || $owner->follow_up_date > date('Y-m-d') || $owner->follow_up_date === NULL)
@@ -314,6 +315,7 @@
                                                                 <td class="text-center">{{$owner->owner_interest_type}}</td>
                                                             </tr>
                                                             @endforeach
+                                                        @endif
                                                     </tbody>
                                                     <tfoot>
                                                     <caption class="lease_table_caption">Prospects</caption>
