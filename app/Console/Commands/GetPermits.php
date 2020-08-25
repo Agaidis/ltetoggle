@@ -119,6 +119,7 @@ class GetPermits extends Command
                             $newPermit->interest_area = $interestArea;
                             $newPermit->SurfaceLatitudeWGS84 = $decodedPermits[$i]->SurfaceLatitudeWGS84;
                             $newPermit->SurfaceLongitudeWGS84 = $decodedPermits[$i]->SurfaceLongitudeWGS84;
+                            $newPermit->is_producing = 1;
                             $newPermit->save();
 
                         } else {
