@@ -43,10 +43,10 @@ class WelboreController extends Controller
                 $highPriorityProspect->interest_area = 'tx';
             }
 
-            foreach ($highPriorityProspectsNM as $highPriorityProspect) {
-                $leaseName = Permit::where('permit_id', $highPriorityProspect->permit_stitch_id)->value('lease_name');
-                $highPriorityProspect->lease_name = $leaseName;
-                $highPriorityProspect->interest_area = 'nm';
+            foreach ($highPriorityProspectsNM as $highPriorityProspectNM) {
+                $leaseName = Permit::where('permit_id', $highPriorityProspectNM->permit_stitch_id)->value('lease_name');
+                $highPriorityProspectNM->lease_name = $leaseName;
+                $highPriorityProspectNM->interest_area = 'nm';
             }
 
             $owners = DB::table('mineral_owners')
