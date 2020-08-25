@@ -212,8 +212,8 @@
                                                                     <input type="hidden" id="lease_name_{{$owner->id}}"
                                                                            value="{{$owner->lease_name}}"/>
                                                                 @else
-                                                                    <input type="hidden" id="lease_name_{{$owner->id}}"
-                                                                           value="{{$operator}}"/>
+{{--                                                                    <input type="hidden" id="lease_name_{{$owner->id}}"--}}
+{{--                                                                           value="{{$operator}}"/>--}}
                                                                 @endif
 
                                                                 <input type="hidden" value="{{$owner->interest_area}}"
