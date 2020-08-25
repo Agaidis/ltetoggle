@@ -32,6 +32,8 @@ class LeasePageController extends Controller
         $nmInterestAreas = ['nm'];
         $mineralOwnerLeases = '';
         $isProducing = $request->isProducing;
+        $leaseString = '';
+
 
         $permitValues = Permit::where('permit_id', $permitId)->first();
         $operator = $permitValues->operator_company_name;
