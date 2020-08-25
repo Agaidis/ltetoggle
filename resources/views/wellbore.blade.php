@@ -208,7 +208,7 @@
                                                             <tr class="owner_row" style="background-color: #f59278;"
                                                                 id="owner_row_{{$owner->id}}">
                                                                 @endif
-                                                                @if (isset($highPriorityProspect->lease_name))
+                                                                @if (isset($owner->lease_name))
                                                                     <input type="hidden" id="lease_name_{{$owner->id}}"
                                                                            value="{{$owner->lease_name}}"/>
                                                                 @else
