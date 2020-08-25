@@ -1508,7 +1508,7 @@
                  leaseName: leaseName,
                  notes: $('#owner_notes_' +id).val(),
                  interestArea: interestArea
-             },
+             },//
              success: function success(data) {
                  $("#owner_follow_up_" + id).datepicker("setDate", "2");
                  let updatedNotes = '';

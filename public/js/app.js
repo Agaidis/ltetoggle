@@ -43754,6 +43754,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         notes: $('#owner_notes_' + id).val(),
         interestArea: interestArea
       },
+      //
       success: function success(data) {
         $("#owner_follow_up_" + id).datepicker("setDate", "2");
         var updatedNotes = '';
