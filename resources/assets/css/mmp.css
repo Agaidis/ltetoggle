@@ -181,9 +181,15 @@ label {
     font-weight:bold;
 }
 
-hr {
-    margin-top:0!important;
-    margin-bottom:0!important;
+.status-msg {
+    display:none;
+    text-align: center;
+    width: 80%;
+    padding: 10px;
+    border-radius: 2em;
+    margin-left: 10%;
+    margin-top: 2%;
+    font-size: 16px;
 }
 
 .gas_text {
@@ -228,19 +234,23 @@ hr {
     height:300px;
 }
 
-
 .phone_number_containers {
     padding:0;
     line-height:.5;
 }
 
-#acreage_container {
+#acreage_container, .email_ctr {
     background-color:antiquewhite;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
     padding: 10px;
     font-size:20px;
+}
+
+.email_ctr {
+    height:80%;
+    margin-left: 5%;
 }
 
 .labels {

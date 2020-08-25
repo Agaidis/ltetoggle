@@ -28,7 +28,7 @@
                                                         <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$permit->permit_id}}_{{$permit->lease_name}}">Back to MMP</button></td>
                                                         <td class="text-center">{{$permit->county_parish}}</td>
                                                         <td class="text-center">{{$permit->reported_operator}}</td>
-                                                        <td class="text-center"><a href="{{url( 'mineral-owner/' . $permit->lease_name . '/' . $permit->reported_operator . '/' . $permit->id)}}">{{$permit->lease_name}}</a></td>
+                                                        <td class="text-center"><a href="{{url( 'lease-page/' . $permit->lease_name . '/' . $permit->reported_operator . '/' . $permit->id)}}">{{$permit->lease_name}}</a></td>
                                                     </tr>
                                                 @endforeach
                                             @endif

@@ -28,7 +28,7 @@
 
                                                 @if ($i == 0 || $currentOwnerName != $previousOwnerName)
                                                     <tr class="phone_number_row" id="phone_number_row_{{$pushedPhoneNumbers[$i]->id}}">
-                                                        <td class="text-center"><a href="{{url( 'owner/' . $pushedPhoneNumbers[$i]->owner_name)}}">{{$pushedPhoneNumbers[$i]->owner_name}}</a><br>{{$pushedPhoneNumbers[$i]->owner_address}}<br>{{$pushedPhoneNumbers[$i]->owner_city}}, {{$pushedPhoneNumbers[$i]->owner_state}} {{$pushedPhoneNumbers[$i]->owner_zip}}</td>
+                                                        <td class="text-center"><a href="{{url( 'owner/' . 'eagleford' . '/' . $pushedPhoneNumbers[$i]->owner_name) . '/' . 'producing'}}">{{$pushedPhoneNumbers[$i]->owner_name}}</a><br>{{$pushedPhoneNumbers[$i]->owner_address}}<br>{{$pushedPhoneNumbers[$i]->owner_city}}, {{$pushedPhoneNumbers[$i]->owner_state}} {{$pushedPhoneNumbers[$i]->owner_zip}}</td>
                                                         <td class="text-center"></td>
                                                         <td class="text-center"><input type="text" class="form-control" id="insert_phone_desc_{{$pushedPhoneNumbers[$i]->id}}" value=""/></td>
                                                         <td class="text-center"><input type="text" class="form-control" id="insert_phone_number_{{$pushedPhoneNumbers[$i]->id}}" value=""/></td>
@@ -47,10 +47,54 @@
                                         @endfor
                                         </tbody>
                                         <tfoot>
-                                        <caption class="lease_table_caption">Pushed Phone Numbers </caption>
+                                        <caption class="lease_table_caption">Texas Pushed Phone Numbers </caption>
                                         </tfoot>
                                     </table>
                                 </div>
+
+
+                            <div class="offset-1 col-md-10">
+                                <table class="table table-responsive-md" id="nm_phone_numbers_table">
+                                    <thead>
+                                    <tr>
+                                        <th class="text-center">Owner Name</th>
+                                        <th class="text-center">Lease Name</th>
+                                        <th class="text-center">Description</th>
+                                        <th class="text-center">Phone Number</th>
+                                        <th class="text-center">Send Back</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php $currentOwnerName = ''; $previousOwnerName = ''; $phoneDescriptions = ''; $phoneNumbers = '';?>
+                                    @for ($i = 0; $i < count($pushPhoneNumbersNM); $i++)
+                                        <?php $currentOwnerName = $pushPhoneNumbersNM[$i]->Grantor;
+                                        ?>
+
+                                        @if ($i == 0 || $currentOwnerName != $previousOwnerName)
+                                            <tr class="phone_number_row" id="phone_number_row_{{$pushPhoneNumbersNM[$i]->id}}">
+                                                <td class="text-center"><a href="{{url( 'owner/' . 'nm' . '/' . $pushPhoneNumbersNM[$i]->Grantor) . '/' . 'not-producing'}}">{{$pushPhoneNumbersNM[$i]->Grantor}}</a></td>
+                                                <td class="text-center"></td>
+                                                <td class="text-center"><input type="text" class="form-control" id="insert_phone_desc_{{$pushPhoneNumbersNM[$i]->id}}" value=""/></td>
+                                                <td class="text-center"><input type="text" class="form-control" id="insert_phone_number_{{$pushPhoneNumbersNM[$i]->id}}" value=""/></td>
+                                                <td class="text-center"><button type="button" class="btn btn-success insert_number" id="insert_number_{{$pushPhoneNumbersNM[$i]->id}}">New Number</button></td>
+                                            </tr>
+                                        @endif
+
+                                        <tr class="{{$pushPhoneNumbersNM[$i]->id}}">
+                                            <td class="text-center" style="border:none; color:white;">{{$pushPhoneNumbersNM[$i]->owner_name}}</td><input type="hidden" id="owner_name_{{$pushPhoneNumbersNM[$i]->id}}" value="{{$pushPhoneNumbersNM[$i]->owner_name}}" />
+                                            <td class="text-center" style="border:none;">{{$pushPhoneNumbersNM[$i]->lease_name}}</td><input type="hidden" id="lease_name_{{$pushPhoneNumbersNM[$i]->id}}" value="{{$pushPhoneNumbersNM[$i]->lease_name}}" />
+                                            <td class="text-center" style="border:none;"><input type="text" class="form-control" id="phone_desc_{{$pushPhoneNumbersNM[$i]->id}}" value="{{$pushPhoneNumbersNM[$i]->phone_desc}}"/></td>
+                                            <td class="text-center" style="border:none;"><input type="text" class="form-control" id="phone_number_{{$pushPhoneNumbersNM[$i]->id}}" value="{{$pushPhoneNumbersNM[$i]->phone_number}}"/></td>
+                                            <td class="text-center" style="border:none;"><button type="button" class="btn btn-primary send_back" id="send_back_{{$pushPhoneNumbersNM[$i]->id}}">Send Back</button></td>
+                                        </tr>
+                                        <?php $previousOwnerName = $pushPhoneNumbersNM[$i]->Grantor; ?>
+                                    @endfor
+                                    </tbody>
+                                    <tfoot>
+                                    <caption class="lease_table_caption">New Mexico Pushed Phone Numbers </caption>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

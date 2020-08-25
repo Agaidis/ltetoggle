@@ -18,10 +18,18 @@ class PushedPhoneNumbersController extends Controller
 
             $pushedPhoneNumbers = DB::table('owner_phone_numbers')
                 ->where('is_pushed', 1)
-                ->join('mineral_owners', 'owner_phone_numbers.owner_id', '=', 'mineral_owners.id')
+                ->where('LeaseId', null)
+                ->join('mineral_owners', 'owner_phone_numbers.owner_name', '=', 'mineral_owners.owner')
                 ->select('owner_phone_numbers.*', 'mineral_owners.owner_address', 'mineral_owners.owner_city', 'mineral_owners.owner_state', 'mineral_owners.owner_zip')
+                ->groupBy('owner_phone_numbers.phone_number')
                 ->orderBy('owner_phone_numbers.owner_name', 'ASC')->get();
 
+
+            $pushPhoneNumbersNM = DB::table('owner_phone_numbers')
+                ->where('is_pushed', 1)
+                ->join('legal_leases', 'owner_phone_numbers.LeaseId', '=', 'legal_leases.LeaseId')
+                ->select('owner_phone_numbers.*', 'legal_leases.Grantor', 'legal_leases.GrantorAddress')
+                ->orderBy('owner_phone_numbers.owner_name', 'ASC')->get();
 //           $phoneNumbers = OwnerPhoneNumber::where('owner_id', null)->get();
 //
 //           foreach ( $phoneNumbers as $phoneNumber) {
@@ -32,7 +40,7 @@ class PushedPhoneNumbersController extends Controller
 //               }
 //           }
 
-            return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'ownerArray'));
+            return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'pushPhoneNumbersNM', 'ownerArray'));
         } catch (\Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
