@@ -43508,7 +43508,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       data: {
         ownerId: ownerId,
         interestArea: $('#interest_area').val(),
-        leaseName: $('#lease_name').val()
+        leaseNames: $('#lease_string').val()
       },
       success: function success(data) {
         if (data !== undefined && data !== '') {
