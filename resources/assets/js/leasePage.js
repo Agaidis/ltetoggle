@@ -1,4 +1,10 @@
  $(document).ready(function () {
+
+     $('#create_lease_name_select').select2({
+         multiple: true,
+         minimumInputLength: 3
+     });
+
      if (location.href.split('/')[3] === 'lease-page') {
 
 
