@@ -7,7 +7,9 @@
              minimumInputLength: 3
          });
 
-         $("#well_name_select option")[0].remove();
+         if ($('#well_name_select option')[0] !== undefined) {
+             $('#well_name_select option')[0].remove();
+         }
 
 
          if ($('#interest_area').val() !== 'nm') {
@@ -15,7 +17,7 @@
                  multiple: true,
                  minimumInputLength: 3
              });
-             $("#lease_name_select option")[0].remove();
+             $('#lease_name_select option')[0].remove();
          }
 
      let globalOwnerId = '';
@@ -60,14 +62,24 @@
 
      } else {
 
-         let surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
-         let surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
+         if (toggle.allWells[0] !== undefined) {
+             let surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
+             let surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
 
-         map = new google.maps.Map(document.getElementById('proMap'), {
-             zoom: 13,
-             center: JSON.parse(surfaceLng + ',' + surfaceLat),
-             mapTypeId: google.maps.MapTypeId.HYBRID
-         });
+             map = new google.maps.Map(document.getElementById('proMap'), {
+                 zoom: 13,
+                 center: JSON.parse(surfaceLng + ',' + surfaceLat),
+                 mapTypeId: google.maps.MapTypeId.HYBRID
+             });
+
+
+         } else {
+             map = new google.maps.Map(document.getElementById('proMap'), {
+                 zoom: 13,
+                 center: JSON.parse('{"lng":-101.4401672,"lat":32.957712}'),
+                 mapTypeId: google.maps.MapTypeId.HYBRID
+             });
+         }
      }
 
      // Display multiple markers on a map
@@ -94,7 +106,7 @@
              position: position,
              map: map,
              title: value.Grantor,
-             icon: icon,
+             icon: icon
          });
 
          // Allow each marker to have an info window

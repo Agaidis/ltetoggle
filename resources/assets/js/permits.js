@@ -1,61 +1,58 @@
 $(document).ready(function () {
 
+    $('.interest_tab').on('click', function(){
+
+        $('.interest_tab').removeClass('interest_active');
+        let interestId = $(this)[0].id;
+
+        $('#' + interestId).addClass('interest_active');
+
+    });
+
+    $('a[data-toggle="tab"]').on('click', function(e) {
+        window.localStorage.setItem('activeTab', $(e.target).attr('href'));
+    });
+
+    let activeTab = window.localStorage.getItem('activeTab');
+
+    if (activeTab) {
+        $('#myTab a[href="' + activeTab + '"]').tab('show');
+        window.localStorage.removeItem("activeTab");
+    } else {
+        $('#interest_tab_eagle').addClass('interest_active');
+    }
+
+    if (location.hash.substr(0,2) === "#!") {
+
+        let interestHref = location.hash.replace('#!', '');
+
+        if (interestHref === 'wtx_interest_area') {
+            $('#interest_tab_eagle').removeClass('interest_active');
+            $('#interest_tab_wtx').addClass('interest_active');
+            $('#interest_tab_nm').removeClass('interest_active');
+        } else if (interestHref === 'eagle_interest_area') {
+            $('#interest_tab_wtx').removeClass('interest_active');
+            $('#interest_tab_eagle').addClass('interest_active');
+            $('#interest_tab_nm').removeClass('interest_active');
+        } else if (interestHref === 'nm_interest_area') {
+            $('#interest_tab_eagle').removeClass('interest_active');
+            $('#interest_tab_nm').addClass('interest_active');
+            $('#interest_tab_wtx').removeClass('interest_active');
+        }
+
+        $("a[href='#" + location.hash.substr(2) + "']").tab("show");
+    }
+
+    $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
+        let hash = $(e.target).attr("href");
+        console.log(hash);
+        if (hash.substr(0,1) === "#") {
+            location.replace("#!" + hash.substr(1));
+        }
+    });
     if (location.href.split('/')[3] === 'mm-platform') {
         getOilGasPrices();
 
-        $('.interest_tab').on('click', function(){
-
-            $('.interest_tab').removeClass('interest_active');
-            let interestId = $(this)[0].id;
-
-            $('#' + interestId).addClass('interest_active');
-
-        });
-
-        $('a[data-toggle="tab"]').on('click', function(e) {
-            window.localStorage.setItem('activeTab', $(e.target).attr('href'));
-        });
-
-        let activeTab = window.localStorage.getItem('activeTab');
-
-        if (activeTab) {
-            $('#myTab a[href="' + activeTab + '"]').tab('show');
-            window.localStorage.removeItem("activeTab");
-        } else {
-            $('#interest_tab_eagle').addClass('interest_active');
-        }
-
-        if (location.hash.substr(0,2) === "#!") {
-
-            let interestHref = location.hash.replace('#!', '');
-
-            if (interestHref === 'wtx_interest_area') {
-                $('#interest_tab_eagle').removeClass('interest_active');
-                $('#interest_tab_wtx').addClass('interest_active');
-                $('#interest_tab_nm').removeClass('interest_active');
-            } else if (interestHref === 'eagle_interest_area') {
-                $('#interest_tab_wtx').removeClass('interest_active');
-                $('#interest_tab_eagle').addClass('interest_active');
-                $('#interest_tab_nm').removeClass('interest_active');
-            } else if (interestHref === 'nm_interest_area') {
-                $('#interest_tab_eagle').removeClass('interest_active');
-                $('#interest_tab_nm').addClass('interest_active');
-                $('#interest_tab_wtx').removeClass('interest_active');
-            }
-
-            console.log( $("a[href='#" + location.hash.substr(2) + "']"));
-
-
-            $("a[href='#" + location.hash.substr(2) + "']").tab("show");
-        }
-
-        $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
-            let hash = $(e.target).attr("href");
-            console.log(hash);
-            if (hash.substr(0,1) === "#") {
-                location.replace("#!" + hash.substr(1));
-            }
-        });
     }
 
     let globalPermitId = '';
@@ -650,21 +647,38 @@ $(document).ready(function () {
                         // Loop through our array of markers & place each one on the map
                         $.each( data.leaseGeo, function (key, value ) {
 
-                            let position = new google.maps.LatLng(JSON.parse(value.Geometry));
-                            bounds.extend(position);
-                            marker = new google.maps.Marker({
-                                position: position,
-                                map: map,
-                                title: value.Grantor
-                            });
-
                             let checkbox = '';
 
                             if (value.permit_stitch_id === permitId) {
                                 checkbox = '<input type="checkbox" checked class="form-control check_lease" id="check_lease_'+value.LeaseId+'_'+permitId+'"/>';
+
+                                 let icon = {
+                                     url: "https://quickevict.nyc3.digitaloceanspaces.com/black%20icon.png",
+                                     scaledSize: new google.maps.Size(30, 45),
+                                 }
+
+                                let position = new google.maps.LatLng(JSON.parse(value.Geometry));
+                                bounds.extend(position);
+                                marker = new google.maps.Marker({
+                                    position: position,
+                                    map: map,
+                                    title: value.Grantor,
+                                    icon: icon
+                                });
                             } else {
                                 checkbox = '<input type="checkbox" class="form-control check_lease" id="check_lease_'+value.LeaseId+'_'+permitId+'"/>';
+                                let position = new google.maps.LatLng(JSON.parse(value.Geometry));
+                                bounds.extend(position);
+                                marker = new google.maps.Marker({
+                                    position: position,
+                                    map: map,
+                                    title: value.Grantor
+                                });
                             }
+
+
+
+
 
                             // Allow each marker to have an info window
                             google.maps.event.addListener(marker, 'click', (function(marker) {
@@ -811,6 +825,7 @@ $(document).ready(function () {
     }
 
     function stitchLeaseToPermit(leaseId, permitId, isChecked) {
+        console.log(isChecked);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -828,7 +843,12 @@ $(document).ready(function () {
                 isChecked: isChecked
             },
             success: function success(data) {
-
+                if (data === 'success') {
+                    $('.status-msg').text('Lease has been updated!').css('display', 'block');
+                    setTimeout(function () {
+                        $('.status-msg').css('display', 'none');
+                    }, 2500);
+                }
                 console.log(data);
             },
             error: function error(data) {

@@ -36,8 +36,6 @@ class LeasePageController extends Controller
 
 
         $permitValues = Permit::where('permit_id', $permitId)->first();
-        $operator = $permitValues->operator_company_name;
-
 
         try {
             $dateArray = array();
@@ -94,9 +92,9 @@ class LeasePageController extends Controller
             $totalOilWithComma = 0;
 
             foreach ($wells as $well) {
-//                if ($well->WellStatus == 'ACTIVE') {
-//                    Permit::where('id', $permitId)->update(['is_producing' => 1]);
-//                }
+                if ($well->WellStatus == 'ACTIVE') {
+                    Permit::where('id', $permitId)->update(['is_producing' => 1]);
+                }
 
                 if ($well->FirstProdDate != null)
                     array_push($onProductionArray, $well->FirstProdDate);
@@ -175,7 +173,6 @@ class LeasePageController extends Controller
                     'isProducing',
                     'wells',
                     'wellArray',
-                    'operator',
                     'count',
                     'oldestDate',
                     'latestDate',
