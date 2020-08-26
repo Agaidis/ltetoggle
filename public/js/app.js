@@ -42708,14 +42708,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       multiple: true,
       minimumInputLength: 3
     });
-    $("#well_name_select option")[0].remove();
+
+    if ($('#well_name_select option')[0] !== undefined) {
+      $('#well_name_select option')[0].remove();
+    }
 
     if ($('#interest_area').val() !== 'nm') {
       $('#lease_name_select').select2({
         multiple: true,
         minimumInputLength: 3
       });
-      $("#lease_name_select option")[0].remove();
+      $('#lease_name_select option')[0].remove();
     }
 
     var globalOwnerId = '';
@@ -42748,15 +42751,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         flightPath.setMap(map);
       });
     } else {
-      var _surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
+      if (toggle.allWells[0] !== undefined) {
+        var _surfaceLng = '{"lng":' + toggle.allWells[0].SurfaceHoleLongitudeWGS84;
 
-      var _surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
+        var _surfaceLat = '"lat":' + toggle.allWells[0].SurfaceHoleLatitudeWGS84 + '}';
 
-      map = new google.maps.Map(document.getElementById('proMap'), {
-        zoom: 13,
-        center: JSON.parse(_surfaceLng + ',' + _surfaceLat),
-        mapTypeId: google.maps.MapTypeId.HYBRID
-      });
+        map = new google.maps.Map(document.getElementById('proMap'), {
+          zoom: 13,
+          center: JSON.parse(_surfaceLng + ',' + _surfaceLat),
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        });
+      } else {
+        map = new google.maps.Map(document.getElementById('proMap'), {
+          zoom: 13,
+          center: JSON.parse('{"lng":-101.4401672,"lat":32.957712}'),
+          mapTypeId: google.maps.MapTypeId.HYBRID
+        });
+      }
     } // Display multiple markers on a map
 
 
@@ -44012,54 +44023,54 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
+  $('.interest_tab').on('click', function () {
+    $('.interest_tab').removeClass('interest_active');
+    var interestId = $(this)[0].id;
+    $('#' + interestId).addClass('interest_active');
+  });
+  $('a[data-toggle="tab"]').on('click', function (e) {
+    window.localStorage.setItem('activeTab', $(e.target).attr('href'));
+  });
+  var activeTab = window.localStorage.getItem('activeTab');
+
+  if (activeTab) {
+    $('#myTab a[href="' + activeTab + '"]').tab('show');
+    window.localStorage.removeItem("activeTab");
+  } else {
+    $('#interest_tab_eagle').addClass('interest_active');
+  }
+
+  if (location.hash.substr(0, 2) === "#!") {
+    var interestHref = location.hash.replace('#!', '');
+
+    if (interestHref === 'wtx_interest_area') {
+      $('#interest_tab_eagle').removeClass('interest_active');
+      $('#interest_tab_wtx').addClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
+    } else if (interestHref === 'eagle_interest_area') {
+      $('#interest_tab_wtx').removeClass('interest_active');
+      $('#interest_tab_eagle').addClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
+    } else if (interestHref === 'nm_interest_area') {
+      $('#interest_tab_eagle').removeClass('interest_active');
+      $('#interest_tab_nm').addClass('interest_active');
+      $('#interest_tab_wtx').removeClass('interest_active');
+    }
+
+    $("a[href='#" + location.hash.substr(2) + "']").tab("show");
+  }
+
+  $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
+    var hash = $(e.target).attr("href");
+    console.log(hash);
+
+    if (hash.substr(0, 1) === "#") {
+      location.replace("#!" + hash.substr(1));
+    }
+  });
+
   if (location.href.split('/')[3] === 'mm-platform') {
     getOilGasPrices();
-    $('.interest_tab').on('click', function () {
-      $('.interest_tab').removeClass('interest_active');
-      var interestId = $(this)[0].id;
-      $('#' + interestId).addClass('interest_active');
-    });
-    $('a[data-toggle="tab"]').on('click', function (e) {
-      window.localStorage.setItem('activeTab', $(e.target).attr('href'));
-    });
-    var activeTab = window.localStorage.getItem('activeTab');
-
-    if (activeTab) {
-      $('#myTab a[href="' + activeTab + '"]').tab('show');
-      window.localStorage.removeItem("activeTab");
-    } else {
-      $('#interest_tab_eagle').addClass('interest_active');
-    }
-
-    if (location.hash.substr(0, 2) === "#!") {
-      var interestHref = location.hash.replace('#!', '');
-
-      if (interestHref === 'wtx_interest_area') {
-        $('#interest_tab_eagle').removeClass('interest_active');
-        $('#interest_tab_wtx').addClass('interest_active');
-        $('#interest_tab_nm').removeClass('interest_active');
-      } else if (interestHref === 'eagle_interest_area') {
-        $('#interest_tab_wtx').removeClass('interest_active');
-        $('#interest_tab_eagle').addClass('interest_active');
-        $('#interest_tab_nm').removeClass('interest_active');
-      } else if (interestHref === 'nm_interest_area') {
-        $('#interest_tab_eagle').removeClass('interest_active');
-        $('#interest_tab_nm').addClass('interest_active');
-        $('#interest_tab_wtx').removeClass('interest_active');
-      }
-
-      console.log($("a[href='#" + location.hash.substr(2) + "']"));
-      $("a[href='#" + location.hash.substr(2) + "']").tab("show");
-    }
-
-    $("a[data-toggle='tab']").on("shown.bs.tab", function (e) {
-      var hash = $(e.target).attr("href");
-      console.log(hash);
-
-      if (hash.substr(0, 1) === "#") {
-        location.replace("#!" + hash.substr(1));
-      }
-    });
   }
 
   var globalPermitId = ''; //EAGLE PERMIT TABLE
@@ -44498,19 +44509,35 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 marker; // Loop through our array of markers & place each one on the map
 
             $.each(data.leaseGeo, function (key, value) {
-              var position = new google.maps.LatLng(JSON.parse(value.Geometry));
-              bounds.extend(position);
-              marker = new google.maps.Marker({
-                position: position,
-                map: map,
-                title: value.Grantor
-              });
               var checkbox = '';
 
               if (value.permit_stitch_id === permitId) {
                 checkbox = '<input type="checkbox" checked class="form-control check_lease" id="check_lease_' + value.LeaseId + '_' + permitId + '"/>';
+                var icon = {
+                  url: "https://quickevict.nyc3.digitaloceanspaces.com/black%20icon.png",
+                  scaledSize: new google.maps.Size(30, 45)
+                };
+
+                var _position = new google.maps.LatLng(JSON.parse(value.Geometry));
+
+                bounds.extend(_position);
+                marker = new google.maps.Marker({
+                  position: _position,
+                  map: map,
+                  title: value.Grantor,
+                  icon: icon
+                });
               } else {
                 checkbox = '<input type="checkbox" class="form-control check_lease" id="check_lease_' + value.LeaseId + '_' + permitId + '"/>';
+
+                var _position2 = new google.maps.LatLng(JSON.parse(value.Geometry));
+
+                bounds.extend(_position2);
+                marker = new google.maps.Marker({
+                  position: _position2,
+                  map: map,
+                  title: value.Grantor
+                });
               } // Allow each marker to have an info window
 
 
@@ -44665,6 +44692,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }
 
   function stitchLeaseToPermit(leaseId, permitId, isChecked) {
+    console.log(isChecked);
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44682,6 +44710,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         isChecked: isChecked
       },
       success: function success(data) {
+        if (data === 'success') {
+          $('.status-msg').text('Lease has been updated!').css('display', 'block');
+          setTimeout(function () {
+            $('.status-msg').css('display', 'none');
+          }, 2500);
+        }
+
         console.log(data);
       },
       error: function error(data) {
