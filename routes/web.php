@@ -30,6 +30,11 @@ Route::get('/admin',                            'AdminController@index')->middle
 
 Route::get('/admin/updatePermits',              'AdminController@updatePermits')->middleware('auth');
 
+                        /*                   LEASE CREATOR                 */
+Route::get('/lease-creator',                            'LeaseCreatorController@index')->middleware('auth');
+
+Route::post('/lease-creator',              'LeaseCreatorController@createLease')->middleware('auth')->name('createLease');
+
                         /*                  PERMIT STORAGE               */
 Route::get('/permit-storage',                   'PermitStorageController@index')->middleware('auth');
 
