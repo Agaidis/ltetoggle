@@ -44481,6 +44481,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
               label: 'BM',
               title: data.permit.lease_name
             });
+            console.log(permitPoint[0]);
             var btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
             bounds.extend(btmPosition);
             var SurfaceMarker = new google.maps.Marker({

@@ -594,6 +594,8 @@ $(document).ready(function () {
                             title: data.permit.lease_name
                         });
 
+                        console.log(permitPoint[0]);
+
                         let btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
                         bounds.extend(btmPosition);
 
