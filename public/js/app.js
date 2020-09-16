@@ -44482,14 +44482,19 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
               title: data.permit.lease_name
             });
             console.log(permitPoint[0]);
-            var btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
-            bounds.extend(btmPosition);
-            var SurfaceMarker = new google.maps.Marker({
-              position: btmPosition,
-              map: map,
-              label: 'SF',
-              title: data.permit.lease_name
-            });
+
+            if (permitPoint[0] !== '') {
+              var btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+              bounds.extend(btmPosition);
+
+              var _SurfaceMarker = new google.maps.Marker({
+                position: btmPosition,
+                map: map,
+                label: 'SF',
+                title: data.permit.lease_name
+              });
+            }
+
             var flightPath = new google.maps.Polyline({
               path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(permitPoint[0])],
               geodesic: true,

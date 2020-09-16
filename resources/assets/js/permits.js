@@ -595,16 +595,18 @@ $(document).ready(function () {
                         });
 
                         console.log(permitPoint[0]);
+                        if (permitPoint[0] !== '') {
 
-                        let btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
-                        bounds.extend(btmPosition);
+                            let btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+                            bounds.extend(btmPosition);
 
-                        let SurfaceMarker = new google.maps.Marker({
-                            position: btmPosition,
-                            map: map,
-                            label: 'SF',
-                            title: data.permit.lease_name
-                        });
+                            let SurfaceMarker = new google.maps.Marker({
+                                position: btmPosition,
+                                map: map,
+                                label: 'SF',
+                                title: data.permit.lease_name
+                            });
+                        }
 
                         let flightPath = new google.maps.Polyline({
                             path: [
