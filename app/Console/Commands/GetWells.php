@@ -75,7 +75,6 @@ class GetWells extends Command
 
             foreach ($counties as $county) {
                 $url = '';
-                Log::info($county);
 
                 do {
                     $wells = $apiManager->getWellRollUps( $token->access_token, $county, $url );
