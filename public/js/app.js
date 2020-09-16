@@ -44501,13 +44501,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
               flightPath.setMap(map);
               google.maps.event.addListener(SurfaceMarker, 'click', function (SurfaceMarker) {
                 return function () {
-                  infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + value.lease_name + '</h4>' + '<h5>Range: ' + value.range + '</h5>' + '<h5>Section: ' + value.section + '</h5>' + '<h5>Township: ' + value.township + '</h5>' + '</div>');
+                  infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + value.lease_name + '</h4>' + '<h5>Well Type: ' + value.well_type + '</h5>' + '<h5>Survey: ' + value.survey + '</h5>' + '<h5>Range: ' + value.range + '</h5>' + '<h5>Section: ' + value.section + '</h5>' + '<h5>Township: ' + value.township + '</h5>' + '</div>');
                   infoWindow.open(map, SurfaceMarker);
                 };
               }(SurfaceMarker));
               google.maps.event.addListener(permitMarker, 'click', function (permitMarker) {
                 return function () {
-                  infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + value.lease_name + '</h4>' + '<h5>Range: ' + value.range + '</h5>' + '<h5>Section: ' + value.section + '</h5>' + '<h5>Township: ' + value.township + '</h5>' + '</div>');
+                  infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + value.lease_name + '</h4>' + '<h5>Well Type: ' + value.well_type + '</h5>' + '<h5>Survey: ' + value.survey + '</h5>' + '<h5>Range: ' + value.range + '</h5>' + '<h5>Section: ' + value.section + '</h5>' + '<h5>Township: ' + value.township + '</h5>' + '</div>');
                   infoWindow.open(map, permitMarker);
                 };
               }(permitMarker));
