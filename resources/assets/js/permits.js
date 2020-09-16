@@ -623,6 +623,8 @@ $(document).ready(function () {
                                 return function() {
                                     infoWindow.setContent('<div class="info_content">' +
                                         '<h4>Lease: '+value.lease_name+'</h4>' +
+                                        '<h5>Well Type: '+value.well_type+'</h5>' +
+                                        '<h5>Survey: '+value.survey+'</h5>' +
                                         '<h5>Range: '+value.range+'</h5>' +
                                         '<h5>Section: '+value.section+'</h5>' +
                                         '<h5>Township: '+value.township+'</h5>' +
@@ -635,6 +637,8 @@ $(document).ready(function () {
                                 return function() {
                                     infoWindow.setContent('<div class="info_content">' +
                                         '<h4>Lease: '+value.lease_name+'</h4>' +
+                                        '<h5>Well Type: '+value.well_type+'</h5>' +
+                                        '<h5>Survey: '+value.survey+'</h5>' +
                                         '<h5>Range: '+value.range+'</h5>' +
                                         '<h5>Section: '+value.section+'</h5>' +
                                         '<h5>Township: '+value.township+'</h5>' +
@@ -642,8 +646,6 @@ $(document).ready(function () {
                                     infoWindow.open(map, permitMarker);
                                 }
                             })(permitMarker));
-
-
 
                         });
 
