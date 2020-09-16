@@ -571,8 +571,8 @@ $(document).ready(function () {
                     tr.addClass('shown');
 
                     try {
-                        let centerSurfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
-                        let centerSurfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+                        let centerSurfaceLng = '{"lng":' + data.allRelatedPermits[0].SurfaceLongitudeWGS84;
+                        let centerSurfaceLat = '"lat":' + data.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
                         let map;
                         let bounds = new google.maps.LatLngBounds();
 
@@ -961,7 +961,7 @@ $(document).ready(function () {
                 status: status
             },
             success: function success(data) {
-console.log(data);
+
                 $('#toggle_status_' + permitId).removeClass('yellow').removeClass('purple').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
 
             },

@@ -44462,8 +44462,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           tr.addClass('shown');
 
           try {
-            var centerSurfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
-            var centerSurfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
+            var centerSurfaceLng = '{"lng":' + data.allRelatedPermits[0].SurfaceLongitudeWGS84;
+            var centerSurfaceLat = '"lat":' + data.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
             var map;
             var bounds = new google.maps.LatLngBounds();
             map = new google.maps.Map(document.getElementById('map_' + permitId), {
@@ -44818,7 +44818,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         status: status
       },
       success: function success(data) {
-        console.log(data);
         $('#toggle_status_' + permitId).removeClass('yellow').removeClass('purple').removeClass('blue').removeClass('green').removeClass('red').addClass(data);
       },
       error: function error(data) {
