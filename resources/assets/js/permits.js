@@ -582,7 +582,7 @@ $(document).ready(function () {
                             mapTypeId: google.maps.MapTypeId.HYBRID
                         });
 
-                        $.each(toggle.allRelatedPermits, function (key, value) {
+                        $.each(data.allRelatedPermits, function (key, value) {
                             let surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
                             let surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
                             let btmGeo = value.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
@@ -608,25 +608,24 @@ $(document).ready(function () {
                                 position: position,
                                 map: map,
                                 label: 'BM',
-                                title: data.permit.lease_name
+                                title: value.lease_name
                             });
 
                             let SurfaceMarker = new google.maps.Marker({
                                 position: btmPosition,
                                 map: map,
                                 label: 'SF',
-                                title: data.permit.lease_name
+                                title: value.lease_name
                             });
 
                             flightPath.setMap(map);
-
                             google.maps.event.addListener(SurfaceMarker, 'click', (function(SurfaceMarker) {
                                 return function() {
                                     infoWindow.setContent('<div class="info_content">' +
-                                        '<h4>Lease: '+data.permit.lease_name+'</h4>' +
-                                        '<h5>Range: '+data.permit.range+'</h5>' +
-                                        '<h5>Section: '+data.permit.section+'</h5>' +
-                                        '<h5>Township: '+data.permit.township+'</h5>' +
+                                        '<h4>Lease: '+value.lease_name+'</h4>' +
+                                        '<h5>Range: '+value.range+'</h5>' +
+                                        '<h5>Section: '+value.section+'</h5>' +
+                                        '<h5>Township: '+value.township+'</h5>' +
                                         '</div>');
                                     infoWindow.open(map, SurfaceMarker);
                                 }
@@ -635,15 +634,19 @@ $(document).ready(function () {
                             google.maps.event.addListener(permitMarker, 'click', (function(permitMarker) {
                                 return function() {
                                     infoWindow.setContent('<div class="info_content">' +
-                                        '<h4>Lease: '+data.permit.lease_name+'</h4>' +
-                                        '<h5>Range: '+data.permit.range+'</h5>' +
-                                        '<h5>Section: '+data.permit.section+'</h5>' +
-                                        '<h5>Township: '+data.permit.township+'</h5>' +
+                                        '<h4>Lease: '+value.lease_name+'</h4>' +
+                                        '<h5>Range: '+value.range+'</h5>' +
+                                        '<h5>Section: '+value.section+'</h5>' +
+                                        '<h5>Township: '+value.township+'</h5>' +
                                         '</div>');
                                     infoWindow.open(map, permitMarker);
                                 }
                             })(permitMarker));
+
+
+
                         });
+
 
 
                         // let permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
