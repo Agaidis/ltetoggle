@@ -43,15 +43,16 @@ class GetLegalLeases extends Command
     {
 
         try {
-            $eagleInterestCountiesArray = array('ATASCOSA%20\(TX\)', 'BEE%20\(TX\)', 'DEWITT%20\(TX\)', 'GONZALES%20\(TX\)', 'KARNES%20\(TX\)', 'LIVE%20OAK%20\(TX\)', 'LAVACA%20\(TX\)', 'WILSON%20\(TX\)');
+         //   $eagleInterestCountiesArray = array('ATASCOSA%20\(TX\)', 'BEE%20\(TX\)', 'DEWITT%20\(TX\)', 'GONZALES%20\(TX\)', 'KARNES%20\(TX\)', 'LIVE%20OAK%20\(TX\)', 'LAVACA%20\(TX\)', 'WILSON%20\(TX\)');
             $nvxInterestCountiesArray = array('DAWSON%20\(TX\)', 'GAINES%20\(TX\)', 'BORDEN%20\(TX\)', 'CRANE%20\(TX\)', 'ECTOR%20\(TX\)', 'STERLING%20\(TX\)', 'MITCHELL%20\(TX\)', 'JEFF%20DAVIS%20\(TX\)');
             $nvxByApprovedDate = array('LEA%20\(NM\)', 'EDDY%20\(NM\)');
+               $eagleInterestCountiesArray = array('GONZALES%20\(TX\)');
 
             $this->getCountyLeaseData($eagleInterestCountiesArray);
 
-            $this->getCountyLeaseData($nvxInterestCountiesArray);
+           // $this->getCountyLeaseData($nvxInterestCountiesArray);
 
-            $this->getCountyLeaseData($nvxByApprovedDate);
+          //  $this->getCountyLeaseData($nvxByApprovedDate);
 
 
             return 'success';
@@ -87,12 +88,6 @@ class GetLegalLeases extends Command
                         $decodedLeases = json_decode($leases[0]);
 
                         for ($i = 0; $i < count($decodedLeases); $i++) {
-
-//                        if ($decodedLeases[$i]->BottomHoleLongitudeWGS84 != '' && $decodedLeases[$i]->BottomHoleLongitudeWGS84 != null) {
-//                            $btmLatLng = '{"lng": ' . $decodedLeases[$i]->BottomHoleLongitudeWGS84 . ', "lat": ' . $decodedLeases[$i]->BottomHoleLatitudeWGS84 . "}";
-//                        } else {
-//                            $btmLatLng = '';
-//                        }
 
                             LegalLease::updateOrCreate(['LeaseId' => $decodedLeases[$i]->LeaseId],
                                 [
