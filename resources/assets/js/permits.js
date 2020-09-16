@@ -594,7 +594,6 @@ $(document).ready(function () {
                             title: data.permit.lease_name
                         });
 
-                        console.log(permitPoint[0]);
                         if (permitPoint[0] !== '') {
 
                             let btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
@@ -617,33 +616,22 @@ $(document).ready(function () {
                                 strokeOpacity: 1.0,
                                 strokeWeight: 2
                             });
-                        } else {
-                            let flightPath = new google.maps.Polyline({
-                                path: [
-                                    JSON.parse(surfaceLng + ',' + surfaceLat)
-                                ],
-                                geodesic: true,
-                                strokeColor: "#FF0000",
-                                strokeOpacity: 1.0,
-                                strokeWeight: 2
-                            });
+
+                            flightPath.setMap(map);
+
+                            google.maps.event.addListener(SurfaceMarker, 'click', (function(SurfaceMarker) {
+                                return function() {
+                                    infoWindow.setContent('<div class="info_content">' +
+                                        '<h4>Lease: '+data.permit.lease_name+'</h4>' +
+                                        '<h5>Range: '+data.permit.range+'</h5>' +
+                                        '<h5>Section: '+data.permit.section+'</h5>' +
+                                        '<h5>Township: '+data.permit.township+'</h5>' +
+                                        '</div>');
+                                    infoWindow.open(map, SurfaceMarker);
+                                }
+                            })(SurfaceMarker));
                         }
 
-
-
-                        flightPath.setMap(map);
-
-                        google.maps.event.addListener(SurfaceMarker, 'click', (function(SurfaceMarker) {
-                            return function() {
-                                infoWindow.setContent('<div class="info_content">' +
-                                    '<h4>Lease: '+data.permit.lease_name+'</h4>' +
-                                    '<h5>Range: '+data.permit.range+'</h5>' +
-                                    '<h5>Section: '+data.permit.section+'</h5>' +
-                                    '<h5>Township: '+data.permit.township+'</h5>' +
-                                    '</div>');
-                                infoWindow.open(map, SurfaceMarker);
-                            }
-                        })(SurfaceMarker));
 
                         google.maps.event.addListener(permitMarker, 'click', (function(permitMarker) {
                             return function() {
