@@ -44462,42 +44462,41 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
           tr.addClass('shown');
 
           try {
-            var permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
-            var surfaceLng = '{"lng":' + data.permit.SurfaceLongitudeWGS84;
-            var surfaceLat = '"lat":' + data.permit.SurfaceLatitudeWGS84 + '}';
+            var centerSurfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+            var centerSurfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
             var map;
-            var bounds = new google.maps.LatLngBounds(); // Display a map on the page
-
+            var bounds = new google.maps.LatLngBounds();
             map = new google.maps.Map(document.getElementById('map_' + permitId), {
-              zoom: 13,
-              center: JSON.parse(surfaceLng + ',' + surfaceLat),
+              zoom: 15,
+              center: JSON.parse(centerSurfaceLng + ',' + centerSurfaceLat),
               mapTypeId: google.maps.MapTypeId.HYBRID
             });
-            var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
-            bounds.extend(position);
-            var permitMarker = new google.maps.Marker({
-              position: position,
-              map: map,
-              label: 'BM',
-              title: data.permit.lease_name
-            });
-            console.log(permitPoint[0]);
-
-            if (permitPoint[0] !== '') {
-              var btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+            $.each(toggle.allRelatedPermits, function (key, value) {
+              var surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
+              var surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
+              var btmGeo = value.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+              var position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+              bounds.extend(position);
+              var btmPosition = new google.maps.LatLng(JSON.parse(btmGeo));
               bounds.extend(btmPosition);
+              var flightPath = new google.maps.Polyline({
+                path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(btmGeo)],
+                geodesic: true,
+                strokeColor: "#ab0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+              });
+              var permitMarker = new google.maps.Marker({
+                position: position,
+                map: map,
+                label: 'BM',
+                title: data.permit.lease_name
+              });
               var SurfaceMarker = new google.maps.Marker({
                 position: btmPosition,
                 map: map,
                 label: 'SF',
                 title: data.permit.lease_name
-              });
-              var flightPath = new google.maps.Polyline({
-                path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(permitPoint[0])],
-                geodesic: true,
-                strokeColor: "#FF0000",
-                strokeOpacity: 1.0,
-                strokeWeight: 2
               });
               flightPath.setMap(map);
               google.maps.event.addListener(SurfaceMarker, 'click', function (SurfaceMarker) {
@@ -44506,14 +44505,27 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   infoWindow.open(map, SurfaceMarker);
                 };
               }(SurfaceMarker));
-            }
-
-            google.maps.event.addListener(permitMarker, 'click', function (permitMarker) {
-              return function () {
-                infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + data.permit.lease_name + '</h4>' + '<h5>Range: ' + data.permit.range + '</h5>' + '<h5>Section: ' + data.permit.section + '</h5>' + '<h5>Township: ' + data.permit.township + '</h5>' + '</div>');
-                infoWindow.open(map, permitMarker);
-              };
-            }(permitMarker)); // Display multiple markers on a map
+              google.maps.event.addListener(permitMarker, 'click', function (permitMarker) {
+                return function () {
+                  infoWindow.setContent('<div class="info_content">' + '<h4>Lease: ' + data.permit.lease_name + '</h4>' + '<h5>Range: ' + data.permit.range + '</h5>' + '<h5>Section: ' + data.permit.section + '</h5>' + '<h5>Township: ' + data.permit.township + '</h5>' + '</div>');
+                  infoWindow.open(map, permitMarker);
+                };
+              }(permitMarker));
+            }); // let permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+            // let surfaceLng = '{"lng":' + data.permit.SurfaceLongitudeWGS84;
+            // let surfaceLat = '"lat":' + data.permit.SurfaceLatitudeWGS84 + '}';
+            //
+            //
+            // // Display a map on the page
+            // map = new google.maps.Map(document.getElementById('map_' + permitId), {
+            //     zoom: 13,
+            //     center: JSON.parse(surfaceLng + ',' + surfaceLat),
+            //     mapTypeId: google.maps.MapTypeId.HYBRID
+            // });
+            //
+            // let position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+            // bounds.extend(position);
+            // Display multiple markers on a map
 
             var infoWindow = new google.maps.InfoWindow(),
                 marker; // Loop through our array of markers & place each one on the map
@@ -44527,12 +44539,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                   url: "https://quickevict.nyc3.digitaloceanspaces.com/black%20icon.png",
                   scaledSize: new google.maps.Size(30, 45)
                 };
-
-                var _position = new google.maps.LatLng(JSON.parse(value.Geometry));
-
-                bounds.extend(_position);
+                var position = new google.maps.LatLng(JSON.parse(value.Geometry));
+                bounds.extend(position);
                 marker = new google.maps.Marker({
-                  position: _position,
+                  position: position,
                   map: map,
                   title: value.Grantor,
                   icon: icon
@@ -44540,11 +44550,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
               } else {
                 checkbox = '<input type="checkbox" class="form-control check_lease" id="check_lease_' + value.LeaseId + '_' + permitId + '"/>';
 
-                var _position2 = new google.maps.LatLng(JSON.parse(value.Geometry));
+                var _position = new google.maps.LatLng(JSON.parse(value.Geometry));
 
-                bounds.extend(_position2);
+                bounds.extend(_position);
                 marker = new google.maps.Marker({
-                  position: _position2,
+                  position: _position,
                   map: map,
                   title: value.Grantor
                 });

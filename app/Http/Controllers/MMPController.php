@@ -77,6 +77,9 @@ class MMPController extends Controller
         try {
             $permit = Permit::where('permit_id', $request->permitId)->first();
 
+            $allRelatedPermits = Permit::where('lease_name', $permit->lease_name)->where('SurfaceLatitudeWGS84', '!=', null)->get();
+
+
 
             if ($request->isNonProducing) {
                 $leaseData = LegalLease::select('LeaseId','Grantor', 'Range', 'Section', 'Township', 'Geometry', 'permit_stitch_id')->get();
@@ -89,6 +92,7 @@ class MMPController extends Controller
 
                 $objData = new \stdClass;
                 $objData->permit = $permit;
+                $objData->allRelatedPermits = $allRelatedPermits;
                 $objData->leaseDescription = $leaseDescription;
                 $objData->leaseGeo = $leaseData;
             } else {

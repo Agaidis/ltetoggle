@@ -571,50 +571,51 @@ $(document).ready(function () {
                     tr.addClass('shown');
 
                     try {
-                        let permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
-                        let surfaceLng = '{"lng":' + data.permit.SurfaceLongitudeWGS84;
-                        let surfaceLat = '"lat":' + data.permit.SurfaceLatitudeWGS84 + '}';
+                        let centerSurfaceLng = '{"lng":' + toggle.allRelatedPermits[0].SurfaceLongitudeWGS84;
+                        let centerSurfaceLat = '"lat":' + toggle.allRelatedPermits[0].SurfaceLatitudeWGS84 + '}';
                         let map;
                         let bounds = new google.maps.LatLngBounds();
 
-                        // Display a map on the page
                         map = new google.maps.Map(document.getElementById('map_' + permitId), {
-                            zoom: 13,
-                            center: JSON.parse(surfaceLng + ',' + surfaceLat),
+                            zoom: 15,
+                            center: JSON.parse(centerSurfaceLng + ',' + centerSurfaceLat),
                             mapTypeId: google.maps.MapTypeId.HYBRID
                         });
 
-                        let position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
-                        bounds.extend(position);
+                        $.each(toggle.allRelatedPermits, function (key, value) {
+                            let surfaceLng = '{"lng":' + value.SurfaceLongitudeWGS84;
+                            let surfaceLat = '"lat":' + value.SurfaceLatitudeWGS84 + '}';
+                            let btmGeo = value.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+                            let position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
 
-                        let permitMarker = new google.maps.Marker({
-                            position: position,
-                            map: map,
-                            label: 'BM',
-                            title: data.permit.lease_name
-                        });
+                            bounds.extend(position);
 
-                        if (permitPoint[0] !== '') {
-
-                            let btmPosition = new google.maps.LatLng(JSON.parse(permitPoint[0]));
+                            let btmPosition = new google.maps.LatLng(JSON.parse(btmGeo));
                             bounds.extend(btmPosition);
+
+                            let flightPath = new google.maps.Polyline({
+                                path: [
+                                    JSON.parse(surfaceLng + ',' + surfaceLat),
+                                    JSON.parse(btmGeo)
+                                ],
+                                geodesic: true,
+                                strokeColor: "#ab0000",
+                                strokeOpacity: 1.0,
+                                strokeWeight: 2
+                            });
+
+                            let permitMarker = new google.maps.Marker({
+                                position: position,
+                                map: map,
+                                label: 'BM',
+                                title: data.permit.lease_name
+                            });
 
                             let SurfaceMarker = new google.maps.Marker({
                                 position: btmPosition,
                                 map: map,
                                 label: 'SF',
                                 title: data.permit.lease_name
-                            });
-
-                            let flightPath = new google.maps.Polyline({
-                                path: [
-                                    JSON.parse(surfaceLng + ',' + surfaceLat),
-                                    JSON.parse(permitPoint[0])
-                                ],
-                                geodesic: true,
-                                strokeColor: "#FF0000",
-                                strokeOpacity: 1.0,
-                                strokeWeight: 2
                             });
 
                             flightPath.setMap(map);
@@ -630,20 +631,38 @@ $(document).ready(function () {
                                     infoWindow.open(map, SurfaceMarker);
                                 }
                             })(SurfaceMarker));
-                        }
+
+                            google.maps.event.addListener(permitMarker, 'click', (function(permitMarker) {
+                                return function() {
+                                    infoWindow.setContent('<div class="info_content">' +
+                                        '<h4>Lease: '+data.permit.lease_name+'</h4>' +
+                                        '<h5>Range: '+data.permit.range+'</h5>' +
+                                        '<h5>Section: '+data.permit.section+'</h5>' +
+                                        '<h5>Township: '+data.permit.township+'</h5>' +
+                                        '</div>');
+                                    infoWindow.open(map, permitMarker);
+                                }
+                            })(permitMarker));
+                        });
 
 
-                        google.maps.event.addListener(permitMarker, 'click', (function(permitMarker) {
-                            return function() {
-                                infoWindow.setContent('<div class="info_content">' +
-                                    '<h4>Lease: '+data.permit.lease_name+'</h4>' +
-                                    '<h5>Range: '+data.permit.range+'</h5>' +
-                                    '<h5>Section: '+data.permit.section+'</h5>' +
-                                    '<h5>Township: '+data.permit.township+'</h5>' +
-                                    '</div>');
-                                infoWindow.open(map, permitMarker);
-                            }
-                        })(permitMarker));
+                        // let permitPoint = data.permit.btm_geometry.replace(/\s/g, '').replace(/},/g, '},dd').replace('(', '').replace(')', '').split(',dd');
+                        // let surfaceLng = '{"lng":' + data.permit.SurfaceLongitudeWGS84;
+                        // let surfaceLat = '"lat":' + data.permit.SurfaceLatitudeWGS84 + '}';
+                        //
+                        //
+                        // // Display a map on the page
+                        // map = new google.maps.Map(document.getElementById('map_' + permitId), {
+                        //     zoom: 13,
+                        //     center: JSON.parse(surfaceLng + ',' + surfaceLat),
+                        //     mapTypeId: google.maps.MapTypeId.HYBRID
+                        // });
+                        //
+                        // let position = new google.maps.LatLng(JSON.parse(surfaceLng + ',' + surfaceLat));
+                        // bounds.extend(position);
+
+
+
 
                         // Display multiple markers on a map
                         let infoWindow = new google.maps.InfoWindow(), marker;
