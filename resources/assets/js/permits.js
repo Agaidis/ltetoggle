@@ -606,18 +606,30 @@ $(document).ready(function () {
                                 label: 'SF',
                                 title: data.permit.lease_name
                             });
+
+                            let flightPath = new google.maps.Polyline({
+                                path: [
+                                    JSON.parse(surfaceLng + ',' + surfaceLat),
+                                    JSON.parse(permitPoint[0])
+                                ],
+                                geodesic: true,
+                                strokeColor: "#FF0000",
+                                strokeOpacity: 1.0,
+                                strokeWeight: 2
+                            });
+                        } else {
+                            let flightPath = new google.maps.Polyline({
+                                path: [
+                                    JSON.parse(surfaceLng + ',' + surfaceLat)
+                                ],
+                                geodesic: true,
+                                strokeColor: "#FF0000",
+                                strokeOpacity: 1.0,
+                                strokeWeight: 2
+                            });
                         }
 
-                        let flightPath = new google.maps.Polyline({
-                            path: [
-                                JSON.parse(surfaceLng + ',' + surfaceLat),
-                                JSON.parse(permitPoint[0])
-                            ],
-                            geodesic: true,
-                            strokeColor: "#FF0000",
-                            strokeOpacity: 1.0,
-                            strokeWeight: 2
-                        });
+
 
                         flightPath.setMap(map);
 

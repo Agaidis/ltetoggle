@@ -44493,15 +44493,24 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 label: 'SF',
                 title: data.permit.lease_name
               });
+
+              var _flightPath = new google.maps.Polyline({
+                path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(permitPoint[0])],
+                geodesic: true,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+              });
+            } else {
+              var _flightPath2 = new google.maps.Polyline({
+                path: [JSON.parse(surfaceLng + ',' + surfaceLat)],
+                geodesic: true,
+                strokeColor: "#FF0000",
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+              });
             }
 
-            var flightPath = new google.maps.Polyline({
-              path: [JSON.parse(surfaceLng + ',' + surfaceLat), JSON.parse(permitPoint[0])],
-              geodesic: true,
-              strokeColor: "#FF0000",
-              strokeOpacity: 1.0,
-              strokeWeight: 2
-            });
             flightPath.setMap(map);
             google.maps.event.addListener(SurfaceMarker, 'click', function (SurfaceMarker) {
               return function () {
