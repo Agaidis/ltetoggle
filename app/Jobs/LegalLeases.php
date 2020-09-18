@@ -14,16 +14,16 @@ class LegalLeases implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $leases;
+    protected $decodedLeases;
     /**
      * Create a new job instance.
      *
      * @var $leases
      * @return void
      */
-    public function __construct($leases)
+    public function __construct($decodedLeases)
     {
-        $this->leases = $leases;
+        $this->decodedLeases = $decodedLeases;
     }
 
     /**
@@ -33,37 +33,29 @@ class LegalLeases implements ShouldQueue
      */
     public function handle()
     {
-        if ($this->leases[0] != null && $this->leases[0] != '' && isset($this->leases[0])) {
-
-            $decodedLeases = json_decode($this->leases[0]);
-
-            for ($i = 0; $i < count($decodedLeases); $i++) {
-
-                LegalLease::updateOrCreate(['LeaseId' => $decodedLeases[$i]->LeaseId],
-                    [
-                        'MappingID' => $decodedLeases[$i]->MappingID,
-                        'AreaAcres' => $decodedLeases[$i]->AreaAcres,
-                        'Abstract' => $decodedLeases[$i]->Abstract,
-                        'AbstractNo' => $decodedLeases[$i]->AbstractNo,
-                        'Block' => $decodedLeases[$i]->Block,
-                        'CountyParish' => $decodedLeases[$i]->CountyParish,
-                        'Created' => $decodedLeases[$i]->Created,
-                        'Geometry' => $decodedLeases[$i]->Geometry,
-                        'LatitudeWGS84' => $decodedLeases[$i]->LatitudeWGS84,
-                        'LongitudeWGS84' => $decodedLeases[$i]->LongitudeWGS84,
-                        'Grantee' => $decodedLeases[$i]->Grantee,
-                        'GranteeAddress' => $decodedLeases[$i]->GranteeAddress,
-                        'GranteeAlias' => $decodedLeases[$i]->GranteeAlias,
-                        'Grantor' => $decodedLeases[$i]->Grantor,
-                        'GrantorAddress' => $decodedLeases[$i]->GrantorAddress,
-                        'MaxDepth' => $decodedLeases[$i]->MaxDepth,
-                        'MinDepth' => $decodedLeases[$i]->MinDepth,
-                        'Range' => $decodedLeases[$i]->Range,
-                        'Section' => $decodedLeases[$i]->Section,
-                        'Township' => $decodedLeases[$i]->Township,
-                        'RecordDate' => $decodedLeases[$i]->RecordDate
-                    ]);
-            }
-        }
+        LegalLease::updateOrCreate(['LeaseId' => $this->decodedLeases->LeaseId],
+            [
+                'MappingID' => $this->decodedLeases->MappingID,
+                'AreaAcres' => $this->decodedLeases->AreaAcres,
+                'Abstract' => $this->decodedLeases->Abstract,
+                'AbstractNo' => $this->decodedLeases->AbstractNo,
+                'Block' => $this->decodedLeases->Block,
+                'CountyParish' => $this->decodedLeases->CountyParish,
+                'Created' => $this->decodedLeases->Created,
+                'Geometry' => $this->decodedLeases->Geometry,
+                'LatitudeWGS84' => $this->decodedLeases->LatitudeWGS84,
+                'LongitudeWGS84' => $this->decodedLeases->LongitudeWGS84,
+                'Grantee' => $this->decodedLeases->Grantee,
+                'GranteeAddress' => $this->decodedLeases->GranteeAddress,
+                'GranteeAlias' => $this->decodedLeases->GranteeAlias,
+                'Grantor' => $this->decodedLeases->Grantor,
+                'GrantorAddress' => $this->decodedLeases->GrantorAddress,
+                'MaxDepth' => $this->decodedLeases->MaxDepth,
+                'MinDepth' => $this->decodedLeases->MinDepth,
+                'Range' => $this->decodedLeases->Range,
+                'Section' => $this->decodedLeases->Section,
+                'Township' => $this->decodedLeases->Township,
+                'RecordDate' => $this->decodedLeases->RecordDate
+            ]);
     }
 }

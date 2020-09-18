@@ -83,7 +83,16 @@ class GetLegalLeases extends Command
                         $url = '';
                     }
 
-                   LegalLeases::dispatch($leases);
+                    if ($this->leases[0] != null && $this->leases[0] != '' && isset($this->leases[0])) {
+
+                        $decodedLeases = json_decode($this->leases[0]);
+
+                        for ($i = 0; $i < count($decodedLeases); $i++) {
+                            LegalLeases::dispatch($decodedLeases[$i]);
+                        }
+                    }
+
+
                 } while ($url != '');
             }
             return 'success';
