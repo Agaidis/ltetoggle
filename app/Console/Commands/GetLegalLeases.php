@@ -84,9 +84,9 @@ class GetLegalLeases extends Command
                         $url = '';
                     }
 
-                    if ($this->leases[0] != null && $this->leases[0] != '' && isset($this->leases[0])) {
+                    if ($leases[0] != null && $leases[0] != '' && isset($leases[0])) {
 
-                        $decodedLeases = json_decode($this->leases[0]);
+                        $decodedLeases = json_decode($leases[0]);
 
                         Log::info('Its trying?');
                         for ($i = 0; $i < count($decodedLeases); $i++) {
