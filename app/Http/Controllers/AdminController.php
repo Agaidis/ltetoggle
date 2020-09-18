@@ -32,8 +32,6 @@ class AdminController extends Controller
      */
     public function index()
     {
-
-        LegalLeases::dispatch();
         return view('admin');
     }
 
