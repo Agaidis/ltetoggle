@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Console\Commands\GetPermits;
 use App\ErrorLog;
+use App\Jobs\LegalLeases;
+use App\LegalLease;
 use App\Permit;
 use Illuminate\Http\Request;
 use Exception;
@@ -30,6 +32,8 @@ class AdminController extends Controller
      */
     public function index()
     {
+
+        LegalLeases::dispatch();
         return view('admin');
     }
 
