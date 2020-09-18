@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\ErrorLog;
 use App\Http\Controllers\APIManager;
+use App\Jobs\LegalLeases;
 use App\LegalLease;
 use Exception;
 use Illuminate\Console\Command;
@@ -82,38 +83,7 @@ class GetLegalLeases extends Command
                         $url = '';
                     }
 
-                    if ($leases[0] != null && $leases[0] != '' && isset($leases[0])) {
-
-                        $decodedLeases = json_decode($leases[0]);
-
-                        for ($i = 0; $i < count($decodedLeases); $i++) {
-
-                            LegalLease::updateOrCreate(['LeaseId' => $decodedLeases[$i]->LeaseId],
-                                [
-                                    'MappingID' => $decodedLeases[$i]->MappingID,
-                                    'AreaAcres' => $decodedLeases[$i]->AreaAcres,
-                                    'Abstract' => $decodedLeases[$i]->Abstract,
-                                    'AbstractNo' => $decodedLeases[$i]->AbstractNo,
-                                    'Block' => $decodedLeases[$i]->Block,
-                                    'CountyParish' => $decodedLeases[$i]->CountyParish,
-                                    'Created' => $decodedLeases[$i]->Created,
-                                    'Geometry' => $decodedLeases[$i]->Geometry,
-                                    'LatitudeWGS84' => $decodedLeases[$i]->LatitudeWGS84,
-                                    'LongitudeWGS84' => $decodedLeases[$i]->LongitudeWGS84,
-                                    'Grantee' => $decodedLeases[$i]->Grantee,
-                                    'GranteeAddress' => $decodedLeases[$i]->GranteeAddress,
-                                    'GranteeAlias' => $decodedLeases[$i]->GranteeAlias,
-                                    'Grantor' => $decodedLeases[$i]->Grantor,
-                                    'GrantorAddress' => $decodedLeases[$i]->GrantorAddress,
-                                    'MaxDepth' => $decodedLeases[$i]->MaxDepth,
-                                    'MinDepth' => $decodedLeases[$i]->MinDepth,
-                                    'Range' => $decodedLeases[$i]->Range,
-                                    'Section' => $decodedLeases[$i]->Section,
-                                    'Township' => $decodedLeases[$i]->Township,
-                                    'RecordDate' => $decodedLeases[$i]->RecordDate
-                                ]);
-                        }
-                    }
+                   LegalLeases::dispatch($leases);
                 } while ($url != '');
             }
             return 'success';
