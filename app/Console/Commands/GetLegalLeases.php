@@ -8,6 +8,7 @@ use App\Jobs\LegalLeases;
 use App\LegalLease;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class GetLegalLeases extends Command
 {
@@ -87,6 +88,7 @@ class GetLegalLeases extends Command
 
                         $decodedLeases = json_decode($this->leases[0]);
 
+                        Log::info('Its trying?');
                         for ($i = 0; $i < count($decodedLeases); $i++) {
                             LegalLeases::dispatch($decodedLeases[$i]);
                         }
