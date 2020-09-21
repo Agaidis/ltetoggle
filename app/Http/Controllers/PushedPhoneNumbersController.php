@@ -40,7 +40,7 @@ class PushedPhoneNumbersController extends Controller
 //               }
 //           }
 
-            return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'pushPhoneNumbersNM', 'ownerArray'));
+            return view('pushedPhoneNumbers', compact('pushedPhoneNumbers', 'ownerArray'));
         } catch (\Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();
