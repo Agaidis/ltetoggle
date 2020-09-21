@@ -239,7 +239,7 @@ class APIManager
     public function getLegalLeases ($county, $token, $linkUrl) {
 
         if ($linkUrl == '') {
-            $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases?countyparish=".$county."&pagesize=10000";
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases?countyparish=".$county."&pagesize=2000";
         } else {
             $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases" . $linkUrl;
         }

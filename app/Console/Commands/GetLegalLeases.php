@@ -88,7 +88,7 @@ class GetLegalLeases extends Command
 
                         $decodedLeases = json_decode($leases[0]);
 
-                        Log::info('Its trying?');
+
                         for ($i = 0; $i < count($decodedLeases); $i++) {
                             LegalLeases::dispatch($decodedLeases[$i]);
                         }
