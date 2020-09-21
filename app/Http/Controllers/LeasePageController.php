@@ -511,17 +511,13 @@ class LeasePageController extends Controller
     public function getOwnerNumbers(Request $request) {
         try {
 
-            Log::info($request->id);
-
             if (in_array($request->interestArea, $this->txInterestAreas)) {
                 $ownerName = MineralOwner::where('id', $request->id)->value('owner');
             } else if (in_array($request->interestArea, $this->nmInterestAreas)) {
                 $ownerName = LegalLease::where('LeaseId', $request->id)->value('Grantor');
             }
 
-            Log::info($ownerName);
-
-            $phoneNumbers = OwnerPhoneNumber::where('owner_name', $ownerName)->where('soft_delete', 0)->get();
+            $phoneNumbers = OwnerPhoneNumber::where('owner_name', $ownerName)->where('soft_delete', 0)->where('is_pushed', 0)->get();
 
             return $phoneNumbers;
 

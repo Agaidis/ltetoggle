@@ -25,11 +25,11 @@ class PushedPhoneNumbersController extends Controller
                 ->orderBy('owner_phone_numbers.owner_name', 'ASC')->get();
 
 
-            $pushPhoneNumbersNM = DB::table('owner_phone_numbers')
-                ->where('is_pushed', 1)
-                ->join('legal_leases', 'owner_phone_numbers.LeaseId', '=', 'legal_leases.LeaseId')
-                ->select('owner_phone_numbers.*', 'legal_leases.Grantor', 'legal_leases.GrantorAddress')
-                ->orderBy('owner_phone_numbers.owner_name', 'ASC')->get();
+//            $pushPhoneNumbersNM = DB::table('owner_phone_numbers')
+//                ->where('is_pushed', 1)
+//                ->join('legal_leases', 'owner_phone_numbers.LeaseId', '=', 'legal_leases.LeaseId')
+//                ->select('owner_phone_numbers.*', 'legal_leases.Grantor', 'legal_leases.GrantorAddress')
+//                ->orderBy('owner_phone_numbers.owner_name', 'ASC')->get();
 //           $phoneNumbers = OwnerPhoneNumber::where('owner_id', null)->get();
 //
 //           foreach ( $phoneNumbers as $phoneNumber) {
