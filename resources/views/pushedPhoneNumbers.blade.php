@@ -65,6 +65,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @if (isset($pushPhoneNumbersNM))
                                     <?php $currentOwnerName = ''; $previousOwnerName = ''; $phoneDescriptions = ''; $phoneNumbers = '';?>
                                     @for ($i = 0; $i < count($pushPhoneNumbersNM); $i++)
                                         <?php $currentOwnerName = $pushPhoneNumbersNM[$i]->Grantor;
@@ -89,6 +90,7 @@
                                         </tr>
                                         <?php $previousOwnerName = $pushPhoneNumbersNM[$i]->Grantor; ?>
                                     @endfor
+                                        @endif
                                     </tbody>
                                     <tfoot>
                                     <caption class="lease_table_caption">New Mexico Pushed Phone Numbers </caption>
