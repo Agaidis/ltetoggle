@@ -1468,9 +1468,6 @@
      }
 
      function changeProduct(id, product) {
-         console.log(product);
-         console.log(id);
-
          let productPrice = '';
 
          if (product === 'gas') {

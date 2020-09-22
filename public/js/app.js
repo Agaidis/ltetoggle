@@ -43721,8 +43721,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   }
 
   function changeProduct(id, product) {
-    console.log(product);
-    console.log(id);
     var productPrice = '';
 
     if (product === 'gas') {
@@ -44973,7 +44971,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var phoneDesc = $('#phone_desc_' + phoneId).val();
     var ownerName = $('#owner_name_' + phoneId).val();
     var leaseName = $('#lease_name_' + phoneId).val();
-    console.log(phoneId);
+    var ownerId = $('#owner_id_' + phoneId).val();
     $.ajaxSetup({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -44987,6 +44985,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       url: '/pushed-phone-numbers/updatePhoneNumber',
       data: {
         id: phoneId,
+        ownerId: ownerId,
         phoneNumber: phoneNumber,
         phoneDesc: phoneDesc,
         ownerName: ownerName,

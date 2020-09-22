@@ -12,8 +12,8 @@ $(document).ready(function () {
         let phoneDesc = $('#phone_desc_' + phoneId).val();
         let ownerName = $('#owner_name_' + phoneId).val();
         let leaseName = $('#lease_name_' + phoneId).val();
+        let ownerId = $('#owner_id_' + phoneId).val();
 
-        console.log(phoneId);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -27,6 +27,7 @@ $(document).ready(function () {
             url: '/pushed-phone-numbers/updatePhoneNumber',
             data: {
                 id: phoneId,
+                ownerId: ownerId,
                 phoneNumber: phoneNumber,
                 phoneDesc: phoneDesc,
                 ownerName: ownerName,
