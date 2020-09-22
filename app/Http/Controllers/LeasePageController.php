@@ -521,7 +521,7 @@ class LeasePageController extends Controller
 
             Log::info($ownerName);
 
-            $phoneNumbers = OwnerPhoneNumber::where('owner_name', $ownerName)->where('soft_delete', 0)->get();
+            $phoneNumbers = OwnerPhoneNumber::where('owner_name', $ownerName)->where('soft_delete', 0)->where('is_pushed', 0)->get();
 
             return $phoneNumbers;
 

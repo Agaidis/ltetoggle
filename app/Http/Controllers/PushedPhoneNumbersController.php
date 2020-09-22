@@ -78,6 +78,7 @@ class PushedPhoneNumbersController extends Controller
             OwnerPhoneNumber::where('id', $request->id)
                 ->update([
                     'is_pushed' => 0,
+                    'soft_delete' => 0,
                     'phone_number' => $request->phoneNumber,
                     'phone_desc' => $request->phoneDesc
                 ]);
