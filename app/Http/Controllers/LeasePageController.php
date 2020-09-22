@@ -324,7 +324,7 @@ class LeasePageController extends Controller
             return 'error';
         }
     }
-
+//test
     public function getOwnerInfo (Request $request) {
 
         try {
