@@ -46,10 +46,44 @@ class WelboreController extends Controller
                 //In here override the current user if the userId is not 0
                 $highPriorityProspects = DB::select('select id, follow_up_date, lease_name, assignee, wellbore_type, owner, owner_address, owner_city, owner_zip, owner_decimal_interest, owner_interest_type  from mineral_owners WHERE assignee = ' . $request->userId . ' AND wellbore_type != "0" ORDER BY FIELD(wellbore_type, "4", "3", "2", "1" ), wellbore_type DESC');
                 $highPriorityProspectsNM = DB::select('select LeaseId, follow_up_date, permit_stitch_id, assignee, wellbore, Grantor, GrantorAddress  from legal_leases WHERE assignee = ' . $request->userId . ' AND wellbore != "0" ORDER BY FIELD(wellbore, "4", "3", "2", "1" ), wellbore DESC');
+
+                $owners = DB::table('mineral_owners')
+                    ->where('follow_up_date', '!=', NULL)
+                    ->where('assignee', $request->userId)
+                    ->where(function ($query) {
+                        $query->where('wellbore_type', '=', NULL)
+                            ->orWhere('wellbore_type', '=', '0');
+                    })->orderBy('follow_up_date', 'ASC')->get();
+
+                $ownersNM = DB::table('legal_leases')
+                    ->where('follow_up_date', '!=', NULL)
+                    ->where('assignee', $request->userId)
+                    ->where(function ($query) {
+                        $query->where('wellbore', '=', NULL)
+                            ->orWhere('wellbore', '=', '0');
+                    })->orderBy('follow_up_date', 'ASC')->get();
+
             } else {
                 //In here override the current user if the userId is not 0
                 $highPriorityProspects = DB::select('select id, follow_up_date, lease_name, assignee, wellbore_type, owner, owner_address, owner_city, owner_zip, owner_decimal_interest, owner_interest_type  from mineral_owners WHERE assignee = ' . Auth::user()->id . ' AND wellbore_type != "0" ORDER BY FIELD(wellbore_type, "4", "3", "2", "1" ), wellbore_type DESC');
                 $highPriorityProspectsNM = DB::select('select LeaseId, follow_up_date, permit_stitch_id, assignee, wellbore, Grantor, GrantorAddress  from legal_leases WHERE assignee = ' . Auth::user()->id . ' AND wellbore != "0" ORDER BY FIELD(wellbore, "4", "3", "2", "1" ), wellbore DESC');
+
+                $owners = DB::table('mineral_owners')
+                    ->where('follow_up_date', '!=', NULL)
+                    ->where('assignee', Auth::user()->id)
+                    ->where(function ($query) {
+                        $query->where('wellbore_type', '=', NULL)
+                            ->orWhere('wellbore_type', '=', '0');
+                    })->orderBy('follow_up_date', 'ASC')->get();
+
+                $ownersNM = DB::table('legal_leases')
+                    ->where('follow_up_date', '!=', NULL)
+                    ->where('assignee', Auth::user()->id)
+                    ->where(function ($query) {
+                        $query->where('wellbore', '=', NULL)
+                            ->orWhere('wellbore', '=', '0');
+                    })->orderBy('follow_up_date', 'ASC')->get();
+
             }
 
 
@@ -67,23 +101,6 @@ class WelboreController extends Controller
                 $highPriorityProspectNM->lease_name = $leaseName;
                 $highPriorityProspectNM->interest_area = 'nm';
             }
-
-            $owners = DB::table('mineral_owners')
-                ->where('follow_up_date', '!=', NULL)
-                ->where('assignee', Auth::user()->id)
-                ->where(function ($query) {
-                    $query->where('wellbore_type', '=', NULL)
-                        ->orWhere('wellbore_type', '=', '0');
-                })->orderBy('follow_up_date', 'ASC')->get();
-
-            $ownersNM = DB::table('legal_leases')
-                ->where('follow_up_date', '!=', NULL)
-                ->where('assignee', Auth::user()->id)
-                ->where(function ($query) {
-                    $query->where('wellbore', '=', NULL)
-                        ->orWhere('wellbore', '=', '0');
-                })->orderBy('follow_up_date', 'ASC')->get();
-
 
             foreach ($owners as $owner) {
                 $owner->interest_area = 'tx';
