@@ -10,7 +10,7 @@
                             <div class="button_panel">
                                 @if ($userRole == 'admin')
                                     <select class="form-control" id="wellbore_user_change">
-                                        @if ($userId === 3)
+                                        @if ($userId == 3)
                                             <option value="0">Select User</option>
                                             <option selected value="3">Billy</option>
                                             <option value="68">Justus</option>
