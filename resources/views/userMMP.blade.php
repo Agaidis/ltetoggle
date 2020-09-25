@@ -13,7 +13,7 @@
                             <div id="dashboard_btn_container" class="col-md-4">
                                 <div class="button_panel">
                                     @if ($userRole == 'admin')
-                                        <a href="{{ url('wellbore') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
+                                        <a href="{{ url('wellbore/0') }}"><button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button></a>
                                         <a href="{{ url('mm-platform') }}">
                                             <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns" id="user_mmp_btn">MMP General</button>
                                         </a>
@@ -21,7 +21,7 @@
                                             <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
                                         </a>
                                     @elseif ($userRole == 'regular')
-                                        <a href="{{ url('wellbore') }}">
+                                        <a href="{{ url('wellbore/0') }}">
                                             <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                         </a>
                                     @endif

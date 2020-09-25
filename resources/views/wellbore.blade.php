@@ -6,6 +6,27 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body body_container">
+                        <div id="dashboard_btn_container" class="col-md-4">
+                            <div class="button_panel">
+                                @if ($userRole == 'admin')
+                                    <select class="form-control" id="wellbore_user_change">
+                                        @if ($userId === 3)
+                                            <option value="0">Select User</option>
+                                            <option selected value="3">Billy</option>
+                                            <option value="68">Justus</option>
+                                        @elseif ($userId == 68)
+                                            <option value="0">Select User</option>
+                                            <option value="3">Billy</option>
+                                            <option selected value="68">Justus</option>
+                                        @else
+                                            <option selected value="0">Select User</option>
+                                            <option value="3">Billy</option>
+                                            <option value="68">Justus</option>
+                                        @endif
+                                    </select>
+                                @endif
+                            </div>
+                        </div>
                         <div class="col-md-12 titles">
                             <h1>Wellbore</h1>
                             <h5>4 - Done Deal</h5>

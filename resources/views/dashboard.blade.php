@@ -14,7 +14,7 @@
                                 <div class="button_panel">
 
                                     @if ($userRole == 'admin')
-                                        <a href="{{ url('wellbore') }}">
+                                        <a href="{{ url('wellbore/0') }}">
                                             <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                         </a>
                                         <a href="{{ url('user-mmp') }}">
@@ -24,7 +24,7 @@
                                             <button style="margin-left:5%;" type="button" class="btn btn-primary dashboard_btns">Justus Danna</button>
                                         </a>
                                         @elseif ($userRole == 'regular')
-                                        <a href="{{ url('wellbore') }}">
+                                        <a href="{{ url('wellbore/0') }}">
                                             <button type="button" class="btn btn-primary dashboard_btns" id="welbore_btn">Wellbore</button>
                                         </a>
                                         @endif
