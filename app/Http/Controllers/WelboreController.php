@@ -32,12 +32,26 @@ class WelboreController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
+            $currentUser = Auth::user()->name;
+            $userRole = Auth::user()->role;
+
+            Log::info($request->userId);
+            $userId = $request->userId;
             $users = User::all();
-            $highPriorityProspects = DB::select('select id, follow_up_date, lease_name, assignee, wellbore_type, owner, owner_address, owner_city, owner_zip, owner_decimal_interest, owner_interest_type  from mineral_owners WHERE assignee = ' . Auth::user()->id . ' AND wellbore_type != "0" ORDER BY FIELD(wellbore_type, "4", "3", "2", "1" ), wellbore_type DESC');
-            $highPriorityProspectsNM = DB::select('select LeaseId, follow_up_date, permit_stitch_id, assignee, wellbore, Grantor, GrantorAddress  from legal_leases WHERE assignee = ' . Auth::user()->id . ' AND wellbore != "0" ORDER BY FIELD(wellbore, "4", "3", "2", "1" ), wellbore DESC');
+
+            if ($request->userId != 0) {
+                //In here override the current user if the userId is not 0
+                $highPriorityProspects = DB::select('select id, follow_up_date, lease_name, assignee, wellbore_type, owner, owner_address, owner_city, owner_zip, owner_decimal_interest, owner_interest_type  from mineral_owners WHERE assignee = ' . $request->userId . ' AND wellbore_type != "0" ORDER BY FIELD(wellbore_type, "4", "3", "2", "1" ), wellbore_type DESC');
+                $highPriorityProspectsNM = DB::select('select LeaseId, follow_up_date, permit_stitch_id, assignee, wellbore, Grantor, GrantorAddress  from legal_leases WHERE assignee = ' . $request->userId . ' AND wellbore != "0" ORDER BY FIELD(wellbore, "4", "3", "2", "1" ), wellbore DESC');
+            } else {
+                //In here override the current user if the userId is not 0
+                $highPriorityProspects = DB::select('select id, follow_up_date, lease_name, assignee, wellbore_type, owner, owner_address, owner_city, owner_zip, owner_decimal_interest, owner_interest_type  from mineral_owners WHERE assignee = ' . Auth::user()->id . ' AND wellbore_type != "0" ORDER BY FIELD(wellbore_type, "4", "3", "2", "1" ), wellbore_type DESC');
+                $highPriorityProspectsNM = DB::select('select LeaseId, follow_up_date, permit_stitch_id, assignee, wellbore, Grantor, GrantorAddress  from legal_leases WHERE assignee = ' . Auth::user()->id . ' AND wellbore != "0" ORDER BY FIELD(wellbore, "4", "3", "2", "1" ), wellbore DESC');
+            }
+
 
             foreach ($highPriorityProspects as $highPriorityProspect) {
                 $highPriorityProspect->interest_area = 'tx';
@@ -83,7 +97,7 @@ class WelboreController extends Controller
 
             }
 
-            return view('wellbore', compact('owners', 'ownersNM', 'highPriorityProspects', 'highPriorityProspectsNM', 'users'));
+            return view('wellbore', compact('owners','userRole', 'userId', 'currentUser', 'ownersNM', 'highPriorityProspects', 'highPriorityProspectsNM', 'users'));
         } catch (\Exception $e) {
             $errorMsg = new ErrorLog();
             $errorMsg->payload = $e->getMessage() . ' Line #: ' . $e->getLine();

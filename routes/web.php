@@ -19,7 +19,7 @@ Auth::routes();
 
 Route::get('/home',                             'HomeController@index')->name('home');
 
-Route::get('/wellbore',                          'WelboreController@index')->middleware('auth');
+Route::get('/wellbore/{userId?}',                  'WelboreController@index')->middleware('auth');
 
 Route::get('/user-mmp',                         'UserMMPController@index')->middleware('auth');
 

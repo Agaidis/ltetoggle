@@ -18,6 +18,7 @@ mix.js([
     'vendor/select2/select2/dist/js/select2.min.js',
     'resources/assets/js/jquery-dp-ui.min.js',
     'resources/assets/js/leasePage.js',
+    'resources/assets/js/wellbore.js',
     'resources/assets/js/permits.js',
     'resources/assets/js/admin.js',
     'resources/assets/js/phoneNumberPush.js',

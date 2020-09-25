@@ -45099,6 +45099,23 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 /***/ }),
 
+/***/ "./resources/assets/js/wellbore.js":
+/*!*****************************************!*\
+  !*** ./resources/assets/js/wellbore.js ***!
+  \*****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
+  $('#wellbore_user_change').on('change', function () {
+    console.log($(this)[0].value);
+    window.location.href = 'http://ltetoggle.com/wellbore/' + $(this)[0].value;
+  });
+});
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/assets/sass/app.scss":
 /*!****************************************!*\
   !*** ./resources/assets/sass/app.scss ***!
@@ -47933,9 +47950,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ }),
 
 /***/ 0:
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/assets/js/bootstrap.js ./vendor/select2/select2/dist/js/select2.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/leasePage.js ./resources/assets/js/permits.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./resources/assets/js/owner.js ./resources/assets/js/datatables.min.js ./resources/assets/js/permitStorage.js ./resources/assets/sass/app.scss ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/js/bootstrap.js ./vendor/select2/select2/dist/js/select2.min.js ./resources/assets/js/jquery-dp-ui.min.js ./resources/assets/js/leasePage.js ./resources/assets/js/wellbore.js ./resources/assets/js/permits.js ./resources/assets/js/admin.js ./resources/assets/js/phoneNumberPush.js ./resources/assets/js/owner.js ./resources/assets/js/datatables.min.js ./resources/assets/js/permitStorage.js ./resources/assets/sass/app.scss ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47943,6 +47960,7 @@ __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/vendor/select2/select2/dist/js/select2.min.js */"./vendor/select2/select2/dist/js/select2.min.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/jquery-dp-ui.min.js */"./resources/assets/js/jquery-dp-ui.min.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/leasePage.js */"./resources/assets/js/leasePage.js");
+__webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/wellbore.js */"./resources/assets/js/wellbore.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/permits.js */"./resources/assets/js/permits.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/admin.js */"./resources/assets/js/admin.js");
 __webpack_require__(/*! /Users/andrewgaidis/projects/Toggle/resources/assets/js/phoneNumberPush.js */"./resources/assets/js/phoneNumberPush.js");
