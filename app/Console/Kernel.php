@@ -29,11 +29,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('process:DailyReport')->dailyAt(8)->timezone('America/New_York');
-        $schedule->command('process:getPermits')->dailyAt(7)->timezone('America/New_York');
-        $schedule->command('process:getWells')->dailyAt(23)->timezone('America/New_York');
-        $schedule->command('process:getLandtracLeases')->dailyAt(3)->timezone('America/New_York');
-        $schedule->command('determine:production')->twiceDaily(6, 14)->timezone('America/New_York');
+
 
     }
 
