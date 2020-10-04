@@ -48,12 +48,18 @@ class GetWells extends Command
             $eagleInterestCountiesArray = array('ATASCOSA%20\(TX\)', 'BEE%20\(TX\)', 'DEWITT%20\(TX\)', 'GONZALES%20\(TX\)', 'KARNES%20\(TX\)', 'LIVE%20OAK%20\(TX\)', 'LAVACA%20\(TX\)', 'WILSON%20\(TX\)');
             $wtxInterestCountiesArray = array('DAWSON%20\(TX\)', 'GAINES%20\(TX\)', 'BORDEN%20\(TX\)', 'CRANE%20\(TX\)', 'ECTOR%20\(TX\)', 'STERLING%20\(TX\)', 'MITCHELL%20\(TX\)', 'JEFF%20DAVIS%20\(TX\)', 'ANDREWS%20\(TX\)');
             $nmByApprovedDate = array('LEA%20\(NM\)', 'EDDY%20\(NM\)');
+            $etxInterestCountiesArray = array('Cass%20\(TX\)', 'Gregg%20\(TX\)', 'Harrison%20\(TX\)', 'Marion%20\(TX\)', 'Morris%20\(TX\)', 'Nacogdoches%20\(TX\)', 'Panola%20\(TX\)', 'San%20Augustine%20\(TX\)', 'Rusk%20\(TX\)', 'Shelby%20\(TX\)', 'Upshur%20\(TX\)');
+            $laInterestCountiesArray = array('Bienville%20\(LA\)', 'Bossier%20\(LA\)', 'Caddo%20\(LA\)', 'De%20Soto%20\(LA\)', 'Natchitoches', 'Red%20River%20\(LA\)', 'Sabine%20\(LA\)', 'Webster%20\(LA\)');
 
             $this->getCountyWellData($eagleInterestCountiesArray);
 
             $this->getCountyWellData($wtxInterestCountiesArray);
 
             $this->getCountyWellData($nmByApprovedDate);
+
+            $this->getCountyWellData($etxInterestCountiesArray);
+
+            $this->getCountyWellData($laInterestCountiesArray);
 
 
             return 'success';

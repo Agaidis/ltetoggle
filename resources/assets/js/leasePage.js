@@ -18,7 +18,7 @@
          }
 
 
-         if ($('#interest_area').val() !== 'nm') {
+         if ($('#interest_area').val() !== 'nm' && $('#interest_area').val() !== 'la') {
              $('#lease_name_select').select2({
                  multiple: true,
                  minimumInputLength: 3
@@ -378,7 +378,7 @@
      /*                          WELLBORE            PAGE                    */
      $(document).ready(function () {
          console.log(location.href.split('/')[3]);
-         if (location.href.split('/')[3] === 'wellbore' || location.href.split('/')[3] === 'wellbore#!texas_area' || location.href.split('/')[3] === 'wellbore#!new_mexico_area') {
+         if (location.href.split('/')[3] === 'wellbore' || location.href.split('/')[3] === 'wellbore#!texas_area' || location.href.split('/')[3] === 'wellbore#!new_mexico_area' || location.href.split('/')[3] === 'wellbore#!louisiana_area') {
 
 
 
@@ -386,7 +386,7 @@
              //     $('.navbar-nav .nav-link').removeClass('active');
              //     $(this).addClass('active');
              // })
-             /* HIGH PRIORITY WELLBORE TABLE */
+             /* HIGH PRIORITY WELLBORE TX TABLE */
 
              $('.wellbore_owner_follow_up').datepicker();
 
@@ -466,7 +466,7 @@
                  deleteNote(ownerId, noteId)
              });
 
-             /* LOWER PRIORITY WELLBORE TABLE */
+             /* LOWER PRIORITY WELLBORE TX TABLE */
 
              let lowPriorityTable = $('.low_priority_wellbore_table').DataTable({
                  "pagingType": "simple",
@@ -544,6 +544,8 @@
              });
 
 
+             /* HIGH PRIORITY WELLBORE NM TABLE */
+
              let highPriorityTableNM = $('.high_priority_wellbore_tableNM').DataTable({
                  "pagingType": "simple",
                  "pageLength": 25,
@@ -620,7 +622,7 @@
                  deleteNote(ownerId, noteId)
              });
 
-             /* LOWER PRIORITY WELLBORE TABLE */
+             /* LOWER PRIORITY WELLBORE NM TABLE */
 
              let lowPriorityTableNM = $('.low_priority_wellbore_tableNM').DataTable({
                  "pagingType": "simple",
@@ -697,6 +699,173 @@
                  deleteNote(ownerId, noteId)
 
              });
+
+
+             /* HIGH PRIORITY WELLBORE LA TABLE */
+
+
+             let highPriorityTableLA = $('.high_priority_wellbore_tableLA').DataTable({
+                 "pagingType": "simple",
+                 "pageLength": 25,
+                 "aaSorting": [],
+                 "order": [[1, "desc"]]
+             }).on('change', '.owner_assignee', function () {
+                 let id = $(this)[0].id;
+                 let assignee = $(this)[0].value;
+                 let ownerId = id.split('_');
+
+                 updateAssignee(ownerId[1], assignee, 'la');
+
+
+             }).on('click', '.owner_row', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 $('#owner_id').val(splitId[2]);
+
+             }).on('change', '.wellbore_dropdown', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let wellType = $(this)[0].value;
+                 $('#owner_id').val(splitId[2]);
+
+                 updateWellbore(splitId[2], wellType, 'la');
+
+
+             }).on('click', '.add_phone_btn', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 $('#owner_id').val(splitId[2]);
+                 $('#current_interest_area').val('la');
+
+                 openPhoneModal(splitId[2], 'la');
+             }).on('change', '.wellbore_owner_follow_up', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let uniqueId = splitId[3];
+                 let date = $('#owner_follow_up_' + uniqueId).val();
+
+
+                 updateFollowUp(uniqueId, date, 'la');
+             }).on('click', 'td.wellbore-details-control', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let ownerId = splitId[1];
+                 let tr = $(this).closest('tr');
+                 let row = highPriorityTableLA.row(tr);
+                 getNotes(ownerId, tr, row, 'la')
+
+             }).on('click', '.update_owner_notes_btn', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let ownerId = splitId[4];
+
+                 updateNotes(ownerId, $('#lease_name_' + ownerId).val(), 'la');
+             }).on('mouseover', '.owner_note', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let noteId = splitId[1];
+                 let ownerId = splitId[2];
+
+                 $('#' + id).css('background-color', 'lightgrey');
+                 $('#delete_owner_note_' + noteId + '_' + ownerId).css('display', 'inherit');
+             }).on('mouseleave', '.owner_note', function () {
+                 $('.delete_owner_note').css('display', 'none');
+                 $('.owner_note').css('background-color', '#F2EDD7FF');
+             }).on('click', '.delete_owner_note', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let noteId = splitId[3];
+                 let ownerId = splitId[4];
+
+                 deleteNote(ownerId, noteId)
+             });
+
+             /* LOWER PRIORITY WELLBORE LA TABLE */
+
+             let lowPriorityTableLA = $('.low_priority_wellbore_tableLA').DataTable({
+                 "pagingType": "simple",
+                 "pageLength": 25,
+                 "aaSorting": [],
+                 "order": [[1, "desc"]]
+             }).on('change', '.owner_assignee', function () {
+                 let id = $(this)[0].id;
+                 let assignee = $(this)[0].value;
+                 let ownerId = id.split('_');
+
+                 updateAssignee(assignee, ownerId[1], 'la');
+
+             }).on('click', '.owner_row', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 $('#owner_id').val(splitId[2]);
+
+             }).on('change', '.wellbore_dropdown', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let wellType = $(this)[0].value;
+                 $('#owner_id').val(splitId[2]);
+
+                 updateWellbore(splitId[2], wellType, 'la');
+
+             }).on('click', '.add_phone_btn', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 $('#owner_id').val(splitId[2]);
+                 $('#current_interest_area').val('la');
+
+
+                 openPhoneModal(splitId[2], 'la');
+             }).on('change', '.wellbore_owner_follow_up', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let uniqueId = splitId[3];
+                 let date = $('#owner_follow_up_' + uniqueId).val();
+
+                 updateFollowUp(uniqueId, date, 'la');
+             }).on('click', 'td.wellbore-details-control', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let ownerId = splitId[1];
+                 let tr = $(this).closest('tr');
+                 let row = lowPriorityTableLA.row(tr);
+
+                 getNotes(ownerId, tr, row, 'la')
+
+             }).on('click', '.update_owner_notes_btn', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let ownerId = splitId[4];
+
+                 updateNotes(ownerId, $('#lease_name_' + ownerId).val(), 'la');
+             }).on('mouseover', '.owner_note', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let noteId = splitId[1];
+                 let ownerId = splitId[2];
+
+                 $('#' + id).css('background-color', 'lightgrey');
+                 $('#delete_owner_note_' + noteId + '_' + ownerId).css('display', 'inherit');
+             }).on('mouseleave', '.owner_note', function () {
+                 $('.delete_owner_note').css('display', 'none');
+                 $('.owner_note').css('background-color', '#F2EDD7FF');
+             }).on('click', '.delete_owner_note', function () {
+                 let id = $(this)[0].id;
+                 let splitId = id.split('_');
+                 let noteId = splitId[3];
+                 let ownerId = splitId[4];
+
+                 deleteNote(ownerId, noteId)
+
+             });
+
+
+
+
+
+
+
+
+
 
              $('.phone_container').on('click', '.soft_delete_phone', function() {
                  let id = $(this)[0].id;

@@ -376,7 +376,7 @@
                             </div>
 
 
-                        @elseif (in_array($interestArea, $nmInterestAreas ))
+                        @elseif (in_array($interestArea, $nonTexasInterestAreas ))
                             <div class="row">
                                 <div class="col-md-12">
                                     <div style="overflow-x:auto;">

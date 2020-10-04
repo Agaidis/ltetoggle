@@ -7,6 +7,7 @@ use App\Http\Controllers\APIManager;
 use App\LegalLease;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class GetLegalLeases extends Command
 {
@@ -43,16 +44,21 @@ class GetLegalLeases extends Command
     {
 
         try {
-         //   $eagleInterestCountiesArray = array('ATASCOSA%20\(TX\)', 'BEE%20\(TX\)', 'DEWITT%20\(TX\)', 'GONZALES%20\(TX\)', 'KARNES%20\(TX\)', 'LIVE%20OAK%20\(TX\)', 'LAVACA%20\(TX\)', 'WILSON%20\(TX\)');
-            $nvxInterestCountiesArray = array('DAWSON%20\(TX\)', 'GAINES%20\(TX\)', 'BORDEN%20\(TX\)', 'CRANE%20\(TX\)', 'ECTOR%20\(TX\)', 'STERLING%20\(TX\)', 'MITCHELL%20\(TX\)', 'JEFF%20DAVIS%20\(TX\)');
-            $nvxByApprovedDate = array('LEA%20\(NM\)', 'EDDY%20\(NM\)');
-               $eagleInterestCountiesArray = array('GONZALES%20\(TX\)');
+            $eagleInterestCountiesArray = array('ATASCOSA%20\(TX\)', 'BEE%20\(TX\)', 'DEWITT%20\(TX\)', 'GONZALES%20\(TX\)', 'KARNES%20\(TX\)', 'LIVE%20OAK%20\(TX\)', 'LAVACA%20\(TX\)', 'WILSON%20\(TX\)');
+            $wtxInterestCountiesArray = array('DAWSON%20\(TX\)', 'GAINES%20\(TX\)', 'BORDEN%20\(TX\)', 'CRANE%20\(TX\)', 'ECTOR%20\(TX\)', 'STERLING%20\(TX\)', 'MITCHELL%20\(TX\)', 'JEFF%20DAVIS%20\(TX\)');
+            $etxInterestCountiesArray = array('CASS%20\(TX\)', 'GREGG%20\(TX\)', 'HARRISON%20\(TX\)', 'MARION%20\(TX\)', 'MORRIS%20\(TX\)', 'NACOGDOCHES%20\(TX\)', 'PANOLA%20\(TX\)', 'SAN%20AUGUSTINE%20\(TX\)', 'RUSK%20\(TX\)', 'SHELBY%20\(TX\)', 'UPSHUR%20\(TX\)');
+            $nmByApprovedDate = array('LEA%20\(NM\)', 'EDDY%20\(NM\)');
+            $laInterestCountiesArray = array('BIENVILLE%20\(LA\)', 'BOSSIER%20\(LA\)', 'CADDO%20\(LA\)', 'DE%20SOTO%20\(LA\)', 'NATCHITOCHES%20\(LA\)', 'RED%20RIVER%20\(LA\)', 'SABINE%20\(LA\)', 'WEBSTER%20\(LA\)');
 
-            $this->getCountyLeaseData($eagleInterestCountiesArray);
+            $this->getCountyLeaseData('tx', $eagleInterestCountiesArray);
 
-           // $this->getCountyLeaseData($nvxInterestCountiesArray);
+            $this->getCountyLeaseData('tx', $wtxInterestCountiesArray);
 
-          //  $this->getCountyLeaseData($nvxByApprovedDate);
+            $this->getCountyLeaseData('tx', $etxInterestCountiesArray);
+
+            $this->getCountyLeaseData('nm', $nmByApprovedDate);
+
+            $this->getCountyLeaseData('la', $laInterestCountiesArray);
 
 
             return 'success';
@@ -65,7 +71,7 @@ class GetLegalLeases extends Command
         }
     }
 
-    public function getCountyLeaseData ($counties) {
+    public function getCountyLeaseData ($interestArea, $counties) {
 
         try {
             $apiManager = new APIManager();
@@ -107,6 +113,7 @@ class GetLegalLeases extends Command
                                     'Grantor' => $decodedLeases[$i]->Grantor,
                                     'GrantorAddress' => $decodedLeases[$i]->GrantorAddress,
                                     'MaxDepth' => $decodedLeases[$i]->MaxDepth,
+                                    'interest_areas' => $interestArea,
                                     'MinDepth' => $decodedLeases[$i]->MinDepth,
                                     'Range' => $decodedLeases[$i]->Range,
                                     'Section' => $decodedLeases[$i]->Section,

@@ -237,9 +237,9 @@ class APIManager
     }
 
     public function getLegalLeases ($county, $token, $linkUrl) {
-
-        if ($linkUrl == '') {
-            $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases?countyparish=".$county."&pagesize=10000";
+        Log::info('Here is the link url beginning of get legal leases: ' . $linkUrl);
+        if ($linkUrl === '') {
+            $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases?countyparish=".$county."&pagesize=2000";
         } else {
             $url = "https://di-api.drillinginfo.com/v2/direct-access/legal-leases" . $linkUrl;
         }
@@ -275,13 +275,9 @@ class APIManager
             $headerInfo = explode("\n",$response[0]);
             $jsonData = ltrim($response[1]);
 
+           // Log::info($headerInfo[5]);
             if (isset($headerInfo[5])) {
-                $urlArray = explode(',', $headerInfo[5]);
-                if (isset($urlArray[1])) {
-                    $nextUrl = str_replace(['</legal-leases', '>; rel="next"'], ['',''], $urlArray[1]);
-                } else {
-                    $nextUrl = '';
-                }
+                $nextUrl = str_replace(['Links:','</legal-leases', '>; rel="next"'], ['','',''], $headerInfo[5]);
             } else {
                 $nextUrl = '';
             }
@@ -291,6 +287,8 @@ class APIManager
             }
 
             $responseWithLink = [0 => $jsonData, 1 => $nextUrl];
+
+            Log::info('Response Link: ' . $responseWithLink[1]);
 
             if ($err) {
                 return "cURL Error #:" . $err;

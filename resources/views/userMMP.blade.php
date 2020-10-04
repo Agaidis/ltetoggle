@@ -868,6 +868,508 @@
                                         </div>
                                     </div>
                                 </div>
+
+
+
+
+
+                                <!-- ETX INTEREST AREA -->
+                                <div class="tab-pane interest_text" role="tabpanel" id="etx_interest_area" >
+                                    <div class="row">
+                                        <div class="offset-1 col-md-10">
+                                            <table class="table table-hover table-responsive-md table-bordered permit_table" id="etx_permit_table">
+                                                <thead>
+                                                <tr>
+                                                    @if (Auth::user()->role === 'admin')
+
+                                                        <th class="text-center">Store Lease</th>
+                                                        <th class="text-center">Open Lease</th>
+                                                        <th class="text-center">Toggle Status</th>
+                                                        <th class="text-center">Assignee</th>
+                                                        <th class="text-center">State / County</th>
+                                                        <th class="text-center">Reported Operator</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @else
+                                                        <th class="text-center">Col 1</th>
+                                                        <th class="text-center">Col 2</th>
+                                                        <th class="text-center">Col 3</th>
+                                                        <th class="text-center">Col 4</th>
+                                                        <th class="text-center">Col 5</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @endif
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if (isset($etxPermits) && !$etxPermits->isEmpty())
+                                                    @foreach ($etxPermits as $etxPermit)
+                                                        <?php $approvedDate = explode('T', $etxPermit->approved_date)?>
+                                                        <input type="hidden" id="reported_operator_{{$etxPermit->permit_id}}" value="{{$etxPermit->reported_operator}}"/>
+
+                                                        <tr class="permit_row" id="permit_row_{{$etxPermit->permit_id}}">
+
+                                                            @if (Auth::user()->role === 'admin')
+                                                                <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$etxPermit->permit_id}}_{{$etxPermit->lease_name}}">Store</button></td>
+                                                                <td id="id_{{$etxPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                                <td>
+                                                                    @if ($etxPermit->toggle_status == 'yellow')
+                                                                        <select id="toggle_status_{{$etxPermit->permit_id}}" class="form-control toggle_status unseen">
+                                                                            <option selected value="yellow">Untouched</option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+
+                                                                        </select>
+                                                                    @elseif ($etxPermit->toggle_status == 'green')
+                                                                        <select id="toggle_status_{{$etxPermit->permit_id}}" class="form-control toggle_status green">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option selected value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($etxPermit->toggle_status == 'blue')
+                                                                        <select id="toggle_status_{{$etxPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option selected value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($etxPermit->toggle_status == 'red')
+                                                                        <select id="toggle_status_{{$etxPermit->permit_id}}" class="form-control toggle_status red">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option selected value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($etxPermit->toggle_status == 'purple')
+                                                                        <select id="toggle_status_{{$etxPermit->permit_id}}" class="form-control toggle_status purple">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option selected value="purple">Completed</option>
+                                                                        </select>
+                                                                    @endif
+
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <select class="form-control assignee" id="assignee_{{$etxPermit->permit_id}}">
+                                                                        <option selected value="">Select a User</option>
+                                                                        @foreach ($users as $user)
+                                                                            @if ($etxPermit->assignee == $user->id)
+                                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @else
+                                                                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td class="text-center">{{$etxPermit->county_parish}}</td>
+                                                                <td class="text-center">{{$etxPermit->reported_operator}}</td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $etxPermit->interest_area . '/' . $etxPermit->lease_name . '/producing/' . $etxPermit->permit_id)}}">{{$etxPermit->lease_name}}</a></td>
+                                                            @else
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $etxPermit->interest_area . '/' . $etxPermit->lease_name . '/producing/' . $etxPermit->permit_id)}}">{{$etxPermit->lease_name}}</a></td>
+
+                                                            @endif
+                                                        </tr>
+
+                                                    @endforeach
+                                                @endif
+                                                </tbody>
+                                                <tfoot>
+                                                <caption class="lease_table_caption">ETX Landtrac's Producing </caption>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <hr><br>
+
+
+
+                                    <!-- NON PRODUCING LEASES ETX -->
+                                    <div class="row">
+                                        <div class="offset-1 col-md-10">
+                                            <table class="table table-hover table-responsive-md table-bordered non_producing_etx_permits" id="non_producing_etx_permits">
+                                                <thead>
+                                                <tr>
+                                                    @if (Auth::user()->role === 'admin')
+                                                        <th class="text-center">Store Lease</th>
+                                                        <th class="text-center">Open Lease</th>
+                                                        <th class="text-center">Toggle Status</th>
+                                                        <th class="text-center">Assignee</th>
+                                                        <th class="text-center">State / County</th>
+                                                        <th class="text-center">Reported Operator</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @else
+                                                        <th class="text-center">Col 1</th>
+                                                        <th class="text-center">Col 2</th>
+                                                        <th class="text-center">Col 3</th>
+                                                        <th class="text-center">Col 4</th>
+                                                        <th class="text-center">Col 5</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @endif
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if (isset($nonProducingETXPermits) && !$nonProducingETXPermits->isEmpty())
+                                                    @foreach ($nonProducingETXPermits as $nonProducingETXPermit)
+                                                        <?php $approvedDate = explode('T', $nonProducingETXPermit->approved_date)?>
+                                                        <input type="hidden" id="reported_operator_{{$nonProducingETXPermit->permit_id}}" value="{{$nonProducingETXPermit->reported_operator}}"/>
+
+                                                        <tr class="permit_row" id="permit_row_{{$nonProducingETXPermit->permit_id}}">
+
+                                                            @if (Auth::user()->role === 'admin')
+                                                                <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$nonProducingETXPermit->permit_id}}_{{$nonProducingETXPermit->lease_name}}">Store</button></td>
+
+                                                                <td id="id_{{$nonProducingETXPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                                <td>
+                                                                    @if ($nonProducingETXPermit->toggle_status == 'yellow')
+                                                                        <select id="toggle_status_{{$nonProducingETXPermit->permit_id}}" class="form-control toggle_status unseen">
+                                                                            <option selected value="yellow">Untouched</option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingETXPermit->toggle_status == 'green')
+                                                                        <select id="toggle_status_{{$nonProducingETXPermit->permit_id}}" class="form-control toggle_status green">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option selected value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingETXPermit->toggle_status == 'blue')
+                                                                        <select id="toggle_status_{{$nonProducingETXPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option selected value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingETXPermit->toggle_status == 'red')
+                                                                        <select id="toggle_status_{{$nonProducingETXPermit->permit_id}}" class="form-control toggle_status red">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option selected value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingETXPermit->toggle_status == 'purple')
+                                                                        <select id="toggle_status_{{$nonProducingETXPermit->permit_id}}" class="form-control toggle_status purple">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option selected value="purple">Completed</option>
+                                                                        </select>
+                                                                    @endif
+
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <select class="form-control assignee" id="assignee_{{$nonProducingETXPermit->permit_id}}">
+                                                                        <option selected value="">Select a User</option>
+                                                                        @foreach ($users as $user)
+                                                                            @if ($nonProducingETXPermit->assignee == $user->id)
+                                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @else
+                                                                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td class="text-center">{{$nonProducingETXPermit->county_parish}}</td>
+                                                                <td class="text-center">{{$nonProducingETXPermit->reported_operator}}</td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingETXPermit->interest_area . '/' . $nonProducingETXPermit->lease_name . '/non-producing/' . $nonProducingETXPermit->permit_id)}}">{{$nonProducingETXPermit->lease_name}}</a></td>
+                                                            @else
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingETXPermit->interest_area . '/' . $nonProducingETXPermit->lease_name . '/non-producing/' . $nonProducingETXPermit->permit_id)}}">{{$nonProducingETXPermit->lease_name}}</a></td>
+
+                                                            @endif
+                                                        </tr>
+
+                                                    @endforeach
+                                                @endif
+                                                </tbody>
+                                                <tfoot>
+                                                <caption class="lease_table_caption">ETX Non-Producing Tracks</caption>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                                <!-- LA INTEREST AREA -->
+                                <div class="tab-pane interest_text" role="tabpanel" id="la_interest_area" >
+                                    <div class="row">
+                                        <div class="offset-1 col-md-10">
+                                            <table class="table table-hover table-responsive-md table-bordered permit_table" id="la_permit_table">
+                                                <thead>
+                                                <tr>
+                                                    @if (Auth::user()->role === 'admin')
+
+                                                        <th class="text-center">Store Lease</th>
+                                                        <th class="text-center">Open Lease</th>
+                                                        <th class="text-center">Toggle Status</th>
+                                                        <th class="text-center">Assignee</th>
+                                                        <th class="text-center">State / County</th>
+                                                        <th class="text-center">Reported Operator</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @else
+                                                        <th class="text-center">Col 1</th>
+                                                        <th class="text-center">Col 2</th>
+                                                        <th class="text-center">Col 3</th>
+                                                        <th class="text-center">Col 4</th>
+                                                        <th class="text-center">Col 5</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @endif
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if (isset($laPermits) && !$laPermits->isEmpty())
+                                                    @foreach ($laPermits as $laPermit)
+                                                        <?php $approvedDate = explode('T', $laPermit->approved_date)?>
+                                                        <input type="hidden" id="reported_operator_{{$laPermit->permit_id}}" value="{{$laPermit->reported_operator}}"/>
+
+                                                        <tr class="permit_row" id="permit_row_{{$laPermit->permit_id}}">
+
+                                                            @if (Auth::user()->role === 'admin')
+                                                                <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$laPermit->permit_id}}_{{$laPermit->lease_name}}">Store</button></td>
+                                                                <td id="id_{{$laPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                                <td>
+                                                                    @if ($laPermit->toggle_status == 'yellow')
+                                                                        <select id="toggle_status_{{$laPermit->permit_id}}" class="form-control toggle_status unseen">
+                                                                            <option selected value="yellow">Untouched</option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+
+                                                                        </select>
+                                                                    @elseif ($laPermit->toggle_status == 'green')
+                                                                        <select id="toggle_status_{{$laPermit->permit_id}}" class="form-control toggle_status green">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option selected value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($laPermit->toggle_status == 'blue')
+                                                                        <select id="toggle_status_{{$laPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option selected value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($laPermit->toggle_status == 'red')
+                                                                        <select id="toggle_status_{{$laPermit->permit_id}}" class="form-control toggle_status red">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option selected value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($laPermit->toggle_status == 'purple')
+                                                                        <select id="toggle_status_{{$laPermit->permit_id}}" class="form-control toggle_status purple">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option selected value="purple">Completed</option>
+                                                                        </select>
+                                                                    @endif
+
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <select class="form-control assignee" id="assignee_{{$laPermit->permit_id}}">
+                                                                        <option selected value="">Select a User</option>
+                                                                        @foreach ($users as $user)
+                                                                            @if ($laPermit->assignee == $user->id)
+                                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @else
+                                                                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td class="text-center">{{$laPermit->county_parish}}</td>
+                                                                <td class="text-center">{{$laPermit->reported_operator}}</td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $laPermit->interest_area . '/' . $laPermit->lease_name . '/producing/' . $laPermit->permit_id)}}">{{$laPermit->lease_name}}</a></td>
+                                                            @else
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $laPermit->interest_area . '/' . $laPermit->lease_name . '/producing/' . $laPermit->permit_id)}}">{{$laPermit->lease_name}}</a></td>
+
+                                                            @endif
+                                                        </tr>
+
+                                                    @endforeach
+                                                @endif
+                                                </tbody>
+                                                <tfoot>
+                                                <caption class="lease_table_caption">LA Landtrac's Producing </caption>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+
+                                    <hr><br>
+                                    <!-- NON PRODUCING LEASES LA -->
+                                    <div class="row">
+                                        <div class="offset-1 col-md-10">
+                                            <table class="table table-hover table-responsive-md table-bordered non_producing_la_permits" id="non_producing_la_permits">
+                                                <thead>
+                                                <tr>
+                                                    @if (Auth::user()->role === 'admin')
+                                                        <th class="text-center">Store Lease</th>
+                                                        <th class="text-center">Open Lease</th>
+                                                        <th class="text-center">Toggle Status</th>
+                                                        <th class="text-center">Assignee</th>
+                                                        <th class="text-center">State / County</th>
+                                                        <th class="text-center">Reported Operator</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @else
+                                                        <th class="text-center">Col 1</th>
+                                                        <th class="text-center">Col 2</th>
+                                                        <th class="text-center">Col 3</th>
+                                                        <th class="text-center">Col 4</th>
+                                                        <th class="text-center">Col 5</th>
+                                                        <th class="text-center">Lease Name</th>
+                                                    @endif
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if (isset($nonProducingLAPermits) && !$nonProducingLAPermits->isEmpty())
+                                                    @foreach ($nonProducingLAPermits as $nonProducingLAPermit)
+                                                        <?php $approvedDate = explode('T', $nonProducingLAPermit->approved_date)?>
+                                                        <input type="hidden" id="reported_operator_{{$nonProducingLAPermit->permit_id}}" value="{{$nonProducingLAPermit->reported_operator}}"/>
+
+                                                        <tr class="permit_row" id="permit_row_{{$nonProducingLAPermit->permit_id}}">
+
+                                                            @if (Auth::user()->role === 'admin')
+                                                                <td class="text-center"><button type="button" class="store_button btn btn-primary" id="store_button_{{$nonProducingLAPermit->permit_id}}_{{$nonProducingLAPermit->lease_name}}">Store</button></td>
+
+                                                                <td id="id_{{$nonProducingLAPermit->permit_id}}" class="text-center mmp-details-control"><i style="cursor:pointer;" class="far fa-dot-circle"></i></td>
+                                                                <td>
+                                                                    @if ($nonProducingLAPermit->toggle_status == 'yellow')
+                                                                        <select id="toggle_status_{{$nonProducingLAPermit->permit_id}}" class="form-control toggle_status unseen">
+                                                                            <option selected value="yellow">Untouched</option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingLAPermit->toggle_status == 'green')
+                                                                        <select id="toggle_status_{{$nonProducingLAPermit->permit_id}}" class="form-control toggle_status green">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option selected value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingLAPermit->toggle_status == 'blue')
+                                                                        <select id="toggle_status_{{$nonProducingLAPermit->permit_id}}" class="form-control toggle_status blue">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option selected value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingLAPermit->toggle_status == 'red')
+                                                                        <select id="toggle_status_{{$nonProducingLAPermit->permit_id}}" class="form-control toggle_status red">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option selected value="red">Active but paused </option>
+                                                                            <option value="purple">Completed</option>
+                                                                        </select>
+                                                                    @elseif ($nonProducingLAPermit->toggle_status == 'purple')
+                                                                        <select id="toggle_status_{{$nonProducingLAPermit->permit_id}}" class="form-control toggle_status purple">
+                                                                            <option value="yellow">Untouched </option>
+                                                                            <option value="green">Major Prospect </option>
+                                                                            <option value="blue">Quality Prospect </option>
+                                                                            <option value="red">Active but paused </option>
+                                                                            <option selected value="purple">Completed</option>
+                                                                        </select>
+                                                                    @endif
+
+                                                                </td>
+                                                                <td class="text-center">
+                                                                    <select class="form-control assignee" id="assignee_{{$nonProducingLAPermit->permit_id}}">
+                                                                        <option selected value="">Select a User</option>
+                                                                        @foreach ($users as $user)
+                                                                            @if ($nonProducingLAPermit->assignee == $user->id)
+                                                                                <option selected value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @else
+                                                                                <option value="{{$user->id}}">{{$user->name}}</option>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </select>
+                                                                </td>
+                                                                <td class="text-center">{{$nonProducingLAPermit->county_parish}}</td>
+                                                                <td class="text-center">{{$nonProducingLAPermit->reported_operator}}</td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingLAPermit->interest_area . '/' . $nonProducingLAPermit->lease_name . '/non-producing/' . $nonProducingLAPermit->permit_id)}}">{{$nonProducingLAPermit->lease_name}}</a></td>
+                                                            @else
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"></td>
+                                                                <td class="text-center"><a href="{{url( 'lease-page/' . $nonProducingLAPermit->interest_area . '/' . $nonProducingLAPermit->lease_name . '/non-producing/' . $nonProducingLAPermit->permit_id)}}">{{$nonProducingLAPermit->lease_name}}</a></td>
+
+                                                            @endif
+                                                        </tr>
+
+                                                    @endforeach
+                                                @endif
+                                                </tbody>
+                                                <tfoot>
+                                                <caption class="lease_table_caption">LA Non-Producing Tracks</caption>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
+
                             </div>
                         </div>
                     </div>
