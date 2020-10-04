@@ -17,7 +17,7 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "kriswallsmith/buzz": "^1.1",
         "laracasts/utilities": "^3.1",
-        "laravel/framework": "^8.0",
+        "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.0",
         "mailgun/mailgun-php": "^3.0",
