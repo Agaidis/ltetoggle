@@ -31,10 +31,17 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('process:DailyReport')->dailyAt(8)->timezone('America/New_York');
         $schedule->command('process:getPermits')->dailyAt(7, 13)->timezone('America/New_York');
+<<<<<<< HEAD
      //   $schedule->command('process:getWells')->dailyAt(23)->timezone('America/New_York');
        // $schedule->command('process:getLandtracLeases')->dailyAt(3)->timezone('America/New_York');
        // $schedule->command('process:getLegalLeases')->dailyAt(6)->timezone('America/New_York');
         $schedule->command('process:stitch')->dailyAt(5)->timezone('America/New_York');
+=======
+        $schedule->command('process:getWells')->dailyAt(23)->timezone('America/New_York');
+        $schedule->command('process:getLandtracLeases')->dailyAt(3)->timezone('America/New_York');
+      //  $schedule->command('process:getLegalLeases')->dailyAt(6)->timezone('America/New_York');
+    //    $schedule->command('process:stitch')->dailyAt(5)->timezone('America/New_York');
+>>>>>>> e4268c60f567da46b5b3713d288a3876bd93bea7
         $schedule->command('determine:production')->twiceDaily(6, 14)->timezone('America/New_York');
 
     }

@@ -44,12 +44,18 @@ class DetermineProduction extends Command
             $eagleInterestCountiesArray = array('ATASCOSA','BEE','DEWITT','GONZALES','KARNES','LIVE OAK','LAVACA','WILSON');
             $wtxInterestCountiesArray = array('ANDREWS', 'DAWSON', 'GAINES', 'BORDEN', 'CRANE', 'ECTOR', 'STERLING', 'MITCHELL', 'JEFF DAVIS');
             $nmInterestCountiesArray = array('LEA', 'EDDY');
+            $etxInterestCountiesArray = array('CASS', 'GREGG', 'HARRISON', 'MARION', 'MORRIS', 'NACOGDOCHES', 'PANOLA', 'SAN%20AUGUSTINE', 'RUSK', 'SHELBY', 'UPSHUR');
+            $laInterestCountiesArray = array('BIENVILLE', 'BOSSIER', 'CADDO', 'DE%20SOTO', 'NATCHITOCHES', 'RED%20RIVER', 'SABINE', 'WEBSTER');
 
             $this->determineProduction($eagleInterestCountiesArray);
 
             $this->determineProduction($wtxInterestCountiesArray);
 
             $this->determineProduction($nmInterestCountiesArray);
+
+            $this->determineProduction($etxInterestCountiesArray);
+
+            $this->determineProduction($laInterestCountiesArray);
 
             return 'success';
         } catch ( \Exception $e ) {
