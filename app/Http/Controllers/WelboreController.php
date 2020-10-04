@@ -38,7 +38,6 @@ class WelboreController extends Controller
             $currentUser = Auth::user()->name;
             $userRole = Auth::user()->role;
 
-            Log::info($request->userId);
             $userId = $request->userId;
             $users = User::all();
 
@@ -90,11 +89,6 @@ class WelboreController extends Controller
             foreach ($highPriorityProspects as $highPriorityProspect) {
                 $highPriorityProspect->interest_area = 'tx';
             }
-
-            $errorMsg = new ErrorLog();
-            $errorMsg->payload = serialize($highPriorityProspects);
-
-            $errorMsg->save();
 
             foreach ($highPriorityProspectsNM as $highPriorityProspectNM) {
                 $leaseName = Permit::where('permit_id', $highPriorityProspectNM->permit_stitch_id)->value('lease_name');

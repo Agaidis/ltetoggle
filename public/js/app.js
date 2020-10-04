@@ -42718,7 +42718,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
       $('#well_name_select option')[0].remove();
     }
 
-    if ($('#interest_area').val() !== 'nm') {
+    if ($('#interest_area').val() !== 'nm' && $('#interest_area').val() !== 'la') {
       $('#lease_name_select').select2({
         multiple: true,
         minimumInputLength: 3
@@ -42999,13 +42999,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
   $(document).ready(function () {
     console.log(location.href.split('/')[3]);
 
-    if (location.href.split('/')[3] === 'wellbore' || location.href.split('/')[3] === 'wellbore#!texas_area' || location.href.split('/')[3] === 'wellbore#!new_mexico_area') {
+    if (location.href.split('/')[3] === 'wellbore' || location.href.split('/')[3] === 'wellbore#!texas_area' || location.href.split('/')[3] === 'wellbore#!new_mexico_area' || location.href.split('/')[3] === 'wellbore#!louisiana_area') {
       // $('.navbar-nav .nav-link').click(function(){
       //     $('.navbar-nav .nav-link').removeClass('active');
       //     $(this).addClass('active');
       // })
 
-      /* HIGH PRIORITY WELLBORE TABLE */
+      /* HIGH PRIORITY WELLBORE TX TABLE */
       $('.wellbore_owner_follow_up').datepicker();
       var highPriorityTable = $('.high_priority_wellbore_table').DataTable({
         "pagingType": "simple",
@@ -43068,7 +43068,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var ownerId = splitId[4];
         deleteNote(ownerId, noteId);
       });
-      /* LOWER PRIORITY WELLBORE TABLE */
+      /* LOWER PRIORITY WELLBORE TX TABLE */
 
       var lowPriorityTable = $('.low_priority_wellbore_table').DataTable({
         "pagingType": "simple",
@@ -43131,6 +43131,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var ownerId = splitId[4];
         deleteNote(ownerId, noteId);
       });
+      /* HIGH PRIORITY WELLBORE NM TABLE */
+
       var highPriorityTableNM = $('.high_priority_wellbore_tableNM').DataTable({
         "pagingType": "simple",
         "pageLength": 25,
@@ -43192,7 +43194,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var ownerId = splitId[4];
         deleteNote(ownerId, noteId);
       });
-      /* LOWER PRIORITY WELLBORE TABLE */
+      /* LOWER PRIORITY WELLBORE NM TABLE */
 
       var lowPriorityTableNM = $('.low_priority_wellbore_tableNM').DataTable({
         "pagingType": "simple",
@@ -43238,6 +43240,132 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         var splitId = id.split('_');
         var ownerId = splitId[4];
         updateNotes(ownerId, $('#lease_name_' + ownerId).val(), 'nm');
+      }).on('mouseover', '.owner_note', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var noteId = splitId[1];
+        var ownerId = splitId[2];
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_owner_note_' + noteId + '_' + ownerId).css('display', 'inherit');
+      }).on('mouseleave', '.owner_note', function () {
+        $('.delete_owner_note').css('display', 'none');
+        $('.owner_note').css('background-color', '#F2EDD7FF');
+      }).on('click', '.delete_owner_note', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var noteId = splitId[3];
+        var ownerId = splitId[4];
+        deleteNote(ownerId, noteId);
+      });
+      /* HIGH PRIORITY WELLBORE LA TABLE */
+
+      var highPriorityTableLA = $('.high_priority_wellbore_tableLA').DataTable({
+        "pagingType": "simple",
+        "pageLength": 25,
+        "aaSorting": [],
+        "order": [[1, "desc"]]
+      }).on('change', '.owner_assignee', function () {
+        var id = $(this)[0].id;
+        var assignee = $(this)[0].value;
+        var ownerId = id.split('_');
+        updateAssignee(ownerId[1], assignee, 'la');
+      }).on('click', '.owner_row', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        $('#owner_id').val(splitId[2]);
+      }).on('change', '.wellbore_dropdown', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var wellType = $(this)[0].value;
+        $('#owner_id').val(splitId[2]);
+        updateWellbore(splitId[2], wellType, 'la');
+      }).on('click', '.add_phone_btn', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        $('#owner_id').val(splitId[2]);
+        $('#current_interest_area').val('la');
+        openPhoneModal(splitId[2], 'la');
+      }).on('change', '.wellbore_owner_follow_up', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var uniqueId = splitId[3];
+        var date = $('#owner_follow_up_' + uniqueId).val();
+        updateFollowUp(uniqueId, date, 'la');
+      }).on('click', 'td.wellbore-details-control', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var ownerId = splitId[1];
+        var tr = $(this).closest('tr');
+        var row = highPriorityTableLA.row(tr);
+        getNotes(ownerId, tr, row, 'la');
+      }).on('click', '.update_owner_notes_btn', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var ownerId = splitId[4];
+        updateNotes(ownerId, $('#lease_name_' + ownerId).val(), 'la');
+      }).on('mouseover', '.owner_note', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var noteId = splitId[1];
+        var ownerId = splitId[2];
+        $('#' + id).css('background-color', 'lightgrey');
+        $('#delete_owner_note_' + noteId + '_' + ownerId).css('display', 'inherit');
+      }).on('mouseleave', '.owner_note', function () {
+        $('.delete_owner_note').css('display', 'none');
+        $('.owner_note').css('background-color', '#F2EDD7FF');
+      }).on('click', '.delete_owner_note', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var noteId = splitId[3];
+        var ownerId = splitId[4];
+        deleteNote(ownerId, noteId);
+      });
+      /* LOWER PRIORITY WELLBORE LA TABLE */
+
+      var lowPriorityTableLA = $('.low_priority_wellbore_tableLA').DataTable({
+        "pagingType": "simple",
+        "pageLength": 25,
+        "aaSorting": [],
+        "order": [[1, "desc"]]
+      }).on('change', '.owner_assignee', function () {
+        var id = $(this)[0].id;
+        var assignee = $(this)[0].value;
+        var ownerId = id.split('_');
+        updateAssignee(assignee, ownerId[1], 'la');
+      }).on('click', '.owner_row', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        $('#owner_id').val(splitId[2]);
+      }).on('change', '.wellbore_dropdown', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var wellType = $(this)[0].value;
+        $('#owner_id').val(splitId[2]);
+        updateWellbore(splitId[2], wellType, 'la');
+      }).on('click', '.add_phone_btn', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        $('#owner_id').val(splitId[2]);
+        $('#current_interest_area').val('la');
+        openPhoneModal(splitId[2], 'la');
+      }).on('change', '.wellbore_owner_follow_up', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var uniqueId = splitId[3];
+        var date = $('#owner_follow_up_' + uniqueId).val();
+        updateFollowUp(uniqueId, date, 'la');
+      }).on('click', 'td.wellbore-details-control', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var ownerId = splitId[1];
+        var tr = $(this).closest('tr');
+        var row = lowPriorityTableLA.row(tr);
+        getNotes(ownerId, tr, row, 'la');
+      }).on('click', '.update_owner_notes_btn', function () {
+        var id = $(this)[0].id;
+        var splitId = id.split('_');
+        var ownerId = splitId[4];
+        updateNotes(ownerId, $('#lease_name_' + ownerId).val(), 'la');
       }).on('mouseover', '.owner_note', function () {
         var id = $(this)[0].id;
         var splitId = id.split('_');
@@ -44047,17 +44175,35 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var interestHref = location.hash.replace('#!', '');
 
     if (interestHref === 'wtx_interest_area') {
-      $('#interest_tab_eagle').removeClass('interest_active');
       $('#interest_tab_wtx').addClass('interest_active');
+      $('#interest_tab_etx').removeClass('interest_active');
+      $('#interest_tab_eagle').removeClass('interest_active');
       $('#interest_tab_nm').removeClass('interest_active');
+      $('#interest_tab_la').removeClass('interest_active');
+    } else if (interestHref === 'etx_interest_area') {
+      $('#interest_tab_wtx').removeClass('interest_active');
+      $('#interest_tab_etx').addClass('interest_active');
+      $('#interest_tab_eagle').removeClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
+      $('#interest_tab_la').removeClass('interest_active');
     } else if (interestHref === 'eagle_interest_area') {
       $('#interest_tab_wtx').removeClass('interest_active');
+      $('#interest_tab_etx').removeClass('interest_active');
       $('#interest_tab_eagle').addClass('interest_active');
       $('#interest_tab_nm').removeClass('interest_active');
+      $('#interest_tab_la').removeClass('interest_active');
+    } else if (interestHref === 'la_interest_area') {
+      $('#interest_tab_wtx').removeClass('interest_active');
+      $('#interest_tab_etx').removeClass('interest_active');
+      $('#interest_tab_eagle').removeClass('interest_active');
+      $('#interest_tab_nm').removeClass('interest_active');
+      $('#interest_tab_la').addClass('interest_active');
     } else if (interestHref === 'nm_interest_area') {
+      $('#interest_tab_wtx').removeClass('interest_active');
+      $('#interest_tab_etx').removeClass('interest_active');
       $('#interest_tab_eagle').removeClass('interest_active');
       $('#interest_tab_nm').addClass('interest_active');
-      $('#interest_tab_wtx').removeClass('interest_active');
+      $('#interest_tab_la').removeClass('interest_active');
     }
 
     $("a[href='#" + location.hash.substr(2) + "']").tab("show");
@@ -44147,6 +44293,116 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var reportedOperator = $('#reported_operator_' + permitId).val();
     var tr = $(this).closest('tr');
     var row = wtxPermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, false);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); //ETX PERMIT TABLE
+
+  var etxPermitTable = $('#etx_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = etxPermitTable.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, false);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); //NM PERMIT TABLE
+
+  var laPermitTable = $('#la_permit_table').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = laPermitTable.row(tr);
     moreData(id, tr, permitId, reportedOperator, row, false);
   }).on('change', '.assignee', function () {
     var assignee = $(this)[0].value;
@@ -44319,6 +44575,130 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     var reportedOperator = $('#reported_operator_' + permitId).val();
     var tr = $(this).closest('tr');
     var row = nonProducingWTXPermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, true);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('change', '.check_lease', function () {
+    var id = $(this)[0].id;
+    var isChecked = $(this)[0].checked;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    var permitId = splitId[3];
+    stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing ETX TABLE
+
+  var nonProducingETXPermits = $('#non_producing_etx_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingETXPermits.row(tr);
+    moreData(id, tr, permitId, reportedOperator, row, true);
+  }).on('change', '.assignee', function () {
+    var assignee = $(this)[0].value;
+    updateAssignee(assignee);
+  }).on('change', '.toggle_status', function () {
+    var id = $(this)[0].id;
+    var status = $(this)[0].value;
+    var permitId = id.split('_');
+    toggleStatus(permitId[2], status);
+  }).on('click', '.permit_row', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    globalPermitId = splitId[2];
+  }).on('click', '.update_permit_notes_btn', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[3];
+    updateNotes(permitId);
+  }).on('mouseover', '.permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[1];
+    var permitId = splitId[2];
+    $('#' + id).css('background-color', 'lightgrey');
+    $('#delete_permit_note_' + noteId + '_' + permitId).css('display', 'inherit');
+  }).on('mouseleave', '.permit_note', function () {
+    $('.delete_permit_note').css('display', 'none');
+    $('.permit_note').css('background-color', '#F2EDD7FF');
+  }).on('click', '.delete_permit_note', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var noteId = splitId[3];
+    var permitId = splitId[4];
+    var response = confirm('Are you sure you want to delete this note?');
+    deleteNote(permitId, noteId, response);
+  }).on('change', '.check_lease', function () {
+    var id = $(this)[0].id;
+    var isChecked = $(this)[0].checked;
+    var splitId = id.split('_');
+    var leaseId = splitId[2];
+    var permitId = splitId[3];
+    stitchLeaseToPermit(leaseId, permitId, isChecked);
+  }).on('click', '.store_button', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[2];
+    var leaseName = splitId[3];
+    storePermit(permitId, leaseName);
+  }); // non Producing NM TABLE
+
+  var nonProducingLAPermits = $('#non_producing_la_permits').DataTable({
+    "pagingType": "simple",
+    "aaSorting": [],
+    "stateSave": true,
+    "order": [[2, "asc"]]
+  }).on('click', 'td.mmp-details-control', function () {
+    var id = $(this)[0].id;
+    var splitId = id.split('_');
+    var permitId = splitId[1];
+    var reportedOperator = $('#reported_operator_' + permitId).val();
+    var tr = $(this).closest('tr');
+    var row = nonProducingLAPermits.row(tr);
     moreData(id, tr, permitId, reportedOperator, row, true);
   }).on('change', '.assignee', function () {
     var assignee = $(this)[0].value;
