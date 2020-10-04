@@ -23,6 +23,7 @@
         "mailgun/mailgun-php": "^3.0",
         "nyholm/psr7": "^1.2",
         "select2/select2": "^4.0"
+
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",

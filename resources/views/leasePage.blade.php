@@ -615,6 +615,7 @@
                                     </table>
                                 </div>
                                 <br>
+                                <!-- adding random comment -->
                                 <div class="modal-footer">
                                     <button type="button" id="cancel_phone" class="cancel_phone_btn btn btn-success"
                                             data-dismiss="modal">Close Modal
